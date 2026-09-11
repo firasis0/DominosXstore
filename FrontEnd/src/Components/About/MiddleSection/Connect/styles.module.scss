@@ -1,0 +1,204 @@
+.Connect {
+  width: 100%;
+  padding: 20px 0 110px;
+  background: #fff;
+
+  &__Container {
+    width: min(1250px, 90%);
+    margin: 0 auto;
+  }
+
+  &__Header {
+    max-width: 600px;
+    margin: 0 auto 45px;
+    text-align: center;
+  }
+
+  &__Eyebrow {
+    display: block;
+    margin-bottom: 12px;
+
+    color: #999;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  &__Title {
+    margin: 0 0 15px;
+
+    color: #111;
+    font-size: clamp(34px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1.8px;
+  }
+
+  &__Description {
+    max-width: 500px;
+    margin: 0 auto;
+
+    color: #777;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  &__Grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+
+.SocialCard {
+  min-height: 220px;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #f7f7f7;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+
+  color: #111;
+  text-decoration: none;
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+
+  &__Top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__Icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 14px;
+
+    svg {
+      width: 25px;
+      height: 25px;
+      stroke-width: 1.7;
+    }
+  }
+
+  &__TikTok {
+    font-size: 29px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__Arrow {
+    width: 21px;
+    height: 21px;
+
+    color: #999;
+
+    transition:
+      transform 0.3s ease,
+      color 0.3s ease;
+  }
+
+  &__Info {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  &__Name {
+    color: #111;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  &__Username {
+    color: #888;
+    font-size: 13px;
+  }
+
+  &:hover {
+    transform: translateY(-7px);
+
+    background: #fff;
+    border-color: #dcdcdc;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+
+    .SocialCard__Arrow {
+      color: #111;
+      transform: translate(3px, -3px);
+    }
+
+    .SocialCard__Icon {
+      border-color: #d5d5d5;
+    }
+  }
+
+  &:active {
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 800px) {
+  .Connect {
+    padding: 10px 0 80px;
+
+    &__Grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .SocialCard {
+    min-height: 180px;
+  }
+}
+
+@media (max-width: 500px) {
+  .Connect {
+    padding-bottom: 65px;
+
+    &__Header {
+      margin-bottom: 35px;
+    }
+
+    &__Title {
+      font-size: 34px;
+      letter-spacing: -1.2px;
+    }
+
+    &__Description {
+      font-size: 13px;
+    }
+  }
+
+  .SocialCard {
+    min-height: 160px;
+    padding: 24px;
+
+    &__Icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+    }
+
+    &__Name {
+      font-size: 17px;
+    }
+  }
+}

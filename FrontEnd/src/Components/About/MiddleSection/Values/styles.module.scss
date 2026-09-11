@@ -1,0 +1,141 @@
+.Values {
+  width: 100%;
+  padding: 100px 0 120px;
+  background: #f7f7f7;
+
+  &__Container {
+    width: min(1250px, 90%);
+    margin: 0 auto;
+  }
+
+  &__Header {
+    max-width: 620px;
+    margin: 0 auto 60px;
+    text-align: center;
+  }
+
+  &__Eyebrow {
+    display: block;
+    margin-bottom: 14px;
+
+    color: #999;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  &__Title {
+    margin: 0 0 17px;
+
+    color: #111;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1.8px;
+  }
+
+  &__Description {
+    max-width: 500px;
+    margin: 0 auto;
+
+    color: #777;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  &__Grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+.Value {
+  padding: 40px 35px;
+
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.07);
+  }
+
+  &__Icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 25px;
+
+    border: 1px solid #e1e1e1;
+    border-radius: 11px;
+
+    color: #111;
+
+    svg {
+      width: 21px;
+      height: 21px;
+      stroke-width: 1.7;
+    }
+  }
+
+  &__Title {
+    margin: 0 0 12px;
+
+    color: #111;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  &__Text {
+    margin: 0;
+
+    color: #888;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+}
+
+@media (max-width: 800px) {
+  .Values {
+    padding: 80px 0 90px;
+
+    &__Grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  .Value {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 500px) {
+  .Values {
+    padding: 65px 0 75px;
+
+    &__Header {
+      margin-bottom: 40px;
+    }
+
+    &__Title {
+      font-size: 32px;
+      letter-spacing: -1.2px;
+    }
+
+    &__Description {
+      font-size: 13px;
+    }
+  }
+}

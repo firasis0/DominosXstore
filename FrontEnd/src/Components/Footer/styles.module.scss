@@ -1,0 +1,464 @@
+.Footer {
+  width: 100%;
+
+  background: #111;
+  color: #fff;
+}
+
+
+/* ========================================
+   CONTAINER
+======================================== */
+
+.Footer__Container {
+  width: min(1400px, 92%);
+  margin: 0 auto;
+}
+
+
+/* ========================================
+   MAIN
+======================================== */
+
+.Footer__Main {
+  display: grid;
+
+  grid-template-columns:
+    1.6fr
+    1fr
+    1fr
+    1fr
+    1.5fr;
+
+  gap: 50px;
+
+  padding: 75px 0 65px;
+}
+
+
+/* ========================================
+   BRAND
+======================================== */
+
+.Footer__Brand {
+  max-width: 300px;
+}
+
+.Footer__Logo {
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-bottom: 22px;
+
+  img {
+    width: auto;
+    height: 58px;
+
+    max-width: 190px;
+
+    object-fit: contain;
+
+    display: block;
+  }
+}
+
+.Footer__Description {
+  margin: 0;
+
+  color: #999;
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+
+/* ========================================
+   SOCIALS
+======================================== */
+
+.Footer__Socials {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 25px;
+}
+
+.Footer__Social {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #333;
+
+  border-radius: 50%;
+
+  color: #aaa;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: #fff;
+
+    border-color: #fff;
+
+    color: #111;
+
+    transform: translateY(-3px);
+  }
+}
+
+
+/* ========================================
+   COLUMNS
+======================================== */
+
+.Footer__Column {
+  h3 {
+    margin: 0 0 22px;
+
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+  }
+
+  nav {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 13px;
+  }
+
+  a {
+    width: fit-content;
+
+    color: #999;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    transition:
+      color 0.25s ease,
+      transform 0.25s ease;
+
+    &:hover {
+      color: #fff;
+
+      transform: translateX(3px);
+    }
+  }
+}
+
+
+/* ========================================
+   NEWSLETTER
+======================================== */
+
+.Footer__Newsletter {
+  h3 {
+    margin: 0 0 12px;
+
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+  }
+
+  p {
+    margin: 0 0 20px;
+
+    color: #999;
+
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+
+/* ========================================
+   FORM
+======================================== */
+
+.Footer__Form {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  gap: 8px;
+}
+
+.Footer__Input {
+  flex: 1;
+
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 13px;
+
+  border: 1px solid #333;
+
+  border-radius: 9px;
+
+  background: #191919;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+
+    color: #777;
+  }
+
+  input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    &::placeholder {
+      color: #666;
+    }
+  }
+
+  &:focus-within {
+    border-color: #555;
+
+    background: #1d1d1d;
+  }
+}
+
+.Footer__Submit {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #fff;
+
+  color: #111;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+
+  svg {
+    width: 17px;
+    height: 17px;
+
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    background: #eaeaea;
+
+    transform: translateY(-2px);
+
+    svg {
+      transform: translateX(2px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+
+/* ========================================
+   BOTTOM
+======================================== */
+
+.Footer__Bottom {
+  min-height: 70px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-top: 1px solid #292929;
+
+  p {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 11px;
+  }
+}
+
+.Footer__BottomLinks {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  a {
+    color: #666;
+
+    font-size: 11px;
+
+    text-decoration: none;
+
+    transition: color 0.25s ease;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1050px) {
+  .Footer__Main {
+    grid-template-columns:
+      1.5fr
+      1fr
+      1fr
+      1fr;
+
+    gap: 40px;
+  }
+
+  .Footer__Newsletter {
+    grid-column: span 2;
+
+    max-width: 450px;
+  }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+  .Footer__Main {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 45px 30px;
+
+    padding: 55px 0 45px;
+  }
+
+  .Footer__Brand {
+    grid-column: span 2;
+
+    max-width: 100%;
+  }
+
+  .Footer__Column {
+    h3 {
+      margin-bottom: 17px;
+    }
+  }
+
+  .Footer__Newsletter {
+    grid-column: span 2;
+
+    max-width: 100%;
+  }
+
+  .Footer__Bottom {
+    min-height: auto;
+
+    padding: 22px 0;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+}
+
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 450px) {
+  .Footer__Main {
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+  }
+
+  .Footer__Brand,
+  .Footer__Newsletter {
+    grid-column: auto;
+  }
+
+  .Footer__Logo img {
+    height: 52px;
+  }
+
+  .Footer__BottomLinks {
+    gap: 16px;
+  }
+}
+
+.feeqra{
+  color: rgb(204, 122, 0);
+}

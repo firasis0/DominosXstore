@@ -1,0 +1,228 @@
+
+   {
+    "TopSection": {
+        "fixedTopBar": {
+      "text": "⚡ NOUVEAU — LIVRAISON 7J/7 | MÊME LE VENDREDI Vos équipements gaming livrés tous les jours"
+    },
+        "TopBanner": {
+      "imgs": [
+        {
+          "src": "/images/banners/topBanner/gamesir_cms_resized.jpg",
+          "alt": "Manette de jeu"
+        },
+        {
+          "src": "/images/banners/topBanner/gamesir_cms.jpg",
+          "alt": "gamesir cms"
+        },
+        {
+          "src": "/images/banners/topBanner/pexels-cmrcn-30353202.jpg",
+          "alt": "Manette de jeu gamesir"
+        }
+      ]
+    }
+   },
+    "MiddleSection": {
+    "categories": [
+      {
+        "id": 1,
+        "name": "Gaming Mouse",
+        "img": "../images/categories/mouse.png"
+      },
+      {
+        "id": 2,
+        "name": "Keyboards",
+        "img": "../images/categories/mechanical-gaming-keyboard.png"
+      },
+      {
+        "id": 3,
+        "name": "Headsets",
+        "img": "../images/categories/gaming-headphone.png"
+      },
+      {
+        "id": 4,
+        "name": "Controllers",
+        "img": "../images/categories/game-controller.png" 
+      },
+      {
+        "id": 5,
+        "name": "Microphones",
+        "img": "../images/categories/Gaming-Microphone.png"
+      },
+      {
+        "id": 6,
+        "name": "Tapis",
+        "img": "../images/categories/tapis.png"
+      },
+      {
+        "id": 7,
+        "name": "Webcams",
+        "img": "../images/categories/webcam-gaming.png"
+      },
+      {
+        "id": 8,
+        "name": "EARBUDS & IEMs",
+        "img": "../images/categories/earbuds.png"
+      },
+      {
+        "id": 9,
+        "name": "Phone & Tablet Coolers & Accessoires",
+        "img": "../images/categories/accessoir.png"
+      },
+      {
+        "id": 10,
+        "name": "Gaming Monitors",
+        "img": "../images/categories/gaming-monitor.png"
+      }
+    ],
+    "products": [
+  {
+    "id": 1,
+    "name": "GameSir G7 SE Controller",
+    "price": 49.99,
+    "oldPrice": 59.99,
+    "image": "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 2,
+    "name": "Logitech G Pro X Superlight Gaming Mouse",
+    "price": 129.99,
+    "oldPrice": 159.99,
+    "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 3,
+    "name": "Mechanical RGB Gaming Keyboard",
+    "price": 69.99,
+    "oldPrice": 89.99,
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 4,
+    "name": "Wireless Gaming Headset",
+    "price": 79.99,
+    "oldPrice": 99.99,
+    "image": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 5,
+    "name": "PlayStation 5 DualSense Controller",
+    "price": 69.99,
+    "oldPrice": 69.99,
+    "image": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=800&q=80",
+    "onSale": false
+  },
+  {
+    "id": 6,
+    "name": "Curved Ultrawide Gaming Monitor",
+    "price": 349.99,
+    "oldPrice": 429.99,
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 7,
+    "name": "RGB Desk Gaming Mousepad XXL",
+    "price": 19.99,
+    "oldPrice": 24.99,
+    "image": "https://images.unsplash.com/photo-1616588589676-62b3bd4ff6d2?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 8,
+    "name": "Xbox Wireless Controller - Carbon Black",
+    "price": 59.99,
+    "oldPrice": 59.99,
+    "image": "https://images.unsplash.com/photo-1592840496694-26d035b52b48?auto=format&fit=crop&w=800&q=80",
+    "onSale": false
+  },
+  {
+    "id": 9,
+    "name": "Streaming USB Condenser Microphone",
+    "price": 49.99,
+    "oldPrice": 64.99,
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  },
+  {
+    "id": 10,
+    "name": "Ergonomic Gaming Chair",
+    "price": 189.99,
+    "oldPrice": 229.99,
+    "image": "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=800&q=80",
+    "onSale": true
+  }
+],
+"marks" :[
+  {
+    "id": 1,
+    "name": "Razer",
+    "img": "https://upload.wikimedia.org/wikipedia/en/4/40/Razer_snake_logo.svg"
+  },
+  {
+    "id": 2,
+    "name": "Logitech",
+    "img": "https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
+  },
+  {
+    "id": 3,
+    "name": "SteelSeries",
+    "img": "../images/marks/steelseries.png"
+  },
+  {
+    "id": 4,
+    "name": "ATK GEAR",
+    "img": "../images/marks/atkGear.jpg"
+  },
+  {
+    "id": 5,
+    "name": "GravaStar",
+    "img": "../images/marks/gravastar.png"
+  },
+  {
+    "id": 6,
+    "name": "HYPERX",
+    "img": "../images/marks/HyperX.png"
+  },
+  {
+    "id": 7,
+    "name": "Gamesir",
+    "img": "../images/marks/gamesir.png"
+  },
+  {
+    "id": 8,
+    "name": "HAVIT",
+    "img": "../images/marks/sm-671d8d453af93-HAVIT.png"
+  },
+  {
+    "id": 9,
+    "name": "Pulsar",
+    "img": "../images/marks/pulsar-logo.png"
+  },
+  {
+    "id": 10,
+    "name": "UGREEN",
+    "img": "../images/marks/Ugreen.png"
+  }
+],
+        "MiddleBanner": {
+      "imgs": [
+        {
+          "src": "/images/banners/middleBanner/gamesirBanner.jpg",
+          "alt": "Gamesir"
+        },
+        {
+          "src": "/images/banners/middleBanner/earbuds.jpg",
+          "alt": "EarBUDS"
+        },
+        {
+          "src": "/images/banners/middleBanner/razer.jpg",
+          "alt": "Razer"
+        }
+      ]
+    }
+  }
+  }

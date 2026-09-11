@@ -1,0 +1,395 @@
+.BestDeals {
+  width: 100%;
+  padding: 80px 0 90px;
+  background: #f8f8f8;
+}
+
+.BestDeals__Container {
+  width: min(1400px, 92%);
+  margin: 0 auto;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.BestDeals__Header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 40px;
+}
+
+.BestDeals__Subtitle {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 3px;
+  text-transform: uppercase;
+
+  color: #999;
+}
+
+.BestDeals__Title {
+  margin: 0;
+
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 700;
+
+  letter-spacing: -1.5px;
+
+  color: #111;
+}
+
+.BestDeals__ViewAll {
+  color: #333;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    color: #000;
+    transform: translateX(3px);
+  }
+}
+
+
+/* ========================================
+   CAROUSEL
+======================================== */
+
+.BestDeals__Carousel {
+  width: 100%;
+  position: relative;
+}
+
+.BestDeals__Content {
+  margin: 0;
+}
+
+.BestDeals__Page {
+  min-width: 100%;
+  padding: 0;
+}
+
+
+/* ========================================
+   PRODUCT GRID
+======================================== */
+
+.BestDeals__Grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  gap: 20px;
+
+  width: 100%;
+}
+
+
+/* ========================================
+   PRODUCT CARD
+======================================== */
+
+.Product {
+  min-width: 0;
+
+  background: #fff;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+
+  &:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.10);
+  }
+}
+
+.Product__Link {
+  display: block;
+
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ========================================
+   PRODUCT IMAGE
+======================================== */
+
+.Product__ImageWrapper {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: #f5f5f5;
+
+  overflow: hidden;
+}
+
+.Product__Image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.Product:hover .Product__Image {
+  transform: scale(1.07);
+}
+
+
+/* ========================================
+   SALE BADGE
+======================================== */
+
+.Product__SaleBadge {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  z-index: 2;
+
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+
+/* ========================================
+   PRODUCT INFO
+======================================== */
+
+.Product__Info {
+  padding: 18px 18px 20px;
+}
+
+.Product__Name {
+  margin: 0 0 12px;
+
+  color: #222;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.Product__Prices {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+.Product__Price {
+  color: #111;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.Product__OldPrice {
+  color: #999;
+
+  font-size: 13px;
+
+  text-decoration: line-through;
+}
+
+
+/* ========================================
+   ARROWS
+======================================== */
+
+.BestDeals__Previous,
+.BestDeals__Next {
+  width: 42px;
+  height: 42px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid #e5e5e5;
+
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+
+  &:hover {
+    background: #fff;
+
+    transform: scale(1.08);
+  }
+}
+
+
+/* ========================================
+   DOTS
+======================================== */
+
+.BestDeals__Dots {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 28px;
+}
+
+.BestDeals__Dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #d5d5d5;
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1000px) {
+  .BestDeals__Grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+  .BestDeals {
+    padding: 60px 0 70px;
+  }
+
+  .BestDeals__Header {
+    align-items: flex-end;
+
+    margin-bottom: 30px;
+  }
+
+  .BestDeals__ViewAll {
+    font-size: 12px;
+  }
+
+  .BestDeals__Grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+  }
+
+  .Product__ImageWrapper {
+    padding: 12px;
+  }
+
+  .Product__Info {
+    padding: 13px 13px 15px;
+  }
+
+  .Product__Name {
+    font-size: 13px;
+  }
+
+  .Product__Price {
+    font-size: 14px;
+  }
+
+  .Product__OldPrice {
+    font-size: 11px;
+  }
+
+  .Product__SaleBadge {
+    top: 8px;
+    left: 8px;
+
+    padding: 5px 7px;
+
+    font-size: 8px;
+  }
+
+  .BestDeals__Previous,
+  .BestDeals__Next {
+    width: 36px;
+    height: 36px;
+    display: none;
+  }
+}
+
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 450px) {
+  .BestDeals__Header {
+    display: block;
+  }
+
+  .BestDeals__ViewAll {
+    display: inline-block;
+
+    margin-top: 10px;
+  }
+
+  .BestDeals__Grid {
+    gap: 10px;
+  }
+}

@@ -1,0 +1,133 @@
+.RecentOrders {
+  padding: 24px;
+
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+}
+
+.RecentOrders__Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: #888;
+    font-size: 12px;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    border: 0;
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+  }
+}
+
+.RecentOrders__TableWrapper {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+  }
+
+  th {
+    padding: 12px 10px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #eee;
+
+    color: #888;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 16px 10px;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    font-size: 13px;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+}
+
+.Status {
+  display: inline-flex;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.Status--pending {
+  background: #fff4d6;
+  color: #8a6500;
+}
+
+.Status--confirmed {
+  background: #e7f1ff;
+  color: #1456a0;
+}
+
+.Status--shipped {
+  background: #eee8ff;
+  color: #5b3ca8;
+}
+
+.Status--delivered {
+  background: #e5f7ed;
+  color: #217346;
+}
+
+// Mobile handling : 
+@media (max-width: 500px) {
+  .RecentOrders {
+    padding: 16px;
+  }
+
+  .RecentOrders__Header {
+    h2 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 11px;
+    }
+
+    button {
+      font-size: 11px;
+    }
+  }
+
+  .RecentOrders__TableWrapper {
+    margin: 0 -4px;
+    padding-bottom: 4px;
+  }
+}

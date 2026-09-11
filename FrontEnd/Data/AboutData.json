@@ -1,0 +1,35 @@
+{
+    "TopBanner": {
+      "imgs": [
+        {
+          "src": "/images/banners/aboutBanner/Dominos_banner_simple.jpg",
+          "alt": "Dominos Banner"
+        }
+      ]
+    },
+      "MiddleSection": {
+    "socialLinks": [
+      {
+        "id": 1,
+        "type": "tiktok",
+        "name": "TikTok",
+        "username": "@dominos",
+        "href": "https://www.tiktok.com/@dominos"
+      },
+      {
+        "id": 2,
+        "type": "instagram",
+        "name": "Instagram",
+        "username": "@dominosxstore",
+        "href": "https://www.instagram.com/dominosxstore"
+      },
+      {
+        "id": 3,
+        "type": "email",
+        "name": "Email",
+        "username": "hello@dominos.com",
+        "href": "mailto:hello@dominos.com"
+      }
+    ]
+  }
+}
