@@ -1,79 +1,42 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
-import { ChevronDown, Plus, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
-import { Switch } from "@/Components/ui/switch";
 import { Pagination } from "@/Components/ui/pagination";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/Components/ui/alert-dialog";
+import Toast from "@/Components/ui/toast";
 
 import ProductStats from "./ProductStats";
 import ProductToolbar from "./ProductToolbar";
-import ImageUploader from "./ImageUploader";
+import ProductRow from "./ProductRow";
+import AddProductModal from "./AddProductModal";
 import styles from "./styles.module.scss";
-
-const formatPrice = (price) => `${Number(price).toLocaleString("fr-DZ")} DA`;
-
-const toImageObjects = (urls) =>
-  (urls ?? []).map((url, index) => ({ id: `img-${index}-${url}`, url }));
-
-const emptyForm = () => ({
-  name: "",
-  description: "",
-  price: "",
-  discount_price: "",
-  category_id: "",
-  brand_id: "",
-  stock: "",
-  is_on_sale: false,
-  is_active: true,
-  images: [],
-});
-
-const toDraft = (product) => ({
-  name: product.name,
-  description: product.description ?? "",
-  price: product.price,
-  discount_price: product.discount_price ?? "",
-  category_id: String(product.category_id),
-  brand_id: String(product.brand_id),
-  stock: product.stock,
-  is_on_sale: product.is_on_sale,
-  is_active: product.is_active,
-  images: toImageObjects(product.images),
-});
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+
+  // Toolbar filter state
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [status, setStatus] = useState("");
-  const [addOpen, setAddOpen] = useState(false);
-  const [newProduct, setNewProduct] = useState(emptyForm);
   const [page, setPage] = useState(1);
-  const [expandedId, setExpandedId] = useState(null);
-  const [draft, setDraft] = useState(emptyForm);
 
+  const [addOpen, setAddOpen] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const API_BASE_URL=import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
-    const controller = new AbortController();
+    
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/dashboard/products`, {
-          signal: controller.signal,
-        });
+        setLoading(true);
+        
+        const response = await fetch(`${API_BASE_URL}/dashboard/products`)
 
         if (!response.ok) {
           throw new Error(`Server returned status ${response.status}`);
@@ -81,130 +44,252 @@ export default function Products() {
 
         const result = await response.json();
 
-        if (!result.success) {
+        if (result.success) {
+          setProducts(result.data);
+        }else{
           throw new Error(result.message || "Failed to fetch products");
         }
 
-        setProducts(result.data ?? []);
+       
       } catch (fetchError) {
         if (fetchError.name !== "AbortError") {
           console.error("Error fetching dashboard products:", fetchError);
           setError("Unable to load products.");
         }
       } finally {
-        if (!controller.signal.aborted) {
           setLoading(false);
-        }
       }
     };
 
     fetchProducts();
-
-    return () => controller.abort();
   }, []);
 
-  const categoryOptions = useMemo(
-    () => Array.from(new Map(products.map((product) => [product.category_id, { id: product.category_id, name: product.category_name }])).values()),
-    [products]
-  );
-  const brandOptions = useMemo(
-    () => Array.from(new Map(products.map((product) => [product.brand_id, { id: product.brand_id, name: product.brand_name }])).values()),
-    [products]
+  const categoryOptions = Array.from(
+    new Map(products.map((product) => [product.category_id, { id: product.category_id, name: product.category_name }])).values()
   );
 
-  const filteredProducts = useMemo(
-    () =>
-      products.filter((product) => {
-        const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
-        const matchesCategory = !category || String(product.category_id) === category;
-        const matchesBrand = !brand || String(product.brand_id) === brand;
-        const matchesStatus =
-          !status ||
-          (status === "active" && product.is_active) ||
-          (status === "inactive" && !product.is_active) ||
-          (status === "out-of-stock" && product.stock === 0);
-
-        return matchesSearch && matchesCategory && matchesBrand && matchesStatus;
-      }),
-    [products, search, category, brand, status]
+  const brandOptions = Array.from(
+    new Map(products.map((product) => [product.brand_id, { id: product.brand_id, name: product.brand_name }])).values()
   );
 
-  const toggleActive = (id, checked) => {
-    setProducts((current) =>
-      current.map((product) => (product.id === id ? { ...product, is_active: checked } : product))
-    );
-  };
+  const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.name.toLowerCase().includes(search.toLowerCase());
 
-  const toggleExpand = (product) => {
-    if (expandedId === product.id) {
-      setExpandedId(null);
-      return;
-    }
+  const matchesCategory =
+    category === "" ||
+    String(product.category_id) === category;
 
-    setDraft(toDraft(product));
-    setExpandedId(product.id);
-  };
+  const matchesBrand =
+    brand === "" ||
+    String(product.brand_id) === brand;
 
-  const saveDraft = (id) => {
-    setProducts((current) =>
-      current.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              name: draft.name,
-              description: draft.description,
-              price: Number(draft.price),
-              discount_price: draft.discount_price === "" ? null : Number(draft.discount_price),
-              category_id: Number(draft.category_id),
-              brand_id: Number(draft.brand_id),
-              stock: Number(draft.stock),
-              is_on_sale: draft.is_on_sale,
-              is_active: draft.is_active,
-              images: draft.images.map((image) => image.url),
-            }
-          : product
+  const matchesStatus =
+    status === "" ||
+    (status === "active" && product.is_active) ||
+    (status === "inactive" && !product.is_active) ||
+    (status === "out-of-stock" && product.stock === 0);
+
+  return (
+    matchesSearch &&
+    matchesCategory &&
+    matchesBrand &&
+    matchesStatus
+  );
+});
+
+  //Handle the switch active/deactivate toggle
+  const handleToggleActive = async (id, checked) => {
+    try{
+      const response = await fetch(`${API_BASE_URL}/dashboard/products/${id}/active`,
+        {
+          method : "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body : JSON.stringify({
+            is_active: checked,
+          }),
+        }
       )
-    );
+      const result = await response.json();
 
-    setExpandedId(null);
-  };
-
-  const removeProduct = (id) => {
-    setProducts((current) => current.filter((product) => product.id !== id));
-
-    if (expandedId === id) {
-      setExpandedId(null);
+      if(!response.ok || !result.success) {
+        throw new Error (
+          result.message || "Failed to update product status"
+        );
+      }
+      setProducts((current) => 
+        current.map((product) => 
+          product.id === id 
+      ? {
+        ...product,
+        is_active: result.data.is_active,
+      } : product
+    ));
+    }catch(error){
+      console.error("Error updating product status:", error);
+    setError("Unable to update product status.");
     }
   };
 
-  const openAddModal = () => {
-    setNewProduct(emptyForm());
-    setAddOpen(true);
-  };
+ //Handles the edit 
+  const handleSaveProduct = async (id, updatedFields) => {
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/dashboard/products/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedFields),
+            }
+        );
 
-  const createProduct = () => {
-    const nextId = products.reduce((max, product) => Math.max(max, product.id), 0) + 1;
+        const result = await response.json();
 
-    setProducts((current) => [
-      {
-        id: nextId,
-        name: newProduct.name,
-        description: newProduct.description,
-        price: Number(newProduct.price) || 0,
-        discount_price: newProduct.discount_price === "" ? null : Number(newProduct.discount_price),
-        category_id: Number(newProduct.category_id),
-        brand_id: Number(newProduct.brand_id),
-        stock: Number(newProduct.stock) || 0,
-        is_on_sale: newProduct.is_on_sale,
-        is_active: newProduct.is_active,
-        created_at: new Date().toISOString(),
-        images: newProduct.images.map((image) => image.url),
-      },
-      ...current,
-    ]);
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Failed to update product"
+            );
+        }
 
-    setAddOpen(false);
-  };
+        setProducts((current) =>
+            current.map((product) =>
+                product.id === id
+                    ? result.data
+                    : product
+            )
+        );
+
+        setExpandedId(null);
+
+        setToast({
+            type: "success",
+            message: "Product updated successfully.",
+        });
+    } catch (error) {
+        console.error("Error updating product:", error);
+
+        setToast({
+            type: "warning",
+            message:
+                error.message ||
+                "Unable to update product.",
+        });
+    }
+};
+
+  // TODO: call your API (e.g. DELETE /dashboard/products/:id).
+  const handleRemoveProduct = async (id) => {
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/dashboard/products/${id}`,
+            {
+                method: "DELETE",
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Failed to delete product"
+            );
+        }
+
+        if (result.action === "deleted") {
+            setProducts((current) =>
+                current.filter((product) => product.id !== id)
+            );
+
+            setToast({
+                type: "success",
+                message: "Product deleted successfully.",
+            });
+        }
+
+        if (result.action === "deactivated") {
+            setProducts((current) =>
+                current.map((product) =>
+                    product.id === id
+                        ? {
+                              ...product,
+                              is_active: false,
+                          }
+                        : product
+                )
+            );
+
+            setToast({
+                type: "info",
+                message:
+                    "This product has existing orders, so it was deactivated instead of deleted.",
+            });
+        }
+
+        if (expandedId === id) {
+            setExpandedId(null);
+        }
+    } catch (error) {
+        console.error("Error deleting product:", error);
+
+        setToast({
+            type: "warning",
+            message:
+                error.message || "Unable to remove product.",
+        });
+    }
+};
+
+  // TODO: call your API (e.g. POST /dashboard/products) then update state from the response.
+  const handleCreateProduct = async (newFields) => {
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/dashboard/products`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newFields),
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Failed to create product"
+            );
+        }
+
+        setProducts((current) => [
+            result.data,
+            ...current,
+        ]);
+
+        setAddOpen(false);
+
+    } catch (error) {
+        console.error("Error creating product:", error);
+        setError("Unable to create product.");
+    }
+};
+
+//handling the toast alert :
+useEffect(() => {
+    if (!toast) {
+        return;
+    }
+
+    const timer = setTimeout(() => {
+        setToast(null);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+}, [toast]);
 
   return (
     <section className={styles.Products}>
@@ -215,7 +300,7 @@ export default function Products() {
           <p>Manage the products in your store.</p>
         </div>
 
-        <button className={styles.Products__AddButton} onClick={openAddModal}>
+        <button className={styles.Products__AddButton} onClick={() => setAddOpen(true)}>
           <Plus size={18} />
           <span>Add Product</span>
         </button>
@@ -265,385 +350,68 @@ export default function Products() {
                     {error}
                   </TableCell>
                 </TableRow>
-              ) : filteredProducts.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className={styles.Products__Empty}>
-                    No products match these filters.
-                  </TableCell>
-                </TableRow>
-              ) : filteredProducts.map((product) => {
-                const isExpanded = expandedId === product.id;
-
-                return (
-                  <Fragment key={product.id}>
-                    {/* Row */}
-                    <TableRow className={isExpanded ? styles.Products__RowExpanded : undefined}>
-                      <TableCell>
-                        <div className={styles.Products__Product}>
-                          <div className={styles.Products__Image}>
-                            <img src={product.images?.[0]} alt="" />
-                          </div>
-
-                          <div>
-                            <strong>{product.name}</strong>
-                            <span>
-                              SKU-{String(product.id).padStart(4, "0")} · {product.brand_name || "No brand"}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-
-                      <TableCell>{product.category_name || "Uncategorized"}</TableCell>
-
-                      <TableCell>
-                        <div className={styles.Products__Price}>
-                          <strong>{formatPrice(product.discount_price || product.price)}</strong>
-                          {product.discount_price != null && <del>{formatPrice(product.price)}</del>}
-                          {product.is_on_sale && <span className={styles.Products__SaleTag}>Sale</span>}
-                        </div>
-                      </TableCell>
-
-                      <TableCell>
-                        <span className={product.stock <= 5 ? styles.StockLow : styles.Stock}>
-                          {product.stock} {product.stock === 1 ? "unit" : "units"}
-                        </span>
-                      </TableCell>
-
-                      <TableCell>
-                        <Switch
-                          checked={product.is_active}
-                          onCheckedChange={(checked) => toggleActive(product.id, checked)}
-                          aria-label={`${product.is_active ? "Deactivate" : "Activate"} ${product.name}`}
-                        />
-                      </TableCell>
-
-                      <TableCell>
-                        <div className={styles.Products__Actions}>
-                          <button
-                            type="button"
-                            className={styles.Products__Edit}
-                            onClick={() => toggleExpand(product)}
-                            aria-label={`${isExpanded ? "Close" : "Edit"} ${product.name}`}
-                            aria-expanded={isExpanded}
-                          >
-                            <ChevronDown size={16} className={isExpanded ? styles.Products__ChevronOpen : undefined} />
-                            <span>Edit</span>
-                          </button>
-
-                          <AlertDialog>
-                            <AlertDialogTrigger className={styles.Products__Delete} aria-label={`Remove ${product.name}`}>
-                              <Trash2 size={16} />
-                            </AlertDialogTrigger>
-
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Remove this product?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  "{product.name}" will be removed from the catalog. This can't be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => removeProduct(product.id)}>
-                                  Remove
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-
-                    {/* Expanded edit panel */}
-                    {isExpanded && (
-                      <TableRow className={styles.Products__EditRow}>
-                        <TableCell colSpan={6}>
-                          <div className={styles.Products__EditPanel}>
-                            <div className={styles.Products__EditField}>
-                              <span>Photos</span>
-                              <ImageUploader
-                                images={draft.images}
-                                onChange={(updater) =>
-                                  setDraft((current) => ({ ...current, images: updater(current.images) }))
-                                }
-                                inputId={`edit-images-${product.id}`}
-                              />
-                            </div>
-
-                            <div className={styles.Products__EditGrid}>
-                              <label>
-                                Product name
-                                <input
-                                  value={draft.name}
-                                  onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
-                                />
-                              </label>
-
-                              <label>
-                                Brand
-                                <select
-                                  value={draft.brand_id}
-                                  onChange={(event) => setDraft((current) => ({ ...current, brand_id: event.target.value }))}
-                                >
-                                  {brandOptions.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))}
-                                </select>
-                              </label>
-
-                              <label>
-                                Category
-                                <select
-                                  value={draft.category_id}
-                                  onChange={(event) => setDraft((current) => ({ ...current, category_id: event.target.value }))}
-                                >
-                                  {categoryOptions.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))}
-                                </select>
-                              </label>
-
-                              <label>
-                                Stock
-                                <input
-                                  type="number"
-                                  min="0"
-                                  value={draft.stock}
-                                  onChange={(event) => setDraft((current) => ({ ...current, stock: event.target.value }))}
-                                />
-                              </label>
-
-                              <label>
-                                Price (DA)
-                                <input
-                                  type="number"
-                                  min="0"
-                                  value={draft.price}
-                                  onChange={(event) => setDraft((current) => ({ ...current, price: event.target.value }))}
-                                />
-                              </label>
-
-                              <label>
-                                Discount price (DA)
-                                <input
-                                  type="number"
-                                  min="0"
-                                  placeholder="No discount"
-                                  value={draft.discount_price}
-                                  onChange={(event) => setDraft((current) => ({ ...current, discount_price: event.target.value }))}
-                                />
-                              </label>
-
-                              <label className={styles.Products__EditSwitch}>
-                                On sale
-                                <Switch
-                                  checked={draft.is_on_sale}
-                                  onCheckedChange={(checked) => setDraft((current) => ({ ...current, is_on_sale: checked }))}
-                                  aria-label="Toggle on sale"
-                                />
-                              </label>
-
-                              <label className={styles.Products__EditSwitch}>
-                                Active
-                                <Switch
-                                  checked={draft.is_active}
-                                  onCheckedChange={(checked) => setDraft((current) => ({ ...current, is_active: checked }))}
-                                  aria-label="Toggle active"
-                                />
-                              </label>
-
-                              <label className={styles.Products__EditReadOnly}>
-                                SKU / created
-                                <span>
-                                  SKU-{String(product.id).padStart(4, "0")} ·{" "}
-                                  {new Date(product.created_at).toLocaleDateString("fr-DZ")}
-                                </span>
-                              </label>
-
-                              <label className={styles.Products__EditDescription}>
-                                Description
-                                <textarea
-                                  rows={3}
-                                  value={draft.description}
-                                  onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
-                                />
-                              </label>
-                            </div>
-
-                            <div className={styles.Products__EditActions}>
-                              <button type="button" onClick={() => setExpandedId(null)}>
-                                Cancel
-                              </button>
-
-                              <button type="button" className={styles.Products__Save} onClick={() => saveDraft(product.id)}>
-                                Save changes
-                              </button>
-                            </div>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </Fragment>
-                );
-              })}
+              ) : products.length === 0 ? (
+  <TableRow>
+    <TableCell
+      colSpan={6}
+      className={styles.Products__Empty}
+    >
+      No products yet.
+    </TableCell>
+  </TableRow>
+) : filteredProducts.length === 0 ? (
+  <TableRow>
+    <TableCell
+      colSpan={6}
+      className={styles.Products__Empty}
+    >
+      No products match your filters.
+    </TableCell>
+  </TableRow>
+) : (
+                filteredProducts.map((product) => (
+                  <ProductRow
+                    key={product.id}
+                    product={product}
+                    isExpanded={expandedId === product.id}
+                    onToggleExpand={() => setExpandedId(expandedId === product.id ? null : product.id)}
+                    onToggleActive={handleToggleActive}
+                    onSave={handleSaveProduct}
+                    onRemove={handleRemoveProduct}
+                    categoryOptions={categoryOptions}
+                    brandOptions={brandOptions}
+                  />
+                ))
+              )}
             </TableBody>
           </Table>
-
-          {!filteredProducts.length && <div className={styles.Products__Empty}>No products match these filters.</div>}
         </div>
 
         <div className={styles.Products__Footer}>
-          <span>
-            Showing {filteredProducts.length} of {products.length} products
-          </span>
+          <span>Showing {products.length} products</span>
 
-          <Pagination page={page} pageCount={Math.max(1, Math.ceil(filteredProducts.length / 10))} onPageChange={setPage} />
+          <Pagination page={page} pageCount={1} onPageChange={setPage} />
 
           <span>Updated just now</span>
         </div>
       </div>
 
       {addOpen && (
-        <div className={styles.Products__ModalOverlay} onClick={() => setAddOpen(false)}>
-          <div className={styles.Products__Modal} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.Products__ModalHeader}>
-              <div>
-                <span>Catalog</span>
-                <h2>Add product</h2>
-              </div>
-
-              <button onClick={() => setAddOpen(false)} aria-label="Close add product dialog">
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className={styles.Products__ModalBody}>
-              <div className={styles.Products__EditField}>
-                <span>Photos</span>
-                <ImageUploader
-                  images={newProduct.images}
-                  onChange={(updater) =>
-                    setNewProduct((current) => ({ ...current, images: updater(current.images) }))
-                  }
-                  inputId="new-product-images"
-                />
-              </div>
-
-              <div className={styles.Products__FormGrid}>
-                <label>
-                  Product name
-                  <input
-                    placeholder="e.g. Wireless gaming mouse"
-                    value={newProduct.name}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, name: event.target.value }))}
-                  />
-                </label>
-
-                <label>
-                  Brand
-                  <select
-                    value={newProduct.brand_id}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, brand_id: event.target.value }))}
-                  >
-                    {brandOptions.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label>
-                  Category
-                  <select
-                    value={newProduct.category_id}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, category_id: event.target.value }))}
-                  >
-                    {categoryOptions.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label>
-                  Stock
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="0"
-                    value={newProduct.stock}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, stock: event.target.value }))}
-                  />
-                </label>
-
-                <label>
-                  Price (DA)
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="0"
-                    value={newProduct.price}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, price: event.target.value }))}
-                  />
-                </label>
-
-                <label>
-                  Discount price (DA)
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="No discount"
-                    value={newProduct.discount_price}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, discount_price: event.target.value }))}
-                  />
-                </label>
-
-                <label className={styles.Products__EditSwitch}>
-                  On sale
-                  <Switch
-                    checked={newProduct.is_on_sale}
-                    onCheckedChange={(checked) => setNewProduct((current) => ({ ...current, is_on_sale: checked }))}
-                    aria-label="Toggle on sale"
-                  />
-                </label>
-
-                <label className={styles.Products__EditSwitch}>
-                  Active
-                  <Switch
-                    checked={newProduct.is_active}
-                    onCheckedChange={(checked) => setNewProduct((current) => ({ ...current, is_active: checked }))}
-                    aria-label="Toggle active"
-                  />
-                </label>
-
-                <label className={styles.Products__EditDescription}>
-                  Description
-                  <textarea
-                    rows={3}
-                    placeholder="Short product description..."
-                    value={newProduct.description}
-                    onChange={(event) => setNewProduct((current) => ({ ...current, description: event.target.value }))}
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div className={styles.Products__ModalActions}>
-              <button onClick={() => setAddOpen(false)}>Cancel</button>
-              <button className={styles.Products__Save} onClick={createProduct}>
-                Save product
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddProductModal
+          categoryOptions={categoryOptions}
+          brandOptions={brandOptions}
+          onClose={() => setAddOpen(false)}
+          onCreate={handleCreateProduct}
+        />
       )}
+{toast && (
+    <Toast
+        type={toast.type}
+        message={toast.message}
+        onClose={() => setToast(null)}
+    />
+)}
+
     </section>
   );
 }

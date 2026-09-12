@@ -1,6 +1,11 @@
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/Components/ui/input-group";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/Components/ui/input-group";
+
 import { Select, SelectItem } from "@/Components/ui/select";
 
 import styles from "./styles.module.scss";
@@ -40,6 +45,7 @@ export default function ProductToolbar({
           aria-label="Filter by category"
         >
           <SelectItem value="">All Categories</SelectItem>
+
           {categories.map((item) => (
             <SelectItem key={item.id} value={String(item.id)}>
               {item.name}
@@ -54,6 +60,7 @@ export default function ProductToolbar({
           aria-label="Filter by brand"
         >
           <SelectItem value="">All Brands</SelectItem>
+
           {brands.map((item) => (
             <SelectItem key={item.id} value={String(item.id)}>
               {item.name}
@@ -73,10 +80,7 @@ export default function ProductToolbar({
           <SelectItem value="out-of-stock">Out of stock</SelectItem>
         </Select>
 
-        <button type="button" className={styles.ProductToolbar__FilterButton}>
-          <SlidersHorizontal size={16} />
-          <span>Filters</span>
-        </button>
+        
       </div>
     </div>
   );

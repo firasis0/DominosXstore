@@ -1,26 +1,31 @@
-import express from 'express'
-import 'dotenv/config';
-import cors from 'cors';
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import path from "path";
 
-//Routes : 
-import productRoutes from './Routes/product.route.js';
+import productRoutes from "./Routes/product.route.js";
+import imageRoutes from "./Routes/image.route.js";
 
 const app = express();
 const port = process.env.LISTEN_PORT || 3001;
 
-//MidleWares : 
-//--Global Middlewares--
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
-//API Routes : 
-app.use('/api',productRoutes);
+// Serve uploaded images
+app.use(
+    "/uploads",
+    express.static(path.resolve("uploads"))
+);
 
+// API routes
+app.use("/api", productRoutes);
+app.use("/api", imageRoutes);
 
-app.get('/',(req,res) => {
-    res.send('<h1>THE BACKEND IS ALIVE !!!</h1>')
-})
+app.get("/", (req, res) => {
+    res.send("<h1>THE BACKEND IS ALIVE !!!</h1>");
+});
 
-app.listen(port,() => {
-    console.log(`The server is running on ${port}`)
-})
+app.listen(port, () => {
+    console.log(`The server is running on ${port}`);
+});

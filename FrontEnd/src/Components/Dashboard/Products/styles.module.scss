@@ -232,81 +232,6 @@
     border-top: 1px dashed #e0e0e0;
   }
 
-  &__EditField {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-
-    span {
-      color: #666;
-      font-size: 12px;
-      font-weight: 600;
-    }
-  }
-
-  &__EditGrid,
-  &__FormGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-
-      color: #666;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    input,
-    select,
-    textarea {
-      padding: 9px 10px;
-
-      border: 1px solid #e0e0e0;
-      border-radius: 7px;
-
-      background: #fff;
-      color: #111;
-
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 400;
-
-      outline: none;
-
-      &:focus {
-        border-color: #111;
-      }
-    }
-
-    textarea {
-      resize: vertical;
-    }
-  }
-
-  &__EditSwitch {
-    flex-direction: row !important;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__EditReadOnly {
-    span {
-      padding: 9px 0;
-      color: #999;
-      font-size: 12px;
-      font-weight: 400;
-    }
-  }
-
-  &__EditDescription {
-    grid-column: 1 / -1;
-  }
-
   &__EditActions {
     display: flex;
     justify-content: flex-end;
@@ -422,10 +347,6 @@
     margin: 0 -4px 20px;
   }
 
-  &__FormGrid {
-    margin-bottom: 0;
-  }
-
   &__ModalActions {
     display: flex;
     justify-content: flex-end;
@@ -482,21 +403,11 @@
         display: none;
       }
     }
-
-    &__EditGrid,
-    &__FormGrid {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 }
 
 @media (max-width: 500px) {
   .Products {
-    &__EditGrid,
-    &__FormGrid {
-      grid-template-columns: 1fr;
-    }
-
     &__Modal {
       max-height: calc(100vh - 24px);
       padding: 18px;

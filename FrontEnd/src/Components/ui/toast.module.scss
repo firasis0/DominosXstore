@@ -1,0 +1,102 @@
+.Toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 320px;
+    max-width: 420px;
+
+    padding: 12px 14px;
+
+    border: 1px solid hsl(var(--border));
+    border-radius: 10px;
+
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08);
+
+    animation: toastEnter 0.2s ease-out;
+}
+
+.Toast__Icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.Toast__Message {
+    flex: 1;
+
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.Toast__Close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.Toast__Close:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+}
+
+.Toast--info .Toast__Icon {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+}
+
+.Toast--warning .Toast__Icon {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+}
+
+@keyframes toastEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
