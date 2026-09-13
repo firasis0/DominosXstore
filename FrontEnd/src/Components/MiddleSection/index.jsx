@@ -13,8 +13,7 @@ export default function MiddleSection() {
       <Categories />
       <BestDeals />
       <Banner bannerData={HomeData.MiddleSection.MiddleBanner.imgs} />
-      <Brands data = {HomeData.MiddleSection.marks} title= "Shop by Brand" />
-      <BestDeals title = {"Recommended for you"} categoryId={1} />
+      <Brands data = {HomeData.MiddleSection.marks} title= "Shop by Brand" />    
     
     </main>
   );

@@ -11,6 +11,7 @@ import ShopPage from "./Pages/Shop";
 import LoginPage from "./Pages/Login";
 import DashboardPage from "./Pages/Dashboard";
 import DashboardProduts from './Pages/DashboardProducts';
+import DashboardCategories from './Pages/DashboardCategories'
 import ProductDetailsPage from "./Pages/ProductDetails";
 import CategoriesDetailsPage from './Pages/CategoriesDetails';
 import BrandsDetailsPage from './Pages/BrandsDetails';
@@ -50,7 +51,7 @@ function App() {
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/product/:id" element={<ProductDetailsPage />} />
+      <Route path="/shop/:id" element={<ProductDetailsPage />} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/about" element={<About />} />
       <Route path="/categories" element={<CategoriesPage />} />
@@ -59,6 +60,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/dashboard/products" element={<DashboardProduts />} />
+      <Route path="/dashboard/categories" element={<DashboardCategories />} />
       <Route path="/policies" element={<PoliciesPage />} />
     </Routes>
     </BrowserRouter>

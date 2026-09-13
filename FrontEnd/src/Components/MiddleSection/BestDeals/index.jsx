@@ -1,7 +1,8 @@
 import styles from "./styles.module.scss";
+import { useState, useEffect } from 'react';
 
 import { Link } from "react-router-dom";
-import ProductsData from "../../../../Data/ProductsData.json";
+
 
 import Autoplay from "embla-carousel-autoplay";
 
@@ -14,7 +15,31 @@ import {
 } from "@/Components/ui/carousel";
 
 export default function BestDeals({ title, categoryId }) {
-  const saleProducts = ProductsData.products.filter(
+  const [products, setProducts] = useState([]);
+
+  const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL;
+  const HOST_BASE_URL =  import.meta.env.VITE_HOST_BASE_URL;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch(`${API_BASE_URL}/shop`);
+
+      if(!response.ok){
+        throw new Error(`Server Returning status :  ${response.status}` );
+      }
+
+      const result = await response.json();
+      
+      if(result.success){
+        setProducts(result.data)
+      }else{
+        throw new Error(result.message);
+      }
+  }
+  fetchProducts();
+  },[])
+
+  const saleProducts = products.filter(
     (product) =>
       product.is_on_sale &&
       (categoryId ? product.category_id === categoryId : true)
@@ -86,7 +111,7 @@ export default function BestDeals({ title, categoryId }) {
                         className={styles.Product}
                       >
                         <Link
-                          to={`/product/${product.id}`}
+                          to={`/shop/${product.id}`}
                           className={styles.Product__Link}
                         >
                           {/* Image */}
@@ -96,7 +121,7 @@ export default function BestDeals({ title, categoryId }) {
                             </span>
 
                             <img
-                              src={product.images?.[0]}
+                              src={`${HOST_BASE_URL}${product.images?.[0]}`}
                               alt={product.name}
                               className={styles.Product__Image}
                             />

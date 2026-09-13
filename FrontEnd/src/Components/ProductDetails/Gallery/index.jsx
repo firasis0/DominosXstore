@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 
 export default function Gallery({ product }) {
+  const HOST_BASE_URL = import.meta.env.VITE_HOST_BASE_URL;
   const [activeImage, setActiveImage] = useState(0);
 
   const images = product.images ?? [];
@@ -21,7 +22,7 @@ export default function Gallery({ product }) {
     <div className={styles.Gallery}>
       <div className={styles.Gallery__Main}>
         <img
-          src={images[activeImage]}
+          src={`${HOST_BASE_URL}${images[activeImage]}`}
           alt={product.name}
         />
       </div>
@@ -41,7 +42,7 @@ export default function Gallery({ product }) {
               aria-label={`View image ${index + 1}`}
             >
               <img
-                src={image}
+                src={`${HOST_BASE_URL}${image}`}
                 alt=""
               />
             </button>

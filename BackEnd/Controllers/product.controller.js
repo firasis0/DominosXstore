@@ -1,5 +1,7 @@
 import db from '../DB/db.js';
 
+//Dahboard Products Logic :
+
 //Fetching the products :
 export const getDashboardProducts = async (req,res) => {
     try{
@@ -619,3 +621,80 @@ export const updateProduct = async (req, res) => {
         client.release();
     }
 };
+
+//StoreFront products Logic :
+
+//Fetching products : 
+export const getStoreProducts = async (req,res) => {
+    try{
+        const queryText = `
+        SELECT 
+            p.id,
+            p.name,
+            p.description,
+            p.price,
+            p.discount_price,
+            p.stock,
+            p.is_on_sale,
+            p.category_id,
+            c.name AS category_name,
+            p.brand_id,
+            b.name AS brand_name,
+            COALESCE(
+            JSON_AGG(
+                DISTINCT pi.image_url
+            ) FILTER (WHERE pi.id is not null),
+             '[]'
+            ) AS images,
+            COALESCE(
+                JSON_AGG(
+                DISTINCT jsonb_build_object(
+                'id', pv.id,
+                'type', pv.type,
+                'value', pv.value,
+                'color_hex', pv.color_hex
+                )
+            ) FILTER (WHERE pv.id IS NOT NULL),
+             '[]'
+            ) AS VARIANTS
+
+             FROM products p
+
+             LEFT JOIN categories c
+                ON c.id = p.category_id
+            
+             LEFT JOIN brands b
+                ON b.id = p.brand_id
+
+             LEFT JOIN product_images pi
+                ON pi.product_id = p.id
+            
+             LEFT JOIN product_variants pv
+                ON pv.product_id = p.id
+
+            WHERE p.is_active = true
+
+            GROUP BY 
+                p.id,
+                c.name,
+                b.name
+
+            ORDER BY p.created_at DESC;
+        `;
+
+        const {rows} = await db.query(queryText)
+
+        return res.status(200).json({
+            success : true,
+            data : rows
+        })
+    }catch(error) {
+        console.error('Error fetching store products', error)
+
+        return res.status(500).json({
+            success : false,
+            message : 'Server error while fetching products'
+        })
+    }
+}
+ 

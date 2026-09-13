@@ -3,10 +3,13 @@ import { getDashboardProducts,
          toggleProductActive,
          deleteProduct,
          createProduct,
-         updateProduct
+         updateProduct,
+         getStoreProducts
  } from '../Controllers/product.controller.js';
 
 const router = express.Router();
+
+//DASHBOARD ROUTES : 
 
 //Router : GET / api/dashboard/products 
 router.get('/dashboard/products',getDashboardProducts);
@@ -23,5 +26,9 @@ router.post('/dashboard/products', createProduct)
 //PUT product
 router.put('/dashboard/products/:id', updateProduct)
 
+//STORE ROUTES : 
+
+//GET STORE PRODUCTS : 
+router.get('/shop',getStoreProducts);
 
 export default router; 

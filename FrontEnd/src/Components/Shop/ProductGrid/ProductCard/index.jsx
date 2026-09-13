@@ -5,22 +5,17 @@ import { Handbag } from "lucide-react";
 
 import brandsData from "@/../Data/BrandsData.json";
 
-const NEW_THRESHOLD_DAYS = 30;
-const NEW_THRESHOLD_MS = NEW_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
-const now = Date.now();
+
 
 export default function ProductCard({ product }) {
-  const primaryImage = product.images?.[0];
-  const productUrl = `/product/${product.id}`;
+  const primaryImage = `${import.meta.env.VITE_HOST_BASE_URL}${product.images?.[0]}`;
+  const productUrl = `/shop/${product.id}`;
 
   const brand = brandsData.brands.find(
     (item) => item.id === product.brand_id
   );
 
-  const createdAt = new Date(product.created_at).getTime();
-  const isNew = Number.isFinite(createdAt)
-    ? createdAt > now - NEW_THRESHOLD_MS
-    : false;
+  
 
   const currentPrice =
     product.is_on_sale && product.discount_price != null
@@ -36,11 +31,7 @@ export default function ProductCard({ product }) {
           </span>
         )}
 
-        {isNew && (
-          <span className={styles.ProductCard__NewBadge}>
-            New
-          </span>
-        )}
+       
 
         <Link to={productUrl} className={styles.ProductCard__ImageLink}>
           <img

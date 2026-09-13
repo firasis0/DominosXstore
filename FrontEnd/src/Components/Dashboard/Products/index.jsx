@@ -13,6 +13,8 @@ import styles from "./styles.module.scss";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -60,17 +62,74 @@ export default function Products() {
           setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
-  const categoryOptions = Array.from(
-    new Map(products.map((product) => [product.category_id, { id: product.category_id, name: product.category_name }])).values()
-  );
+  //Fetching Categories :
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try{
+          const response = await fetch(`${API_BASE_URL}/dashboard/categories`)
 
-  const brandOptions = Array.from(
-    new Map(products.map((product) => [product.brand_id, { id: product.brand_id, name: product.brand_name }])).values()
-  );
+          if(!response.ok){
+            throw new Error(`Response returned Status ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          if(result.success){
+            setCategories(result.data);
+            console.log(result.data)
+          }else{
+            throw new Error(result.message);
+          }
+
+      }catch(error){
+        console.error("Error fetching categoties !", error)
+      }
+    }
+    fetchCategories();
+  },[])
+
+  //Fetching Brands : 
+    useEffect(() => {
+    const fetchBrands = async () => {
+      try{
+          const response = await fetch(`${API_BASE_URL}/dashboard/brands`)
+
+          if(!response.ok){
+            throw new Error(`Response returned Status ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          if(result.success){
+            setBrands(result.data);
+            console.log(result.data)
+          }else{
+            throw new Error(result.message);
+          }
+
+      }catch(error){
+        console.error("Error fetching brands !", error)
+      }
+    }
+    fetchBrands();
+  },[])
+
+  const categoryOptions = categories.map((category) => ({
+    id : category.id,
+    name : category.name,
+    image_url : category.image_url,
+    is_active : category.is_active
+  }))
+
+  const brandOptions = brands.map((brand) => ({
+    id : brand.id,
+    name : brand.name,
+    image_url : brand.image_url,
+    is_active : brand.is_active
+  }))
 
   const filteredProducts = products.filter((product) => {
   const matchesSearch =

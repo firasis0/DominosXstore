@@ -1,0 +1,920 @@
+{
+  "version": 1,
+  "last_updated": "2026-09-13",
+  "providers": [
+    {
+      "id": "zr-express",
+      "name": "ZR Express",
+      "code": "ZR",
+      "is_active": true
+    }
+  ],
+  "prices": [
+    {
+      "provider_id": "zr-express",
+      "province_id": 1,
+      "home_price": 1400,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 2,
+      "home_price": 850,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 3,
+      "home_price": 950,
+      "office_price": 620,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 4,
+      "home_price": 850,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 5,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 6,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 7,
+      "home_price": 950,
+      "office_price": 620,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 8,
+      "home_price": 1100,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 9,
+      "home_price": 600,
+      "office_price": 470,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 10,
+      "home_price": 700,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 11,
+      "home_price": 1600,
+      "office_price": 1120,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 12,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 13,
+      "home_price": 900,
+      "office_price": 570,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 14,
+      "home_price": 850,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 15,
+      "home_price": 750,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "home_price": 500,
+      "office_price": 370,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 17,
+      "home_price": 950,
+      "office_price": 570,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 18,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 19,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 20,
+      "home_price": 900,
+      "office_price": 570,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 21,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 22,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 23,
+      "home_price": 850,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 24,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 25,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 26,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 27,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 28,
+      "home_price": 850,
+      "office_price": 570,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 29,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 30,
+      "home_price": 950,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 31,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 32,
+      "home_price": 1100,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 33,
+      "home_price": null,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 34,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 35,
+      "home_price": 700,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 36,
+      "home_price": 850,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 37,
+      "home_price": null,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 38,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 39,
+      "home_price": 950,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 40,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 41,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 42,
+      "home_price": 700,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 43,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 44,
+      "home_price": 800,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 45,
+      "home_price": 1100,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 46,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 47,
+      "home_price": 950,
+      "office_price": 620,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 48,
+      "home_price": 900,
+      "office_price": 520,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 49,
+      "home_price": 1400,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 50,
+      "home_price": null,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 51,
+      "home_price": 950,
+      "office_price": 620,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 52,
+      "home_price": 1200,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 53,
+      "home_price": 1000,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 54,
+      "home_price": 1600,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 55,
+      "home_price": 950,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 56,
+      "home_price": null,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 57,
+      "home_price": 950,
+      "office_price": null,
+      "currency": "DZD",
+      "is_active": true
+    },
+    {
+      "provider_id": "zr-express",
+      "province_id": 58,
+      "home_price": 1000,
+      "office_price": 970,
+      "currency": "DZD",
+      "is_active": true
+    }
+  ],
+  "offices": [
+    {
+      "id": "zr-002",
+      "provider_id": "zr-express",
+      "province_id": 2,
+      "municipality_name": "Chlef",
+      "municipality_name_ar": "الشلف",
+      "name": "ZR Express - Chlef",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-003",
+      "provider_id": "zr-express",
+      "province_id": 2,
+      "municipality_name": "Tenes",
+      "municipality_name_ar": "تنس",
+      "name": "ZR Express - Tenes",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-005",
+      "provider_id": "zr-express",
+      "province_id": 4,
+      "municipality_name": "Ain Beida",
+      "municipality_name_ar": "عين البيضاء",
+      "name": "ZR Express - Ain Beida",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-008",
+      "provider_id": "zr-express",
+      "province_id": 6,
+      "municipality_name": "Akbou",
+      "municipality_name_ar": "أقبو",
+      "name": "ZR Express - Akbou",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-009",
+      "provider_id": "zr-express",
+      "province_id": 6,
+      "municipality_name": "Bejaia",
+      "municipality_name_ar": "بجاية",
+      "name": "ZR Express - Bejaia",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-010",
+      "provider_id": "zr-express",
+      "province_id": 7,
+      "municipality_name": "Biskra",
+      "municipality_name_ar": "بسكرة",
+      "name": "ZR Express - Biskra",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-012",
+      "provider_id": "zr-express",
+      "province_id": 9,
+      "municipality_name": "Blida",
+      "municipality_name_ar": "البليدة",
+      "name": "ZR Express - Blida",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-013",
+      "provider_id": "zr-express",
+      "province_id": 9,
+      "municipality_name": "Bouguara",
+      "municipality_name_ar": "بوقرة",
+      "name": "ZR Express - Bouguara",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-014",
+      "provider_id": "zr-express",
+      "province_id": 9,
+      "municipality_name": "Mouzaia",
+      "municipality_name_ar": "موزاية",
+      "name": "ZR Express - Mouzaia",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-018",
+      "provider_id": "zr-express",
+      "province_id": 13,
+      "municipality_name": "Tlemcen",
+      "municipality_name_ar": "تلمسان",
+      "name": "ZR Express - Tlemcen",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-019",
+      "provider_id": "zr-express",
+      "province_id": 14,
+      "municipality_name": "Tiaret",
+      "municipality_name_ar": "تيارت",
+      "name": "ZR Express - Tiaret",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-022",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Birkhadem",
+      "municipality_name_ar": "بئرخادم",
+      "name": "ZR Express - Birkhadem",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-023",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Bir Touta",
+      "municipality_name_ar": "بئرتوتة",
+      "name": "ZR Express - Bir Touta",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-024",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Bordj El Kiffan",
+      "municipality_name_ar": "برج الكيفان",
+      "name": "ZR Express - Bordj El Kiffan",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-025",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Cheraga",
+      "municipality_name_ar": "شراقة",
+      "name": "ZR Express - Cheraga",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-026",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Kouba",
+      "municipality_name_ar": "القبة",
+      "name": "ZR Express - Kouba",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-028",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Ouled Fayet",
+      "municipality_name_ar": "أولاد فايت",
+      "name": "ZR Express - Ouled Fayet",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-029",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Reghaia",
+      "municipality_name_ar": "رغاية",
+      "name": "ZR Express - Reghaia",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-021",
+      "provider_id": "zr-express",
+      "province_id": 16,
+      "municipality_name": "Baraki",
+      "municipality_name_ar": "براقي",
+      "name": "ZR Express - Baraki",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-032",
+      "provider_id": "zr-express",
+      "province_id": 18,
+      "municipality_name": "Taher",
+      "municipality_name_ar": "الطاهير",
+      "name": "ZR Express - Taher",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-033",
+      "provider_id": "zr-express",
+      "province_id": 19,
+      "municipality_name": "El Eulma",
+      "municipality_name_ar": "العلمة",
+      "name": "ZR Express - El Eulma",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-036",
+      "provider_id": "zr-express",
+      "province_id": 21,
+      "municipality_name": "Skikda",
+      "municipality_name_ar": "سكيكدة",
+      "name": "ZR Express - Skikda",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-038",
+      "provider_id": "zr-express",
+      "province_id": 23,
+      "municipality_name": "Annaba",
+      "municipality_name_ar": "عنابة",
+      "name": "ZR Express - Annaba",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-039",
+      "provider_id": "zr-express",
+      "province_id": 23,
+      "municipality_name": "El Bouni",
+      "municipality_name_ar": "البوني",
+      "name": "ZR Express - El Bouni",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-042",
+      "provider_id": "zr-express",
+      "province_id": 25,
+      "municipality_name": "El Manzar El Jamil",
+      "municipality_name_ar": "المنظر الجميل",
+      "name": "ZR Express - El Manzar El Jamil",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-043",
+      "provider_id": "zr-express",
+      "province_id": 25,
+      "municipality_name": "Zouaghi",
+      "municipality_name_ar": "زواغي",
+      "name": "ZR Express - Zouaghi",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-044",
+      "provider_id": "zr-express",
+      "province_id": 25,
+      "municipality_name": "Nouvelle Ville",
+      "municipality_name_ar": "المدينة الجديدة",
+      "name": "ZR Express - Nouvelle Ville",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-047",
+      "provider_id": "zr-express",
+      "province_id": 28,
+      "municipality_name": "Bou Saada",
+      "municipality_name_ar": "بوسعادة",
+      "name": "ZR Express - Bou Saada",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-050",
+      "provider_id": "zr-express",
+      "province_id": 30,
+      "municipality_name": "Hassi Messaoud",
+      "municipality_name_ar": "حاسي مسعود",
+      "name": "ZR Express - Hassi Messaoud",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-052",
+      "provider_id": "zr-express",
+      "province_id": 31,
+      "municipality_name": "El Mershed",
+      "municipality_name_ar": "المرشد",
+      "name": "ZR Express - El Mershed",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-053",
+      "provider_id": "zr-express",
+      "province_id": 31,
+      "municipality_name": "Maraval",
+      "municipality_name_ar": "مارافال",
+      "name": "ZR Express - Maraval",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-054",
+      "provider_id": "zr-express",
+      "province_id": 31,
+      "municipality_name": "Canastel",
+      "municipality_name_ar": "كاناستال",
+      "name": "ZR Express - Canastel",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-057",
+      "provider_id": "zr-express",
+      "province_id": 35,
+      "municipality_name": "Bordj Menaiel",
+      "municipality_name_ar": "برج منايل",
+      "name": "ZR Express - Bordj Menaiel",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-058",
+      "provider_id": "zr-express",
+      "province_id": 35,
+      "municipality_name": "Boumerdes",
+      "municipality_name_ar": "بومردس",
+      "name": "ZR Express - Boumerdes",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-059",
+      "provider_id": "zr-express",
+      "province_id": 35,
+      "municipality_name": "Dellys",
+      "municipality_name_ar": "دلس",
+      "name": "ZR Express - Dellys",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-065",
+      "provider_id": "zr-express",
+      "province_id": 42,
+      "municipality_name": "Kolea",
+      "municipality_name_ar": "القليعة",
+      "name": "ZR Express - Kolea",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-066",
+      "provider_id": "zr-express",
+      "province_id": 42,
+      "municipality_name": "Tipaza",
+      "municipality_name_ar": "تيبازة",
+      "name": "ZR Express - Tipaza",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-077",
+      "provider_id": "zr-express",
+      "province_id": 54,
+      "municipality_name": "In Guezzam",
+      "municipality_name_ar": "عين قزام",
+      "name": "ZR Express - In Guezzam",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-079",
+      "provider_id": "zr-express",
+      "province_id": 57,
+      "municipality_name": "Djamaa",
+      "municipality_name_ar": "جامعة",
+      "name": "ZR Express - Djamaa",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    },
+    {
+      "id": "zr-080",
+      "provider_id": "zr-express",
+      "province_id": 58,
+      "municipality_name": "El Meniaa",
+      "municipality_name_ar": "المنيعة",
+      "name": "ZR Express - El Meniaa",
+      "type": "bureau",
+      "is_stop_desk": true,
+      "is_active": true
+    }
+  ]
+}

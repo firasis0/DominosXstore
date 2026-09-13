@@ -40,6 +40,7 @@ const navigation = [
   {
     name: "Categories",
     icon: Tags,
+    href: "/dashboard/categories"
   },
   {
     name: "Brands",

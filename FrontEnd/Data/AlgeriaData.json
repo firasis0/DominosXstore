@@ -3,7 +3,6 @@
     {
       "id": 1,
       "name": "أدرار",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1,
@@ -90,7 +89,6 @@
     {
       "id": 2,
       "name": "الشلف",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 17,
@@ -272,7 +270,6 @@
     {
       "id": 3,
       "name": "الأغواط",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 52,
@@ -339,7 +336,6 @@
     {
       "id": 4,
       "name": "أم البواقي",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 64,
@@ -491,7 +487,6 @@
     {
       "id": 5,
       "name": "باتنة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 93,
@@ -763,7 +758,6 @@
     {
       "id": 6,
       "name": "بجاية",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 146,
@@ -1030,7 +1024,6 @@
     {
       "id": 7,
       "name": "بسكرة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 198,
@@ -1147,7 +1140,6 @@
     {
       "id": 8,
       "name": "بشار",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 220,
@@ -1214,7 +1206,6 @@
     {
       "id": 9,
       "name": "البليدة",
-      "delivery_price": 400,
       "municipalities": [
         {
           "id": 232,
@@ -1346,7 +1337,6 @@
     {
       "id": 10,
       "name": "البويرة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 257,
@@ -1578,7 +1568,6 @@
     {
       "id": 11,
       "name": "تمنراست",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 302,
@@ -1610,7 +1599,6 @@
     {
       "id": 12,
       "name": "تبسة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 307,
@@ -1737,7 +1725,6 @@
     {
       "id": 13,
       "name": "تلمسان",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 331,
@@ -1989,7 +1976,6 @@
     {
       "id": 14,
       "name": "تيارت",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 380,
@@ -2176,7 +2162,6 @@
     {
       "id": 15,
       "name": "تيزي وزو",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 416,
@@ -2518,7 +2503,6 @@
     {
       "id": 16,
       "name": "الجزائر",
-      "delivery_price": 400,
       "municipalities": [
         {
           "id": 483,
@@ -2810,7 +2794,6 @@
     {
       "id": 17,
       "name": "الجلفة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 540,
@@ -2907,7 +2890,6 @@
     {
       "id": 18,
       "name": "جيجل",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 558,
@@ -3054,7 +3036,6 @@
     {
       "id": 19,
       "name": "سطيف",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 586,
@@ -3361,7 +3342,6 @@
     {
       "id": 20,
       "name": "سعيدة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 646,
@@ -3448,7 +3428,6 @@
     {
       "id": 21,
       "name": "سكيكدة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 662,
@@ -3645,7 +3624,6 @@
     {
       "id": 22,
       "name": "سيدي بلعباس",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 700,
@@ -3912,7 +3890,6 @@
     {
       "id": 23,
       "name": "عنابة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 752,
@@ -3979,7 +3956,6 @@
     {
       "id": 24,
       "name": "قالمة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 764,
@@ -4156,7 +4132,6 @@
     {
       "id": 25,
       "name": "قسنطينة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 798,
@@ -4223,7 +4198,6 @@
     {
       "id": 26,
       "name": "المدية",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 810,
@@ -4445,7 +4419,6 @@
     {
       "id": 27,
       "name": "مستغانم",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 853,
@@ -4612,7 +4585,6 @@
     {
       "id": 28,
       "name": "المسيلة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 885,
@@ -4739,7 +4711,6 @@
     {
       "id": 29,
       "name": "معسكر",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 909,
@@ -4981,7 +4952,6 @@
     {
       "id": 30,
       "name": "ورقلة",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 956,
@@ -5028,7 +4998,6 @@
     {
       "id": 31,
       "name": "وهران",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 964,
@@ -5165,7 +5134,6 @@
     {
       "id": 32,
       "name": "البيض",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 990,
@@ -5247,7 +5215,6 @@
     {
       "id": 33,
       "name": "إليزي",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1005,
@@ -5274,7 +5241,6 @@
     {
       "id": 34,
       "name": "برج بوعريريج",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1009,
@@ -5451,7 +5417,6 @@
     {
       "id": 35,
       "name": "بومرداس",
-      "delivery_price": 400,
       "municipalities": [
         {
           "id": 1043,
@@ -5618,7 +5583,6 @@
     {
       "id": 36,
       "name": "الطارف",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1075,
@@ -5745,7 +5709,6 @@
     {
       "id": 37,
       "name": "تندوف",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1099,
@@ -5762,7 +5725,6 @@
     {
       "id": 38,
       "name": "تيسمسيلت",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1101,
@@ -5879,7 +5841,6 @@
     {
       "id": 39,
       "name": "الوادي",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1123,
@@ -5996,7 +5957,6 @@
     {
       "id": 40,
       "name": "خنشلة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1145,
@@ -6108,7 +6068,6 @@
     {
       "id": 41,
       "name": "سوق أهراس",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1166,
@@ -6245,7 +6204,6 @@
     {
       "id": 42,
       "name": "تيبازة",
-      "delivery_price": 400,
       "municipalities": [
         {
           "id": 1192,
@@ -6392,7 +6350,6 @@
     {
       "id": 43,
       "name": "ميلة",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1220,
@@ -6559,7 +6516,6 @@
     {
       "id": 44,
       "name": "عين الدفلى",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1252,
@@ -6746,7 +6702,6 @@
     {
       "id": 45,
       "name": "النعامة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1288,
@@ -6813,7 +6768,6 @@
     {
       "id": 46,
       "name": "عين تموشنت",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1300,
@@ -6960,7 +6914,6 @@
     {
       "id": 47,
       "name": "غرداية",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1328,
@@ -7017,7 +6970,6 @@
     {
       "id": 48,
       "name": "غليزان",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1338,
@@ -7214,7 +7166,6 @@
     {
       "id": 49,
       "name": "تيميمون",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1376,
@@ -7271,7 +7222,6 @@
     {
       "id": 50,
       "name": "برج باجي مختار",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1386,
@@ -7288,7 +7238,6 @@
     {
       "id": 51,
       "name": "أولاد جلال",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1388,
@@ -7325,7 +7274,6 @@
     {
       "id": 52,
       "name": "بني عباس",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1394,
@@ -7377,7 +7325,6 @@
     {
       "id": 53,
       "name": "عين صالح",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1403,
@@ -7399,7 +7346,6 @@
     {
       "id": 54,
       "name": "عين قزام",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1406,
@@ -7416,7 +7362,6 @@
     {
       "id": 55,
       "name": "تقرت",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1408,
@@ -7488,7 +7433,6 @@
     {
       "id": 56,
       "name": "جانت",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1421,
@@ -7505,7 +7449,6 @@
     {
       "id": 57,
       "name": "المغير",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1423,
@@ -7552,7 +7495,6 @@
     {
       "id": 58,
       "name": "المنيعة",
-      "delivery_price": 1000,
       "municipalities": [
         {
           "id": 1431,
@@ -7574,7 +7516,6 @@
     {
       "id": 59,
       "name": "أفلو",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1434,
@@ -7641,7 +7582,6 @@
     {
       "id": 60,
       "name": "الأبيض سيدي الشيخ",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1446,
@@ -7683,7 +7623,6 @@
     {
       "id": 61,
       "name": "العريشة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1453,
@@ -7710,7 +7649,6 @@
     {
       "id": 62,
       "name": "القنطرة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1457,
@@ -7742,7 +7680,6 @@
     {
       "id": 63,
       "name": "بريكة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1462,
@@ -7789,7 +7726,6 @@
     {
       "id": 64,
       "name": "بوسعادة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1470,
@@ -7911,7 +7847,6 @@
     {
       "id": 65,
       "name": "بير العاتر",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1493,
@@ -7938,7 +7873,6 @@
     {
       "id": 66,
       "name": "قصر البخاري",
-      "delivery_price": 550,
       "municipalities": [
         {
           "id": 1497,
@@ -8050,7 +7984,6 @@
     {
       "id": 67,
       "name": "قصر الشلالة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1518,
@@ -8087,7 +8020,6 @@
     {
       "id": 68,
       "name": "عين وسارة",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1524,
@@ -8144,7 +8076,6 @@
     {
       "id": 69,
       "name": "مسعد",
-      "delivery_price": 700,
       "municipalities": [
         {
           "id": 1534,
