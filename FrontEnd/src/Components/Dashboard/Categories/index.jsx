@@ -53,7 +53,6 @@ const Categories = () => {
 
           if(result.success){
             setCategories(result.data);
-            console.log(result.data)
           }else{
             throw new Error(result.message);
           }
@@ -129,57 +128,111 @@ const Categories = () => {
     setEditingCategory(null);
   };
 
-  const handleActivate = (category) => {
-    setCategories((current) =>
-      current.map((item) =>
-        item.id === category.id
-          ? {
-              ...item,
-              is_active: true
-            }
-          : item
-      )
+  
+    const handleActivate = async (category) => {
+try{
+    const response = await fetch(`${API_BASE_URL}/dashboard/categories/${category.id}/toggle`,
+      {
+        method : 'PATCH',
+        headers : {
+          "Content-type": "application/json"
+        },
+        body : JSON.stringify({
+          is_active : true
+        })
+      }
+    );
+
+    if(!response.ok){
+      throw new Error(`Error fetching activated category : ${response.status}`)
+    }
+    
+    const result = await response.json();
+
+    if(result.success){
+      setCategories((current) =>
+      current.map((item) => 
+      item.id === category.id
+      ? {...item, is_active : true }
+      : item
+    )
     );
 
     setToast({
-      type: "success",
-      message: `${category.name} activated successfully.`
-    });
+      type : "success",
+      message : `${category.name} activated successfully.`
+    })
+
+    
+    }else{
+      throw new Error(result.message)
+    }
+  }catch(error){
+    console.error(`Error Activating the Category : ${error}`);
+    setToast({
+      type : "error",
+      message : error.message
+    })
+  }
   };
+  
 
   const handleDeactivateRequest = (category) => {
     setDeactivateCategory(category);
   };
 
-  const handleDeactivateConfirm = () => {
-    if (!deactivateCategory) return;
+  const handleDeactivateConfirm = async () => {
+    if(!deactivateCategory) return;
+    try{
 
-    const affectedProducts =
-      deactivateCategory.active_product_count;
+      const response = await fetch(`${API_BASE_URL}/dashboard/categories/${deactivateCategory.id}/toggle`,
+        {
+          method : 'PATCH',
+          headers : {
+            "Content-type": "application/json"
+          },
+          body : JSON.stringify({
+            is_active : false
+          })
+        },
+      );
 
-    setCategories((current) =>
-      current.map((category) =>
-        category.id === deactivateCategory.id
-          ? {
-              ...category,
-              is_active: false,
-              active_product_count: 0
-            }
-          : category
-      )
-    );
+      if(!response.ok){
+        throw new Error(`Error fetching Deactivated category : ${response.status}`);
+      }
 
-    setDeactivateCategory(null);
+      const result = await response.json();
 
+      if(result.success){
+        setCategories((current) =>
+        current.map((item) => 
+        item.id === deactivateCategory.id
+        ? {...item,
+           is_active : false,
+            active_product_count : 0
+          }
+          : item)
+        );
+
+        setDeactivateCategory(null);
+
+        setToast({
+          type : "success",
+          message : "Category deactivated successfully."
+        })
+      }else{
+        throw new Error(result.message);
+      }
+
+
+
+    }catch(error){
+    console.error(`Error Activating the Category : ${error}`);
     setToast({
-      type: "success",
-      message:
-        affectedProducts > 0
-          ? `${deactivateCategory.name} and ${affectedProducts} active ${
-              affectedProducts === 1 ? "product" : "products"
-            } were deactivated.`
-          : `${deactivateCategory.name} was deactivated successfully.`
-    });
+      type : "error",
+      message : error.message
+    })
+  }
   };
 
   return (
