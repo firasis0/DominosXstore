@@ -23,6 +23,14 @@
   }
 }
 
+@media (max-width: 820px) {
+  .ProductGrid {
+    &__Grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
 @media (max-width: 700px) {
   .ProductGrid {
     padding: 35px 0 75px;

@@ -3,17 +3,13 @@ import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
 import { Handbag } from "lucide-react";
 
-import brandsData from "@/../Data/BrandsData.json";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 
 
 export default function ProductCard({ product }) {
-  const primaryImage = product.images?.[0];
-  const productUrl = `/product/${product.id}`;
-
-  const brand = brandsData.brands.find(
-    (item) => item.id === product.brand_id
-  );
+  const primaryImage = resolveStoreImageUrl(product.images?.[0]);
+  const productUrl = `/shop/${product.id}`;
 
 
 
@@ -48,9 +44,9 @@ export default function ProductCard({ product }) {
       </div>
 
       <Link to={productUrl} className={styles.ProductCard__Content}>
-        {brand && (
+        {product.brand_name && (
           <span className={styles.ProductCard__Brand}>
-            {brand.name}
+            {product.brand_name}
           </span>
         )}
 

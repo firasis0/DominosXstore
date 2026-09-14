@@ -1,12 +1,32 @@
 import styles from './styles.module.scss'
-import BrandsData from '../../../Data/BrandsData.json'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import ProductGrid from './ProductGrid'
+import { fetchStoreBrands, resolveStoreImageUrl } from '@/lib/storeData'
 
 export default function BrandsDetails() {
   const { name } = useParams()
   const navigate = useNavigate()
-  const brand = BrandsData.brands.find(item => item.name === name)
+  const [brand, setBrand] = useState(null)
+
+  useEffect(() => {
+    fetchStoreBrands()
+      .then((data) => setBrand(data.find((item) => item.name === name)))
+      .catch((error) => console.error('Error fetching brand:', error))
+  }, [name])
+
+  useEffect(() => {
+    if (!brand) return
+
+    requestAnimationFrame(() => {
+      document.getElementById('brand-detail-header')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    })
+  }, [brand])
+
+  if (!brand) return null
   
 
 
@@ -23,7 +43,7 @@ export default function BrandsDetails() {
       <div className={styles.Category_wrapper_container}>
         <div className={styles.Category__ImageWrapper}>
           <img
-            src={brand.image_url}
+            src={resolveStoreImageUrl(brand.image_url)}
             alt={brand.name}
             className={styles.Category__Image}
           />

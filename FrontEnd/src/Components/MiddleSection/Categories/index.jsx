@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import CategoriesData from '../../../../Data/CategoriesData.json'
+import { fetchStoreCategories, resolveStoreImageUrl } from "@/lib/storeData";
 
 
 export default function Categories() {
-  const categories = CategoriesData.categories;
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchStoreCategories()
+      .then((data) => setCategories(data.filter((category) => category.is_active)))
+      .catch((error) => console.error("Error fetching store categories:", error));
+  }, []);
 
   return (
     <section className={styles.Categories}>
@@ -29,7 +36,7 @@ export default function Categories() {
             >
               <div className={styles.Category__ImageWrapper}>
                 <img
-                  src={category.image_url}
+                  src={resolveStoreImageUrl(category.image_url)}
                   alt={category.name}
                   className={styles.Category__Image}
                 />

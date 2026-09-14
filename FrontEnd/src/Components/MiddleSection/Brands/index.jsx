@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
+import { fetchStoreBrands, resolveStoreImageUrl } from "@/lib/storeData";
 
 
 export default function Brands(props) {
-  const brands = props.data;
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    fetchStoreBrands()
+      .then((data) => setBrands(data.filter((brand) => brand.is_active)))
+      .catch((error) => console.error("Error fetching store brands:", error));
+  }, []);
 
   return (
     <section className={styles.Categories}>
@@ -28,7 +36,7 @@ export default function Brands(props) {
             >
               <div className={styles.Category__ImageWrapper}>
                 <img
-                  src={brand.img}
+                  src={resolveStoreImageUrl(brand.image_url)}
                   alt={brand.name}
                   className={styles.Category__Image}
                 />

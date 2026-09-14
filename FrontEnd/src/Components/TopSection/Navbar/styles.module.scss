@@ -495,6 +495,24 @@
    MOBILE
 ======================================== */
 
+@media (max-width: 1000px) {
+  .Navbar__Container {
+    gap: 18px;
+  }
+
+  .Navbar__LogoImage {
+    max-width: 145px;
+  }
+
+  .Navbar__Links {
+    gap: 17px;
+  }
+
+  .Navbar__Link {
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 700px) {
   .Navbar {
     height: 155px;

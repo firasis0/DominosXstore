@@ -1,9 +1,15 @@
 import styles from "./styles.module.scss";
-import ProductsData from '../../../../Data/ProductsData.json'
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import { fetchStoreProducts } from "@/lib/storeData";
 export default function ProductGrid(props) {
-  const brand_id = props.id
-  const products = ProductsData.products.filter(item => String(item.brand_id) == brand_id)
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchStoreProducts()
+      .then((data) => setProducts(data.filter((product) => String(product.brand_id) === String(props.id))))
+      .catch((error) => console.error("Error fetching brand products:", error));
+  }, [props.id]);
 
   return (
     <section id="brand-products" className={styles.ProductGrid}>
