@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Plus } from "lucide-react";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
@@ -9,6 +9,7 @@ import ProductStats from "./ProductStats";
 import ProductToolbar from "./ProductToolbar";
 import ProductRow from "./ProductRow";
 import AddProductModal from "./AddProductModal";
+import SortableTableHead from "../SortableTableHead";
 import styles from "./styles.module.scss";
 
 export default function Products() {
@@ -24,6 +25,10 @@ export default function Products() {
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [status, setStatus] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "asc",
+  });
   const [page, setPage] = useState(1);
 
   const [addOpen, setAddOpen] = useState(false);
@@ -131,31 +136,55 @@ export default function Products() {
     is_active : brand.is_active
   }))
 
-  const filteredProducts = products.filter((product) => {
-  const matchesSearch =
-    product.name.toLowerCase().includes(search.toLowerCase());
+  const handleSort = (key) => {
+    setSortConfig((current) => ({
+      key,
+      direction:
+        current.key === key && current.direction === "asc"
+          ? "desc"
+          : "asc",
+    }));
+  };
 
-  const matchesCategory =
-    category === "" ||
-    String(product.category_id) === category;
+  const filteredProducts = useMemo(() => {
+    const filtered = products.filter((product) => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(search.toLowerCase());
 
-  const matchesBrand =
-    brand === "" ||
-    String(product.brand_id) === brand;
+      const matchesCategory =
+        category === "" ||
+        String(product.category_id) === category;
 
-  const matchesStatus =
-    status === "" ||
-    (status === "active" && product.is_active) ||
-    (status === "inactive" && !product.is_active) ||
-    (status === "out-of-stock" && product.stock === 0);
+      const matchesBrand =
+        brand === "" ||
+        String(product.brand_id) === brand;
 
-  return (
-    matchesSearch &&
-    matchesCategory &&
-    matchesBrand &&
-    matchesStatus
-  );
-});
+      const matchesStatus =
+        status === "" ||
+        (status === "active" && product.is_active) ||
+        (status === "inactive" && !product.is_active) ||
+        (status === "out-of-stock" && product.stock === 0);
+
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesBrand &&
+        matchesStatus
+      );
+    });
+
+    if (!sortConfig.key) return filtered;
+
+    return [...filtered].sort((left, right) => {
+      const leftValue = left[sortConfig.key];
+      const rightValue = right[sortConfig.key];
+      const comparison = typeof leftValue === "string"
+        ? String(leftValue || "").localeCompare(String(rightValue || ""))
+        : Number(leftValue || 0) - Number(rightValue || 0);
+
+      return sortConfig.direction === "asc" ? comparison : -comparison;
+    });
+  }, [products, search, category, brand, status, sortConfig]);
 
   //Handle the switch active/deactivate toggle
   const handleToggleActive = async (id, checked) => {
@@ -183,7 +212,7 @@ export default function Products() {
           product.id === id 
       ? {
         ...product,
-        is_active: result.data.is_active,
+        is_active: result.data.product.is_active,
       } : product
     ));
     }catch(error){
@@ -240,7 +269,7 @@ export default function Products() {
     }
 };
 
-  // TODO: call your API (e.g. DELETE /dashboard/products/:id).
+  //Handle the remove
   const handleRemoveProduct = async (id) => {
     try {
         const response = await fetch(
@@ -302,7 +331,7 @@ export default function Products() {
     }
 };
 
-  // TODO: call your API (e.g. POST /dashboard/products) then update state from the response.
+  //handle the creation
   const handleCreateProduct = async (newFields) => {
     try {
         const response = await fetch(
@@ -387,11 +416,11 @@ useEffect(() => {
           <Table className={styles.Products__Table}>
             <TableHeader>
               <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Active</TableHead>
+                <SortableTableHead label="Product" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead label="Category" sortKey="category_name" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead label="Price" sortKey="price" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead label="Stock" sortKey="stock" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead label="Active" sortKey="is_active" sortConfig={sortConfig} onSort={handleSort} />
                 <TableHead aria-label="Actions" />
               </TableRow>
             </TableHeader>

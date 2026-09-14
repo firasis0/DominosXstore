@@ -55,7 +55,8 @@ export const getDashboardProducts = async (req,res) => {
 
 //Update product active status :
 export const toggleProductActive = async (req,res) => {
-
+    let client;
+    let categoryResult;
     try{
         const { id } = req.params;
         const { is_active } = req.body;
@@ -71,32 +72,100 @@ export const toggleProductActive = async (req,res) => {
         UPDATE products
         SET is_active = $1
         where id = $2
-        RETURNING id, is_active;
+        RETURNING id, category_id, brand_id, is_active;
         `;
 
-        const { rows } = await db.query(queryText, [
+        
+        const categoryDeactivateQueryText = `
+        UPDATE categories
+        SET is_active = true
+        WHERE id = $1
+        AND is_active = false
+        RETURNING id, is_active;
+        `
+
+        const brandActivateQueryText = `
+        UPDATE brands
+        SET is_active = true
+        WHERE id = $1
+        AND is_active = false
+        RETURNING id, is_active;
+        `;
+        
+
+        client = await db.connect();
+        await client.query("BEGIN");
+        const  productResult  = await client.query(queryText, [
             is_active,
             id
         ]);
 
-        if (rows.length === 0 ){
+        if (productResult.rows.length === 0 ){
+            await  client.query("ROLLBACK");
             return res.status(404).json({
                 success : false,
                 message : 'Product not found'
             });
         }
 
+        let brandResult;
+
+        if(is_active){
+            categoryResult = await client.query(
+                categoryDeactivateQueryText,
+                [productResult.rows[0].category_id]
+            );
+
+            brandResult = await client.query(
+                brandActivateQueryText,
+                [productResult.rows[0].brand_id]
+            );
+        }
+
+       await client.query("COMMIT")
+
+        
+
         res.status(200).json({
             success : true,
             message : 'Product active status updated',
-            data : rows[0]
+            data : {
+                product : 
+                {
+                    is_active : productResult.rows[0].is_active,
+                    id : productResult.rows[0].id
+                },
+                category : 
+                categoryResult && categoryResult.rows.length > 0
+                ? {
+                    is_active : categoryResult.rows[0].is_active,
+                    id : categoryResult.rows[0].id
+                }
+                : null
+                ,brand :
+                brandResult && brandResult.rows.length > 0
+                ? {
+                    is_active : brandResult.rows[0].is_active,
+                    id : brandResult.rows[0].id
+                }
+                : null
+            }
         })
     }catch(error){
         console.error('Error updating product active status', error)
+        
+        if(client){
+            await client.query("ROLLBACK");
+        }
+
         res.status(500).json({
             success : false,
             message : 'Server error while updating product'
         })
+    }finally{
+       if(client){
+         client.release();
+       }
     }
 
 

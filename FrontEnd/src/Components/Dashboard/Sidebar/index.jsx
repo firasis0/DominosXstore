@@ -45,6 +45,7 @@ const navigation = [
   {
     name: "Brands",
     icon: PanelsTopLeft,
+    href: "/dashboard/brands",
   },
   {
     name: "Customers",

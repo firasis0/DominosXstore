@@ -15,7 +15,7 @@ const resolvePreviewUrl = (value) => {
   return `${hostBaseUrl}${value}`;
 };
 
-const CategoryImageUploader = ({
+const BrandImageUploader = ({
   value,
   onChange
 }) => {
@@ -73,7 +73,7 @@ const CategoryImageUploader = ({
         <div className={styles.Uploader__Preview}>
           <img
             src={preview}
-            alt="Category preview"
+            alt="Brand preview"
           />
 
           <button
@@ -113,4 +113,4 @@ const CategoryImageUploader = ({
   );
 };
 
-export default CategoryImageUploader;
+export default BrandImageUploader;

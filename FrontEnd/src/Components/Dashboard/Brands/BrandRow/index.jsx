@@ -3,8 +3,8 @@ import { Switch } from "@/Components/ui/switch";
 
 import styles from "./styles.module.scss";
 
-const CategoryRow = ({
-  category,
+const BrandRow = ({
+  brand,
   onEdit,
   onActivate,
   onDeactivate,
@@ -13,37 +13,37 @@ const CategoryRow = ({
 
   const handleSwitch = (checked) => {
     if (checked) {
-      onActivate(category);
+      onActivate(brand);
     } else {
-      onDeactivate(category);
+      onDeactivate(brand);
     }
   };
 
   const HOST_BASE_URL = import.meta.env.VITE_HOST_BASE_URL;
 
-  const canDelete = category.product_count === 0;
+  const canDelete = brand.product_count === 0;
 
   return (
     <TableRow>
 
       <TableCell>
-        <div className={styles.Row__Category}>
+        <div className={styles.Row__Brand}>
 
           <div className={styles.Row__Image}>
-            {category.image_url ? (
+            {brand.image_url ? (
               <img
-                src={`${HOST_BASE_URL}${category.image_url}`}
-                alt={category.name}
+                src={`${HOST_BASE_URL}${brand.image_url}`}
+                alt={brand.name}
               />
             ) : (
               <span>
-                {category.name.charAt(0).toUpperCase()}
+                {brand.name.charAt(0).toUpperCase()}
               </span>
             )}
           </div>
 
           <span className={styles.Row__Name}>
-            {category.name}
+            {brand.name}
           </span>
 
         </div>
@@ -51,7 +51,7 @@ const CategoryRow = ({
 
       <TableCell>
         <span className={styles.Row__Products}>
-          {category.product_count}
+          {brand.product_count}
         </span>
       </TableCell>
 
@@ -59,19 +59,19 @@ const CategoryRow = ({
         <div className={styles.Row__Status}>
 
           <Switch
-            checked={category.is_active}
+            checked={brand.is_active}
             onCheckedChange={handleSwitch}
-            aria-label={`Toggle ${category.name}`}
+            aria-label={`Toggle ${brand.name}`}
           />
 
           <span
             className={
-              category.is_active
+              brand.is_active
                 ? styles.Row__Active
                 : styles.Row__Inactive
             }
           >
-            {category.is_active
+            {brand.is_active
               ? "Active"
               : "Inactive"}
           </span>
@@ -84,7 +84,7 @@ const CategoryRow = ({
 
           <button
             className={styles.Row__Edit}
-            onClick={() => onEdit(category)}
+            onClick={() => onEdit(brand)}
           >
             Edit
           </button>
@@ -92,7 +92,7 @@ const CategoryRow = ({
           <button
             className={styles.Row__Delete}
             disabled={!canDelete}
-            onClick={() => onDelete(category)}
+            onClick={() => onDelete(brand)}
           >
             Remove
           </button>
@@ -104,4 +104,4 @@ const CategoryRow = ({
   );
 };
 
-export default CategoryRow;
+export default BrandRow;

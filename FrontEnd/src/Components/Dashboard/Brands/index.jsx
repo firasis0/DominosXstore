@@ -13,18 +13,18 @@ import {
 import { Pagination } from "@/Components/ui/pagination";
 import Toast from "@/Components/ui/toast";
 
-import CategoryStats from "./CategoryStats";
-import CategoryToolbar from "./CategoryToolbar";
-import CategoryRow from "./CategoryRow";
-import CategoryModal from "./CategoryModal";
-import CategoryDeactivateDialog from "./CategoryDeactivateDialog";
-import CategoryDeleteDialog from "./CategoryDeleteDialog";
+import BrandStats from "./BrandStats";
+import BrandToolbar from "./BrandToolbar";
+import BrandRow from "./BrandRow";
+import BrandModal from "./BrandModal";
+import BrandDeactivateDialog from "./BrandDeactivateDialog";
+import BrandDeleteDialog from "./BrandDeleteDialog";
 import SortableTableHead from "../SortableTableHead";
 
 import styles from "./styles.module.scss";
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
+const Brands = () => {
+  const [brands, setBrands] = useState([]);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
@@ -36,21 +36,21 @@ const Categories = () => {
   const [page, setPage] = useState(1);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState(null);
+  const [editingBrand, setEditingBrand] = useState(null);
 
-  const [deactivateCategory, setDeactivateCategory] = useState(null);
-  const [deleteCategory, setDeleteCategory] = useState(null);
+  const [deactivateBrand, setDeactivateBrand] = useState(null);
+  const [deleteBrand, setDeleteBrand] = useState(null);
 
   const [toast, setToast] = useState(null);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // Fetch Categories
+  // Fetch Brands
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchBrands = async () => {
       try {
         const response = await fetch(
-          `${API_BASE_URL}/dashboard/categories`
+          `${API_BASE_URL}/dashboard/brands`
         );
 
         if (!response.ok) {
@@ -62,16 +62,16 @@ const Categories = () => {
         const result = await response.json();
 
         if (result.success) {
-          setCategories(result.data);
+          setBrands(result.data);
         } else {
           throw new Error(result.message);
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching brands:", error);
       }
     };
 
-    fetchCategories();
+    fetchBrands();
   }, []);
 
   const handleSort = (key) => {
@@ -84,16 +84,16 @@ const Categories = () => {
     }));
   };
 
-  const filteredCategories = useMemo(() => {
-    const filtered = categories.filter((category) => {
-      const matchesSearch = category.name
+  const filteredBrands = useMemo(() => {
+    const filtered = brands.filter((brand) => {
+      const matchesSearch = brand.name
         .toLowerCase()
         .includes(search.toLowerCase());
 
       const matchesStatus =
         status === "all" ||
-        (status === "active" && category.is_active) ||
-        (status === "inactive" && !category.is_active);
+        (status === "active" && brand.is_active) ||
+        (status === "inactive" && !brand.is_active);
 
       return matchesSearch && matchesStatus;
     });
@@ -109,32 +109,32 @@ const Categories = () => {
 
       return sortConfig.direction === "asc" ? comparison : -comparison;
     });
-  }, [categories, search, status, sortConfig]);
+  }, [brands, search, status, sortConfig]);
 
   const handleAdd = () => {
-    setEditingCategory(null);
+    setEditingBrand(null);
     setModalOpen(true);
   };
 
-  const handleEdit = (category) => {
-    setEditingCategory(category);
+  const handleEdit = (brand) => {
+    setEditingBrand(brand);
     setModalOpen(true);
   };
 
-  const handleSave = async (categoryData) => {
-    let imageUrl = editingCategory
-      ? editingCategory.image_url
+  const handleSave = async (brandData) => {
+    let imageUrl = editingBrand
+      ? editingBrand.image_url
       : null;
 
     try {
       // Upload a new image if one was selected
-      if (categoryData.image_file) {
+      if (brandData.image_file) {
         const formData = new FormData();
 
-        formData.append("image", categoryData.image_file);
+        formData.append("image", brandData.image_file);
 
         const imageResponse = await fetch(
-          `${API_BASE_URL}/dashboard/categories/images`,
+          `${API_BASE_URL}/dashboard/brands/images`,
           {
             method: "POST",
             body: formData,
@@ -150,12 +150,12 @@ const Categories = () => {
         imageUrl = imageResult.data.url;
       }
 
-      // Add or edit category
-      const url = editingCategory
-        ? `${API_BASE_URL}/dashboard/categories/${editingCategory.id}`
-        : `${API_BASE_URL}/dashboard/categories`;
+      // Add or edit brand
+      const url = editingBrand
+        ? `${API_BASE_URL}/dashboard/brands/${editingBrand.id}`
+        : `${API_BASE_URL}/dashboard/brands`;
 
-      const method = editingCategory ? "PATCH" : "POST";
+      const method = editingBrand ? "PATCH" : "POST";
 
       const response = await fetch(url, {
         method,
@@ -163,7 +163,7 @@ const Categories = () => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          name: categoryData.name,
+          name: brandData.name,
           image_url: imageUrl,
         }),
       });
@@ -174,17 +174,17 @@ const Categories = () => {
         throw new Error(result.message);
       }
 
-      // Update local categories state
-      if (editingCategory) {
-        setCategories((current) =>
-          current.map((category) =>
-            category.id === result.data.id
+      // Update local brands state
+      if (editingBrand) {
+        setBrands((current) =>
+          current.map((brand) =>
+            brand.id === result.data.id
               ? result.data
-              : category
+              : brand
           )
         );
       } else {
-        setCategories((current) => [
+        setBrands((current) => [
           result.data,
           ...current,
         ]);
@@ -192,13 +192,13 @@ const Categories = () => {
 
       setToast({
         type: "success",
-        message: editingCategory
-          ? "Category updated successfully."
-          : "Category added successfully.",
+        message: editingBrand
+          ? "Brand updated successfully."
+          : "Brand added successfully.",
       });
 
       setModalOpen(false);
-      setEditingCategory(null);
+      setEditingBrand(null);
 
     } catch (error) {
       setToast({
@@ -208,10 +208,10 @@ const Categories = () => {
     }
   };
 
-  const handleActivate = async (category) => {
+  const handleActivate = async (brand) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${category.id}/toggle`,
+        `${API_BASE_URL}/dashboard/brands/${brand.id}/toggle`,
         {
           method: "PATCH",
           headers: {
@@ -225,16 +225,16 @@ const Categories = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error activating category: ${response.status}`
+          `Error activating brand: ${response.status}`
         );
       }
 
       const result = await response.json();
 
       if (result.success) {
-        setCategories((current) =>
+        setBrands((current) =>
           current.map((item) =>
-            item.id === category.id
+            item.id === brand.id
               ? {
                   ...item,
                   is_active: true,
@@ -245,14 +245,14 @@ const Categories = () => {
 
         setToast({
           type: "success",
-          message: `${category.name} activated successfully.`,
+          message: `${brand.name} activated successfully.`,
         });
       } else {
         throw new Error(result.message);
       }
     } catch (error) {
       console.error(
-        `Error activating the category: ${error}`
+        `Error activating the brand: ${error}`
       );
 
       setToast({
@@ -262,16 +262,16 @@ const Categories = () => {
     }
   };
 
-  const handleDeactivateRequest = (category) => {
-    setDeactivateCategory(category);
+  const handleDeactivateRequest = (brand) => {
+    setDeactivateBrand(brand);
   };
 
   const handleDeactivateConfirm = async () => {
-    if (!deactivateCategory) return;
+    if (!deactivateBrand) return;
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${deactivateCategory.id}/toggle`,
+        `${API_BASE_URL}/dashboard/brands/${deactivateBrand.id}/toggle`,
         {
           method: "PATCH",
           headers: {
@@ -285,16 +285,16 @@ const Categories = () => {
 
       if (!response.ok) {
         throw new Error(
-          `Error deactivating category: ${response.status}`
+          `Error deactivating brand: ${response.status}`
         );
       }
 
       const result = await response.json();
 
       if (result.success) {
-        setCategories((current) =>
+        setBrands((current) =>
           current.map((item) =>
-            item.id === deactivateCategory.id
+            item.id === deactivateBrand.id
               ? {
                   ...item,
                   is_active: false,
@@ -304,11 +304,11 @@ const Categories = () => {
           )
         );
 
-        setDeactivateCategory(null);
+        setDeactivateBrand(null);
 
         setToast({
           type: "success",
-          message: "Category deactivated successfully.",
+          message: "Brand deactivated successfully.",
         });
       } else {
         throw new Error(result.message);
@@ -316,7 +316,7 @@ const Categories = () => {
 
     } catch (error) {
       console.error(
-        `Error deactivating the category: ${error}`
+        `Error deactivating the brand: ${error}`
       );
 
       setToast({
@@ -326,14 +326,14 @@ const Categories = () => {
     }
   };
 
-  const handleDeleteRequest = (category) => {
-    setDeleteCategory(category);
+  const handleDeleteRequest = (brand) => {
+    setDeleteBrand(brand);
   };
 
-  const handleDelete = async (category) => {
+  const handleDelete = async (brand) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${category.id}`,
+        `${API_BASE_URL}/dashboard/brands/${brand.id}`,
         {
           method: "DELETE",
         }
@@ -345,18 +345,18 @@ const Categories = () => {
         throw new Error(result.message);
       }
 
-      setCategories((current) =>
+      setBrands((current) =>
         current.filter(
-          (item) => item.id !== category.id
+          (item) => item.id !== brand.id
         )
       );
 
       setToast({
         type: "success",
-        message: "Category deleted successfully.",
+        message: "Brand deleted successfully.",
       });
 
-      setDeleteCategory(null);
+      setDeleteBrand(null);
 
     } catch (error) {
       setToast({
@@ -367,54 +367,54 @@ const Categories = () => {
   };
 
   return (
-    <section className={styles.Categories}>
+    <section className={styles.Brands}>
 
-      <div className={styles.Categories__Header}>
+      <div className={styles.Brands__Header}>
         <div>
-          <p className={styles.Categories__Eyebrow}>
+          <p className={styles.Brands__Eyebrow}>
             Catalog management
           </p>
 
-          <h1>Categories</h1>
+          <h1>Brands</h1>
 
           <p>
-            Organize and manage the categories in your store.
+            Organize and manage the brands in your store.
           </p>
         </div>
 
         <button
-          className={styles.Categories__AddButton}
+          className={styles.Brands__AddButton}
           onClick={handleAdd}
         >
           <Plus size={18} />
-          <span>Add Category</span>
+          <span>Add Brand</span>
         </button>
       </div>
 
-      <div className={styles.Categories__StatsWrap}>
-        <CategoryStats categories={categories} />
+      <div className={styles.Brands__StatsWrap}>
+        <BrandStats brands={brands} />
       </div>
 
-      <div className={styles.Categories__TableCard}>
+      <div className={styles.Brands__TableCard}>
 
-        <CategoryToolbar
+        <BrandToolbar
           search={search}
           setSearch={setSearch}
           status={status}
           setStatus={setStatus}
         />
 
-        <div className={styles.Categories__TableWrap}>
-          <Table className={styles.Categories__Table}>
+        <div className={styles.Brands__TableWrap}>
+          <Table className={styles.Brands__Table}>
 
             <TableHeader>
               <TableRow>
-                <SortableTableHead label="Category" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead label="Brand" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
                 <SortableTableHead label="Products" sortKey="product_count" sortConfig={sortConfig} onSort={handleSort} />
                 <SortableTableHead label="Status" sortKey="is_active" sortConfig={sortConfig} onSort={handleSort} />
 
                 <TableHead
-                  className={styles.Categories__ActionsHead}
+                  className={styles.Brands__ActionsHead}
                 >
                   Actions
                 </TableHead>
@@ -422,11 +422,11 @@ const Categories = () => {
             </TableHeader>
 
             <TableBody>
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((category) => (
-                  <CategoryRow
-                    key={category.id}
-                    category={category}
+              {filteredBrands.length > 0 ? (
+                filteredBrands.map((brand) => (
+                  <BrandRow
+                    key={brand.id}
+                    brand={brand}
                     onEdit={handleEdit}
                     onActivate={handleActivate}
                     onDeactivate={handleDeactivateRequest}
@@ -437,9 +437,9 @@ const Categories = () => {
                 <TableRow>
                   <TableCell
                     colSpan={4}
-                    className={styles.Categories__Empty}
+                    className={styles.Brands__Empty}
                   >
-                    No categories found.
+                    No brands found.
                   </TableCell>
                 </TableRow>
               )}
@@ -447,12 +447,12 @@ const Categories = () => {
           </Table>
         </div>
 
-        <div className={styles.Categories__Footer}>
+        <div className={styles.Brands__Footer}>
           <span>
-            Showing {filteredCategories.length}{" "}
-            {filteredCategories.length === 1
-              ? "category"
-              : "categories"}
+            Showing {filteredBrands.length}{" "}
+            {filteredBrands.length === 1
+              ? "brand"
+              : "brands"}
           </span>
 
           <Pagination
@@ -467,29 +467,29 @@ const Categories = () => {
       </div>
 
       {modalOpen && (
-        <CategoryModal
-          category={editingCategory}
+        <BrandModal
+          brand={editingBrand}
           onClose={() => {
             setModalOpen(false);
-            setEditingCategory(null);
+            setEditingBrand(null);
           }}
           onSave={handleSave}
         />
       )}
 
-      {deactivateCategory && (
-        <CategoryDeactivateDialog
-          category={deactivateCategory}
-          onCancel={() => setDeactivateCategory(null)}
+      {deactivateBrand && (
+        <BrandDeactivateDialog
+          brand={deactivateBrand}
+          onCancel={() => setDeactivateBrand(null)}
           onConfirm={handleDeactivateConfirm}
         />
       )}
 
-      {deleteCategory && (
-        <CategoryDeleteDialog
-          category={deleteCategory}
-          onCancel={() => setDeleteCategory(null)}
-          onConfirm={() => handleDelete(deleteCategory)}
+      {deleteBrand && (
+        <BrandDeleteDialog
+          brand={deleteBrand}
+          onCancel={() => setDeleteBrand(null)}
+          onConfirm={() => handleDelete(deleteBrand)}
         />
       )}
 
@@ -505,4 +505,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Brands;

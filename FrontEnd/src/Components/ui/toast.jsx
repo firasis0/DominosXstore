@@ -1,4 +1,5 @@
 import { Check, Info, X, AlertTriangle } from "lucide-react";
+import { useEffect } from "react";
 
 import styles from "./toast.module.scss";
 
@@ -14,6 +15,12 @@ export default function Toast({
     onClose,
 }) {
     const Icon = icons[type] || Check;
+
+    useEffect(() => {
+        const timer = setTimeout(onClose, 4000);
+
+        return () => clearTimeout(timer);
+    }, [onClose]);
 
     return (
         <div
