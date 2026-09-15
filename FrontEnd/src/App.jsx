@@ -13,6 +13,7 @@ import DashboardPage from "./Pages/Dashboard";
 import DashboardProduts from './Pages/DashboardProducts';
 import DashboardCategories from './Pages/DashboardCategories'
 import DashboardBrands from './Pages/DashboardBrands'
+import DashboardShipping from "@/Pages/DashboardShipping";
 import ProductDetailsPage from "./Pages/ProductDetails";
 import CategoriesDetailsPage from './Pages/CategoriesDetails';
 import BrandsDetailsPage from './Pages/BrandsDetails';
@@ -63,6 +64,7 @@ function App() {
       <Route path="/dashboard/products" element={<DashboardProduts />} />
       <Route path="/dashboard/categories" element={<DashboardCategories />} />
       <Route path="/dashboard/brands" element={<DashboardBrands />} />
+      <Route path="/dashboard/Shipping" element={<DashboardShipping />} />
       <Route path="/policies" element={<PoliciesPage />} />
     </Routes>
     </BrowserRouter>

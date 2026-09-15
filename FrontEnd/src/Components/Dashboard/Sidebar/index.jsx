@@ -29,8 +29,9 @@ const navigation = [
     icon: ShoppingBag,
   },
   {
-    name: "Shiping",
+    name: "Shipping",
     icon: Truck ,
+    href: "/dashboard/shipping"
   },
   {
     name: "Products",
