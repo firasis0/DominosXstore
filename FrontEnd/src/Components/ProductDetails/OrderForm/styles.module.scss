@@ -1,0 +1,586 @@
+.OrderForm {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.OrderForm__Heading {
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    color: #111;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: #7c3aed;
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.OrderForm__Row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.OrderForm__Field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input,
+  select {
+    height: 46px;
+    padding: 0 14px;
+
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #111;
+
+    font-size: 14px;
+    font-family: inherit;
+
+    outline: none;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: #7c3aed;
+    }
+
+    &:disabled {
+      background: #f7f7f7;
+      color: #999;
+      cursor: not-allowed;
+    }
+  }
+
+  select {
+    cursor: pointer;
+  }
+}
+
+.OrderForm__Summary {
+  padding: 14px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+
+  background: #fafafa;
+}
+
+.OrderForm__SummaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #666;
+  font-size: 13px;
+}
+
+.OrderForm__SummaryTotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 8px;
+  border-top: 1px dashed #ddd;
+
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.OrderForm__Submit {
+  height: 52px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #7c3aed;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 650;
+
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: #6d28d9;
+    transform: translateY(-1px);
+  }
+}
+
+.OrderForm__Success {
+  padding: 40px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  text-align: center;
+  color: #22c55e;
+
+  h3 {
+    margin: 4px 0 0;
+    color: #111;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .OrderForm__Row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.OrderForm__Delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.OrderForm__Label {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  color: #333;
+}
+
+.OrderForm__DeliveryOptions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.OrderForm__DeliveryOption {
+  position: relative;
+
+  min-height: 72px;
+  padding: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+
+  background: #fff;
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: #aaa;
+    transform: translateY(-1px);
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.OrderForm__DeliveryOptionActive {
+  border-color: #7c3aed;
+  background: #f5f0ff;
+  color: #6d28d9;
+}
+
+.OrderForm__Check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #7c3aed;
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.OrderForm__Quantity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.OrderForm__Quantity > small {
+    color: #888;
+    font-size: 12px;
+}
+
+.OrderForm__QuantityControl {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+}
+
+.OrderForm__QuantityControl button {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    color: #222;
+
+    cursor: pointer;
+}
+
+.OrderForm__QuantityControl button:hover:not(:disabled) {
+    background: #f5f5f5;
+}
+
+.OrderForm__QuantityControl button:disabled {
+    color: #bbb;
+    cursor: not-allowed;
+}
+
+.OrderForm__QuantityControl span {
+    min-width: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.OrderForm__OutOfStock {
+    width: 100%;
+    margin-top: 28px;
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #f1f1f1;
+    color: #999;
+
+    font-size: 15px;
+    font-weight: 650;
+
+    cursor: not-allowed;
+}
+
+.OrderForm__SuccessOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+
+    animation: successOverlayIn 0.25s ease forwards;
+}
+
+.OrderForm__SuccessPopup {
+    width: min(100%, 430px);
+
+    padding: 42px 32px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    background: #fff;
+    border-radius: 20px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.2);
+
+    animation: successPopupIn 0.45s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+
+.OrderForm__SuccessIcon {
+    width: 88px;
+    height: 88px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border-radius: 50%;
+
+    background: #f0faf4;
+    color: #20a464;
+
+    animation: successIconIn 0.55s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        0.1s both;
+}
+
+.OrderForm__SuccessIcon svg {
+    animation: successCheckIn 0.45s ease
+        0.35s both;
+}
+
+.OrderForm__SuccessPopup h3 {
+    margin: 0 0 12px;
+
+    color: #171717;
+
+    font-size: 22px;
+    font-weight: 750;
+}
+
+.OrderForm__SuccessPopup p {
+    max-width: 330px;
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.OrderForm__SuccessNote {
+    margin-top: 22px;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    background: #f6f6f6;
+    color: #777;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+@keyframes successOverlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes successPopupIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes successIconIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes successCheckIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-20deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .OrderForm__SuccessPopup {
+        padding: 36px 24px;
+        border-radius: 18px;
+    }
+
+    .OrderForm__SuccessIcon {
+        width: 78px;
+        height: 78px;
+    }
+
+    .OrderForm__SuccessIcon svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    .OrderForm__SuccessPopup h3 {
+        font-size: 20px;
+    }
+}
+.OrderForm__ShopButton {
+    width: 100%;
+    margin-top: 24px;
+    padding: 13px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #222;
+
+    font-size: 14px;
+    font-weight: 650;
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.OrderForm__ShopButton:hover {
+    border-color: #222;
+    background: #f7f7f7;
+    transform: translateY(-1px);
+}
+
+.OrderForm__ShopButton:active {
+    transform: translateY(0);
+}
+
+.OrderForm__DeliveryMessage {
+    margin: 12px 0 0;
+    padding: 12px 14px;
+    border: 1px solid #f0d9b5;
+    border-radius: 8px;
+    background: #fff8ed;
+    color: #8a5a20;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.OrderForm__OfficeHint {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.OrderForm__DeliveryOption {
+    appearance: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    width: 100%;
+}
+
+.OrderForm__DeliveryOptionDisabled {
+    opacity: 0.55;
+}
+
+.OrderForm__ProviderLogo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.OrderForm__Spinner {
+    animation: OrderFormSpin 1s linear infinite;
+}
+
+@keyframes OrderFormSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

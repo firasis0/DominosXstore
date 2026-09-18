@@ -1,0 +1,64 @@
+{
+  "brands": [
+    {
+      "id": 1,
+      "name": "Razer",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Razer_wordmark.svg",
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "name": "Logitech",
+      "image_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Logitech_logo.svg",
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "name": "SteelSeries",
+      "image_url": "/images/marks/steelseries.png",
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "name": "ATK GEAR",
+      "image_url": "/images/marks/atkGear.jpg",
+      "is_active": true
+    },
+    {
+      "id": 5,
+      "name": "GravaStar",
+      "image_url": "/images/marks/gravastar.png",
+      "is_active": true
+    },
+    {
+      "id": 6,
+      "name": "HYPERX",
+      "image_url": "/images/marks/HyperX.png",
+      "is_active": true
+    },
+    {
+      "id": 7,
+      "name": "GameSir",
+      "image_url": "/images/marks/gamesir.png",
+      "is_active": true
+    },
+    {
+      "id": 8,
+      "name": "HAVIT",
+      "image_url": "/images/marks/sm-671d8d453af93-HAVIT.png",
+      "is_active": true
+    },
+    {
+      "id": 9,
+      "name": "Pulsar",
+      "image_url": "/images/marks/pulsar-logo.png",
+      "is_active": true
+    },
+    {
+      "id": 10,
+      "name": "UGREEN",
+      "image_url": "/images/marks/Ugreen.png",
+      "is_active": true
+    }
+  ]
+}

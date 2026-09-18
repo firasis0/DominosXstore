@@ -1,0 +1,278 @@
+.Info {
+  width: 100%;
+}
+
+.Info__Brand {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #7c3aed;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.Info__Title {
+  margin: 0;
+  color: #111;
+  font-size: clamp(30px, 3vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.Info__Pricing {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+
+  strong {
+    color: #111;
+    font-size: 28px;
+    font-weight: 750;
+  }
+}
+
+.Info__OldPrice {
+  color: #999;
+  font-size: 16px;
+  text-decoration: line-through;
+}
+
+.Info__Discount {
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #f3e8ff;
+  color: #7c3aed;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.Info__Stock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #555;
+  font-size: 13px;
+}
+
+.Info__StockDot,
+.Info__StockDotOut {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.Info__StockDotOut {
+  background: #ef4444;
+}
+
+.Info__Description {
+  max-width: 620px;
+  margin: 24px 0 0;
+  color: #666;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.Info__Variants {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.Info__VariantsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.Info__VariantList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.Info__Variant {
+  min-width: 130px;
+  padding: 11px 13px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+  background: #fafafa;
+
+  span {
+    color: #888;
+    font-size: 11px;
+    grid-column: 1 / -1;
+  }
+
+  strong {
+    color: #222;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  svg {
+    color: #7c3aed;
+    align-self: center;
+  }
+}
+
+.Info__BuyNow {
+  width: 100%;
+  margin-top: 28px;
+  padding: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 650;
+
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #7c3aed;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 600px) {
+  .Info__Title {
+    font-size: 30px;
+  }
+
+  .Info__Pricing {
+    margin-top: 18px;
+
+    strong {
+      font-size: 24px;
+    }
+  }
+
+  .Info__Description {
+    font-size: 14px;
+  }
+}
+
+.Info__Variants {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.Info__VariantsHeader {
+    margin-bottom: 18px;
+    color: #222;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.Info__VariantGroup {
+    margin-bottom: 18px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.Info__VariantLabel {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 13px;
+    font-weight: 650;
+    text-transform: capitalize;
+}
+
+.Info__ColorList {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Info__Color {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    border: 2px solid #e5e5e5;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+    &:hover {
+        transform: scale(1.08);
+    }
+}
+
+.Info__ColorActive {
+    border-color: #111;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #111;
+}
+
+.Info__OptionList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.Info__Option {
+    padding: 9px 15px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+    color: #333;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.Info__Option:hover {
+    border-color: #111;
+}
+
+.Info__OptionActive {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}

@@ -1,0 +1,143 @@
+.OurStory {
+  width: 100%;
+  padding: 110px 0;
+
+  &__Container {
+    width: min(1250px, 90%);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 90px;
+  }
+
+  &__ImageWrapper {
+    width: 100%;
+    aspect-ratio: 1.15 / 1;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #f3f3f3;
+  }
+
+  &__Image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &__ImageWrapper:hover &__Image {
+    transform: scale(1.04);
+  }
+
+  &__Content {
+    max-width: 520px;
+  }
+
+  &__Eyebrow {
+    display: block;
+    margin-bottom: 15px;
+
+    color: #999;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  &__Title {
+    margin: 0 0 25px;
+
+    color: #111;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -2px;
+  }
+
+  &__Text {
+    margin: 0 0 17px;
+
+    color: #777;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  &__Button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 15px;
+    padding-bottom: 7px;
+
+    color: #111;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+
+    border-bottom: 1px solid #111;
+
+    transition:
+      gap 0.25s ease,
+      color 0.25s ease;
+
+    span {
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    &:hover {
+      gap: 17px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .OurStory {
+    padding: 80px 0;
+
+    &__Container {
+      grid-template-columns: 1fr;
+      gap: 50px;
+    }
+
+    &__Content {
+      max-width: 650px;
+    }
+
+    &__ImageWrapper {
+      aspect-ratio: 1.6 / 1;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .OurStory {
+    padding: 65px 0;
+
+    &__Container {
+      width: 90%;
+      gap: 35px;
+    }
+
+    &__ImageWrapper {
+      border-radius: 14px;
+      aspect-ratio: 1 / 0.85;
+    }
+
+    &__Title {
+      margin-bottom: 20px;
+      font-size: 34px;
+      letter-spacing: -1.3px;
+    }
+
+    &__Text {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+  }
+}

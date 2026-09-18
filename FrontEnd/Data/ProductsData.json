@@ -1,0 +1,260 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "category_id": 1,
+      "brand_id": 1,
+      "name": "Viper V3 Pro Wireless",
+      "price": 27900,
+      "discount_price": 24900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 8,
+      "description": "Razer's flagship wireless mouse for esports, built on the HyperPolling wireless dongle for near-zero latency. Ultra-lightweight shell, Optical Switches Gen-3 and an 8000Hz-ready sensor make it one of the most responsive mice available.",
+      "created_at": "2026-01-04T10:00:00Z",
+      "images": [
+        "/images/products/razer-viper-v3-pro-1.png"
+      ]
+    },
+    {
+      "id": 2,
+      "category_id": 1,
+      "brand_id": 2,
+      "name": "G PRO X Superlight 2",
+      "price": 31900,
+      "discount_price": 28900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 14,
+      "description": "The Superlight 2 refines Logitech's championship-grade mouse with a lighter shell, the HERO 2 sensor and LIGHTSPEED wireless. Built for players who need pinpoint tracking without any added weight.",
+      "created_at": "2026-02-07T10:00:00Z",
+      "images": [
+        "/images/products/logitech-superlight.png"
+      ]
+    },
+    {
+      "id": 3,
+      "category_id": 1,
+      "brand_id": 9,
+      "name": "Pulsar X2V2",
+      "price": 19900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 6,
+      "description": "A symmetrical, hollow-shell wireless mouse designed with the competitive FPS community. The X2V2 pairs a lag-free 4K wireless connection with a feather-light frame for fast flicks and long sessions.",
+      "created_at": "2026-03-10T10:00:00Z",
+      "images": [
+        "/images/products/pulsar-x2v2-2.png"
+      ]
+    },
+    {
+      "id": 4,
+      "category_id": 1,
+      "brand_id": 4,
+      "name": "ATK F1 Ultimate",
+      "price": 18900,
+      "discount_price": 16900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 10,
+      "description": "ATK's F1 Ultimate brings a magnesium-alloy shell down to an ultra-light weight while keeping a stiff, rattle-free build. A great pick for players who want a premium feel without the flagship price tag.",
+      "created_at": "2026-04-13T10:00:00Z",
+      "images": [
+        "/images/products/atk-f1-1.png"
+      ]
+    },
+    {
+      "id": 5,
+      "category_id": 2,
+      "brand_id": 1,
+      "name": "Huntsman V3 Pro",
+      "price": 46900,
+      "discount_price": 42900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 5,
+      "description": "Razer's fastest analog optical keyboard, with adjustable actuation points on every key. The aluminum top plate and dedicated multi-function dial make it a serious tool for both gaming and everyday typing.",
+      "created_at": "2026-05-16T10:00:00Z",
+      "images": [
+        "/images/products/razer-huntsman-v3-pro-1.png"
+      ]
+    },
+    {
+      "id": 6,
+      "category_id": 2,
+      "brand_id": 3,
+      "name": "Apex Pro TKL Wireless",
+      "price": 39900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 9,
+      "description": "SteelSeries' TKL wireless keyboard combines OmniPoint 2.0 adjustable switches with a dual-wireless setup (2.4GHz + Bluetooth). Compact footprint, aircraft-grade aluminum frame and a battery that lasts for days.",
+      "created_at": "2026-06-19T10:00:00Z",
+      "images": [
+        "/images/products/steelseries-apex-pro-tkl-1.png"
+      ]
+    },
+    {
+      "id": 7,
+      "category_id": 2,
+      "brand_id": 2,
+      "name": "G PRO X TKL",
+      "price": 37900,
+      "discount_price": 34900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 11,
+      "description": "A tenkeyless version of Logitech's tournament keyboard, built with GX mechanical switches and a detachable cable. Light, compact and tuned for competitive play without sacrificing durability.",
+      "created_at": "2026-07-22T10:00:00Z",
+      "images": [
+        "/images/products/logitech-pro-x-tkl-1.png"
+      ]
+    },
+    {
+      "id": 8,
+      "category_id": 2,
+      "brand_id": 6,
+      "name": "Alloy Origins 65",
+      "price": 22900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 13,
+      "description": "HyperX's compact 65% mechanical keyboard pairs hot-swappable switches with a solid steel plate. Small enough to free up desk space, tough enough for daily gaming.",
+      "created_at": "2026-08-25T10:00:00Z",
+      "images": [
+        "/images/products/hyperx-alloy-origins-65-1.png"
+      ]
+    },
+    {
+      "id": 9,
+      "category_id": 3,
+      "brand_id": 1,
+      "name": "BlackShark V2 Pro",
+      "price": 33900,
+      "discount_price": 29900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 7,
+      "description": "Razer's flagship gaming headset uses Nexus Audio drivers with TriForce titanium technology for detailed, accurate sound, plus an AI-enhanced mic for clear comms.",
+      "created_at": "2026-09-01T10:00:00Z",
+      "images": [
+        "/images/products/razer-blackshark-v2-pro-1.png"
+      ]
+    },
+    {
+      "id": 10,
+      "category_id": 3,
+      "brand_id": 6,
+      "name": "Cloud III Wireless",
+      "price": 27900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 12,
+      "description": "HyperX Cloud III Wireless keeps the comfort the Cloud series is known for and adds up to 120 hours of battery life with DTS spatial audio support.",
+      "created_at": "2026-01-04T10:00:00Z",
+      "images": [
+        "/images/products/hyperx-cloud-3-wireless-1.png"
+      ]
+    },
+    {
+      "id": 11,
+      "category_id": 3,
+      "brand_id": 3,
+      "name": "Arctis Nova 7",
+      "price": 34900,
+      "discount_price": 31900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 8,
+      "description": "SteelSeries Arctis Nova 7 delivers multi-platform wireless connectivity (2.4GHz + Bluetooth simultaneously) with a ClearCast Gen 2 microphone and all-day comfort.",
+      "created_at": "2026-02-07T10:00:00Z",
+      "images": [
+        "/images/products/steelseries-arctis-nova-7-1.png"
+      ]
+    },
+    {
+      "id": 12,
+      "category_id": 4,
+      "brand_id": 7,
+      "name": "GameSir G7 SE",
+      "price": 13900,
+      "discount_price": 11900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 15,
+      "description": "A compact wireless controller with Hall-effect joysticks that resist drift, remappable back buttons and a fast 2.4GHz connection — built for both console and PC play.",
+      "created_at": "2026-03-10T10:00:00Z",
+      "images": [
+        "/images/products/gamesir-g7-se-1.png"
+      ]
+    },
+    {
+      "id": 13,
+      "category_id": 4,
+      "brand_id": 7,
+      "name": "GameSir T4 Kaleid",
+      "price": 10900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 18,
+      "description": "GameSir's T4 Kaleid mixes a translucent kaleidoscope shell with reliable hybrid switches and multi-platform compatibility (PC, Switch, Android, iOS).",
+      "created_at": "2026-04-13T10:00:00Z",
+      "images": [
+        "/images/products/gamesir-t4-kaleid-1.png"
+      ]
+    },
+    {
+      "id": 14,
+      "category_id": 5,
+      "brand_id": 6,
+      "name": "HyperX QuadCast 2",
+      "price": 29900,
+      "discount_price": 26900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 6,
+      "description": "HyperX's dual-capsule USB microphone with 4 polar patterns, a smart gain control and a new tap-to-mute sensor with LED indicator — plug-and-play streaming audio.",
+      "created_at": "2026-05-16T10:00:00Z",
+      "images": [
+        "/images/products/hyperx-quadcast-2-1.png"
+      ]
+    },
+    {
+      "id": 15,
+      "category_id": 5,
+      "brand_id": 8,
+      "name": "HAVIT Gaming Microphone",
+      "price": 8900,
+      "discount_price": null,
+      "is_active": true,
+      "is_on_sale": false,
+      "stock": 20,
+      "description": "An affordable condenser USB microphone with a cardioid pickup pattern and a compact tripod stand, ideal for streamers and casual gamers starting out.",
+      "created_at": "2026-06-19T10:00:00Z",
+      "images": [
+        "/images/products/havit-microphone-1.png"
+      ]
+    },
+    {
+      "id": 16,
+      "category_id": 9,
+      "brand_id": 10,
+      "name": "UGREEN USB-C Hub",
+      "price": 9500,
+      "discount_price": 7900,
+      "is_active": true,
+      "is_on_sale": true,
+      "stock": 24,
+      "description": "A 6-in-1 USB-C hub adding HDMI, USB-A and card-reader ports to any laptop or tablet, with compact aluminum housing built for travel.",
+      "created_at": "2026-07-22T10:00:00Z",
+      "images": [
+        "/images/products/ugreen-usb-c-hub-1.png"
+      ]
+    }
+  ]
+}

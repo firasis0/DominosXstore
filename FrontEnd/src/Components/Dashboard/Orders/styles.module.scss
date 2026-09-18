@@ -1,0 +1,387 @@
+.Orders {
+  padding: 36px 30px;
+  min-height: 100%;
+  background: #f5f5f5;
+
+  &__Header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      margin: 7px 0 0;
+      font-size: 14px;
+      color: #888;
+    }
+  }
+
+  &__HeaderActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__Eyebrow {
+    margin: 0 0 4px !important;
+    color: #999 !important;
+    font-size: 12px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__GhostButton {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+
+    background: #fff;
+    color: #333;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__StatsWrap {
+    margin-bottom: 28px;
+  }
+
+  &__TableCard {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+  }
+
+  &__TableWrap {
+    overflow-x: auto;
+  }
+
+  &__Table {
+    min-width: 920px;
+
+    th {
+      height: 48px;
+      padding: 0 14px;
+
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+
+      color: #888;
+      white-space: nowrap;
+    }
+  }
+
+  &__Loading,
+  &__Empty {
+    height: 180px;
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  &__Order {
+    strong {
+      display: block;
+      color: #111;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    span {
+      display: block;
+      margin-top: 2px;
+      color: #999;
+      font-size: 11px;
+    }
+  }
+
+  &__Customer {
+    strong {
+      display: block;
+      color: #111;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    span {
+      display: block;
+      margin-top: 2px;
+      color: #999;
+      font-size: 11px;
+    }
+  }
+
+  &__Cell {
+    color: #333;
+    font-size: 13px;
+  }
+
+  &__Muted {
+    color: #999;
+    font-size: 12px;
+  }
+
+  &__Actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__ActionsTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 7px;
+
+    background: #fff;
+    color: #333;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+
+  &__Footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+
+    border-top: 1px solid #e8e8e8;
+
+    color: #999;
+    font-size: 12px;
+  }
+}
+
+/* Status / payment pills — same palette as Overview > RecentOrders */
+.Status {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.Status--pending { background: #fff4d6; color: #8a6500; }
+.Status--confirmed { background: #e7f1ff; color: #1456a0; }
+.Status--processing { background: #ffe8d9; color: #b35900; }
+.Status--shipped { background: #eee8ff; color: #5b3ca8; }
+.Status--delivered { background: #e5f7ed; color: #217346; }
+.Status--cancelled { background: #fdeaea; color: #c0392b; }
+
+.Payment--unpaid { background: #fff4d6; color: #8a6500; }
+.Payment--paid { background: #e5f7ed; color: #217346; }
+
+/* Order details (Sheet) */
+.OrderDetails {
+  padding: 0 20px 20px;
+  overflow-y: auto;
+
+  &__Loading,
+  &__Empty {
+    padding: 60px 0;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+  }
+
+  &__Section {
+    margin-bottom: 22px;
+
+    h3 {
+      margin: 0 0 10px;
+      color: #111;
+      font-size: 13px;
+      font-weight: 700;
+    }
+  }
+
+  &__Row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 0;
+
+    font-size: 13px;
+    color: #333;
+
+    span:first-child {
+      color: #888;
+    }
+  }
+
+  &__Item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &__ItemImage {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    background: #f5f5f5;
+    border: 1px solid #eee;
+    border-radius: 7px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 3px;
+    }
+  }
+
+  &__ItemInfo {
+    flex: 1;
+    min-width: 0;
+
+    strong {
+      display: block;
+      color: #111;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    span {
+      display: block;
+      margin-top: 2px;
+      color: #999;
+      font-size: 11px;
+    }
+  }
+
+  &__ItemTotal {
+    color: #111;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  &__Timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__TimelineStep {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    strong {
+      display: block;
+      color: #111;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    span {
+      display: block;
+      color: #999;
+      font-size: 11px;
+    }
+  }
+
+  &__TimelineDot {
+    width: 8px;
+    height: 8px;
+    margin-top: 5px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #111;
+  }
+}
+
+/* Update-status dialog */
+.StatusDialog {
+  &__Current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    color: #666;
+    font-size: 13px;
+  }
+
+  &__Arrow {
+    color: #ccc;
+  }
+}
+
+@media (max-width: 700px) {
+  .Orders {
+    padding: 24px 16px;
+
+    &__Header {
+      flex-direction: column;
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+
+    &__HeaderActions {
+      width: 100%;
+
+      button {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  }
+}

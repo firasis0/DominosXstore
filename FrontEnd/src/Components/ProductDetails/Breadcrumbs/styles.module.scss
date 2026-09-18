@@ -1,0 +1,45 @@
+.Breadcrumbs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  color: #777;
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.Breadcrumbs__Link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #111;
+  }
+}
+
+.Breadcrumbs__Separator {
+  flex-shrink: 0;
+  color: #aaa;
+}
+
+.Breadcrumbs__Current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #111;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .Breadcrumbs {
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+}

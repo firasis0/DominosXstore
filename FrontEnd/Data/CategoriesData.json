@@ -1,0 +1,72 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Gaming Mouse",
+      "image_url": "/images/categories/mouse.png",
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "name": "Keyboards",
+      "image_url": "/images/categories/mechanical-gaming-keyboard.png",
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "name": "Headsets",
+      "image_url": "/images/categories/gaming-headphone.png",
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "name": "Controllers",
+      "image_url": "/images/categories/game-controller.png",
+      "is_active": true
+    },
+    {
+      "id": 5,
+      "name": "Microphones",
+      "image_url": "/images/categories/Gaming-Microphone.png",
+      "is_active": true
+    },
+    {
+      "id": 6,
+      "name": "Mousepads",
+      "image_url": "/images/categories/tapis.png",
+      "is_active": true
+    },
+    {
+      "id": 7,
+      "name": "Webcams",
+      "image_url": "/images/categories/webcam-gaming.png",
+      "is_active": true
+    },
+    {
+      "id": 8,
+      "name": "Earbuds And IEMs",
+      "image_url": "/images/categories/earbuds.png",
+      "is_active": true
+    },
+    {
+      "id": 9,
+      "name": "Phone And Tablet Accessories",
+      "image_url": "/images/categories/accessoir.png",
+      "is_active": true
+    },
+    {
+      "id": 10,
+      "name": "Gaming Monitors",
+      "image_url": "/images/categories/gaming-monitor.png",
+      "is_active": true
+    }
+  ],
+  "banner": {
+    "imgs": [
+      {
+        "src": "/images/banners/categories/dominos_brands.jpg",
+        "alt": "Brands Banner"
+      }
+    ]
+  }
+}

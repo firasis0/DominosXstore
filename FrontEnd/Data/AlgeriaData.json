@@ -1,0 +1,8123 @@
+{
+  "provinces": [
+    {
+      "id": 1,
+      "name": "أدرار",
+      "municipalities": [
+        {
+          "id": 1,
+          "province_id": 1,
+          "commune_name": "تيمقتن"
+        },
+        {
+          "id": 2,
+          "province_id": 1,
+          "commune_name": "تيت"
+        },
+        {
+          "id": 3,
+          "province_id": 1,
+          "commune_name": "اقبلي"
+        },
+        {
+          "id": 4,
+          "province_id": 1,
+          "commune_name": "أولف"
+        },
+        {
+          "id": 5,
+          "province_id": 1,
+          "commune_name": "بودة"
+        },
+        {
+          "id": 6,
+          "province_id": 1,
+          "commune_name": "أولاد أحمد تيمي"
+        },
+        {
+          "id": 7,
+          "province_id": 1,
+          "commune_name": "أدرار"
+        },
+        {
+          "id": 8,
+          "province_id": 1,
+          "commune_name": "فنوغيل"
+        },
+        {
+          "id": 9,
+          "province_id": 1,
+          "commune_name": "تامست"
+        },
+        {
+          "id": 10,
+          "province_id": 1,
+          "commune_name": "تامنطيط"
+        },
+        {
+          "id": 11,
+          "province_id": 1,
+          "commune_name": "إن زغمير"
+        },
+        {
+          "id": 12,
+          "province_id": 1,
+          "commune_name": "زاوية كنتة"
+        },
+        {
+          "id": 13,
+          "province_id": 1,
+          "commune_name": "رقان"
+        },
+        {
+          "id": 14,
+          "province_id": 1,
+          "commune_name": "سالي"
+        },
+        {
+          "id": 15,
+          "province_id": 1,
+          "commune_name": "السبع"
+        },
+        {
+          "id": 16,
+          "province_id": 1,
+          "commune_name": "تسابيت"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "الشلف",
+      "municipalities": [
+        {
+          "id": 17,
+          "province_id": 2,
+          "commune_name": "تلعصة"
+        },
+        {
+          "id": 18,
+          "province_id": 2,
+          "commune_name": "تاجنة"
+        },
+        {
+          "id": 19,
+          "province_id": 2,
+          "commune_name": "أبو الحسن"
+        },
+        {
+          "id": 20,
+          "province_id": 2,
+          "commune_name": "الزبوجة"
+        },
+        {
+          "id": 21,
+          "province_id": 2,
+          "commune_name": "بوزغاية"
+        },
+        {
+          "id": 22,
+          "province_id": 2,
+          "commune_name": "بنايرية"
+        },
+        {
+          "id": 23,
+          "province_id": 2,
+          "commune_name": "الحجاج"
+        },
+        {
+          "id": 24,
+          "province_id": 2,
+          "commune_name": "أولاد بن عبد القادر"
+        },
+        {
+          "id": 25,
+          "province_id": 2,
+          "commune_name": "عين مران"
+        },
+        {
+          "id": 26,
+          "province_id": 2,
+          "commune_name": "الهرانفة"
+        },
+        {
+          "id": 27,
+          "province_id": 2,
+          "commune_name": "بريرة"
+        },
+        {
+          "id": 28,
+          "province_id": 2,
+          "commune_name": "بني حواء"
+        },
+        {
+          "id": 29,
+          "province_id": 2,
+          "commune_name": "وادي قوسين"
+        },
+        {
+          "id": 30,
+          "province_id": 2,
+          "commune_name": "أولاد عباس"
+        },
+        {
+          "id": 31,
+          "province_id": 2,
+          "commune_name": "وادي الفضة"
+        },
+        {
+          "id": 32,
+          "province_id": 2,
+          "commune_name": "بني راشد"
+        },
+        {
+          "id": 33,
+          "province_id": 2,
+          "commune_name": "المرسى"
+        },
+        {
+          "id": 34,
+          "province_id": 2,
+          "commune_name": "مصدق"
+        },
+        {
+          "id": 35,
+          "province_id": 2,
+          "commune_name": "الشلف"
+        },
+        {
+          "id": 36,
+          "province_id": 2,
+          "commune_name": "أم الدروع"
+        },
+        {
+          "id": 37,
+          "province_id": 2,
+          "commune_name": "سنجاس"
+        },
+        {
+          "id": 38,
+          "province_id": 2,
+          "commune_name": "سيدي عبد الرحمن"
+        },
+        {
+          "id": 39,
+          "province_id": 2,
+          "commune_name": "سيدي عكاشة"
+        },
+        {
+          "id": 40,
+          "province_id": 2,
+          "commune_name": "تنس"
+        },
+        {
+          "id": 41,
+          "province_id": 2,
+          "commune_name": "بني بوعتاب"
+        },
+        {
+          "id": 42,
+          "province_id": 2,
+          "commune_name": "الكريمية"
+        },
+        {
+          "id": 43,
+          "province_id": 2,
+          "commune_name": "حرشون"
+        },
+        {
+          "id": 44,
+          "province_id": 2,
+          "commune_name": "تاوقريت"
+        },
+        {
+          "id": 45,
+          "province_id": 2,
+          "commune_name": "الظهرة"
+        },
+        {
+          "id": 46,
+          "province_id": 2,
+          "commune_name": "الشطية"
+        },
+        {
+          "id": 47,
+          "province_id": 2,
+          "commune_name": "أولاد فارس"
+        },
+        {
+          "id": 48,
+          "province_id": 2,
+          "commune_name": "الأبيض مجاجة"
+        },
+        {
+          "id": 49,
+          "province_id": 2,
+          "commune_name": "بوقادير"
+        },
+        {
+          "id": 50,
+          "province_id": 2,
+          "commune_name": "وادي سلي"
+        },
+        {
+          "id": 51,
+          "province_id": 2,
+          "commune_name": "الصبحة"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "الأغواط",
+      "municipalities": [
+        {
+          "id": 52,
+          "province_id": 3,
+          "commune_name": "تاجموت"
+        },
+        {
+          "id": 53,
+          "province_id": 3,
+          "commune_name": "تاجرونة"
+        },
+        {
+          "id": 54,
+          "province_id": 3,
+          "commune_name": "عين ماضي"
+        },
+        {
+          "id": 55,
+          "province_id": 3,
+          "commune_name": "الحويطة"
+        },
+        {
+          "id": 56,
+          "province_id": 3,
+          "commune_name": "الخنق"
+        },
+        {
+          "id": 57,
+          "province_id": 3,
+          "commune_name": "الأغواط"
+        },
+        {
+          "id": 58,
+          "province_id": 3,
+          "commune_name": "قصر الحيران"
+        },
+        {
+          "id": 59,
+          "province_id": 3,
+          "commune_name": "بن ناصر بن شهرة"
+        },
+        {
+          "id": 60,
+          "province_id": 3,
+          "commune_name": "العسافية"
+        },
+        {
+          "id": 61,
+          "province_id": 3,
+          "commune_name": "سيدي مخلوف"
+        },
+        {
+          "id": 62,
+          "province_id": 3,
+          "commune_name": "حاسي الدلاعة"
+        },
+        {
+          "id": 63,
+          "province_id": 3,
+          "commune_name": "حاسي الرمل"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "أم البواقي",
+      "municipalities": [
+        {
+          "id": 64,
+          "province_id": 4,
+          "commune_name": "فكيرينة"
+        },
+        {
+          "id": 65,
+          "province_id": 4,
+          "commune_name": "وادي نيني"
+        },
+        {
+          "id": 66,
+          "province_id": 4,
+          "commune_name": "الفجوج بوغرارة سعودي"
+        },
+        {
+          "id": 67,
+          "province_id": 4,
+          "commune_name": "عين فكرون"
+        },
+        {
+          "id": 68,
+          "province_id": 4,
+          "commune_name": "الرحية"
+        },
+        {
+          "id": 69,
+          "province_id": 4,
+          "commune_name": "مسكيانة"
+        },
+        {
+          "id": 70,
+          "province_id": 4,
+          "commune_name": "البلالة"
+        },
+        {
+          "id": 71,
+          "province_id": 4,
+          "commune_name": "بحير الشرقي"
+        },
+        {
+          "id": 72,
+          "province_id": 4,
+          "commune_name": "قصر الصباحي"
+        },
+        {
+          "id": 73,
+          "province_id": 4,
+          "commune_name": "سوق نعمان"
+        },
+        {
+          "id": 74,
+          "province_id": 4,
+          "commune_name": "أولاد زواي"
+        },
+        {
+          "id": 75,
+          "province_id": 4,
+          "commune_name": "بئر الشهداء"
+        },
+        {
+          "id": 76,
+          "province_id": 4,
+          "commune_name": "أم البواقي"
+        },
+        {
+          "id": 77,
+          "province_id": 4,
+          "commune_name": "عين الزيتون"
+        },
+        {
+          "id": 78,
+          "province_id": 4,
+          "commune_name": "عين ببوش"
+        },
+        {
+          "id": 79,
+          "province_id": 4,
+          "commune_name": "عين الديس"
+        },
+        {
+          "id": 80,
+          "province_id": 4,
+          "commune_name": "عين البيضاء"
+        },
+        {
+          "id": 81,
+          "province_id": 4,
+          "commune_name": "بريش"
+        },
+        {
+          "id": 82,
+          "province_id": 4,
+          "commune_name": "الزرق"
+        },
+        {
+          "id": 83,
+          "province_id": 4,
+          "commune_name": "عين مليلة"
+        },
+        {
+          "id": 84,
+          "province_id": 4,
+          "commune_name": "أولاد قاسم"
+        },
+        {
+          "id": 85,
+          "province_id": 4,
+          "commune_name": "أولاد حملة"
+        },
+        {
+          "id": 86,
+          "province_id": 4,
+          "commune_name": "العامرية"
+        },
+        {
+          "id": 87,
+          "province_id": 4,
+          "commune_name": "سيقوس"
+        },
+        {
+          "id": 88,
+          "province_id": 4,
+          "commune_name": "الضلعة"
+        },
+        {
+          "id": 89,
+          "province_id": 4,
+          "commune_name": "الجازية"
+        },
+        {
+          "id": 90,
+          "province_id": 4,
+          "commune_name": "عين كرشة"
+        },
+        {
+          "id": 91,
+          "province_id": 4,
+          "commune_name": "الحرملية"
+        },
+        {
+          "id": 92,
+          "province_id": 4,
+          "commune_name": "هنشير تومغني"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "باتنة",
+      "municipalities": [
+        {
+          "id": 93,
+          "province_id": 5,
+          "commune_name": "معافة"
+        },
+        {
+          "id": 94,
+          "province_id": 5,
+          "commune_name": "عين التوتة"
+        },
+        {
+          "id": 95,
+          "province_id": 5,
+          "commune_name": "بني فضالة الحقانية"
+        },
+        {
+          "id": 96,
+          "province_id": 5,
+          "commune_name": "أولاد عوف"
+        },
+        {
+          "id": 97,
+          "province_id": 5,
+          "commune_name": "القصبات"
+        },
+        {
+          "id": 98,
+          "province_id": 5,
+          "commune_name": "تالخمت"
+        },
+        {
+          "id": 99,
+          "province_id": 5,
+          "commune_name": "رأس العيون"
+        },
+        {
+          "id": 100,
+          "province_id": 5,
+          "commune_name": "الرحبات"
+        },
+        {
+          "id": 101,
+          "province_id": 5,
+          "commune_name": "أولاد سلام"
+        },
+        {
+          "id": 102,
+          "province_id": 5,
+          "commune_name": "القيقبة"
+        },
+        {
+          "id": 103,
+          "province_id": 5,
+          "commune_name": "تيمقاد"
+        },
+        {
+          "id": 104,
+          "province_id": 5,
+          "commune_name": "أولاد فاضل"
+        },
+        {
+          "id": 105,
+          "province_id": 5,
+          "commune_name": "تاكسلانت"
+        },
+        {
+          "id": 106,
+          "province_id": 5,
+          "commune_name": "أولاد سي سليمان"
+        },
+        {
+          "id": 107,
+          "province_id": 5,
+          "commune_name": "لمسان"
+        },
+        {
+          "id": 108,
+          "province_id": 5,
+          "commune_name": "ثنية العابد"
+        },
+        {
+          "id": 109,
+          "province_id": 5,
+          "commune_name": "شير"
+        },
+        {
+          "id": 110,
+          "province_id": 5,
+          "commune_name": "وادي الطاقة"
+        },
+        {
+          "id": 111,
+          "province_id": 5,
+          "commune_name": "باتنة"
+        },
+        {
+          "id": 112,
+          "province_id": 5,
+          "commune_name": "فسديس"
+        },
+        {
+          "id": 113,
+          "province_id": 5,
+          "commune_name": "وادي الشعبة"
+        },
+        {
+          "id": 114,
+          "province_id": 5,
+          "commune_name": "حيدوسة"
+        },
+        {
+          "id": 115,
+          "province_id": 5,
+          "commune_name": "قصر بلزمة"
+        },
+        {
+          "id": 116,
+          "province_id": 5,
+          "commune_name": "مروانة"
+        },
+        {
+          "id": 117,
+          "province_id": 5,
+          "commune_name": "وادي الماء"
+        },
+        {
+          "id": 118,
+          "province_id": 5,
+          "commune_name": "لازرو"
+        },
+        {
+          "id": 119,
+          "province_id": 5,
+          "commune_name": "سريانة"
+        },
+        {
+          "id": 120,
+          "province_id": 5,
+          "commune_name": "زانة البيضاء"
+        },
+        {
+          "id": 121,
+          "province_id": 5,
+          "commune_name": "منعة"
+        },
+        {
+          "id": 122,
+          "province_id": 5,
+          "commune_name": "تغرغار"
+        },
+        {
+          "id": 123,
+          "province_id": 5,
+          "commune_name": "عين ياقوت"
+        },
+        {
+          "id": 124,
+          "province_id": 5,
+          "commune_name": "بومية"
+        },
+        {
+          "id": 125,
+          "province_id": 5,
+          "commune_name": "جرمة"
+        },
+        {
+          "id": 126,
+          "province_id": 5,
+          "commune_name": "المعذر"
+        },
+        {
+          "id": 127,
+          "province_id": 5,
+          "commune_name": "عيون العصافير"
+        },
+        {
+          "id": 128,
+          "province_id": 5,
+          "commune_name": "تازولت"
+        },
+        {
+          "id": 129,
+          "province_id": 5,
+          "commune_name": "بومقر"
+        },
+        {
+          "id": 130,
+          "province_id": 5,
+          "commune_name": "نقاوس"
+        },
+        {
+          "id": 131,
+          "province_id": 5,
+          "commune_name": "سفيان"
+        },
+        {
+          "id": 132,
+          "province_id": 5,
+          "commune_name": "أريس"
+        },
+        {
+          "id": 133,
+          "province_id": 5,
+          "commune_name": "تيغانمين"
+        },
+        {
+          "id": 134,
+          "province_id": 5,
+          "commune_name": "عين جاسر"
+        },
+        {
+          "id": 135,
+          "province_id": 5,
+          "commune_name": "الحاسي"
+        },
+        {
+          "id": 136,
+          "province_id": 5,
+          "commune_name": "فم الطوب"
+        },
+        {
+          "id": 137,
+          "province_id": 5,
+          "commune_name": "إشمول"
+        },
+        {
+          "id": 138,
+          "province_id": 5,
+          "commune_name": "إينوغيسن"
+        },
+        {
+          "id": 139,
+          "province_id": 5,
+          "commune_name": "بوزينة"
+        },
+        {
+          "id": 140,
+          "province_id": 5,
+          "commune_name": "لارباع"
+        },
+        {
+          "id": 141,
+          "province_id": 5,
+          "commune_name": "بولهيلات"
+        },
+        {
+          "id": 142,
+          "province_id": 5,
+          "commune_name": "الشمرة"
+        },
+        {
+          "id": 143,
+          "province_id": 5,
+          "commune_name": "غسيرة"
+        },
+        {
+          "id": 144,
+          "province_id": 5,
+          "commune_name": "كيمل"
+        },
+        {
+          "id": 145,
+          "province_id": 5,
+          "commune_name": "تكوت"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "بجاية",
+      "municipalities": [
+        {
+          "id": 146,
+          "province_id": 6,
+          "commune_name": "سيدي عياد"
+        },
+        {
+          "id": 147,
+          "province_id": 6,
+          "commune_name": "الفلاي"
+        },
+        {
+          "id": 148,
+          "province_id": 6,
+          "commune_name": "سيدي عيش"
+        },
+        {
+          "id": 149,
+          "province_id": 6,
+          "commune_name": "تيفرة"
+        },
+        {
+          "id": 150,
+          "province_id": 6,
+          "commune_name": "تينبدار"
+        },
+        {
+          "id": 151,
+          "province_id": 6,
+          "commune_name": "برباشة"
+        },
+        {
+          "id": 152,
+          "province_id": 6,
+          "commune_name": "كنديرة"
+        },
+        {
+          "id": 153,
+          "province_id": 6,
+          "commune_name": "القصر"
+        },
+        {
+          "id": 154,
+          "province_id": 6,
+          "commune_name": "فناية الماثن"
+        },
+        {
+          "id": 155,
+          "province_id": 6,
+          "commune_name": "توجة"
+        },
+        {
+          "id": 156,
+          "province_id": 6,
+          "commune_name": "ذراع القايد"
+        },
+        {
+          "id": 157,
+          "province_id": 6,
+          "commune_name": "خراطة"
+        },
+        {
+          "id": 158,
+          "province_id": 6,
+          "commune_name": "بجاية"
+        },
+        {
+          "id": 159,
+          "province_id": 6,
+          "commune_name": "وادي غير"
+        },
+        {
+          "id": 160,
+          "province_id": 6,
+          "commune_name": "بني معوش"
+        },
+        {
+          "id": 161,
+          "province_id": 6,
+          "commune_name": "بني جليل"
+        },
+        {
+          "id": 162,
+          "province_id": 6,
+          "commune_name": "فرعون"
+        },
+        {
+          "id": 163,
+          "province_id": 6,
+          "commune_name": "سمعون"
+        },
+        {
+          "id": 164,
+          "province_id": 6,
+          "commune_name": "أميزور"
+        },
+        {
+          "id": 165,
+          "province_id": 6,
+          "commune_name": "تيمزريت"
+        },
+        {
+          "id": 166,
+          "province_id": 6,
+          "commune_name": "مالبو"
+        },
+        {
+          "id": 167,
+          "province_id": 6,
+          "commune_name": "سوق لإثنين"
+        },
+        {
+          "id": 168,
+          "province_id": 6,
+          "commune_name": "تامريجت"
+        },
+        {
+          "id": 169,
+          "province_id": 6,
+          "commune_name": "بوخليفة"
+        },
+        {
+          "id": 170,
+          "province_id": 6,
+          "commune_name": "تالة حمزة"
+        },
+        {
+          "id": 171,
+          "province_id": 6,
+          "commune_name": "تيشي"
+        },
+        {
+          "id": 172,
+          "province_id": 6,
+          "commune_name": "أيت رزين"
+        },
+        {
+          "id": 173,
+          "province_id": 6,
+          "commune_name": "إغيل علي"
+        },
+        {
+          "id": 174,
+          "province_id": 6,
+          "commune_name": "أيت إسماعيل"
+        },
+        {
+          "id": 175,
+          "province_id": 6,
+          "commune_name": "درقينة"
+        },
+        {
+          "id": 176,
+          "province_id": 6,
+          "commune_name": "تاسكريوت"
+        },
+        {
+          "id": 177,
+          "province_id": 6,
+          "commune_name": "أوقاس"
+        },
+        {
+          "id": 178,
+          "province_id": 6,
+          "commune_name": "تيزي نبربر"
+        },
+        {
+          "id": 179,
+          "province_id": 6,
+          "commune_name": "أدكار"
+        },
+        {
+          "id": 180,
+          "province_id": 6,
+          "commune_name": "بني كسيلة"
+        },
+        {
+          "id": 181,
+          "province_id": 6,
+          "commune_name": "تاوريرت إغيل"
+        },
+        {
+          "id": 182,
+          "province_id": 6,
+          "commune_name": "أقبو"
+        },
+        {
+          "id": 183,
+          "province_id": 6,
+          "commune_name": "شلاطة"
+        },
+        {
+          "id": 184,
+          "province_id": 6,
+          "commune_name": "اغرم"
+        },
+        {
+          "id": 185,
+          "province_id": 6,
+          "commune_name": "تامقرة"
+        },
+        {
+          "id": 186,
+          "province_id": 6,
+          "commune_name": "أمالو"
+        },
+        {
+          "id": 187,
+          "province_id": 6,
+          "commune_name": "بوحمزة"
+        },
+        {
+          "id": 188,
+          "province_id": 6,
+          "commune_name": "مسيسنة"
+        },
+        {
+          "id": 189,
+          "province_id": 6,
+          "commune_name": "صدوق"
+        },
+        {
+          "id": 190,
+          "province_id": 6,
+          "commune_name": "بني مليكش"
+        },
+        {
+          "id": 191,
+          "province_id": 6,
+          "commune_name": "بو جليل"
+        },
+        {
+          "id": 192,
+          "province_id": 6,
+          "commune_name": "تازمالت"
+        },
+        {
+          "id": 193,
+          "province_id": 6,
+          "commune_name": "أكفادو"
+        },
+        {
+          "id": 194,
+          "province_id": 6,
+          "commune_name": "شميني"
+        },
+        {
+          "id": 195,
+          "province_id": 6,
+          "commune_name": "سوق اوفلا"
+        },
+        {
+          "id": 196,
+          "province_id": 6,
+          "commune_name": "طيبان"
+        },
+        {
+          "id": 197,
+          "province_id": 6,
+          "commune_name": "أوزلاقن"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "بسكرة",
+      "municipalities": [
+        {
+          "id": 198,
+          "province_id": 7,
+          "commune_name": "الفيض"
+        },
+        {
+          "id": 199,
+          "province_id": 7,
+          "commune_name": "خنقة سيدي ناجي"
+        },
+        {
+          "id": 200,
+          "province_id": 7,
+          "commune_name": "زريبة الوادي"
+        },
+        {
+          "id": 201,
+          "province_id": 7,
+          "commune_name": "المزيرعة"
+        },
+        {
+          "id": 202,
+          "province_id": 7,
+          "commune_name": "ليشانة"
+        },
+        {
+          "id": 203,
+          "province_id": 7,
+          "commune_name": "بوشقرون"
+        },
+        {
+          "id": 204,
+          "province_id": 7,
+          "commune_name": "برج بن عزوز"
+        },
+        {
+          "id": 205,
+          "province_id": 7,
+          "commune_name": "طولقة"
+        },
+        {
+          "id": 206,
+          "province_id": 7,
+          "commune_name": "مخادمة"
+        },
+        {
+          "id": 207,
+          "province_id": 7,
+          "commune_name": "مليلي"
+        },
+        {
+          "id": 208,
+          "province_id": 7,
+          "commune_name": "أورلال"
+        },
+        {
+          "id": 209,
+          "province_id": 7,
+          "commune_name": "أوماش"
+        },
+        {
+          "id": 210,
+          "province_id": 7,
+          "commune_name": "ليوة"
+        },
+        {
+          "id": 211,
+          "province_id": 7,
+          "commune_name": "بسكرة"
+        },
+        {
+          "id": 212,
+          "province_id": 7,
+          "commune_name": "الحاجب"
+        },
+        {
+          "id": 213,
+          "province_id": 7,
+          "commune_name": "فوغالة"
+        },
+        {
+          "id": 214,
+          "province_id": 7,
+          "commune_name": "الغروس"
+        },
+        {
+          "id": 215,
+          "province_id": 7,
+          "commune_name": "عين الناقة"
+        },
+        {
+          "id": 216,
+          "province_id": 7,
+          "commune_name": "شتمة"
+        },
+        {
+          "id": 217,
+          "province_id": 7,
+          "commune_name": "الحوش"
+        },
+        {
+          "id": 218,
+          "province_id": 7,
+          "commune_name": "سيدي عقبة"
+        },
+        {
+          "id": 219,
+          "province_id": 7,
+          "commune_name": "مشونش"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "بشار",
+      "municipalities": [
+        {
+          "id": 220,
+          "province_id": 8,
+          "commune_name": "بشار"
+        },
+        {
+          "id": 221,
+          "province_id": 8,
+          "commune_name": "بوكايس"
+        },
+        {
+          "id": 222,
+          "province_id": 8,
+          "commune_name": "لحمر"
+        },
+        {
+          "id": 223,
+          "province_id": 8,
+          "commune_name": "موغل"
+        },
+        {
+          "id": 224,
+          "province_id": 8,
+          "commune_name": "المريجة"
+        },
+        {
+          "id": 225,
+          "province_id": 8,
+          "commune_name": "القنادسة"
+        },
+        {
+          "id": 226,
+          "province_id": 8,
+          "commune_name": "تاغيت"
+        },
+        {
+          "id": 227,
+          "province_id": 8,
+          "commune_name": "العبادلة"
+        },
+        {
+          "id": 228,
+          "province_id": 8,
+          "commune_name": "عرق فراج"
+        },
+        {
+          "id": 229,
+          "province_id": 8,
+          "commune_name": "مشرع هواري بومدين"
+        },
+        {
+          "id": 230,
+          "province_id": 8,
+          "commune_name": "بني ونيف"
+        },
+        {
+          "id": 231,
+          "province_id": 8,
+          "commune_name": "تبلبالة"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "البليدة",
+      "municipalities": [
+        {
+          "id": 232,
+          "province_id": 9,
+          "commune_name": "بني مراد"
+        },
+        {
+          "id": 233,
+          "province_id": 9,
+          "commune_name": "أولاد يعيش"
+        },
+        {
+          "id": 234,
+          "province_id": 9,
+          "commune_name": "الشريعة"
+        },
+        {
+          "id": 235,
+          "province_id": 9,
+          "commune_name": "اولاد سلامة"
+        },
+        {
+          "id": 236,
+          "province_id": 9,
+          "commune_name": "حمام ملوان"
+        },
+        {
+          "id": 237,
+          "province_id": 9,
+          "commune_name": "بوقرة"
+        },
+        {
+          "id": 238,
+          "province_id": 9,
+          "commune_name": "موزاية"
+        },
+        {
+          "id": 239,
+          "province_id": 9,
+          "commune_name": "الشفة"
+        },
+        {
+          "id": 240,
+          "province_id": 9,
+          "commune_name": "عين الرمانة"
+        },
+        {
+          "id": 241,
+          "province_id": 9,
+          "commune_name": "صوحان"
+        },
+        {
+          "id": 242,
+          "province_id": 9,
+          "commune_name": "الأربعاء"
+        },
+        {
+          "id": 243,
+          "province_id": 9,
+          "commune_name": "الصومعة"
+        },
+        {
+          "id": 244,
+          "province_id": 9,
+          "commune_name": "قرواو"
+        },
+        {
+          "id": 245,
+          "province_id": 9,
+          "commune_name": "بوفاريك"
+        },
+        {
+          "id": 246,
+          "province_id": 9,
+          "commune_name": "مفتاح"
+        },
+        {
+          "id": 247,
+          "province_id": 9,
+          "commune_name": "جبابرة"
+        },
+        {
+          "id": 248,
+          "province_id": 9,
+          "commune_name": "وادي جر"
+        },
+        {
+          "id": 249,
+          "province_id": 9,
+          "commune_name": "العفرون"
+        },
+        {
+          "id": 250,
+          "province_id": 9,
+          "commune_name": "وادي العلايق"
+        },
+        {
+          "id": 251,
+          "province_id": 9,
+          "commune_name": "بن خليل"
+        },
+        {
+          "id": 252,
+          "province_id": 9,
+          "commune_name": "بني تامو"
+        },
+        {
+          "id": 253,
+          "province_id": 9,
+          "commune_name": "الشبلي"
+        },
+        {
+          "id": 254,
+          "province_id": 9,
+          "commune_name": "بوعينان"
+        },
+        {
+          "id": 255,
+          "province_id": 9,
+          "commune_name": "بوعرفة"
+        },
+        {
+          "id": 256,
+          "province_id": 9,
+          "commune_name": "البليدة"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "البويرة",
+      "municipalities": [
+        {
+          "id": 257,
+          "province_id": 10,
+          "commune_name": "عين العلوي"
+        },
+        {
+          "id": 258,
+          "province_id": 10,
+          "commune_name": "عين الحجر"
+        },
+        {
+          "id": 259,
+          "province_id": 10,
+          "commune_name": "عين بسام"
+        },
+        {
+          "id": 260,
+          "province_id": 10,
+          "commune_name": "الحجرة الزرقاء"
+        },
+        {
+          "id": 261,
+          "province_id": 10,
+          "commune_name": "مزدور"
+        },
+        {
+          "id": 262,
+          "province_id": 10,
+          "commune_name": "تاقديت"
+        },
+        {
+          "id": 263,
+          "province_id": 10,
+          "commune_name": "برج أوخريص"
+        },
+        {
+          "id": 264,
+          "province_id": 10,
+          "commune_name": "ريدان"
+        },
+        {
+          "id": 265,
+          "province_id": 10,
+          "commune_name": "المعمورة"
+        },
+        {
+          "id": 266,
+          "province_id": 10,
+          "commune_name": "الحاكمية"
+        },
+        {
+          "id": 267,
+          "province_id": 10,
+          "commune_name": "ديرة"
+        },
+        {
+          "id": 268,
+          "province_id": 10,
+          "commune_name": "الدشمية"
+        },
+        {
+          "id": 269,
+          "province_id": 10,
+          "commune_name": "سور الغزلان"
+        },
+        {
+          "id": 270,
+          "province_id": 10,
+          "commune_name": "أهل القصر"
+        },
+        {
+          "id": 271,
+          "province_id": 10,
+          "commune_name": "بشلول"
+        },
+        {
+          "id": 272,
+          "province_id": 10,
+          "commune_name": "العجيبة"
+        },
+        {
+          "id": 273,
+          "province_id": 10,
+          "commune_name": "الأسنام"
+        },
+        {
+          "id": 274,
+          "province_id": 10,
+          "commune_name": "أولاد راشد"
+        },
+        {
+          "id": 275,
+          "province_id": 10,
+          "commune_name": "آث  منصور"
+        },
+        {
+          "id": 276,
+          "province_id": 10,
+          "commune_name": "سحاريج"
+        },
+        {
+          "id": 277,
+          "province_id": 10,
+          "commune_name": "أمشدالة"
+        },
+        {
+          "id": 278,
+          "province_id": 10,
+          "commune_name": "حنيف"
+        },
+        {
+          "id": 279,
+          "province_id": 10,
+          "commune_name": "شرفة"
+        },
+        {
+          "id": 280,
+          "province_id": 10,
+          "commune_name": "أغبالو"
+        },
+        {
+          "id": 281,
+          "province_id": 10,
+          "commune_name": "روراوة"
+        },
+        {
+          "id": 282,
+          "province_id": 10,
+          "commune_name": "الخبوزية"
+        },
+        {
+          "id": 283,
+          "province_id": 10,
+          "commune_name": "بئر غبالو"
+        },
+        {
+          "id": 284,
+          "province_id": 10,
+          "commune_name": "البويرة"
+        },
+        {
+          "id": 285,
+          "province_id": 10,
+          "commune_name": "عين الترك"
+        },
+        {
+          "id": 286,
+          "province_id": 10,
+          "commune_name": "أيت لعزيز"
+        },
+        {
+          "id": 287,
+          "province_id": 10,
+          "commune_name": "المقراني"
+        },
+        {
+          "id": 288,
+          "province_id": 10,
+          "commune_name": "سوق الخميس"
+        },
+        {
+          "id": 289,
+          "province_id": 10,
+          "commune_name": "أعمر"
+        },
+        {
+          "id": 290,
+          "province_id": 10,
+          "commune_name": "جباحية"
+        },
+        {
+          "id": 291,
+          "province_id": 10,
+          "commune_name": "قادرية"
+        },
+        {
+          "id": 292,
+          "province_id": 10,
+          "commune_name": "الهاشمية"
+        },
+        {
+          "id": 293,
+          "province_id": 10,
+          "commune_name": "وادي البردي"
+        },
+        {
+          "id": 294,
+          "province_id": 10,
+          "commune_name": "حيزر"
+        },
+        {
+          "id": 295,
+          "province_id": 10,
+          "commune_name": "تاغزوت"
+        },
+        {
+          "id": 296,
+          "province_id": 10,
+          "commune_name": "بودربالة"
+        },
+        {
+          "id": 297,
+          "province_id": 10,
+          "commune_name": "بوكرم"
+        },
+        {
+          "id": 298,
+          "province_id": 10,
+          "commune_name": "قرومة"
+        },
+        {
+          "id": 299,
+          "province_id": 10,
+          "commune_name": "الأخضرية"
+        },
+        {
+          "id": 300,
+          "province_id": 10,
+          "commune_name": "معلة"
+        },
+        {
+          "id": 301,
+          "province_id": 10,
+          "commune_name": "زبربر"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "تمنراست",
+      "municipalities": [
+        {
+          "id": 302,
+          "province_id": 11,
+          "commune_name": "تاظروك"
+        },
+        {
+          "id": 303,
+          "province_id": 11,
+          "commune_name": "أدلس"
+        },
+        {
+          "id": 304,
+          "province_id": 11,
+          "commune_name": "ابلسة"
+        },
+        {
+          "id": 305,
+          "province_id": 11,
+          "commune_name": "تمنراست"
+        },
+        {
+          "id": 306,
+          "province_id": 11,
+          "commune_name": "عين امقل"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "تبسة",
+      "municipalities": [
+        {
+          "id": 307,
+          "province_id": 12,
+          "commune_name": "الحويجبات"
+        },
+        {
+          "id": 308,
+          "province_id": 12,
+          "commune_name": "الماء الابيض"
+        },
+        {
+          "id": 309,
+          "province_id": 12,
+          "commune_name": "العوينات"
+        },
+        {
+          "id": 310,
+          "province_id": 12,
+          "commune_name": "بوخضرة"
+        },
+        {
+          "id": 311,
+          "province_id": 12,
+          "commune_name": "بئر مقدم"
+        },
+        {
+          "id": 312,
+          "province_id": 12,
+          "commune_name": "قريقر"
+        },
+        {
+          "id": 313,
+          "province_id": 12,
+          "commune_name": "الحمامات"
+        },
+        {
+          "id": 314,
+          "province_id": 12,
+          "commune_name": "بئر الذهب"
+        },
+        {
+          "id": 315,
+          "province_id": 12,
+          "commune_name": "مرسط"
+        },
+        {
+          "id": 316,
+          "province_id": 12,
+          "commune_name": "صفصاف الوسرى"
+        },
+        {
+          "id": 317,
+          "province_id": 12,
+          "commune_name": "أم علي"
+        },
+        {
+          "id": 318,
+          "province_id": 12,
+          "commune_name": "بكارية"
+        },
+        {
+          "id": 319,
+          "province_id": 12,
+          "commune_name": "بولحاف الدير"
+        },
+        {
+          "id": 320,
+          "province_id": 12,
+          "commune_name": "الكويف"
+        },
+        {
+          "id": 321,
+          "province_id": 12,
+          "commune_name": "الونزة"
+        },
+        {
+          "id": 322,
+          "province_id": 12,
+          "commune_name": "المريج"
+        },
+        {
+          "id": 323,
+          "province_id": 12,
+          "commune_name": "عين الزرقاء"
+        },
+        {
+          "id": 324,
+          "province_id": 12,
+          "commune_name": "سطح قنطيس"
+        },
+        {
+          "id": 325,
+          "province_id": 12,
+          "commune_name": "العقلة"
+        },
+        {
+          "id": 326,
+          "province_id": 12,
+          "commune_name": "المزرعة"
+        },
+        {
+          "id": 327,
+          "province_id": 12,
+          "commune_name": "بجن"
+        },
+        {
+          "id": 328,
+          "province_id": 12,
+          "commune_name": "ثليجان"
+        },
+        {
+          "id": 329,
+          "province_id": 12,
+          "commune_name": "الشريعة"
+        },
+        {
+          "id": 330,
+          "province_id": 12,
+          "commune_name": "تبسة"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "تلمسان",
+      "municipalities": [
+        {
+          "id": 331,
+          "province_id": 13,
+          "commune_name": "باب العسة"
+        },
+        {
+          "id": 332,
+          "province_id": 13,
+          "commune_name": "سوق الثلاثاء"
+        },
+        {
+          "id": 333,
+          "province_id": 13,
+          "commune_name": "السواني"
+        },
+        {
+          "id": 334,
+          "province_id": 13,
+          "commune_name": "تيرني بني هديل"
+        },
+        {
+          "id": 335,
+          "province_id": 13,
+          "commune_name": "منصورة"
+        },
+        {
+          "id": 336,
+          "province_id": 13,
+          "commune_name": "بني مستر"
+        },
+        {
+          "id": 337,
+          "province_id": 13,
+          "commune_name": "عين غرابة"
+        },
+        {
+          "id": 338,
+          "province_id": 13,
+          "commune_name": "شتوان"
+        },
+        {
+          "id": 339,
+          "province_id": 13,
+          "commune_name": "عمير"
+        },
+        {
+          "id": 340,
+          "province_id": 13,
+          "commune_name": "عين فزة"
+        },
+        {
+          "id": 341,
+          "province_id": 13,
+          "commune_name": "هنين"
+        },
+        {
+          "id": 342,
+          "province_id": 13,
+          "commune_name": "بني خلاد"
+        },
+        {
+          "id": 343,
+          "province_id": 13,
+          "commune_name": "ندرومة"
+        },
+        {
+          "id": 344,
+          "province_id": 13,
+          "commune_name": "جبالة"
+        },
+        {
+          "id": 345,
+          "province_id": 13,
+          "commune_name": "مسيردة الفواقة"
+        },
+        {
+          "id": 346,
+          "province_id": 13,
+          "commune_name": "مرسى بن مهيدي"
+        },
+        {
+          "id": 347,
+          "province_id": 13,
+          "commune_name": "سيدي مجاهد"
+        },
+        {
+          "id": 348,
+          "province_id": 13,
+          "commune_name": "بني بوسعيد"
+        },
+        {
+          "id": 349,
+          "province_id": 13,
+          "commune_name": "سبدو"
+        },
+        {
+          "id": 350,
+          "province_id": 13,
+          "commune_name": "بوحلو"
+        },
+        {
+          "id": 351,
+          "province_id": 13,
+          "commune_name": "صبرة"
+        },
+        {
+          "id": 352,
+          "province_id": 13,
+          "commune_name": "مغنية"
+        },
+        {
+          "id": 353,
+          "province_id": 13,
+          "commune_name": "حمام بوغرارة"
+        },
+        {
+          "id": 354,
+          "province_id": 13,
+          "commune_name": "زناتة"
+        },
+        {
+          "id": 355,
+          "province_id": 13,
+          "commune_name": "أولاد رياح"
+        },
+        {
+          "id": 356,
+          "province_id": 13,
+          "commune_name": "الحناية"
+        },
+        {
+          "id": 357,
+          "province_id": 13,
+          "commune_name": "سيدي العبدلي"
+        },
+        {
+          "id": 358,
+          "province_id": 13,
+          "commune_name": "بن سكران"
+        },
+        {
+          "id": 359,
+          "province_id": 13,
+          "commune_name": "فلاوسن"
+        },
+        {
+          "id": 360,
+          "province_id": 13,
+          "commune_name": "عين الكبيرة"
+        },
+        {
+          "id": 361,
+          "province_id": 13,
+          "commune_name": "عين فتاح"
+        },
+        {
+          "id": 362,
+          "province_id": 13,
+          "commune_name": "تلمسان"
+        },
+        {
+          "id": 363,
+          "province_id": 13,
+          "commune_name": "عين النحالة"
+        },
+        {
+          "id": 364,
+          "province_id": 13,
+          "commune_name": "عين تالوت"
+        },
+        {
+          "id": 365,
+          "province_id": 13,
+          "commune_name": "عين يوسف"
+        },
+        {
+          "id": 366,
+          "province_id": 13,
+          "commune_name": "بني وارسوس"
+        },
+        {
+          "id": 367,
+          "province_id": 13,
+          "commune_name": "الفحول"
+        },
+        {
+          "id": 368,
+          "province_id": 13,
+          "commune_name": "الرمشي"
+        },
+        {
+          "id": 369,
+          "province_id": 13,
+          "commune_name": "سبعة شيوخ"
+        },
+        {
+          "id": 370,
+          "province_id": 13,
+          "commune_name": "دار يغمراسن"
+        },
+        {
+          "id": 371,
+          "province_id": 13,
+          "commune_name": "الغزوات"
+        },
+        {
+          "id": 372,
+          "province_id": 13,
+          "commune_name": "السواحلية"
+        },
+        {
+          "id": 373,
+          "province_id": 13,
+          "commune_name": "تيانت"
+        },
+        {
+          "id": 374,
+          "province_id": 13,
+          "commune_name": "بني صميل"
+        },
+        {
+          "id": 375,
+          "province_id": 13,
+          "commune_name": "وادي الخضر"
+        },
+        {
+          "id": 376,
+          "province_id": 13,
+          "commune_name": "أولاد ميمون"
+        },
+        {
+          "id": 377,
+          "province_id": 13,
+          "commune_name": "بني بهدل"
+        },
+        {
+          "id": 378,
+          "province_id": 13,
+          "commune_name": "بني سنوس"
+        },
+        {
+          "id": 379,
+          "province_id": 13,
+          "commune_name": "العزايل"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "تيارت",
+      "municipalities": [
+        {
+          "id": 380,
+          "province_id": 14,
+          "commune_name": "مهدية"
+        },
+        {
+          "id": 381,
+          "province_id": 14,
+          "commune_name": "عين دزاريت"
+        },
+        {
+          "id": 382,
+          "province_id": 14,
+          "commune_name": "السبعين"
+        },
+        {
+          "id": 383,
+          "province_id": 14,
+          "commune_name": "الناظورة"
+        },
+        {
+          "id": 384,
+          "province_id": 14,
+          "commune_name": "الفايجة"
+        },
+        {
+          "id": 385,
+          "province_id": 14,
+          "commune_name": "سي عبد الغني"
+        },
+        {
+          "id": 386,
+          "province_id": 14,
+          "commune_name": "السوقر"
+        },
+        {
+          "id": 387,
+          "province_id": 14,
+          "commune_name": "توسنينة"
+        },
+        {
+          "id": 388,
+          "province_id": 14,
+          "commune_name": "مغيلة"
+        },
+        {
+          "id": 389,
+          "province_id": 14,
+          "commune_name": "السبت"
+        },
+        {
+          "id": 390,
+          "province_id": 14,
+          "commune_name": "سيدي حسني"
+        },
+        {
+          "id": 391,
+          "province_id": 14,
+          "commune_name": "عين الحديد"
+        },
+        {
+          "id": 392,
+          "province_id": 14,
+          "commune_name": "فرندة"
+        },
+        {
+          "id": 393,
+          "province_id": 14,
+          "commune_name": "تخمرت"
+        },
+        {
+          "id": 394,
+          "province_id": 14,
+          "commune_name": "عين كرمس"
+        },
+        {
+          "id": 395,
+          "province_id": 14,
+          "commune_name": "جبيلات الرصفاء"
+        },
+        {
+          "id": 396,
+          "province_id": 14,
+          "commune_name": "مادنة"
+        },
+        {
+          "id": 397,
+          "province_id": 14,
+          "commune_name": "مدريسة"
+        },
+        {
+          "id": 398,
+          "province_id": 14,
+          "commune_name": "سيدي عبد الرحمن"
+        },
+        {
+          "id": 399,
+          "province_id": 14,
+          "commune_name": "قرطوفة"
+        },
+        {
+          "id": 400,
+          "province_id": 14,
+          "commune_name": "الرحوية"
+        },
+        {
+          "id": 401,
+          "province_id": 14,
+          "commune_name": "وادي ليلي"
+        },
+        {
+          "id": 402,
+          "province_id": 14,
+          "commune_name": "سيدي علي ملال"
+        },
+        {
+          "id": 403,
+          "province_id": 14,
+          "commune_name": "تيدة"
+        },
+        {
+          "id": 404,
+          "province_id": 14,
+          "commune_name": "جيلالي بن عمار"
+        },
+        {
+          "id": 405,
+          "province_id": 14,
+          "commune_name": "مشرع الصفا"
+        },
+        {
+          "id": 406,
+          "province_id": 14,
+          "commune_name": "تاقدمت"
+        },
+        {
+          "id": 407,
+          "province_id": 14,
+          "commune_name": "تيارت"
+        },
+        {
+          "id": 408,
+          "province_id": 14,
+          "commune_name": "مدروسة"
+        },
+        {
+          "id": 409,
+          "province_id": 14,
+          "commune_name": "ملاكو"
+        },
+        {
+          "id": 410,
+          "province_id": 14,
+          "commune_name": "سيدي بختي"
+        },
+        {
+          "id": 411,
+          "province_id": 14,
+          "commune_name": "عين الذهب"
+        },
+        {
+          "id": 412,
+          "province_id": 14,
+          "commune_name": "شحيمة"
+        },
+        {
+          "id": 413,
+          "province_id": 14,
+          "commune_name": "النعيمة"
+        },
+        {
+          "id": 414,
+          "province_id": 14,
+          "commune_name": "عين بوشقيف"
+        },
+        {
+          "id": 415,
+          "province_id": 14,
+          "commune_name": "دحموني"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "تيزي وزو",
+      "municipalities": [
+        {
+          "id": 416,
+          "province_id": 15,
+          "commune_name": "ميزرانـــة"
+        },
+        {
+          "id": 417,
+          "province_id": 15,
+          "commune_name": "إفليـــسن"
+        },
+        {
+          "id": 418,
+          "province_id": 15,
+          "commune_name": "تيقـزيرت"
+        },
+        {
+          "id": 419,
+          "province_id": 15,
+          "commune_name": "إيجــار"
+        },
+        {
+          "id": 420,
+          "province_id": 15,
+          "commune_name": "بني زيكــي"
+        },
+        {
+          "id": 421,
+          "province_id": 15,
+          "commune_name": "إيلولة أومـــالو"
+        },
+        {
+          "id": 422,
+          "province_id": 15,
+          "commune_name": "بوزقــن"
+        },
+        {
+          "id": 423,
+          "province_id": 15,
+          "commune_name": "بني دوالة"
+        },
+        {
+          "id": 424,
+          "province_id": 15,
+          "commune_name": "بني عيسي"
+        },
+        {
+          "id": 425,
+          "province_id": 15,
+          "commune_name": "أيت محمود"
+        },
+        {
+          "id": 426,
+          "province_id": 15,
+          "commune_name": "بنــــي زمنزار"
+        },
+        {
+          "id": 427,
+          "province_id": 15,
+          "commune_name": "أقني قغران"
+        },
+        {
+          "id": 428,
+          "province_id": 15,
+          "commune_name": "أيت بــوادو"
+        },
+        {
+          "id": 429,
+          "province_id": 15,
+          "commune_name": "واضية"
+        },
+        {
+          "id": 430,
+          "province_id": 15,
+          "commune_name": "تيزي نثلاثة"
+        },
+        {
+          "id": 431,
+          "province_id": 15,
+          "commune_name": "أغريب"
+        },
+        {
+          "id": 432,
+          "province_id": 15,
+          "commune_name": "أيت شافع"
+        },
+        {
+          "id": 433,
+          "province_id": 15,
+          "commune_name": "أقرو"
+        },
+        {
+          "id": 434,
+          "province_id": 15,
+          "commune_name": "أزفون"
+        },
+        {
+          "id": 435,
+          "province_id": 15,
+          "commune_name": "أسي يوسف"
+        },
+        {
+          "id": 436,
+          "province_id": 15,
+          "commune_name": "بوغني"
+        },
+        {
+          "id": 437,
+          "province_id": 15,
+          "commune_name": "بونوح"
+        },
+        {
+          "id": 438,
+          "province_id": 15,
+          "commune_name": "مشطراس"
+        },
+        {
+          "id": 439,
+          "province_id": 15,
+          "commune_name": "ذراع بن خدة"
+        },
+        {
+          "id": 440,
+          "province_id": 15,
+          "commune_name": "سيدي نعمان"
+        },
+        {
+          "id": 441,
+          "province_id": 15,
+          "commune_name": "تادمايت"
+        },
+        {
+          "id": 442,
+          "province_id": 15,
+          "commune_name": "تيرمتين"
+        },
+        {
+          "id": 443,
+          "province_id": 15,
+          "commune_name": "أيت بومهدي"
+        },
+        {
+          "id": 444,
+          "province_id": 15,
+          "commune_name": "أيت تودرت"
+        },
+        {
+          "id": 445,
+          "province_id": 15,
+          "commune_name": "واسيف"
+        },
+        {
+          "id": 446,
+          "province_id": 15,
+          "commune_name": "أيت خليلي"
+        },
+        {
+          "id": 447,
+          "province_id": 15,
+          "commune_name": "مقــلع"
+        },
+        {
+          "id": 448,
+          "province_id": 15,
+          "commune_name": "صوامـــع"
+        },
+        {
+          "id": 449,
+          "province_id": 15,
+          "commune_name": "بني يني"
+        },
+        {
+          "id": 450,
+          "province_id": 15,
+          "commune_name": "إبودرارن"
+        },
+        {
+          "id": 451,
+          "province_id": 15,
+          "commune_name": "يطــافن"
+        },
+        {
+          "id": 452,
+          "province_id": 15,
+          "commune_name": "تيزي وزو"
+        },
+        {
+          "id": 453,
+          "province_id": 15,
+          "commune_name": "أبي يوسف"
+        },
+        {
+          "id": 454,
+          "province_id": 15,
+          "commune_name": "عين الحمام"
+        },
+        {
+          "id": 455,
+          "province_id": 15,
+          "commune_name": "أيت يحيى"
+        },
+        {
+          "id": 456,
+          "province_id": 15,
+          "commune_name": "اقبيل"
+        },
+        {
+          "id": 457,
+          "province_id": 15,
+          "commune_name": "بوجيمة"
+        },
+        {
+          "id": 458,
+          "province_id": 15,
+          "commune_name": "ماكودة"
+        },
+        {
+          "id": 459,
+          "province_id": 15,
+          "commune_name": "عين الزاوية"
+        },
+        {
+          "id": 460,
+          "province_id": 15,
+          "commune_name": "أيت يحي موسى"
+        },
+        {
+          "id": 461,
+          "province_id": 15,
+          "commune_name": "ذراع الميزان"
+        },
+        {
+          "id": 462,
+          "province_id": 15,
+          "commune_name": "فريقات"
+        },
+        {
+          "id": 463,
+          "province_id": 15,
+          "commune_name": "مكيرة"
+        },
+        {
+          "id": 464,
+          "province_id": 15,
+          "commune_name": "تيزي غنيف"
+        },
+        {
+          "id": 465,
+          "province_id": 15,
+          "commune_name": "إيلـيــلتـن"
+        },
+        {
+          "id": 466,
+          "province_id": 15,
+          "commune_name": "إمســوحال"
+        },
+        {
+          "id": 467,
+          "province_id": 15,
+          "commune_name": "إفــرحــونان"
+        },
+        {
+          "id": 468,
+          "province_id": 15,
+          "commune_name": "عزازقة"
+        },
+        {
+          "id": 469,
+          "province_id": 15,
+          "commune_name": "فريحة"
+        },
+        {
+          "id": 470,
+          "province_id": 15,
+          "commune_name": "إيفيغاء"
+        },
+        {
+          "id": 471,
+          "province_id": 15,
+          "commune_name": "إعــكورن"
+        },
+        {
+          "id": 472,
+          "province_id": 15,
+          "commune_name": "زكري"
+        },
+        {
+          "id": 473,
+          "province_id": 15,
+          "commune_name": "أيت عقـواشة"
+        },
+        {
+          "id": 474,
+          "province_id": 15,
+          "commune_name": "إيرجـــن"
+        },
+        {
+          "id": 475,
+          "province_id": 15,
+          "commune_name": "الأربعــاء ناث إيراثن"
+        },
+        {
+          "id": 476,
+          "province_id": 15,
+          "commune_name": "أيت  أومالو"
+        },
+        {
+          "id": 477,
+          "province_id": 15,
+          "commune_name": "تيزي راشد"
+        },
+        {
+          "id": 478,
+          "province_id": 15,
+          "commune_name": "أيت عيسى ميمون"
+        },
+        {
+          "id": 479,
+          "province_id": 15,
+          "commune_name": "واقنون"
+        },
+        {
+          "id": 480,
+          "province_id": 15,
+          "commune_name": "تيمـيزار"
+        },
+        {
+          "id": 481,
+          "province_id": 15,
+          "commune_name": "معـــاتقة"
+        },
+        {
+          "id": 482,
+          "province_id": 15,
+          "commune_name": "سوق الإثنين"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "الجزائر",
+      "municipalities": [
+        {
+          "id": 483,
+          "province_id": 16,
+          "commune_name": "حسين داي"
+        },
+        {
+          "id": 484,
+          "province_id": 16,
+          "commune_name": "القبة"
+        },
+        {
+          "id": 485,
+          "province_id": 16,
+          "commune_name": "محمد بلوزداد"
+        },
+        {
+          "id": 486,
+          "province_id": 16,
+          "commune_name": "المغارية"
+        },
+        {
+          "id": 487,
+          "province_id": 16,
+          "commune_name": "الكاليتوس"
+        },
+        {
+          "id": 488,
+          "province_id": 16,
+          "commune_name": "سيدي موسى"
+        },
+        {
+          "id": 489,
+          "province_id": 16,
+          "commune_name": "براقي"
+        },
+        {
+          "id": 490,
+          "province_id": 16,
+          "commune_name": "عين طاية"
+        },
+        {
+          "id": 491,
+          "province_id": 16,
+          "commune_name": "باب الزوار"
+        },
+        {
+          "id": 492,
+          "province_id": 16,
+          "commune_name": "برج الكيفان"
+        },
+        {
+          "id": 493,
+          "province_id": 16,
+          "commune_name": "الدار البيضاء"
+        },
+        {
+          "id": 494,
+          "province_id": 16,
+          "commune_name": "المحمدية"
+        },
+        {
+          "id": 495,
+          "province_id": 16,
+          "commune_name": "برج البحري"
+        },
+        {
+          "id": 496,
+          "province_id": 16,
+          "commune_name": "المرسى"
+        },
+        {
+          "id": 497,
+          "province_id": 16,
+          "commune_name": "بئر توتة"
+        },
+        {
+          "id": 498,
+          "province_id": 16,
+          "commune_name": "اولاد شبل"
+        },
+        {
+          "id": 499,
+          "province_id": 16,
+          "commune_name": "تسالة المرجة"
+        },
+        {
+          "id": 500,
+          "province_id": 16,
+          "commune_name": "هراوة"
+        },
+        {
+          "id": 501,
+          "province_id": 16,
+          "commune_name": "رغاية"
+        },
+        {
+          "id": 502,
+          "province_id": 16,
+          "commune_name": "الرويبة"
+        },
+        {
+          "id": 503,
+          "province_id": 16,
+          "commune_name": "المعالمة"
+        },
+        {
+          "id": 504,
+          "province_id": 16,
+          "commune_name": "الرحمانية"
+        },
+        {
+          "id": 505,
+          "province_id": 16,
+          "commune_name": "سويدانية"
+        },
+        {
+          "id": 506,
+          "province_id": 16,
+          "commune_name": "سطاوالي"
+        },
+        {
+          "id": 507,
+          "province_id": 16,
+          "commune_name": "زرالدة"
+        },
+        {
+          "id": 508,
+          "province_id": 16,
+          "commune_name": "بابا حسن"
+        },
+        {
+          "id": 509,
+          "province_id": 16,
+          "commune_name": "الدويرة"
+        },
+        {
+          "id": 510,
+          "province_id": 16,
+          "commune_name": "الدرارية"
+        },
+        {
+          "id": 511,
+          "province_id": 16,
+          "commune_name": "العاشور"
+        },
+        {
+          "id": 512,
+          "province_id": 16,
+          "commune_name": "الخرايسية"
+        },
+        {
+          "id": 513,
+          "province_id": 16,
+          "commune_name": "عين بنيان"
+        },
+        {
+          "id": 514,
+          "province_id": 16,
+          "commune_name": "الشراقة"
+        },
+        {
+          "id": 515,
+          "province_id": 16,
+          "commune_name": "دالي ابراهيم"
+        },
+        {
+          "id": 516,
+          "province_id": 16,
+          "commune_name": "اولاد فايت"
+        },
+        {
+          "id": 517,
+          "province_id": 16,
+          "commune_name": "الحمامات"
+        },
+        {
+          "id": 518,
+          "province_id": 16,
+          "commune_name": "الجزائر الوسطى"
+        },
+        {
+          "id": 519,
+          "province_id": 16,
+          "commune_name": "المدنية"
+        },
+        {
+          "id": 520,
+          "province_id": 16,
+          "commune_name": "المرادية"
+        },
+        {
+          "id": 521,
+          "province_id": 16,
+          "commune_name": "سيدي امحمد"
+        },
+        {
+          "id": 522,
+          "province_id": 16,
+          "commune_name": "السحاولة"
+        },
+        {
+          "id": 523,
+          "province_id": 16,
+          "commune_name": "بئر مراد رايس"
+        },
+        {
+          "id": 524,
+          "province_id": 16,
+          "commune_name": "بئر خادم"
+        },
+        {
+          "id": 525,
+          "province_id": 16,
+          "commune_name": "جسر قسنطينة"
+        },
+        {
+          "id": 526,
+          "province_id": 16,
+          "commune_name": "حيدرة"
+        },
+        {
+          "id": 527,
+          "province_id": 16,
+          "commune_name": "بولوغين بن زيري"
+        },
+        {
+          "id": 528,
+          "province_id": 16,
+          "commune_name": "القصبة"
+        },
+        {
+          "id": 529,
+          "province_id": 16,
+          "commune_name": "وادي قريش"
+        },
+        {
+          "id": 530,
+          "province_id": 16,
+          "commune_name": "الرايس حميدو"
+        },
+        {
+          "id": 531,
+          "province_id": 16,
+          "commune_name": "باب الوادي"
+        },
+        {
+          "id": 532,
+          "province_id": 16,
+          "commune_name": "ابن عكنون"
+        },
+        {
+          "id": 533,
+          "province_id": 16,
+          "commune_name": "بني مسوس"
+        },
+        {
+          "id": 534,
+          "province_id": 16,
+          "commune_name": "بوزريعة"
+        },
+        {
+          "id": 535,
+          "province_id": 16,
+          "commune_name": "الابيار"
+        },
+        {
+          "id": 536,
+          "province_id": 16,
+          "commune_name": "باش جراح"
+        },
+        {
+          "id": 537,
+          "province_id": 16,
+          "commune_name": "بوروبة"
+        },
+        {
+          "id": 538,
+          "province_id": 16,
+          "commune_name": "الحراش"
+        },
+        {
+          "id": 539,
+          "province_id": 16,
+          "commune_name": "وادي السمار"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "الجلفة",
+      "municipalities": [
+        {
+          "id": 540,
+          "province_id": 17,
+          "commune_name": "حاسي العش"
+        },
+        {
+          "id": 541,
+          "province_id": 17,
+          "commune_name": "زعفران"
+        },
+        {
+          "id": 542,
+          "province_id": 17,
+          "commune_name": "عين معبد"
+        },
+        {
+          "id": 543,
+          "province_id": 17,
+          "commune_name": "حاسي بحبح"
+        },
+        {
+          "id": 544,
+          "province_id": 17,
+          "commune_name": "عين الإبل"
+        },
+        {
+          "id": 545,
+          "province_id": 17,
+          "commune_name": "تعظميت"
+        },
+        {
+          "id": 546,
+          "province_id": 17,
+          "commune_name": "زكار"
+        },
+        {
+          "id": 547,
+          "province_id": 17,
+          "commune_name": "مجبارة"
+        },
+        {
+          "id": 548,
+          "province_id": 17,
+          "commune_name": "القديد"
+        },
+        {
+          "id": 549,
+          "province_id": 17,
+          "commune_name": "الشارف"
+        },
+        {
+          "id": 550,
+          "province_id": 17,
+          "commune_name": "بن يعقوب"
+        },
+        {
+          "id": 551,
+          "province_id": 17,
+          "commune_name": "سيدي بايزيد"
+        },
+        {
+          "id": 552,
+          "province_id": 17,
+          "commune_name": "مليليحة"
+        },
+        {
+          "id": 553,
+          "province_id": 17,
+          "commune_name": "دار الشيوخ"
+        },
+        {
+          "id": 554,
+          "province_id": 17,
+          "commune_name": "دويس"
+        },
+        {
+          "id": 555,
+          "province_id": 17,
+          "commune_name": "الادريسية"
+        },
+        {
+          "id": 556,
+          "province_id": 17,
+          "commune_name": "عين الشهداء"
+        },
+        {
+          "id": 557,
+          "province_id": 17,
+          "commune_name": "الجلفة"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "جيجل",
+      "municipalities": [
+        {
+          "id": 558,
+          "province_id": 18,
+          "commune_name": "جيجل"
+        },
+        {
+          "id": 559,
+          "province_id": 18,
+          "commune_name": "العوانة"
+        },
+        {
+          "id": 560,
+          "province_id": 18,
+          "commune_name": "سلمى بن زيادة"
+        },
+        {
+          "id": 561,
+          "province_id": 18,
+          "commune_name": "أراقن سويسي"
+        },
+        {
+          "id": 562,
+          "province_id": 18,
+          "commune_name": "زيامة منصورية"
+        },
+        {
+          "id": 563,
+          "province_id": 18,
+          "commune_name": "بوسيف أولاد عسكر"
+        },
+        {
+          "id": 564,
+          "province_id": 18,
+          "commune_name": "الشحنة"
+        },
+        {
+          "id": 565,
+          "province_id": 18,
+          "commune_name": "الامير عبد القادر"
+        },
+        {
+          "id": 566,
+          "province_id": 18,
+          "commune_name": "وجانة"
+        },
+        {
+          "id": 567,
+          "province_id": 18,
+          "commune_name": "الطاهير"
+        },
+        {
+          "id": 568,
+          "province_id": 18,
+          "commune_name": "الشقفة"
+        },
+        {
+          "id": 569,
+          "province_id": 18,
+          "commune_name": "القنار نشفي"
+        },
+        {
+          "id": 570,
+          "province_id": 18,
+          "commune_name": "سيدي عبد العزيز"
+        },
+        {
+          "id": 571,
+          "province_id": 18,
+          "commune_name": "برج الطهر"
+        },
+        {
+          "id": 572,
+          "province_id": 18,
+          "commune_name": "الميلية"
+        },
+        {
+          "id": 573,
+          "province_id": 18,
+          "commune_name": "أولاد يحيى خدروش"
+        },
+        {
+          "id": 574,
+          "province_id": 18,
+          "commune_name": "أولاد رابح"
+        },
+        {
+          "id": 575,
+          "province_id": 18,
+          "commune_name": "سيدي معروف"
+        },
+        {
+          "id": 576,
+          "province_id": 18,
+          "commune_name": "غبالة"
+        },
+        {
+          "id": 577,
+          "province_id": 18,
+          "commune_name": "السطارة"
+        },
+        {
+          "id": 578,
+          "province_id": 18,
+          "commune_name": "بوراوي بلهادف"
+        },
+        {
+          "id": 579,
+          "province_id": 18,
+          "commune_name": "العنصر"
+        },
+        {
+          "id": 580,
+          "province_id": 18,
+          "commune_name": "خيري واد عجول"
+        },
+        {
+          "id": 581,
+          "province_id": 18,
+          "commune_name": "الجمعة بني حبيبي"
+        },
+        {
+          "id": 582,
+          "province_id": 18,
+          "commune_name": "جيملة"
+        },
+        {
+          "id": 583,
+          "province_id": 18,
+          "commune_name": "بودريعة بني  ياجيس"
+        },
+        {
+          "id": 584,
+          "province_id": 18,
+          "commune_name": "قاوس"
+        },
+        {
+          "id": 585,
+          "province_id": 18,
+          "commune_name": "تاكسنة"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "سطيف",
+      "municipalities": [
+        {
+          "id": 586,
+          "province_id": 19,
+          "commune_name": "الرصفة"
+        },
+        {
+          "id": 587,
+          "province_id": 19,
+          "commune_name": "بوطالب"
+        },
+        {
+          "id": 588,
+          "province_id": 19,
+          "commune_name": "الحامة"
+        },
+        {
+          "id": 589,
+          "province_id": 19,
+          "commune_name": "أولاد تبان"
+        },
+        {
+          "id": 590,
+          "province_id": 19,
+          "commune_name": "صالح باي"
+        },
+        {
+          "id": 591,
+          "province_id": 19,
+          "commune_name": "واد البارد"
+        },
+        {
+          "id": 592,
+          "province_id": 19,
+          "commune_name": "تيزي نبشار"
+        },
+        {
+          "id": 593,
+          "province_id": 19,
+          "commune_name": "عموشة"
+        },
+        {
+          "id": 594,
+          "province_id": 19,
+          "commune_name": "مزلوق"
+        },
+        {
+          "id": 595,
+          "province_id": 19,
+          "commune_name": "أوريسيا"
+        },
+        {
+          "id": 596,
+          "province_id": 19,
+          "commune_name": "عين عباسة"
+        },
+        {
+          "id": 597,
+          "province_id": 19,
+          "commune_name": "عين أرنات"
+        },
+        {
+          "id": 598,
+          "province_id": 19,
+          "commune_name": "قلال"
+        },
+        {
+          "id": 599,
+          "province_id": 19,
+          "commune_name": "قصر الابطال"
+        },
+        {
+          "id": 600,
+          "province_id": 19,
+          "commune_name": "أولاد سي أحمد"
+        },
+        {
+          "id": 601,
+          "province_id": 19,
+          "commune_name": "عين ولمان"
+        },
+        {
+          "id": 602,
+          "province_id": 19,
+          "commune_name": "أيت نوال مزادة"
+        },
+        {
+          "id": 603,
+          "province_id": 19,
+          "commune_name": "ايت تيزي"
+        },
+        {
+          "id": 604,
+          "province_id": 19,
+          "commune_name": "بوعنداس"
+        },
+        {
+          "id": 605,
+          "province_id": 19,
+          "commune_name": "بوسلام"
+        },
+        {
+          "id": 606,
+          "province_id": 19,
+          "commune_name": "حمام السخنة"
+        },
+        {
+          "id": 607,
+          "province_id": 19,
+          "commune_name": "الطاية"
+        },
+        {
+          "id": 608,
+          "province_id": 19,
+          "commune_name": "التلة"
+        },
+        {
+          "id": 609,
+          "province_id": 19,
+          "commune_name": "عين أزال"
+        },
+        {
+          "id": 610,
+          "province_id": 19,
+          "commune_name": "عين الحجر"
+        },
+        {
+          "id": 611,
+          "province_id": 19,
+          "commune_name": "بيضاء برج"
+        },
+        {
+          "id": 612,
+          "province_id": 19,
+          "commune_name": "بئر حدادة"
+        },
+        {
+          "id": 613,
+          "province_id": 19,
+          "commune_name": "قنزات"
+        },
+        {
+          "id": 614,
+          "province_id": 19,
+          "commune_name": "حربيل"
+        },
+        {
+          "id": 615,
+          "province_id": 19,
+          "commune_name": "عين الروى"
+        },
+        {
+          "id": 616,
+          "province_id": 19,
+          "commune_name": "بني وسين"
+        },
+        {
+          "id": 617,
+          "province_id": 19,
+          "commune_name": "بوقاعة"
+        },
+        {
+          "id": 618,
+          "province_id": 19,
+          "commune_name": "ذراع قبيلة"
+        },
+        {
+          "id": 619,
+          "province_id": 19,
+          "commune_name": "حمام قرقور"
+        },
+        {
+          "id": 620,
+          "province_id": 19,
+          "commune_name": "سطيف"
+        },
+        {
+          "id": 621,
+          "province_id": 19,
+          "commune_name": "عين الكبيرة"
+        },
+        {
+          "id": 622,
+          "province_id": 19,
+          "commune_name": "الدهامشة"
+        },
+        {
+          "id": 623,
+          "province_id": 19,
+          "commune_name": "أولاد عدوان"
+        },
+        {
+          "id": 624,
+          "province_id": 19,
+          "commune_name": "عين السبت"
+        },
+        {
+          "id": 625,
+          "province_id": 19,
+          "commune_name": "بني عزيز"
+        },
+        {
+          "id": 626,
+          "province_id": 19,
+          "commune_name": "معاوية"
+        },
+        {
+          "id": 627,
+          "province_id": 19,
+          "commune_name": "بلاعة"
+        },
+        {
+          "id": 628,
+          "province_id": 19,
+          "commune_name": "بئر العرش"
+        },
+        {
+          "id": 629,
+          "province_id": 19,
+          "commune_name": "الولجة"
+        },
+        {
+          "id": 630,
+          "province_id": 19,
+          "commune_name": "تاشودة"
+        },
+        {
+          "id": 631,
+          "province_id": 19,
+          "commune_name": "تالة إيفاسن"
+        },
+        {
+          "id": 632,
+          "province_id": 19,
+          "commune_name": "ماوكلان"
+        },
+        {
+          "id": 633,
+          "province_id": 19,
+          "commune_name": "سرج الغول"
+        },
+        {
+          "id": 634,
+          "province_id": 19,
+          "commune_name": "بابور"
+        },
+        {
+          "id": 635,
+          "province_id": 19,
+          "commune_name": "قجال"
+        },
+        {
+          "id": 636,
+          "province_id": 19,
+          "commune_name": "أولاد صابر"
+        },
+        {
+          "id": 637,
+          "province_id": 19,
+          "commune_name": "بازر سكرة"
+        },
+        {
+          "id": 638,
+          "province_id": 19,
+          "commune_name": "العلمة"
+        },
+        {
+          "id": 639,
+          "province_id": 19,
+          "commune_name": "قلتة زرقاء"
+        },
+        {
+          "id": 640,
+          "province_id": 19,
+          "commune_name": "بني فودة"
+        },
+        {
+          "id": 641,
+          "province_id": 19,
+          "commune_name": "جميلة"
+        },
+        {
+          "id": 642,
+          "province_id": 19,
+          "commune_name": "عين لقراج"
+        },
+        {
+          "id": 643,
+          "province_id": 19,
+          "commune_name": "بني شبانة"
+        },
+        {
+          "id": 644,
+          "province_id": 19,
+          "commune_name": "بني ورتيلان"
+        },
+        {
+          "id": 645,
+          "province_id": 19,
+          "commune_name": "بني موحلي"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "سعيدة",
+      "municipalities": [
+        {
+          "id": 646,
+          "province_id": 20,
+          "commune_name": "سعيدة"
+        },
+        {
+          "id": 647,
+          "province_id": 20,
+          "commune_name": "تيرسين"
+        },
+        {
+          "id": 648,
+          "province_id": 20,
+          "commune_name": "أولاد إبراهيم"
+        },
+        {
+          "id": 649,
+          "province_id": 20,
+          "commune_name": "عين السلطان"
+        },
+        {
+          "id": 650,
+          "province_id": 20,
+          "commune_name": "المعمورة"
+        },
+        {
+          "id": 651,
+          "province_id": 20,
+          "commune_name": "الحساسنة"
+        },
+        {
+          "id": 652,
+          "province_id": 20,
+          "commune_name": "عين السخونة"
+        },
+        {
+          "id": 653,
+          "province_id": 20,
+          "commune_name": "سيدي بوبكر"
+        },
+        {
+          "id": 654,
+          "province_id": 20,
+          "commune_name": "أولاد خالد"
+        },
+        {
+          "id": 655,
+          "province_id": 20,
+          "commune_name": "هونت"
+        },
+        {
+          "id": 656,
+          "province_id": 20,
+          "commune_name": "سيدي عمر"
+        },
+        {
+          "id": 657,
+          "province_id": 20,
+          "commune_name": "يوب"
+        },
+        {
+          "id": 658,
+          "province_id": 20,
+          "commune_name": "دوي ثابت"
+        },
+        {
+          "id": 659,
+          "province_id": 20,
+          "commune_name": "سيدي احمد"
+        },
+        {
+          "id": 660,
+          "province_id": 20,
+          "commune_name": "مولاي العربي"
+        },
+        {
+          "id": 661,
+          "province_id": 20,
+          "commune_name": "عين الحجر"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "سكيكدة",
+      "municipalities": [
+        {
+          "id": 662,
+          "province_id": 21,
+          "commune_name": "عين بوزيان"
+        },
+        {
+          "id": 663,
+          "province_id": 21,
+          "commune_name": "بني ولبان"
+        },
+        {
+          "id": 664,
+          "province_id": 21,
+          "commune_name": "سيدي مزغيش"
+        },
+        {
+          "id": 665,
+          "province_id": 21,
+          "commune_name": "صالح بو الشعور"
+        },
+        {
+          "id": 666,
+          "province_id": 21,
+          "commune_name": "زردازة"
+        },
+        {
+          "id": 667,
+          "province_id": 21,
+          "commune_name": "أولاد حبابة"
+        },
+        {
+          "id": 668,
+          "province_id": 21,
+          "commune_name": "مجاز الدشيش"
+        },
+        {
+          "id": 669,
+          "province_id": 21,
+          "commune_name": "الحروش"
+        },
+        {
+          "id": 670,
+          "province_id": 21,
+          "commune_name": "الحدائق"
+        },
+        {
+          "id": 671,
+          "province_id": 21,
+          "commune_name": "بوشطاطة"
+        },
+        {
+          "id": 672,
+          "province_id": 21,
+          "commune_name": "عين زويت"
+        },
+        {
+          "id": 673,
+          "province_id": 21,
+          "commune_name": "بني بشير"
+        },
+        {
+          "id": 674,
+          "province_id": 21,
+          "commune_name": "رمضان جمال"
+        },
+        {
+          "id": 675,
+          "province_id": 21,
+          "commune_name": "بين الويدان"
+        },
+        {
+          "id": 676,
+          "province_id": 21,
+          "commune_name": "تمالوس"
+        },
+        {
+          "id": 677,
+          "province_id": 21,
+          "commune_name": "الكركرة"
+        },
+        {
+          "id": 678,
+          "province_id": 21,
+          "commune_name": "عين قشرة"
+        },
+        {
+          "id": 679,
+          "province_id": 21,
+          "commune_name": "الولجة بولبلوط"
+        },
+        {
+          "id": 680,
+          "province_id": 21,
+          "commune_name": "أم الطوب"
+        },
+        {
+          "id": 681,
+          "province_id": 21,
+          "commune_name": "الغدير"
+        },
+        {
+          "id": 682,
+          "province_id": 21,
+          "commune_name": "السبت"
+        },
+        {
+          "id": 683,
+          "province_id": 21,
+          "commune_name": "عين شرشار"
+        },
+        {
+          "id": 684,
+          "province_id": 21,
+          "commune_name": "عزابة"
+        },
+        {
+          "id": 685,
+          "province_id": 21,
+          "commune_name": "جندل سعدي محمد"
+        },
+        {
+          "id": 686,
+          "province_id": 21,
+          "commune_name": "الزيتونة"
+        },
+        {
+          "id": 687,
+          "province_id": 21,
+          "commune_name": "قنواع"
+        },
+        {
+          "id": 688,
+          "province_id": 21,
+          "commune_name": "أولاد عطية"
+        },
+        {
+          "id": 689,
+          "province_id": 21,
+          "commune_name": "وادي الزهور"
+        },
+        {
+          "id": 690,
+          "province_id": 21,
+          "commune_name": "خناق مايو"
+        },
+        {
+          "id": 691,
+          "province_id": 21,
+          "commune_name": "القل"
+        },
+        {
+          "id": 692,
+          "province_id": 21,
+          "commune_name": "الشرايع"
+        },
+        {
+          "id": 693,
+          "province_id": 21,
+          "commune_name": "بني زيد"
+        },
+        {
+          "id": 694,
+          "province_id": 21,
+          "commune_name": "المرسى"
+        },
+        {
+          "id": 695,
+          "province_id": 21,
+          "commune_name": "بن عزوز"
+        },
+        {
+          "id": 696,
+          "province_id": 21,
+          "commune_name": "بكوش لخضر"
+        },
+        {
+          "id": 697,
+          "province_id": 21,
+          "commune_name": "فلفلة"
+        },
+        {
+          "id": 698,
+          "province_id": 21,
+          "commune_name": "حمادي كرومة"
+        },
+        {
+          "id": 699,
+          "province_id": 21,
+          "commune_name": "سكيكدة"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "سيدي بلعباس",
+      "municipalities": [
+        {
+          "id": 700,
+          "province_id": 22,
+          "commune_name": "سيدي علي بن يوب"
+        },
+        {
+          "id": 701,
+          "province_id": 22,
+          "commune_name": "طابية"
+        },
+        {
+          "id": 702,
+          "province_id": 22,
+          "commune_name": "بوخنفيس"
+        },
+        {
+          "id": 703,
+          "province_id": 22,
+          "commune_name": "مولاي سليسن"
+        },
+        {
+          "id": 704,
+          "province_id": 22,
+          "commune_name": "الحصيبة"
+        },
+        {
+          "id": 705,
+          "province_id": 22,
+          "commune_name": "عين تندمين"
+        },
+        {
+          "id": 706,
+          "province_id": 22,
+          "commune_name": "تنيرة"
+        },
+        {
+          "id": 707,
+          "province_id": 22,
+          "commune_name": "وادي سفيون"
+        },
+        {
+          "id": 708,
+          "province_id": 22,
+          "commune_name": "حاسي دحو"
+        },
+        {
+          "id": 709,
+          "province_id": 22,
+          "commune_name": "بن عشيبة شلية"
+        },
+        {
+          "id": 710,
+          "province_id": 22,
+          "commune_name": "وادي تاوريرة"
+        },
+        {
+          "id": 711,
+          "province_id": 22,
+          "commune_name": "مرين"
+        },
+        {
+          "id": 712,
+          "province_id": 22,
+          "commune_name": "تفسور"
+        },
+        {
+          "id": 713,
+          "province_id": 22,
+          "commune_name": "تاودموت"
+        },
+        {
+          "id": 714,
+          "province_id": 22,
+          "commune_name": "سيدي يعقوب"
+        },
+        {
+          "id": 715,
+          "province_id": 22,
+          "commune_name": "سيدي لحسن"
+        },
+        {
+          "id": 716,
+          "province_id": 22,
+          "commune_name": "سيدي خالد"
+        },
+        {
+          "id": 717,
+          "province_id": 22,
+          "commune_name": "العمارنة"
+        },
+        {
+          "id": 718,
+          "province_id": 22,
+          "commune_name": "سيدي ابراهيم"
+        },
+        {
+          "id": 719,
+          "province_id": 22,
+          "commune_name": "سيدي حمادوش"
+        },
+        {
+          "id": 720,
+          "province_id": 22,
+          "commune_name": "مكدرة"
+        },
+        {
+          "id": 721,
+          "province_id": 22,
+          "commune_name": "عين البرد"
+        },
+        {
+          "id": 722,
+          "province_id": 22,
+          "commune_name": "حاسي زهانة"
+        },
+        {
+          "id": 723,
+          "province_id": 22,
+          "commune_name": "شيطوان البلايلة"
+        },
+        {
+          "id": 724,
+          "province_id": 22,
+          "commune_name": "بن باديس"
+        },
+        {
+          "id": 725,
+          "province_id": 22,
+          "commune_name": "بضرابين المقراني"
+        },
+        {
+          "id": 726,
+          "province_id": 22,
+          "commune_name": "سفيزف"
+        },
+        {
+          "id": 727,
+          "province_id": 22,
+          "commune_name": "مسيد"
+        },
+        {
+          "id": 728,
+          "province_id": 22,
+          "commune_name": "بوجبهة البرج"
+        },
+        {
+          "id": 729,
+          "province_id": 22,
+          "commune_name": "عين أدن"
+        },
+        {
+          "id": 730,
+          "province_id": 22,
+          "commune_name": "سيدي شعيب"
+        },
+        {
+          "id": 731,
+          "province_id": 22,
+          "commune_name": "مرحوم"
+        },
+        {
+          "id": 732,
+          "province_id": 22,
+          "commune_name": "بئر الحمام"
+        },
+        {
+          "id": 733,
+          "province_id": 22,
+          "commune_name": "رجم دموش"
+        },
+        {
+          "id": 734,
+          "province_id": 22,
+          "commune_name": "راس الماء"
+        },
+        {
+          "id": 735,
+          "province_id": 22,
+          "commune_name": "وادي السبع"
+        },
+        {
+          "id": 736,
+          "province_id": 22,
+          "commune_name": "سيدي بلعباس"
+        },
+        {
+          "id": 737,
+          "province_id": 22,
+          "commune_name": "عين الثريد"
+        },
+        {
+          "id": 738,
+          "province_id": 22,
+          "commune_name": "السهالة الثورة"
+        },
+        {
+          "id": 739,
+          "province_id": 22,
+          "commune_name": "تسالة"
+        },
+        {
+          "id": 740,
+          "province_id": 22,
+          "commune_name": "بلعربي"
+        },
+        {
+          "id": 741,
+          "province_id": 22,
+          "commune_name": "مصطفى بن ابراهيم"
+        },
+        {
+          "id": 742,
+          "province_id": 22,
+          "commune_name": "تلموني"
+        },
+        {
+          "id": 743,
+          "province_id": 22,
+          "commune_name": "زروالة"
+        },
+        {
+          "id": 744,
+          "province_id": 22,
+          "commune_name": "الضاية"
+        },
+        {
+          "id": 745,
+          "province_id": 22,
+          "commune_name": "مزاورو"
+        },
+        {
+          "id": 746,
+          "province_id": 22,
+          "commune_name": "تغاليمت"
+        },
+        {
+          "id": 747,
+          "province_id": 22,
+          "commune_name": "تلاغ"
+        },
+        {
+          "id": 748,
+          "province_id": 22,
+          "commune_name": "عين قادة"
+        },
+        {
+          "id": 749,
+          "province_id": 22,
+          "commune_name": "لمطار"
+        },
+        {
+          "id": 750,
+          "province_id": 22,
+          "commune_name": "سيدي علي بوسيدي"
+        },
+        {
+          "id": 751,
+          "province_id": 22,
+          "commune_name": "سيدي دحو الزاير"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "عنابة",
+      "municipalities": [
+        {
+          "id": 752,
+          "province_id": 23,
+          "commune_name": "عنابة"
+        },
+        {
+          "id": 753,
+          "province_id": 23,
+          "commune_name": "سرايدي"
+        },
+        {
+          "id": 754,
+          "province_id": 23,
+          "commune_name": "برحال"
+        },
+        {
+          "id": 755,
+          "province_id": 23,
+          "commune_name": "واد العنب"
+        },
+        {
+          "id": 756,
+          "province_id": 23,
+          "commune_name": "التريعات"
+        },
+        {
+          "id": 757,
+          "province_id": 23,
+          "commune_name": "الحجار"
+        },
+        {
+          "id": 758,
+          "province_id": 23,
+          "commune_name": "سيدي عمار"
+        },
+        {
+          "id": 759,
+          "province_id": 23,
+          "commune_name": "البوني"
+        },
+        {
+          "id": 760,
+          "province_id": 23,
+          "commune_name": "عين الباردة"
+        },
+        {
+          "id": 761,
+          "province_id": 23,
+          "commune_name": "الشرفة"
+        },
+        {
+          "id": 762,
+          "province_id": 23,
+          "commune_name": "العلمة"
+        },
+        {
+          "id": 763,
+          "province_id": 23,
+          "commune_name": "شطايبي"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "قالمة",
+      "municipalities": [
+        {
+          "id": 764,
+          "province_id": 24,
+          "commune_name": "نشماية"
+        },
+        {
+          "id": 765,
+          "province_id": 24,
+          "commune_name": "بومهرة أحمد"
+        },
+        {
+          "id": 766,
+          "province_id": 24,
+          "commune_name": "جبالة الخميسي"
+        },
+        {
+          "id": 767,
+          "province_id": 24,
+          "commune_name": "بلخير"
+        },
+        {
+          "id": 768,
+          "province_id": 24,
+          "commune_name": "بني مزلين"
+        },
+        {
+          "id": 769,
+          "province_id": 24,
+          "commune_name": "قلعة بوصبع"
+        },
+        {
+          "id": 770,
+          "province_id": 24,
+          "commune_name": "بوحمدان"
+        },
+        {
+          "id": 771,
+          "province_id": 24,
+          "commune_name": "حمام دباغ"
+        },
+        {
+          "id": 772,
+          "province_id": 24,
+          "commune_name": "الركنية"
+        },
+        {
+          "id": 773,
+          "province_id": 24,
+          "commune_name": "الدهوارة"
+        },
+        {
+          "id": 774,
+          "province_id": 24,
+          "commune_name": "حمام النبايل"
+        },
+        {
+          "id": 775,
+          "province_id": 24,
+          "commune_name": "وادي الشحم"
+        },
+        {
+          "id": 776,
+          "province_id": 24,
+          "commune_name": "قالمة"
+        },
+        {
+          "id": 777,
+          "province_id": 24,
+          "commune_name": "بن جراح"
+        },
+        {
+          "id": 778,
+          "province_id": 24,
+          "commune_name": "عين بن بيضاء"
+        },
+        {
+          "id": 779,
+          "province_id": 24,
+          "commune_name": "بوشقوف"
+        },
+        {
+          "id": 780,
+          "province_id": 24,
+          "commune_name": "مجاز الصفاء"
+        },
+        {
+          "id": 781,
+          "province_id": 24,
+          "commune_name": "وادي فراغة"
+        },
+        {
+          "id": 782,
+          "province_id": 24,
+          "commune_name": "بوعاتي محمود"
+        },
+        {
+          "id": 783,
+          "province_id": 24,
+          "commune_name": "الفجوج"
+        },
+        {
+          "id": 784,
+          "province_id": 24,
+          "commune_name": "هيليوبوليس"
+        },
+        {
+          "id": 785,
+          "province_id": 24,
+          "commune_name": "مجاز عمار"
+        },
+        {
+          "id": 786,
+          "province_id": 24,
+          "commune_name": "هواري بومدين"
+        },
+        {
+          "id": 787,
+          "province_id": 24,
+          "commune_name": "رأس العقبة"
+        },
+        {
+          "id": 788,
+          "province_id": 24,
+          "commune_name": "سلاوة عنونة"
+        },
+        {
+          "id": 789,
+          "province_id": 24,
+          "commune_name": "برج صباط"
+        },
+        {
+          "id": 790,
+          "province_id": 24,
+          "commune_name": "وادي الزناتي"
+        },
+        {
+          "id": 791,
+          "province_id": 24,
+          "commune_name": "عين رقادة"
+        },
+        {
+          "id": 792,
+          "province_id": 24,
+          "commune_name": "عين العربي"
+        },
+        {
+          "id": 793,
+          "province_id": 24,
+          "commune_name": "عين مخلوف"
+        },
+        {
+          "id": 794,
+          "province_id": 24,
+          "commune_name": "تاملوكة"
+        },
+        {
+          "id": 795,
+          "province_id": 24,
+          "commune_name": "عين صندل"
+        },
+        {
+          "id": 796,
+          "province_id": 24,
+          "commune_name": "بوحشانة"
+        },
+        {
+          "id": 797,
+          "province_id": 24,
+          "commune_name": "لخزارة"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "قسنطينة",
+      "municipalities": [
+        {
+          "id": 798,
+          "province_id": 25,
+          "commune_name": "ديدوش مراد"
+        },
+        {
+          "id": 799,
+          "province_id": 25,
+          "commune_name": "حامة بوزيان"
+        },
+        {
+          "id": 800,
+          "province_id": 25,
+          "commune_name": "بني حميدان"
+        },
+        {
+          "id": 801,
+          "province_id": 25,
+          "commune_name": "زيغود يوسف"
+        },
+        {
+          "id": 802,
+          "province_id": 25,
+          "commune_name": "عين السمارة"
+        },
+        {
+          "id": 803,
+          "province_id": 25,
+          "commune_name": "الخروب"
+        },
+        {
+          "id": 804,
+          "province_id": 25,
+          "commune_name": "أولاد رحمون"
+        },
+        {
+          "id": 805,
+          "province_id": 25,
+          "commune_name": "عين عبيد"
+        },
+        {
+          "id": 806,
+          "province_id": 25,
+          "commune_name": "أبن باديس الهرية"
+        },
+        {
+          "id": 807,
+          "province_id": 25,
+          "commune_name": "ابن زياد"
+        },
+        {
+          "id": 808,
+          "province_id": 25,
+          "commune_name": "بوجريو مسعود"
+        },
+        {
+          "id": 809,
+          "province_id": 25,
+          "commune_name": "قسنطينة"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "المدية",
+      "municipalities": [
+        {
+          "id": 810,
+          "province_id": 26,
+          "commune_name": "السواقي"
+        },
+        {
+          "id": 811,
+          "province_id": 26,
+          "commune_name": "جواب"
+        },
+        {
+          "id": 812,
+          "province_id": 26,
+          "commune_name": "سيدي زهار"
+        },
+        {
+          "id": 813,
+          "province_id": 26,
+          "commune_name": "سيدي زيان"
+        },
+        {
+          "id": 814,
+          "province_id": 26,
+          "commune_name": "العزيزية"
+        },
+        {
+          "id": 815,
+          "province_id": 26,
+          "commune_name": "مغراوة"
+        },
+        {
+          "id": 816,
+          "province_id": 26,
+          "commune_name": "ميهوب"
+        },
+        {
+          "id": 817,
+          "province_id": 26,
+          "commune_name": "حناشة"
+        },
+        {
+          "id": 818,
+          "province_id": 26,
+          "commune_name": "عوامري"
+        },
+        {
+          "id": 819,
+          "province_id": 26,
+          "commune_name": "وادي حربيل"
+        },
+        {
+          "id": 820,
+          "province_id": 26,
+          "commune_name": "بني سليمان"
+        },
+        {
+          "id": 821,
+          "province_id": 26,
+          "commune_name": "بوسكن"
+        },
+        {
+          "id": 822,
+          "province_id": 26,
+          "commune_name": "سيدي الربيع"
+        },
+        {
+          "id": 823,
+          "province_id": 26,
+          "commune_name": "بوعيشون"
+        },
+        {
+          "id": 824,
+          "province_id": 26,
+          "commune_name": "أولاد بوعشرة"
+        },
+        {
+          "id": 825,
+          "province_id": 26,
+          "commune_name": "سي المحجوب"
+        },
+        {
+          "id": 826,
+          "province_id": 26,
+          "commune_name": "البرواقية"
+        },
+        {
+          "id": 827,
+          "province_id": 26,
+          "commune_name": "أولاد دايد"
+        },
+        {
+          "id": 828,
+          "province_id": 26,
+          "commune_name": "الربعية"
+        },
+        {
+          "id": 829,
+          "province_id": 26,
+          "commune_name": "مجبر"
+        },
+        {
+          "id": 830,
+          "province_id": 26,
+          "commune_name": "ثلاث دوائر"
+        },
+        {
+          "id": 831,
+          "province_id": 26,
+          "commune_name": "الزبيرية"
+        },
+        {
+          "id": 832,
+          "province_id": 26,
+          "commune_name": "سغوان"
+        },
+        {
+          "id": 833,
+          "province_id": 26,
+          "commune_name": "العيساوية"
+        },
+        {
+          "id": 834,
+          "province_id": 26,
+          "commune_name": "الحوضان"
+        },
+        {
+          "id": 835,
+          "province_id": 26,
+          "commune_name": "مزغنة"
+        },
+        {
+          "id": 836,
+          "province_id": 26,
+          "commune_name": "تابلاط"
+        },
+        {
+          "id": 837,
+          "province_id": 26,
+          "commune_name": "ذراع السمار"
+        },
+        {
+          "id": 838,
+          "province_id": 26,
+          "commune_name": "المدية"
+        },
+        {
+          "id": 839,
+          "province_id": 26,
+          "commune_name": "تمسقيدة"
+        },
+        {
+          "id": 840,
+          "province_id": 26,
+          "commune_name": "بن شكاو"
+        },
+        {
+          "id": 841,
+          "province_id": 26,
+          "commune_name": "الحمدانية"
+        },
+        {
+          "id": 842,
+          "province_id": 26,
+          "commune_name": "وزرة"
+        },
+        {
+          "id": 843,
+          "province_id": 26,
+          "commune_name": "تيزي مهدي"
+        },
+        {
+          "id": 844,
+          "province_id": 26,
+          "commune_name": "بعطة"
+        },
+        {
+          "id": 845,
+          "province_id": 26,
+          "commune_name": "العمارية"
+        },
+        {
+          "id": 846,
+          "province_id": 26,
+          "commune_name": "أولاد إبراهيم"
+        },
+        {
+          "id": 847,
+          "province_id": 26,
+          "commune_name": "بئر بن عابد"
+        },
+        {
+          "id": 848,
+          "province_id": 26,
+          "commune_name": "القلب الكبير"
+        },
+        {
+          "id": 849,
+          "province_id": 26,
+          "commune_name": "سدراية"
+        },
+        {
+          "id": 850,
+          "province_id": 26,
+          "commune_name": "بوشراحيل"
+        },
+        {
+          "id": 851,
+          "province_id": 26,
+          "commune_name": "خمس جوامع"
+        },
+        {
+          "id": 852,
+          "province_id": 26,
+          "commune_name": "سيدي نعمان"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "مستغانم",
+      "municipalities": [
+        {
+          "id": 853,
+          "province_id": 27,
+          "commune_name": "فرناقة"
+        },
+        {
+          "id": 854,
+          "province_id": 27,
+          "commune_name": "الحسيان (بني ياحي"
+        },
+        {
+          "id": 855,
+          "province_id": 27,
+          "commune_name": "عين نويسي"
+        },
+        {
+          "id": 856,
+          "province_id": 27,
+          "commune_name": "وادي الخير"
+        },
+        {
+          "id": 857,
+          "province_id": 27,
+          "commune_name": "عين تادلس"
+        },
+        {
+          "id": 858,
+          "province_id": 27,
+          "commune_name": "سيدي بلعطار"
+        },
+        {
+          "id": 859,
+          "province_id": 27,
+          "commune_name": "سور"
+        },
+        {
+          "id": 860,
+          "province_id": 27,
+          "commune_name": "حاسي ماماش"
+        },
+        {
+          "id": 861,
+          "province_id": 27,
+          "commune_name": "مزغران"
+        },
+        {
+          "id": 862,
+          "province_id": 27,
+          "commune_name": "ستيدية"
+        },
+        {
+          "id": 863,
+          "province_id": 27,
+          "commune_name": "عين بودينار"
+        },
+        {
+          "id": 864,
+          "province_id": 27,
+          "commune_name": "خير الدين"
+        },
+        {
+          "id": 865,
+          "province_id": 27,
+          "commune_name": "صيادة"
+        },
+        {
+          "id": 866,
+          "province_id": 27,
+          "commune_name": "سيدي علي"
+        },
+        {
+          "id": 867,
+          "province_id": 27,
+          "commune_name": "تزقايت"
+        },
+        {
+          "id": 868,
+          "province_id": 27,
+          "commune_name": "أولاد مع الله"
+        },
+        {
+          "id": 869,
+          "province_id": 27,
+          "commune_name": "بن عبد المالك رمضان"
+        },
+        {
+          "id": 870,
+          "province_id": 27,
+          "commune_name": "حجاج"
+        },
+        {
+          "id": 871,
+          "province_id": 27,
+          "commune_name": "سيدي لخضر"
+        },
+        {
+          "id": 872,
+          "province_id": 27,
+          "commune_name": "مستغانم"
+        },
+        {
+          "id": 873,
+          "province_id": 27,
+          "commune_name": "عشعاشة"
+        },
+        {
+          "id": 874,
+          "province_id": 27,
+          "commune_name": "خضرة"
+        },
+        {
+          "id": 875,
+          "province_id": 27,
+          "commune_name": "نكمارية"
+        },
+        {
+          "id": 876,
+          "province_id": 27,
+          "commune_name": "أولاد بوغالم"
+        },
+        {
+          "id": 877,
+          "province_id": 27,
+          "commune_name": "بوقيراط"
+        },
+        {
+          "id": 878,
+          "province_id": 27,
+          "commune_name": "صفصاف"
+        },
+        {
+          "id": 879,
+          "province_id": 27,
+          "commune_name": "سيرات"
+        },
+        {
+          "id": 880,
+          "province_id": 27,
+          "commune_name": "السوافلية"
+        },
+        {
+          "id": 881,
+          "province_id": 27,
+          "commune_name": "عين سيدي الشريف"
+        },
+        {
+          "id": 882,
+          "province_id": 27,
+          "commune_name": "ماسرة"
+        },
+        {
+          "id": 883,
+          "province_id": 27,
+          "commune_name": "الطواهرية"
+        },
+        {
+          "id": 884,
+          "province_id": 27,
+          "commune_name": "منصورة"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "المسيلة",
+      "municipalities": [
+        {
+          "id": 885,
+          "province_id": 28,
+          "commune_name": "شلال"
+        },
+        {
+          "id": 886,
+          "province_id": 28,
+          "commune_name": "أولاد ماضي"
+        },
+        {
+          "id": 887,
+          "province_id": 28,
+          "commune_name": "خطوطي سد الجير"
+        },
+        {
+          "id": 888,
+          "province_id": 28,
+          "commune_name": "بلعايبة"
+        },
+        {
+          "id": 889,
+          "province_id": 28,
+          "commune_name": "برهوم"
+        },
+        {
+          "id": 890,
+          "province_id": 28,
+          "commune_name": "دهاهنة"
+        },
+        {
+          "id": 891,
+          "province_id": 28,
+          "commune_name": "مقرة"
+        },
+        {
+          "id": 892,
+          "province_id": 28,
+          "commune_name": "عين الخضراء"
+        },
+        {
+          "id": 893,
+          "province_id": 28,
+          "commune_name": "بني يلمان"
+        },
+        {
+          "id": 894,
+          "province_id": 28,
+          "commune_name": "بوطي السايح"
+        },
+        {
+          "id": 895,
+          "province_id": 28,
+          "commune_name": "سيدي عيسى"
+        },
+        {
+          "id": 896,
+          "province_id": 28,
+          "commune_name": "عين الحجل"
+        },
+        {
+          "id": 897,
+          "province_id": 28,
+          "commune_name": "جبل مساعد"
+        },
+        {
+          "id": 898,
+          "province_id": 28,
+          "commune_name": "المسيلة"
+        },
+        {
+          "id": 899,
+          "province_id": 28,
+          "commune_name": "حمام الضلعة"
+        },
+        {
+          "id": 900,
+          "province_id": 28,
+          "commune_name": "ونوغة"
+        },
+        {
+          "id": 901,
+          "province_id": 28,
+          "commune_name": "أولاد منصور"
+        },
+        {
+          "id": 902,
+          "province_id": 28,
+          "commune_name": "تارمونت"
+        },
+        {
+          "id": 903,
+          "province_id": 28,
+          "commune_name": "أولاد دراج"
+        },
+        {
+          "id": 904,
+          "province_id": 28,
+          "commune_name": "السوامع"
+        },
+        {
+          "id": 905,
+          "province_id": 28,
+          "commune_name": "أولاد عدي لقبالة"
+        },
+        {
+          "id": 906,
+          "province_id": 28,
+          "commune_name": "الحوامد"
+        },
+        {
+          "id": 907,
+          "province_id": 28,
+          "commune_name": "خبانة"
+        },
+        {
+          "id": 908,
+          "province_id": 28,
+          "commune_name": "مسيف"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "معسكر",
+      "municipalities": [
+        {
+          "id": 909,
+          "province_id": 29,
+          "commune_name": "وادي الأبطال"
+        },
+        {
+          "id": 910,
+          "province_id": 29,
+          "commune_name": "سيدي عبد الجبار"
+        },
+        {
+          "id": 911,
+          "province_id": 29,
+          "commune_name": "عين فراح"
+        },
+        {
+          "id": 912,
+          "province_id": 29,
+          "commune_name": "سيدي عبد المومن"
+        },
+        {
+          "id": 913,
+          "province_id": 29,
+          "commune_name": "سجرارة"
+        },
+        {
+          "id": 914,
+          "province_id": 29,
+          "commune_name": "مقطع الدوز"
+        },
+        {
+          "id": 915,
+          "province_id": 29,
+          "commune_name": "فراقيق"
+        },
+        {
+          "id": 916,
+          "province_id": 29,
+          "commune_name": "الغمري"
+        },
+        {
+          "id": 917,
+          "province_id": 29,
+          "commune_name": "المحمدية"
+        },
+        {
+          "id": 918,
+          "province_id": 29,
+          "commune_name": "تيغنيف"
+        },
+        {
+          "id": 919,
+          "province_id": 29,
+          "commune_name": "سيدي قادة"
+        },
+        {
+          "id": 920,
+          "province_id": 29,
+          "commune_name": "السهايلية"
+        },
+        {
+          "id": 921,
+          "province_id": 29,
+          "commune_name": "زهانة"
+        },
+        {
+          "id": 922,
+          "province_id": 29,
+          "commune_name": "القعدة"
+        },
+        {
+          "id": 923,
+          "province_id": 29,
+          "commune_name": "رأس عين عميروش"
+        },
+        {
+          "id": 924,
+          "province_id": 29,
+          "commune_name": "عقاز"
+        },
+        {
+          "id": 925,
+          "province_id": 29,
+          "commune_name": "العلايمية"
+        },
+        {
+          "id": 926,
+          "province_id": 29,
+          "commune_name": "سيق"
+        },
+        {
+          "id": 927,
+          "province_id": 29,
+          "commune_name": "الشرفاء"
+        },
+        {
+          "id": 928,
+          "province_id": 29,
+          "commune_name": "بوهني"
+        },
+        {
+          "id": 929,
+          "province_id": 29,
+          "commune_name": "المأمونية"
+        },
+        {
+          "id": 930,
+          "province_id": 29,
+          "commune_name": "القطنة"
+        },
+        {
+          "id": 931,
+          "province_id": 29,
+          "commune_name": "بوحنيفية"
+        },
+        {
+          "id": 932,
+          "province_id": 29,
+          "commune_name": "حسين"
+        },
+        {
+          "id": 933,
+          "province_id": 29,
+          "commune_name": "عين فارس"
+        },
+        {
+          "id": 934,
+          "province_id": 29,
+          "commune_name": "غروس"
+        },
+        {
+          "id": 935,
+          "province_id": 29,
+          "commune_name": "بنيان"
+        },
+        {
+          "id": 936,
+          "province_id": 29,
+          "commune_name": "عوف"
+        },
+        {
+          "id": 937,
+          "province_id": 29,
+          "commune_name": "قرجوم"
+        },
+        {
+          "id": 938,
+          "province_id": 29,
+          "commune_name": "وادي التاغية"
+        },
+        {
+          "id": 939,
+          "province_id": 29,
+          "commune_name": "عين أفرص"
+        },
+        {
+          "id": 940,
+          "province_id": 29,
+          "commune_name": "عين فكان"
+        },
+        {
+          "id": 941,
+          "province_id": 29,
+          "commune_name": "خلوية"
+        },
+        {
+          "id": 942,
+          "province_id": 29,
+          "commune_name": "المنور"
+        },
+        {
+          "id": 943,
+          "province_id": 29,
+          "commune_name": "البرج"
+        },
+        {
+          "id": 944,
+          "province_id": 29,
+          "commune_name": "سيدي بوسعيد"
+        },
+        {
+          "id": 945,
+          "province_id": 29,
+          "commune_name": "المطمور"
+        },
+        {
+          "id": 946,
+          "province_id": 29,
+          "commune_name": "ماقضة"
+        },
+        {
+          "id": 947,
+          "province_id": 29,
+          "commune_name": "غريس"
+        },
+        {
+          "id": 948,
+          "province_id": 29,
+          "commune_name": "ماوسة"
+        },
+        {
+          "id": 949,
+          "province_id": 29,
+          "commune_name": "معسكر"
+        },
+        {
+          "id": 950,
+          "province_id": 29,
+          "commune_name": "القرط"
+        },
+        {
+          "id": 951,
+          "province_id": 29,
+          "commune_name": "فروحة"
+        },
+        {
+          "id": 952,
+          "province_id": 29,
+          "commune_name": "تيزي"
+        },
+        {
+          "id": 953,
+          "province_id": 29,
+          "commune_name": "الحشم"
+        },
+        {
+          "id": 954,
+          "province_id": 29,
+          "commune_name": "نسمط"
+        },
+        {
+          "id": 955,
+          "province_id": 29,
+          "commune_name": "زلامطة"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "name": "ورقلة",
+      "municipalities": [
+        {
+          "id": 956,
+          "province_id": 30,
+          "commune_name": "ورقلة"
+        },
+        {
+          "id": 957,
+          "province_id": 30,
+          "commune_name": "الرويسات"
+        },
+        {
+          "id": 958,
+          "province_id": 30,
+          "commune_name": "حاسي مسعود"
+        },
+        {
+          "id": 959,
+          "province_id": 30,
+          "commune_name": "عين البيضاء"
+        },
+        {
+          "id": 960,
+          "province_id": 30,
+          "commune_name": "حاسي بن عبد الله"
+        },
+        {
+          "id": 961,
+          "province_id": 30,
+          "commune_name": "سيدي خويلد"
+        },
+        {
+          "id": 962,
+          "province_id": 30,
+          "commune_name": "البرمة"
+        },
+        {
+          "id": 963,
+          "province_id": 30,
+          "commune_name": "انقوسة"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "name": "وهران",
+      "municipalities": [
+        {
+          "id": 964,
+          "province_id": 31,
+          "commune_name": "سيدي الشحمي"
+        },
+        {
+          "id": 965,
+          "province_id": 31,
+          "commune_name": "الكرمة"
+        },
+        {
+          "id": 966,
+          "province_id": 31,
+          "commune_name": "السانية"
+        },
+        {
+          "id": 967,
+          "province_id": 31,
+          "commune_name": "حاسي مفسوخ"
+        },
+        {
+          "id": 968,
+          "province_id": 31,
+          "commune_name": "قديل"
+        },
+        {
+          "id": 969,
+          "province_id": 31,
+          "commune_name": "بن فريحة"
+        },
+        {
+          "id": 970,
+          "province_id": 31,
+          "commune_name": "بئر الجير"
+        },
+        {
+          "id": 971,
+          "province_id": 31,
+          "commune_name": "حاسي بن عقبة"
+        },
+        {
+          "id": 972,
+          "province_id": 31,
+          "commune_name": "حاسي بونيف"
+        },
+        {
+          "id": 973,
+          "province_id": 31,
+          "commune_name": "أرزيو"
+        },
+        {
+          "id": 974,
+          "province_id": 31,
+          "commune_name": "سيدي بن يبقى"
+        },
+        {
+          "id": 975,
+          "province_id": 31,
+          "commune_name": "عين البية"
+        },
+        {
+          "id": 976,
+          "province_id": 31,
+          "commune_name": "بطيوة"
+        },
+        {
+          "id": 977,
+          "province_id": 31,
+          "commune_name": "مرسى الحجاج"
+        },
+        {
+          "id": 978,
+          "province_id": 31,
+          "commune_name": "عين الترك"
+        },
+        {
+          "id": 979,
+          "province_id": 31,
+          "commune_name": "وهران"
+        },
+        {
+          "id": 980,
+          "province_id": 31,
+          "commune_name": "العنصر"
+        },
+        {
+          "id": 981,
+          "province_id": 31,
+          "commune_name": "المرسى الكبير"
+        },
+        {
+          "id": 982,
+          "province_id": 31,
+          "commune_name": "بوسفر"
+        },
+        {
+          "id": 983,
+          "province_id": 31,
+          "commune_name": "بوفاتيس"
+        },
+        {
+          "id": 984,
+          "province_id": 31,
+          "commune_name": "البراية"
+        },
+        {
+          "id": 985,
+          "province_id": 31,
+          "commune_name": "وادي تليلات"
+        },
+        {
+          "id": 986,
+          "province_id": 31,
+          "commune_name": "طفراوي"
+        },
+        {
+          "id": 987,
+          "province_id": 31,
+          "commune_name": "عين الكرمة"
+        },
+        {
+          "id": 988,
+          "province_id": 31,
+          "commune_name": "بوتليليس"
+        },
+        {
+          "id": 989,
+          "province_id": 31,
+          "commune_name": "مسرغين"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "name": "البيض",
+      "municipalities": [
+        {
+          "id": 990,
+          "province_id": 32,
+          "commune_name": "عين العراك"
+        },
+        {
+          "id": 991,
+          "province_id": 32,
+          "commune_name": "البنود"
+        },
+        {
+          "id": 992,
+          "province_id": 32,
+          "commune_name": "كراكدة"
+        },
+        {
+          "id": 993,
+          "province_id": 32,
+          "commune_name": "سيدي سليمان"
+        },
+        {
+          "id": 994,
+          "province_id": 32,
+          "commune_name": "بوعلام"
+        },
+        {
+          "id": 995,
+          "province_id": 32,
+          "commune_name": "سيدي طيفور"
+        },
+        {
+          "id": 996,
+          "province_id": 32,
+          "commune_name": "ستيتن"
+        },
+        {
+          "id": 997,
+          "province_id": 32,
+          "commune_name": "سيدي عامر"
+        },
+        {
+          "id": 998,
+          "province_id": 32,
+          "commune_name": "بوقطب"
+        },
+        {
+          "id": 999,
+          "province_id": 32,
+          "commune_name": "الخيثر"
+        },
+        {
+          "id": 1000,
+          "province_id": 32,
+          "commune_name": "توسمولين"
+        },
+        {
+          "id": 1001,
+          "province_id": 32,
+          "commune_name": "البيض"
+        },
+        {
+          "id": 1002,
+          "province_id": 32,
+          "commune_name": "رقاصة"
+        },
+        {
+          "id": 1003,
+          "province_id": 32,
+          "commune_name": "الكاف الأحمر"
+        },
+        {
+          "id": 1004,
+          "province_id": 32,
+          "commune_name": "المحرة"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "إليزي",
+      "municipalities": [
+        {
+          "id": 1005,
+          "province_id": 33,
+          "commune_name": "برج عمر إدريس"
+        },
+        {
+          "id": 1006,
+          "province_id": 33,
+          "commune_name": "دبداب"
+        },
+        {
+          "id": 1007,
+          "province_id": 33,
+          "commune_name": "إن أمناس"
+        },
+        {
+          "id": 1008,
+          "province_id": 33,
+          "commune_name": "إيليزي"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "name": "برج بوعريريج",
+      "municipalities": [
+        {
+          "id": 1009,
+          "province_id": 34,
+          "commune_name": "الحمادية"
+        },
+        {
+          "id": 1010,
+          "province_id": 34,
+          "commune_name": "العش"
+        },
+        {
+          "id": 1011,
+          "province_id": 34,
+          "commune_name": "القصور"
+        },
+        {
+          "id": 1012,
+          "province_id": 34,
+          "commune_name": "الرابطة"
+        },
+        {
+          "id": 1013,
+          "province_id": 34,
+          "commune_name": "أولاد سيدي ابراهيم"
+        },
+        {
+          "id": 1014,
+          "province_id": 34,
+          "commune_name": "عين تاغروت"
+        },
+        {
+          "id": 1015,
+          "province_id": 34,
+          "commune_name": "تيكستار"
+        },
+        {
+          "id": 1016,
+          "province_id": 34,
+          "commune_name": "بليمور"
+        },
+        {
+          "id": 1017,
+          "province_id": 34,
+          "commune_name": "العناصر"
+        },
+        {
+          "id": 1018,
+          "province_id": 34,
+          "commune_name": "غيلاسة"
+        },
+        {
+          "id": 1019,
+          "province_id": 34,
+          "commune_name": "تقلعيت"
+        },
+        {
+          "id": 1020,
+          "province_id": 34,
+          "commune_name": "برج الغدير"
+        },
+        {
+          "id": 1021,
+          "province_id": 34,
+          "commune_name": "سيدي أمبارك"
+        },
+        {
+          "id": 1022,
+          "province_id": 34,
+          "commune_name": "خليل"
+        },
+        {
+          "id": 1023,
+          "province_id": 34,
+          "commune_name": "بئر قاصد علي"
+        },
+        {
+          "id": 1024,
+          "province_id": 34,
+          "commune_name": "تفرق"
+        },
+        {
+          "id": 1025,
+          "province_id": 34,
+          "commune_name": "الماين"
+        },
+        {
+          "id": 1026,
+          "province_id": 34,
+          "commune_name": "جعافرة"
+        },
+        {
+          "id": 1027,
+          "province_id": 34,
+          "commune_name": "القلة"
+        },
+        {
+          "id": 1028,
+          "province_id": 34,
+          "commune_name": "ثنية النصر"
+        },
+        {
+          "id": 1029,
+          "province_id": 34,
+          "commune_name": "الياشير"
+        },
+        {
+          "id": 1030,
+          "province_id": 34,
+          "commune_name": "حسناوة"
+        },
+        {
+          "id": 1031,
+          "province_id": 34,
+          "commune_name": "مجانة"
+        },
+        {
+          "id": 1032,
+          "province_id": 34,
+          "commune_name": "المهير"
+        },
+        {
+          "id": 1033,
+          "province_id": 34,
+          "commune_name": "المنصورة"
+        },
+        {
+          "id": 1034,
+          "province_id": 34,
+          "commune_name": "حرازة"
+        },
+        {
+          "id": 1035,
+          "province_id": 34,
+          "commune_name": "بن داود"
+        },
+        {
+          "id": 1036,
+          "province_id": 34,
+          "commune_name": "عين تسرة"
+        },
+        {
+          "id": 1037,
+          "province_id": 34,
+          "commune_name": "أولاد أبراهم"
+        },
+        {
+          "id": 1038,
+          "province_id": 34,
+          "commune_name": "رأس الوادي"
+        },
+        {
+          "id": 1039,
+          "province_id": 34,
+          "commune_name": "برج زمورة"
+        },
+        {
+          "id": 1040,
+          "province_id": 34,
+          "commune_name": "أولاد دحمان"
+        },
+        {
+          "id": 1041,
+          "province_id": 34,
+          "commune_name": "تسامرت"
+        },
+        {
+          "id": 1042,
+          "province_id": 34,
+          "commune_name": "برج بوعريرج"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "بومرداس",
+      "municipalities": [
+        {
+          "id": 1043,
+          "province_id": 35,
+          "commune_name": "الخروبة"
+        },
+        {
+          "id": 1044,
+          "province_id": 35,
+          "commune_name": "بوزقزة قدارة"
+        },
+        {
+          "id": 1045,
+          "province_id": 35,
+          "commune_name": "أولاد هداج"
+        },
+        {
+          "id": 1046,
+          "province_id": 35,
+          "commune_name": "بودواو"
+        },
+        {
+          "id": 1047,
+          "province_id": 35,
+          "commune_name": "بودواو البحري"
+        },
+        {
+          "id": 1048,
+          "province_id": 35,
+          "commune_name": "دلس"
+        },
+        {
+          "id": 1049,
+          "province_id": 35,
+          "commune_name": "بن شود"
+        },
+        {
+          "id": 1050,
+          "province_id": 35,
+          "commune_name": "أعفير"
+        },
+        {
+          "id": 1051,
+          "province_id": 35,
+          "commune_name": "الثنية"
+        },
+        {
+          "id": 1052,
+          "province_id": 35,
+          "commune_name": "بني عمران"
+        },
+        {
+          "id": 1053,
+          "province_id": 35,
+          "commune_name": "عمال"
+        },
+        {
+          "id": 1054,
+          "province_id": 35,
+          "commune_name": "سوق الحد"
+        },
+        {
+          "id": 1055,
+          "province_id": 35,
+          "commune_name": "خميس الخشنة"
+        },
+        {
+          "id": 1056,
+          "province_id": 35,
+          "commune_name": "الاربعطاش"
+        },
+        {
+          "id": 1057,
+          "province_id": 35,
+          "commune_name": "أولاد موسى"
+        },
+        {
+          "id": 1058,
+          "province_id": 35,
+          "commune_name": "حمادي"
+        },
+        {
+          "id": 1059,
+          "province_id": 35,
+          "commune_name": "تيمزريت"
+        },
+        {
+          "id": 1060,
+          "province_id": 35,
+          "commune_name": "زموري"
+        },
+        {
+          "id": 1061,
+          "province_id": 35,
+          "commune_name": "لقاطة"
+        },
+        {
+          "id": 1062,
+          "province_id": 35,
+          "commune_name": "جنات"
+        },
+        {
+          "id": 1063,
+          "province_id": 35,
+          "commune_name": "برج منايل"
+        },
+        {
+          "id": 1064,
+          "province_id": 35,
+          "commune_name": "يسر"
+        },
+        {
+          "id": 1065,
+          "province_id": 35,
+          "commune_name": "شعبة العامر"
+        },
+        {
+          "id": 1066,
+          "province_id": 35,
+          "commune_name": "سي مصطفى"
+        },
+        {
+          "id": 1067,
+          "province_id": 35,
+          "commune_name": "أولاد عيسى"
+        },
+        {
+          "id": 1068,
+          "province_id": 35,
+          "commune_name": "الناصرية"
+        },
+        {
+          "id": 1069,
+          "province_id": 35,
+          "commune_name": "سيدي داود"
+        },
+        {
+          "id": 1070,
+          "province_id": 35,
+          "commune_name": "بغلية"
+        },
+        {
+          "id": 1071,
+          "province_id": 35,
+          "commune_name": "تاورقة"
+        },
+        {
+          "id": 1072,
+          "province_id": 35,
+          "commune_name": "تيجلابين"
+        },
+        {
+          "id": 1073,
+          "province_id": 35,
+          "commune_name": "بومرداس"
+        },
+        {
+          "id": 1074,
+          "province_id": 35,
+          "commune_name": "قورصو"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "name": "الطارف",
+      "municipalities": [
+        {
+          "id": 1075,
+          "province_id": 36,
+          "commune_name": "عين العسل"
+        },
+        {
+          "id": 1076,
+          "province_id": 36,
+          "commune_name": "بوقوس"
+        },
+        {
+          "id": 1077,
+          "province_id": 36,
+          "commune_name": "الطارف"
+        },
+        {
+          "id": 1078,
+          "province_id": 36,
+          "commune_name": "الزيتونة"
+        },
+        {
+          "id": 1079,
+          "province_id": 36,
+          "commune_name": "البسباس"
+        },
+        {
+          "id": 1080,
+          "province_id": 36,
+          "commune_name": "زريزر"
+        },
+        {
+          "id": 1081,
+          "province_id": 36,
+          "commune_name": "عصفور"
+        },
+        {
+          "id": 1082,
+          "province_id": 36,
+          "commune_name": "عين الكرمة"
+        },
+        {
+          "id": 1083,
+          "province_id": 36,
+          "commune_name": "بوحجار"
+        },
+        {
+          "id": 1084,
+          "province_id": 36,
+          "commune_name": "حمام بني صالح"
+        },
+        {
+          "id": 1085,
+          "province_id": 36,
+          "commune_name": "وادي الزيتون"
+        },
+        {
+          "id": 1086,
+          "province_id": 36,
+          "commune_name": "بن مهيدي"
+        },
+        {
+          "id": 1087,
+          "province_id": 36,
+          "commune_name": "بريحان"
+        },
+        {
+          "id": 1088,
+          "province_id": 36,
+          "commune_name": "الشط"
+        },
+        {
+          "id": 1089,
+          "province_id": 36,
+          "commune_name": "شبيطة مختار"
+        },
+        {
+          "id": 1090,
+          "province_id": 36,
+          "commune_name": "شحاني"
+        },
+        {
+          "id": 1091,
+          "province_id": 36,
+          "commune_name": "الذرعـان"
+        },
+        {
+          "id": 1092,
+          "province_id": 36,
+          "commune_name": "العيون"
+        },
+        {
+          "id": 1093,
+          "province_id": 36,
+          "commune_name": "القالة"
+        },
+        {
+          "id": 1094,
+          "province_id": 36,
+          "commune_name": "السوارخ"
+        },
+        {
+          "id": 1095,
+          "province_id": 36,
+          "commune_name": "رمل السوق"
+        },
+        {
+          "id": 1096,
+          "province_id": 36,
+          "commune_name": "بوثلجة"
+        },
+        {
+          "id": 1097,
+          "province_id": 36,
+          "commune_name": "الشافية"
+        },
+        {
+          "id": 1098,
+          "province_id": 36,
+          "commune_name": "بحيرة الطيور"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "name": "تندوف",
+      "municipalities": [
+        {
+          "id": 1099,
+          "province_id": 37,
+          "commune_name": "تندوف"
+        },
+        {
+          "id": 1100,
+          "province_id": 37,
+          "commune_name": "أم العسل"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "تيسمسيلت",
+      "municipalities": [
+        {
+          "id": 1101,
+          "province_id": 38,
+          "commune_name": "خميستي"
+        },
+        {
+          "id": 1102,
+          "province_id": 38,
+          "commune_name": "العيون"
+        },
+        {
+          "id": 1103,
+          "province_id": 38,
+          "commune_name": "ثنية الاحد"
+        },
+        {
+          "id": 1104,
+          "province_id": 38,
+          "commune_name": "سيدي بوتوشنت"
+        },
+        {
+          "id": 1105,
+          "province_id": 38,
+          "commune_name": "أولاد بسام"
+        },
+        {
+          "id": 1106,
+          "province_id": 38,
+          "commune_name": "تيسمسيلت"
+        },
+        {
+          "id": 1107,
+          "province_id": 38,
+          "commune_name": "سيدي العنتري"
+        },
+        {
+          "id": 1108,
+          "province_id": 38,
+          "commune_name": "لرجام"
+        },
+        {
+          "id": 1109,
+          "province_id": 38,
+          "commune_name": "الملعب"
+        },
+        {
+          "id": 1110,
+          "province_id": 38,
+          "commune_name": "تملاحت"
+        },
+        {
+          "id": 1111,
+          "province_id": 38,
+          "commune_name": "بني شعيب"
+        },
+        {
+          "id": 1112,
+          "province_id": 38,
+          "commune_name": "بني لحسن"
+        },
+        {
+          "id": 1113,
+          "province_id": 38,
+          "commune_name": "برج بونعامة"
+        },
+        {
+          "id": 1114,
+          "province_id": 38,
+          "commune_name": "سيدي عابد"
+        },
+        {
+          "id": 1115,
+          "province_id": 38,
+          "commune_name": "عماري"
+        },
+        {
+          "id": 1116,
+          "province_id": 38,
+          "commune_name": "المعاصم"
+        },
+        {
+          "id": 1117,
+          "province_id": 38,
+          "commune_name": "سيدي سليمان"
+        },
+        {
+          "id": 1118,
+          "province_id": 38,
+          "commune_name": "بوقائد"
+        },
+        {
+          "id": 1119,
+          "province_id": 38,
+          "commune_name": "الأزهرية"
+        },
+        {
+          "id": 1120,
+          "province_id": 38,
+          "commune_name": "الأربعاء"
+        },
+        {
+          "id": 1121,
+          "province_id": 38,
+          "commune_name": "اليوسفية"
+        },
+        {
+          "id": 1122,
+          "province_id": 38,
+          "commune_name": "برج الأمير عبد القادر"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "name": "الوادي",
+      "municipalities": [
+        {
+          "id": 1123,
+          "province_id": 39,
+          "commune_name": "دوار الماء"
+        },
+        {
+          "id": 1124,
+          "province_id": 39,
+          "commune_name": "بن  قشة"
+        },
+        {
+          "id": 1125,
+          "province_id": 39,
+          "commune_name": "الطالب العربي"
+        },
+        {
+          "id": 1126,
+          "province_id": 39,
+          "commune_name": "العقلة"
+        },
+        {
+          "id": 1127,
+          "province_id": 39,
+          "commune_name": "المقرن"
+        },
+        {
+          "id": 1128,
+          "province_id": 39,
+          "commune_name": "سيدي عون"
+        },
+        {
+          "id": 1129,
+          "province_id": 39,
+          "commune_name": "اميه وانسة"
+        },
+        {
+          "id": 1130,
+          "province_id": 39,
+          "commune_name": "وادي العلندة"
+        },
+        {
+          "id": 1131,
+          "province_id": 39,
+          "commune_name": "كوينين"
+        },
+        {
+          "id": 1132,
+          "province_id": 39,
+          "commune_name": "الوادي"
+        },
+        {
+          "id": 1133,
+          "province_id": 39,
+          "commune_name": "البياضة"
+        },
+        {
+          "id": 1134,
+          "province_id": 39,
+          "commune_name": "النخلة"
+        },
+        {
+          "id": 1135,
+          "province_id": 39,
+          "commune_name": "الرباح"
+        },
+        {
+          "id": 1136,
+          "province_id": 39,
+          "commune_name": "قمار"
+        },
+        {
+          "id": 1137,
+          "province_id": 39,
+          "commune_name": "ورماس"
+        },
+        {
+          "id": 1138,
+          "province_id": 39,
+          "commune_name": "تغزوت"
+        },
+        {
+          "id": 1139,
+          "province_id": 39,
+          "commune_name": "الحمراية"
+        },
+        {
+          "id": 1140,
+          "province_id": 39,
+          "commune_name": "الرقيبة"
+        },
+        {
+          "id": 1141,
+          "province_id": 39,
+          "commune_name": "الدبيلة"
+        },
+        {
+          "id": 1142,
+          "province_id": 39,
+          "commune_name": "حساني عبد الكريم"
+        },
+        {
+          "id": 1143,
+          "province_id": 39,
+          "commune_name": "حاسي خليفة"
+        },
+        {
+          "id": 1144,
+          "province_id": 39,
+          "commune_name": "الطريفاوي"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "name": "خنشلة",
+      "municipalities": [
+        {
+          "id": 1145,
+          "province_id": 40,
+          "commune_name": "خيران"
+        },
+        {
+          "id": 1146,
+          "province_id": 40,
+          "commune_name": "جلال"
+        },
+        {
+          "id": 1147,
+          "province_id": 40,
+          "commune_name": "الولجة"
+        },
+        {
+          "id": 1148,
+          "province_id": 40,
+          "commune_name": "ششار"
+        },
+        {
+          "id": 1149,
+          "province_id": 40,
+          "commune_name": "بابار"
+        },
+        {
+          "id": 1150,
+          "province_id": 40,
+          "commune_name": "المحمل"
+        },
+        {
+          "id": 1151,
+          "province_id": 40,
+          "commune_name": "أولاد رشاش"
+        },
+        {
+          "id": 1152,
+          "province_id": 40,
+          "commune_name": "يابوس"
+        },
+        {
+          "id": 1153,
+          "province_id": 40,
+          "commune_name": "شلية"
+        },
+        {
+          "id": 1154,
+          "province_id": 40,
+          "commune_name": "بوحمامة"
+        },
+        {
+          "id": 1155,
+          "province_id": 40,
+          "commune_name": "مصارة"
+        },
+        {
+          "id": 1156,
+          "province_id": 40,
+          "commune_name": "خنشلة"
+        },
+        {
+          "id": 1157,
+          "province_id": 40,
+          "commune_name": "قايس"
+        },
+        {
+          "id": 1158,
+          "province_id": 40,
+          "commune_name": "الرميلة"
+        },
+        {
+          "id": 1159,
+          "province_id": 40,
+          "commune_name": "تاوزيانت"
+        },
+        {
+          "id": 1160,
+          "province_id": 40,
+          "commune_name": "بغاي"
+        },
+        {
+          "id": 1161,
+          "province_id": 40,
+          "commune_name": "الحامة"
+        },
+        {
+          "id": 1162,
+          "province_id": 40,
+          "commune_name": "انسيغة"
+        },
+        {
+          "id": 1163,
+          "province_id": 40,
+          "commune_name": "طامزة"
+        },
+        {
+          "id": 1164,
+          "province_id": 40,
+          "commune_name": "عين الطويلة"
+        },
+        {
+          "id": 1165,
+          "province_id": 40,
+          "commune_name": "متوسة"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "سوق أهراس",
+      "municipalities": [
+        {
+          "id": 1166,
+          "province_id": 41,
+          "commune_name": "سوق أهراس"
+        },
+        {
+          "id": 1167,
+          "province_id": 41,
+          "commune_name": "عين سلطان"
+        },
+        {
+          "id": 1168,
+          "province_id": 41,
+          "commune_name": "سدراتة"
+        },
+        {
+          "id": 1169,
+          "province_id": 41,
+          "commune_name": "خميسة"
+        },
+        {
+          "id": 1170,
+          "province_id": 41,
+          "commune_name": "الحنانشة"
+        },
+        {
+          "id": 1171,
+          "province_id": 41,
+          "commune_name": "المشروحة"
+        },
+        {
+          "id": 1172,
+          "province_id": 41,
+          "commune_name": "عين الزانة"
+        },
+        {
+          "id": 1173,
+          "province_id": 41,
+          "commune_name": "أولاد إدريس"
+        },
+        {
+          "id": 1174,
+          "province_id": 41,
+          "commune_name": "ترقالت"
+        },
+        {
+          "id": 1175,
+          "province_id": 41,
+          "commune_name": "أم العظايم"
+        },
+        {
+          "id": 1176,
+          "province_id": 41,
+          "commune_name": "وادي الكبريت"
+        },
+        {
+          "id": 1177,
+          "province_id": 41,
+          "commune_name": "تيفاش"
+        },
+        {
+          "id": 1178,
+          "province_id": 41,
+          "commune_name": "الراقوبة"
+        },
+        {
+          "id": 1179,
+          "province_id": 41,
+          "commune_name": "مداوروش"
+        },
+        {
+          "id": 1180,
+          "province_id": 41,
+          "commune_name": "الدريعة"
+        },
+        {
+          "id": 1181,
+          "province_id": 41,
+          "commune_name": "تاورة"
+        },
+        {
+          "id": 1182,
+          "province_id": 41,
+          "commune_name": "الزعرورية"
+        },
+        {
+          "id": 1183,
+          "province_id": 41,
+          "commune_name": "الحدادة"
+        },
+        {
+          "id": 1184,
+          "province_id": 41,
+          "commune_name": "الخضارة"
+        },
+        {
+          "id": 1185,
+          "province_id": 41,
+          "commune_name": "أولاد مومن"
+        },
+        {
+          "id": 1186,
+          "province_id": 41,
+          "commune_name": "المراهنة"
+        },
+        {
+          "id": 1187,
+          "province_id": 41,
+          "commune_name": "ويلان"
+        },
+        {
+          "id": 1188,
+          "province_id": 41,
+          "commune_name": "سيدي فرج"
+        },
+        {
+          "id": 1189,
+          "province_id": 41,
+          "commune_name": "بئر بوحوش"
+        },
+        {
+          "id": 1190,
+          "province_id": 41,
+          "commune_name": "سافل الويدان"
+        },
+        {
+          "id": 1191,
+          "province_id": 41,
+          "commune_name": "الزوابي"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "name": "تيبازة",
+      "municipalities": [
+        {
+          "id": 1192,
+          "province_id": 42,
+          "commune_name": "حجوط"
+        },
+        {
+          "id": 1193,
+          "province_id": 42,
+          "commune_name": "مراد"
+        },
+        {
+          "id": 1194,
+          "province_id": 42,
+          "commune_name": "مناصر"
+        },
+        {
+          "id": 1195,
+          "province_id": 42,
+          "commune_name": "الناظور"
+        },
+        {
+          "id": 1196,
+          "province_id": 42,
+          "commune_name": "سيدي عامر"
+        },
+        {
+          "id": 1197,
+          "province_id": 42,
+          "commune_name": "أغبال"
+        },
+        {
+          "id": 1198,
+          "province_id": 42,
+          "commune_name": "قوراية"
+        },
+        {
+          "id": 1199,
+          "province_id": 42,
+          "commune_name": "مسلمون"
+        },
+        {
+          "id": 1200,
+          "province_id": 42,
+          "commune_name": "شرشال"
+        },
+        {
+          "id": 1201,
+          "province_id": 42,
+          "commune_name": "حجرة النص"
+        },
+        {
+          "id": 1202,
+          "province_id": 42,
+          "commune_name": "سيدي غيلاس"
+        },
+        {
+          "id": 1203,
+          "province_id": 42,
+          "commune_name": "سيدي سميان"
+        },
+        {
+          "id": 1204,
+          "province_id": 42,
+          "commune_name": "الداموس"
+        },
+        {
+          "id": 1205,
+          "province_id": 42,
+          "commune_name": "الأرهاط"
+        },
+        {
+          "id": 1206,
+          "province_id": 42,
+          "commune_name": "بني ميلك"
+        },
+        {
+          "id": 1207,
+          "province_id": 42,
+          "commune_name": "فوكة"
+        },
+        {
+          "id": 1208,
+          "province_id": 42,
+          "commune_name": "دواودة"
+        },
+        {
+          "id": 1209,
+          "province_id": 42,
+          "commune_name": "عين تاقورايت"
+        },
+        {
+          "id": 1210,
+          "province_id": 42,
+          "commune_name": "بوهارون"
+        },
+        {
+          "id": 1211,
+          "province_id": 42,
+          "commune_name": "بواسماعيل"
+        },
+        {
+          "id": 1212,
+          "province_id": 42,
+          "commune_name": "خميستي"
+        },
+        {
+          "id": 1213,
+          "province_id": 42,
+          "commune_name": "أحمر العين"
+        },
+        {
+          "id": 1214,
+          "province_id": 42,
+          "commune_name": "بورقيقة"
+        },
+        {
+          "id": 1215,
+          "province_id": 42,
+          "commune_name": "سيدي راشد"
+        },
+        {
+          "id": 1216,
+          "province_id": 42,
+          "commune_name": "الحطاطبة"
+        },
+        {
+          "id": 1217,
+          "province_id": 42,
+          "commune_name": "الشعيبة"
+        },
+        {
+          "id": 1218,
+          "province_id": 42,
+          "commune_name": "القليعة"
+        },
+        {
+          "id": 1219,
+          "province_id": 42,
+          "commune_name": "تيبازة"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "name": "ميلة",
+      "municipalities": [
+        {
+          "id": 1220,
+          "province_id": 43,
+          "commune_name": "مشيرة"
+        },
+        {
+          "id": 1221,
+          "province_id": 43,
+          "commune_name": "التلاغمة"
+        },
+        {
+          "id": 1222,
+          "province_id": 43,
+          "commune_name": "وادي سقان"
+        },
+        {
+          "id": 1223,
+          "province_id": 43,
+          "commune_name": "العياضي برباس"
+        },
+        {
+          "id": 1224,
+          "province_id": 43,
+          "commune_name": " عين البيضاء أحريش"
+        },
+        {
+          "id": 1225,
+          "province_id": 43,
+          "commune_name": "تسالة لمطاعي"
+        },
+        {
+          "id": 1226,
+          "province_id": 43,
+          "commune_name": "ترعي باينان"
+        },
+        {
+          "id": 1227,
+          "province_id": 43,
+          "commune_name": "اعميرة اراس"
+        },
+        {
+          "id": 1228,
+          "province_id": 43,
+          "commune_name": "تسدان حدادة"
+        },
+        {
+          "id": 1229,
+          "province_id": 43,
+          "commune_name": "مينار زارزة"
+        },
+        {
+          "id": 1230,
+          "province_id": 43,
+          "commune_name": "سيدي مروان"
+        },
+        {
+          "id": 1231,
+          "province_id": 43,
+          "commune_name": "الشيقارة"
+        },
+        {
+          "id": 1232,
+          "province_id": 43,
+          "commune_name": "حمالة"
+        },
+        {
+          "id": 1233,
+          "province_id": 43,
+          "commune_name": "القرارم قوقة"
+        },
+        {
+          "id": 1234,
+          "province_id": 43,
+          "commune_name": "تيبرقنت"
+        },
+        {
+          "id": 1235,
+          "province_id": 43,
+          "commune_name": "الرواشد"
+        },
+        {
+          "id": 1236,
+          "province_id": 43,
+          "commune_name": "دراحي بوصلاح"
+        },
+        {
+          "id": 1237,
+          "province_id": 43,
+          "commune_name": "بوحاتم"
+        },
+        {
+          "id": 1238,
+          "province_id": 43,
+          "commune_name": "زغاية"
+        },
+        {
+          "id": 1239,
+          "province_id": 43,
+          "commune_name": "وادي النجاء"
+        },
+        {
+          "id": 1240,
+          "province_id": 43,
+          "commune_name": "أحمد راشدي"
+        },
+        {
+          "id": 1241,
+          "province_id": 43,
+          "commune_name": "تاجنانت"
+        },
+        {
+          "id": 1242,
+          "province_id": 43,
+          "commune_name": "أولاد اخلوف"
+        },
+        {
+          "id": 1243,
+          "province_id": 43,
+          "commune_name": "بن يحي عبد الرحمن"
+        },
+        {
+          "id": 1244,
+          "province_id": 43,
+          "commune_name": "عين الملوك"
+        },
+        {
+          "id": 1245,
+          "province_id": 43,
+          "commune_name": "وادي العثمانية"
+        },
+        {
+          "id": 1246,
+          "province_id": 43,
+          "commune_name": "شلغوم العيد"
+        },
+        {
+          "id": 1247,
+          "province_id": 43,
+          "commune_name": "عين التين"
+        },
+        {
+          "id": 1248,
+          "province_id": 43,
+          "commune_name": "سيدي خليفة"
+        },
+        {
+          "id": 1249,
+          "province_id": 43,
+          "commune_name": "ميلة"
+        },
+        {
+          "id": 1250,
+          "province_id": 43,
+          "commune_name": "يحي بني قشة"
+        },
+        {
+          "id": 1251,
+          "province_id": 43,
+          "commune_name": "فرجيوة"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "عين الدفلى",
+      "municipalities": [
+        {
+          "id": 1252,
+          "province_id": 44,
+          "commune_name": "خميس مليانة"
+        },
+        {
+          "id": 1253,
+          "province_id": 44,
+          "commune_name": "سيدي الأخضر"
+        },
+        {
+          "id": 1254,
+          "province_id": 44,
+          "commune_name": "عين البنيان"
+        },
+        {
+          "id": 1255,
+          "province_id": 44,
+          "commune_name": "عين التركي"
+        },
+        {
+          "id": 1256,
+          "province_id": 44,
+          "commune_name": "حمام ريغة"
+        },
+        {
+          "id": 1257,
+          "province_id": 44,
+          "commune_name": "بوراشد"
+        },
+        {
+          "id": 1258,
+          "province_id": 44,
+          "commune_name": "جليدة"
+        },
+        {
+          "id": 1259,
+          "province_id": 44,
+          "commune_name": "جمعة أولاد الشيخ"
+        },
+        {
+          "id": 1260,
+          "province_id": 44,
+          "commune_name": "الحسينية"
+        },
+        {
+          "id": 1261,
+          "province_id": 44,
+          "commune_name": "بومدفع"
+        },
+        {
+          "id": 1262,
+          "province_id": 44,
+          "commune_name": "عريب"
+        },
+        {
+          "id": 1263,
+          "province_id": 44,
+          "commune_name": "العامرة"
+        },
+        {
+          "id": 1264,
+          "province_id": 44,
+          "commune_name": "المخاطرية"
+        },
+        {
+          "id": 1265,
+          "province_id": 44,
+          "commune_name": "العطاف"
+        },
+        {
+          "id": 1266,
+          "province_id": 44,
+          "commune_name": "تبركانين"
+        },
+        {
+          "id": 1267,
+          "province_id": 44,
+          "commune_name": "عين بويحيى"
+        },
+        {
+          "id": 1268,
+          "province_id": 44,
+          "commune_name": "العبادية"
+        },
+        {
+          "id": 1269,
+          "province_id": 44,
+          "commune_name": "تاشتة زقاغة"
+        },
+        {
+          "id": 1270,
+          "province_id": 44,
+          "commune_name": "بربوش"
+        },
+        {
+          "id": 1271,
+          "province_id": 44,
+          "commune_name": "جندل"
+        },
+        {
+          "id": 1272,
+          "province_id": 44,
+          "commune_name": "وادي الشرفاء"
+        },
+        {
+          "id": 1273,
+          "province_id": 44,
+          "commune_name": "بن علال"
+        },
+        {
+          "id": 1274,
+          "province_id": 44,
+          "commune_name": "مليانة"
+        },
+        {
+          "id": 1275,
+          "province_id": 44,
+          "commune_name": "عين الاشياخ"
+        },
+        {
+          "id": 1276,
+          "province_id": 44,
+          "commune_name": "واد الجمعة"
+        },
+        {
+          "id": 1277,
+          "province_id": 44,
+          "commune_name": "عين السلطان"
+        },
+        {
+          "id": 1278,
+          "province_id": 44,
+          "commune_name": "الماين"
+        },
+        {
+          "id": 1279,
+          "province_id": 44,
+          "commune_name": "الروينة"
+        },
+        {
+          "id": 1280,
+          "province_id": 44,
+          "commune_name": "زدين"
+        },
+        {
+          "id": 1281,
+          "province_id": 44,
+          "commune_name": "بئر ولد خليفة"
+        },
+        {
+          "id": 1282,
+          "province_id": 44,
+          "commune_name": "برج الأمير خالد"
+        },
+        {
+          "id": 1283,
+          "province_id": 44,
+          "commune_name": "طارق بن زياد"
+        },
+        {
+          "id": 1284,
+          "province_id": 44,
+          "commune_name": "بطحية"
+        },
+        {
+          "id": 1285,
+          "province_id": 44,
+          "commune_name": "بلعاص"
+        },
+        {
+          "id": 1286,
+          "province_id": 44,
+          "commune_name": "الحسانية"
+        },
+        {
+          "id": 1287,
+          "province_id": 44,
+          "commune_name": "عين الدفلى"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "name": "النعامة",
+      "municipalities": [
+        {
+          "id": 1288,
+          "province_id": 45,
+          "commune_name": "تيوت"
+        },
+        {
+          "id": 1289,
+          "province_id": 45,
+          "commune_name": "عين الصفراء"
+        },
+        {
+          "id": 1290,
+          "province_id": 45,
+          "commune_name": "مغرار"
+        },
+        {
+          "id": 1291,
+          "province_id": 45,
+          "commune_name": "جنين بورزق"
+        },
+        {
+          "id": 1292,
+          "province_id": 45,
+          "commune_name": "عسلة"
+        },
+        {
+          "id": 1293,
+          "province_id": 45,
+          "commune_name": "القصدير"
+        },
+        {
+          "id": 1294,
+          "province_id": 45,
+          "commune_name": "مكمن بن عمار"
+        },
+        {
+          "id": 1295,
+          "province_id": 45,
+          "commune_name": "المشرية"
+        },
+        {
+          "id": 1296,
+          "province_id": 45,
+          "commune_name": "البيوض"
+        },
+        {
+          "id": 1297,
+          "province_id": 45,
+          "commune_name": "عين بن خليل"
+        },
+        {
+          "id": 1298,
+          "province_id": 45,
+          "commune_name": "النعامة"
+        },
+        {
+          "id": 1299,
+          "province_id": 45,
+          "commune_name": "سفيسيفة"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "name": "عين تموشنت",
+      "municipalities": [
+        {
+          "id": 1300,
+          "province_id": 46,
+          "commune_name": "سيدي بومدين"
+        },
+        {
+          "id": 1301,
+          "province_id": 46,
+          "commune_name": "تامزورة"
+        },
+        {
+          "id": 1302,
+          "province_id": 46,
+          "commune_name": "وادي الصباح"
+        },
+        {
+          "id": 1303,
+          "province_id": 46,
+          "commune_name": "عين الأربعاء"
+        },
+        {
+          "id": 1304,
+          "province_id": 46,
+          "commune_name": "شعبة اللحم"
+        },
+        {
+          "id": 1305,
+          "province_id": 46,
+          "commune_name": "المالح"
+        },
+        {
+          "id": 1306,
+          "province_id": 46,
+          "commune_name": "أولاد الكيحل"
+        },
+        {
+          "id": 1307,
+          "province_id": 46,
+          "commune_name": "تارقة"
+        },
+        {
+          "id": 1308,
+          "province_id": 46,
+          "commune_name": "شنتوف"
+        },
+        {
+          "id": 1309,
+          "province_id": 46,
+          "commune_name": "الحساسنة"
+        },
+        {
+          "id": 1310,
+          "province_id": 46,
+          "commune_name": "وادي برقش"
+        },
+        {
+          "id": 1311,
+          "province_id": 46,
+          "commune_name": "حمام بوحجر"
+        },
+        {
+          "id": 1312,
+          "province_id": 46,
+          "commune_name": "العامرية"
+        },
+        {
+          "id": 1313,
+          "province_id": 46,
+          "commune_name": "حاسي الغلة"
+        },
+        {
+          "id": 1314,
+          "province_id": 46,
+          "commune_name": "أولاد بوجمعة"
+        },
+        {
+          "id": 1315,
+          "province_id": 46,
+          "commune_name": "المساعيد"
+        },
+        {
+          "id": 1316,
+          "province_id": 46,
+          "commune_name": "بوزجار"
+        },
+        {
+          "id": 1317,
+          "province_id": 46,
+          "commune_name": "أغلال"
+        },
+        {
+          "id": 1318,
+          "province_id": 46,
+          "commune_name": "عين الكيحل"
+        },
+        {
+          "id": 1319,
+          "province_id": 46,
+          "commune_name": "عين الطلبة"
+        },
+        {
+          "id": 1320,
+          "province_id": 46,
+          "commune_name": "عقب الليل"
+        },
+        {
+          "id": 1321,
+          "province_id": 46,
+          "commune_name": "بني صاف"
+        },
+        {
+          "id": 1322,
+          "province_id": 46,
+          "commune_name": "سيدي صافي"
+        },
+        {
+          "id": 1323,
+          "province_id": 46,
+          "commune_name": "الأمير عبد القادر"
+        },
+        {
+          "id": 1324,
+          "province_id": 46,
+          "commune_name": "ولهاصة الغرابة"
+        },
+        {
+          "id": 1325,
+          "province_id": 46,
+          "commune_name": "سيدي ورياش"
+        },
+        {
+          "id": 1326,
+          "province_id": 46,
+          "commune_name": "سيدي بن عدة"
+        },
+        {
+          "id": 1327,
+          "province_id": 46,
+          "commune_name": "عين تموشنت"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "name": "غرداية",
+      "municipalities": [
+        {
+          "id": 1328,
+          "province_id": 47,
+          "commune_name": "ضاية بن ضحوة"
+        },
+        {
+          "id": 1329,
+          "province_id": 47,
+          "commune_name": "المنصورة"
+        },
+        {
+          "id": 1330,
+          "province_id": 47,
+          "commune_name": "العطف"
+        },
+        {
+          "id": 1331,
+          "province_id": 47,
+          "commune_name": "بونورة"
+        },
+        {
+          "id": 1332,
+          "province_id": 47,
+          "commune_name": "زلفانة"
+        },
+        {
+          "id": 1333,
+          "province_id": 47,
+          "commune_name": "القرارة"
+        },
+        {
+          "id": 1334,
+          "province_id": 47,
+          "commune_name": "سبسب"
+        },
+        {
+          "id": 1335,
+          "province_id": 47,
+          "commune_name": "متليلي"
+        },
+        {
+          "id": 1336,
+          "province_id": 47,
+          "commune_name": "بريان"
+        },
+        {
+          "id": 1337,
+          "province_id": 47,
+          "commune_name": "غرداية"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "name": "غليزان",
+      "municipalities": [
+        {
+          "id": 1338,
+          "province_id": 48,
+          "commune_name": "القطار"
+        },
+        {
+          "id": 1339,
+          "province_id": 48,
+          "commune_name": "مازونة"
+        },
+        {
+          "id": 1340,
+          "province_id": 48,
+          "commune_name": "أولاد يعيش"
+        },
+        {
+          "id": 1341,
+          "province_id": 48,
+          "commune_name": "عمي موسى"
+        },
+        {
+          "id": 1342,
+          "province_id": 48,
+          "commune_name": "بني درقن"
+        },
+        {
+          "id": 1343,
+          "province_id": 48,
+          "commune_name": "دار بن عبد الله"
+        },
+        {
+          "id": 1344,
+          "province_id": 48,
+          "commune_name": "زمورة"
+        },
+        {
+          "id": 1345,
+          "province_id": 48,
+          "commune_name": "جديوية"
+        },
+        {
+          "id": 1346,
+          "province_id": 48,
+          "commune_name": "حمري"
+        },
+        {
+          "id": 1347,
+          "province_id": 48,
+          "commune_name": "أولاد سيدي الميهوب"
+        },
+        {
+          "id": 1348,
+          "province_id": 48,
+          "commune_name": "بلعسل بوزقزة"
+        },
+        {
+          "id": 1349,
+          "province_id": 48,
+          "commune_name": "المطمر"
+        },
+        {
+          "id": 1350,
+          "province_id": 48,
+          "commune_name": "سيدي  خطاب"
+        },
+        {
+          "id": 1351,
+          "province_id": 48,
+          "commune_name": "سيدي امحمد بن عودة"
+        },
+        {
+          "id": 1352,
+          "province_id": 48,
+          "commune_name": "عين طارق"
+        },
+        {
+          "id": 1353,
+          "province_id": 48,
+          "commune_name": "حد الشكالة"
+        },
+        {
+          "id": 1354,
+          "province_id": 48,
+          "commune_name": "الولجة"
+        },
+        {
+          "id": 1355,
+          "province_id": 48,
+          "commune_name": "عين الرحمة"
+        },
+        {
+          "id": 1356,
+          "province_id": 48,
+          "commune_name": "القلعة"
+        },
+        {
+          "id": 1357,
+          "province_id": 48,
+          "commune_name": "سيدي سعادة"
+        },
+        {
+          "id": 1358,
+          "province_id": 48,
+          "commune_name": "يلل"
+        },
+        {
+          "id": 1359,
+          "province_id": 48,
+          "commune_name": "سوق الحد"
+        },
+        {
+          "id": 1360,
+          "province_id": 48,
+          "commune_name": "منداس"
+        },
+        {
+          "id": 1361,
+          "province_id": 48,
+          "commune_name": "وادي السلام"
+        },
+        {
+          "id": 1362,
+          "province_id": 48,
+          "commune_name": "سيدي لزرق"
+        },
+        {
+          "id": 1363,
+          "province_id": 48,
+          "commune_name": "واريزان"
+        },
+        {
+          "id": 1364,
+          "province_id": 48,
+          "commune_name": "مرجة سيدي عابد"
+        },
+        {
+          "id": 1365,
+          "province_id": 48,
+          "commune_name": "وادي رهيو"
+        },
+        {
+          "id": 1366,
+          "province_id": 48,
+          "commune_name": "لحلاف"
+        },
+        {
+          "id": 1367,
+          "province_id": 48,
+          "commune_name": "بن داود"
+        },
+        {
+          "id": 1368,
+          "province_id": 48,
+          "commune_name": "غليزان"
+        },
+        {
+          "id": 1369,
+          "province_id": 48,
+          "commune_name": "الحاسي"
+        },
+        {
+          "id": 1370,
+          "province_id": 48,
+          "commune_name": "سيدي أمحمد بن علي"
+        },
+        {
+          "id": 1371,
+          "province_id": 48,
+          "commune_name": "مديونة"
+        },
+        {
+          "id": 1372,
+          "province_id": 48,
+          "commune_name": "بني زنطيس"
+        },
+        {
+          "id": 1373,
+          "province_id": 48,
+          "commune_name": "وادي الجمعة"
+        },
+        {
+          "id": 1374,
+          "province_id": 48,
+          "commune_name": "الحمادنة"
+        },
+        {
+          "id": 1375,
+          "province_id": 48,
+          "commune_name": "الرمكة"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "name": "تيميمون",
+      "municipalities": [
+        {
+          "id": 1376,
+          "province_id": 49,
+          "commune_name": "تنركوك"
+        },
+        {
+          "id": 1377,
+          "province_id": 49,
+          "commune_name": "قصر قدور"
+        },
+        {
+          "id": 1378,
+          "province_id": 49,
+          "commune_name": "تيميمون"
+        },
+        {
+          "id": 1379,
+          "province_id": 49,
+          "commune_name": "أولاد السعيد"
+        },
+        {
+          "id": 1380,
+          "province_id": 49,
+          "commune_name": "المطارفة"
+        },
+        {
+          "id": 1381,
+          "province_id": 49,
+          "commune_name": "أوقروت"
+        },
+        {
+          "id": 1382,
+          "province_id": 49,
+          "commune_name": "طالمين"
+        },
+        {
+          "id": 1383,
+          "province_id": 49,
+          "commune_name": "شروين"
+        },
+        {
+          "id": 1384,
+          "province_id": 49,
+          "commune_name": "أولاد عيسى"
+        },
+        {
+          "id": 1385,
+          "province_id": 49,
+          "commune_name": "دلدول"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "name": "برج باجي مختار",
+      "municipalities": [
+        {
+          "id": 1386,
+          "province_id": 50,
+          "commune_name": "تيمياوين"
+        },
+        {
+          "id": 1387,
+          "province_id": 50,
+          "commune_name": "برج باجي مختار"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "name": "أولاد جلال",
+      "municipalities": [
+        {
+          "id": 1388,
+          "province_id": 51,
+          "commune_name": "رأس الميعاد"
+        },
+        {
+          "id": 1389,
+          "province_id": 51,
+          "commune_name": "بسباس"
+        },
+        {
+          "id": 1390,
+          "province_id": 51,
+          "commune_name": "سيدي  خالد"
+        },
+        {
+          "id": 1391,
+          "province_id": 51,
+          "commune_name": "الدوسن"
+        },
+        {
+          "id": 1392,
+          "province_id": 51,
+          "commune_name": "أولاد جلال"
+        },
+        {
+          "id": 1393,
+          "province_id": 51,
+          "commune_name": "الشعيبة"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "name": "بني عباس",
+      "municipalities": [
+        {
+          "id": 1394,
+          "province_id": 52,
+          "commune_name": "بني عباس"
+        },
+        {
+          "id": 1395,
+          "province_id": 52,
+          "commune_name": "تامترت"
+        },
+        {
+          "id": 1396,
+          "province_id": 52,
+          "commune_name": "إقلي"
+        },
+        {
+          "id": 1397,
+          "province_id": 52,
+          "commune_name": "الواتة"
+        },
+        {
+          "id": 1398,
+          "province_id": 52,
+          "commune_name": "أولاد خضير"
+        },
+        {
+          "id": 1399,
+          "province_id": 52,
+          "commune_name": "القصابي"
+        },
+        {
+          "id": 1400,
+          "province_id": 52,
+          "commune_name": "كرزاز"
+        },
+        {
+          "id": 1401,
+          "province_id": 52,
+          "commune_name": "تيمودي"
+        },
+        {
+          "id": 1402,
+          "province_id": 52,
+          "commune_name": "بن يخلف"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "name": "عين صالح",
+      "municipalities": [
+        {
+          "id": 1403,
+          "province_id": 53,
+          "commune_name": "إينغر"
+        },
+        {
+          "id": 1404,
+          "province_id": 53,
+          "commune_name": "عين صالح"
+        },
+        {
+          "id": 1405,
+          "province_id": 53,
+          "commune_name": "فقارة الزوى"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "name": "عين قزام",
+      "municipalities": [
+        {
+          "id": 1406,
+          "province_id": 54,
+          "commune_name": "تين زواتين"
+        },
+        {
+          "id": 1407,
+          "province_id": 54,
+          "commune_name": "عين قزام"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "name": "تقرت",
+      "municipalities": [
+        {
+          "id": 1408,
+          "province_id": 55,
+          "commune_name": "تماسين"
+        },
+        {
+          "id": 1409,
+          "province_id": 55,
+          "commune_name": "بلدة اعمر"
+        },
+        {
+          "id": 1410,
+          "province_id": 55,
+          "commune_name": "سيدي سليمان"
+        },
+        {
+          "id": 1411,
+          "province_id": 55,
+          "commune_name": "المقارين"
+        },
+        {
+          "id": 1412,
+          "province_id": 55,
+          "commune_name": "النزلة"
+        },
+        {
+          "id": 1413,
+          "province_id": 55,
+          "commune_name": "تبسبست"
+        },
+        {
+          "id": 1414,
+          "province_id": 55,
+          "commune_name": "تقرت"
+        },
+        {
+          "id": 1415,
+          "province_id": 55,
+          "commune_name": "الزاوية العابدية"
+        },
+        {
+          "id": 1416,
+          "province_id": 55,
+          "commune_name": "الطيبات"
+        },
+        {
+          "id": 1417,
+          "province_id": 55,
+          "commune_name": "بن ناصر"
+        },
+        {
+          "id": 1418,
+          "province_id": 55,
+          "commune_name": "المنقر"
+        },
+        {
+          "id": 1419,
+          "province_id": 55,
+          "commune_name": "العالية"
+        },
+        {
+          "id": 1420,
+          "province_id": 55,
+          "commune_name": "الحجيرة"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "name": "جانت",
+      "municipalities": [
+        {
+          "id": 1421,
+          "province_id": 56,
+          "commune_name": "جانت"
+        },
+        {
+          "id": 1422,
+          "province_id": 56,
+          "commune_name": "برج الحواس"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "name": "المغير",
+      "municipalities": [
+        {
+          "id": 1423,
+          "province_id": 57,
+          "commune_name": "أم الطيور"
+        },
+        {
+          "id": 1424,
+          "province_id": 57,
+          "commune_name": "المغير"
+        },
+        {
+          "id": 1425,
+          "province_id": 57,
+          "commune_name": "سطيل"
+        },
+        {
+          "id": 1426,
+          "province_id": 57,
+          "commune_name": "سيدي خليل"
+        },
+        {
+          "id": 1427,
+          "province_id": 57,
+          "commune_name": "سيدي عمران"
+        },
+        {
+          "id": 1428,
+          "province_id": 57,
+          "commune_name": "المرارة"
+        },
+        {
+          "id": 1429,
+          "province_id": 57,
+          "commune_name": "جامعة"
+        },
+        {
+          "id": 1430,
+          "province_id": 57,
+          "commune_name": "تندلة"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "name": "المنيعة",
+      "municipalities": [
+        {
+          "id": 1431,
+          "province_id": 58,
+          "commune_name": "المنيعة"
+        },
+        {
+          "id": 1432,
+          "province_id": 58,
+          "commune_name": "حاسي القارة"
+        },
+        {
+          "id": 1433,
+          "province_id": 58,
+          "commune_name": "حاسي الفحل"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "name": "أفلو",
+      "municipalities": [
+        {
+          "id": 1434,
+          "province_id": 59,
+          "commune_name": "البيضاء"
+        },
+        {
+          "id": 1435,
+          "province_id": 59,
+          "commune_name": "قلتة سيدي سعد"
+        },
+        {
+          "id": 1436,
+          "province_id": 59,
+          "commune_name": "عين سيدي علي"
+        },
+        {
+          "id": 1437,
+          "province_id": 59,
+          "commune_name": "بريدة"
+        },
+        {
+          "id": 1438,
+          "province_id": 59,
+          "commune_name": "الحاج مشري"
+        },
+        {
+          "id": 1439,
+          "province_id": 59,
+          "commune_name": "تاويالة"
+        },
+        {
+          "id": 1440,
+          "province_id": 59,
+          "commune_name": "الغيشة"
+        },
+        {
+          "id": 1441,
+          "province_id": 59,
+          "commune_name": "سبقاق"
+        },
+        {
+          "id": 1442,
+          "province_id": 59,
+          "commune_name": "سيدي بوزيد"
+        },
+        {
+          "id": 1443,
+          "province_id": 59,
+          "commune_name": "أفلو"
+        },
+        {
+          "id": 1444,
+          "province_id": 59,
+          "commune_name": "وادي مرة"
+        },
+        {
+          "id": 1445,
+          "province_id": 59,
+          "commune_name": "وادي مزي"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "name": "الأبيض سيدي الشيخ",
+      "municipalities": [
+        {
+          "id": 1446,
+          "province_id": 60,
+          "commune_name": "بريزينة"
+        },
+        {
+          "id": 1447,
+          "province_id": 60,
+          "commune_name": "الغاسول"
+        },
+        {
+          "id": 1448,
+          "province_id": 60,
+          "commune_name": "الأبيض سيدي الشيخ"
+        },
+        {
+          "id": 1449,
+          "province_id": 60,
+          "commune_name": "اربوات"
+        },
+        {
+          "id": 1450,
+          "province_id": 60,
+          "commune_name": "بوسمغون"
+        },
+        {
+          "id": 1451,
+          "province_id": 60,
+          "commune_name": "الشقيق"
+        },
+        {
+          "id": 1452,
+          "province_id": 60,
+          "commune_name": "شلالة"
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "name": "العريشة",
+      "municipalities": [
+        {
+          "id": 1453,
+          "province_id": 61,
+          "commune_name": "سيدي الجيلالي"
+        },
+        {
+          "id": 1454,
+          "province_id": 61,
+          "commune_name": "البويهي"
+        },
+        {
+          "id": 1455,
+          "province_id": 61,
+          "commune_name": "القور"
+        },
+        {
+          "id": 1456,
+          "province_id": 61,
+          "commune_name": "العريشة"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "name": "القنطرة",
+      "municipalities": [
+        {
+          "id": 1457,
+          "province_id": 62,
+          "commune_name": "جمورة"
+        },
+        {
+          "id": 1458,
+          "province_id": 62,
+          "commune_name": "برانيس"
+        },
+        {
+          "id": 1459,
+          "province_id": 62,
+          "commune_name": "الوطاية"
+        },
+        {
+          "id": 1460,
+          "province_id": 62,
+          "commune_name": "القنطرة"
+        },
+        {
+          "id": 1461,
+          "province_id": 62,
+          "commune_name": "عين زعطوط"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "name": "بريكة",
+      "municipalities": [
+        {
+          "id": 1462,
+          "province_id": 63,
+          "commune_name": "سقانة"
+        },
+        {
+          "id": 1463,
+          "province_id": 63,
+          "commune_name": "تيلاطو"
+        },
+        {
+          "id": 1464,
+          "province_id": 63,
+          "commune_name": "بريكة"
+        },
+        {
+          "id": 1465,
+          "province_id": 63,
+          "commune_name": "بيطام"
+        },
+        {
+          "id": 1466,
+          "province_id": 63,
+          "commune_name": "إمدوكل"
+        },
+        {
+          "id": 1467,
+          "province_id": 63,
+          "commune_name": "عزيل عبد القادر"
+        },
+        {
+          "id": 1468,
+          "province_id": 63,
+          "commune_name": "الجزار"
+        },
+        {
+          "id": 1469,
+          "province_id": 63,
+          "commune_name": "أولاد عمار"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "name": "بوسعادة",
+      "municipalities": [
+        {
+          "id": 1470,
+          "province_id": 64,
+          "commune_name": "سيدي هجرس"
+        },
+        {
+          "id": 1471,
+          "province_id": 64,
+          "commune_name": "بوسعادة"
+        },
+        {
+          "id": 1472,
+          "province_id": 64,
+          "commune_name": "الهامل"
+        },
+        {
+          "id": 1473,
+          "province_id": 64,
+          "commune_name": "ولتام"
+        },
+        {
+          "id": 1474,
+          "province_id": 64,
+          "commune_name": "بن زوه"
+        },
+        {
+          "id": 1475,
+          "province_id": 64,
+          "commune_name": "أولاد سيدي ابراهيم"
+        },
+        {
+          "id": 1476,
+          "province_id": 64,
+          "commune_name": "سيدي عامر"
+        },
+        {
+          "id": 1477,
+          "province_id": 64,
+          "commune_name": "تامسة"
+        },
+        {
+          "id": 1478,
+          "province_id": 64,
+          "commune_name": "بن سرور"
+        },
+        {
+          "id": 1479,
+          "province_id": 64,
+          "commune_name": "محمد بوضياف"
+        },
+        {
+          "id": 1480,
+          "province_id": 64,
+          "commune_name": "أولاد سليمان"
+        },
+        {
+          "id": 1481,
+          "province_id": 64,
+          "commune_name": "زرزور"
+        },
+        {
+          "id": 1482,
+          "province_id": 64,
+          "commune_name": "عين الملح"
+        },
+        {
+          "id": 1483,
+          "province_id": 64,
+          "commune_name": "عين فارس"
+        },
+        {
+          "id": 1484,
+          "province_id": 64,
+          "commune_name": "عين الريش"
+        },
+        {
+          "id": 1485,
+          "province_id": 64,
+          "commune_name": "بئر فضة"
+        },
+        {
+          "id": 1486,
+          "province_id": 64,
+          "commune_name": "سيدي امحمد"
+        },
+        {
+          "id": 1487,
+          "province_id": 64,
+          "commune_name": "امجدل"
+        },
+        {
+          "id": 1488,
+          "province_id": 64,
+          "commune_name": "مناعة"
+        },
+        {
+          "id": 1489,
+          "province_id": 64,
+          "commune_name": "سليم"
+        },
+        {
+          "id": 1490,
+          "province_id": 64,
+          "commune_name": "المعاضيد"
+        },
+        {
+          "id": 1491,
+          "province_id": 64,
+          "commune_name": "المطارفة"
+        },
+        {
+          "id": 1492,
+          "province_id": 64,
+          "commune_name": "معاريف"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "name": "بير العاتر",
+      "municipalities": [
+        {
+          "id": 1493,
+          "province_id": 65,
+          "commune_name": "فركان"
+        },
+        {
+          "id": 1494,
+          "province_id": 65,
+          "commune_name": "نقرين"
+        },
+        {
+          "id": 1495,
+          "province_id": 65,
+          "commune_name": "العقلة المالحة"
+        },
+        {
+          "id": 1496,
+          "province_id": 65,
+          "commune_name": "بئر العاتر"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "name": "قصر البخاري",
+      "municipalities": [
+        {
+          "id": 1497,
+          "province_id": 66,
+          "commune_name": "أولاد هلال"
+        },
+        {
+          "id": 1498,
+          "province_id": 66,
+          "commune_name": "بوغار"
+        },
+        {
+          "id": 1499,
+          "province_id": 66,
+          "commune_name": "أولاد عنتر"
+        },
+        {
+          "id": 1500,
+          "province_id": 66,
+          "commune_name": "قصر البخاري"
+        },
+        {
+          "id": 1501,
+          "province_id": 66,
+          "commune_name": "مفاتحة"
+        },
+        {
+          "id": 1502,
+          "province_id": 66,
+          "commune_name": "السانق"
+        },
+        {
+          "id": 1503,
+          "province_id": 66,
+          "commune_name": "بوعيش"
+        },
+        {
+          "id": 1504,
+          "province_id": 66,
+          "commune_name": "بوغزول"
+        },
+        {
+          "id": 1505,
+          "province_id": 66,
+          "commune_name": "الشهبونية"
+        },
+        {
+          "id": 1506,
+          "province_id": 66,
+          "commune_name": "عين بوسيف"
+        },
+        {
+          "id": 1507,
+          "province_id": 66,
+          "commune_name": "العوينات"
+        },
+        {
+          "id": 1508,
+          "province_id": 66,
+          "commune_name": "الكاف الاخضر"
+        },
+        {
+          "id": 1509,
+          "province_id": 66,
+          "commune_name": "أولاد امعرف"
+        },
+        {
+          "id": 1510,
+          "province_id": 66,
+          "commune_name": "سيدي دامد"
+        },
+        {
+          "id": 1511,
+          "province_id": 66,
+          "commune_name": "عين اقصير"
+        },
+        {
+          "id": 1512,
+          "province_id": 66,
+          "commune_name": "شلالة العذاورة"
+        },
+        {
+          "id": 1513,
+          "province_id": 66,
+          "commune_name": "شنيقل"
+        },
+        {
+          "id": 1514,
+          "province_id": 66,
+          "commune_name": "تفراوت"
+        },
+        {
+          "id": 1515,
+          "province_id": 66,
+          "commune_name": "عزيز"
+        },
+        {
+          "id": 1516,
+          "province_id": 66,
+          "commune_name": "دراق"
+        },
+        {
+          "id": 1517,
+          "province_id": 66,
+          "commune_name": "أم الجليل"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "name": "قصر الشلالة",
+      "municipalities": [
+        {
+          "id": 1518,
+          "province_id": 67,
+          "commune_name": "قصر الشلالة"
+        },
+        {
+          "id": 1519,
+          "province_id": 67,
+          "commune_name": "سرغين"
+        },
+        {
+          "id": 1520,
+          "province_id": 67,
+          "commune_name": "زمالة  الأمير عبد القادر"
+        },
+        {
+          "id": 1521,
+          "province_id": 67,
+          "commune_name": "بوقرة"
+        },
+        {
+          "id": 1522,
+          "province_id": 67,
+          "commune_name": "حمادية"
+        },
+        {
+          "id": 1523,
+          "province_id": 67,
+          "commune_name": "الرشايقة"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "name": "عين وسارة",
+      "municipalities": [
+        {
+          "id": 1524,
+          "province_id": 68,
+          "commune_name": "حد الصحاري"
+        },
+        {
+          "id": 1525,
+          "province_id": 68,
+          "commune_name": "بويرة الأحداب"
+        },
+        {
+          "id": 1526,
+          "province_id": 68,
+          "commune_name": "عين فقه"
+        },
+        {
+          "id": 1527,
+          "province_id": 68,
+          "commune_name": "سيدي لعجال"
+        },
+        {
+          "id": 1528,
+          "province_id": 68,
+          "commune_name": "حاسي فدول"
+        },
+        {
+          "id": 1529,
+          "province_id": 68,
+          "commune_name": "الخميس"
+        },
+        {
+          "id": 1530,
+          "province_id": 68,
+          "commune_name": "بيرين"
+        },
+        {
+          "id": 1531,
+          "province_id": 68,
+          "commune_name": "بنهار"
+        },
+        {
+          "id": 1532,
+          "province_id": 68,
+          "commune_name": "قرنيني"
+        },
+        {
+          "id": 1533,
+          "province_id": 68,
+          "commune_name": "عين وسارة"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "name": "مسعد",
+      "municipalities": [
+        {
+          "id": 1534,
+          "province_id": 69,
+          "commune_name": "سلمانة"
+        },
+        {
+          "id": 1535,
+          "province_id": 69,
+          "commune_name": "سد الرحال"
+        },
+        {
+          "id": 1536,
+          "province_id": 69,
+          "commune_name": "مسعد"
+        },
+        {
+          "id": 1537,
+          "province_id": 69,
+          "commune_name": "قطارة"
+        },
+        {
+          "id": 1538,
+          "province_id": 69,
+          "commune_name": "دلدول"
+        },
+        {
+          "id": 1539,
+          "province_id": 69,
+          "commune_name": "أم العظام"
+        },
+        {
+          "id": 1540,
+          "province_id": 69,
+          "commune_name": "فيض البطمة"
+        },
+        {
+          "id": 1541,
+          "province_id": 69,
+          "commune_name": "عمورة"
+        }
+      ]
+    }
+  ]
+}
