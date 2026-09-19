@@ -1,315 +1,1515 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Download, RefreshCw } from "lucide-react";
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+    useSyncExternalStore,
+} from "react";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
-import { Pagination } from "@/Components/ui/pagination";
-import Toast from "@/Components/ui/toast";
+import {
+    PackageCheck,
+    Clock3,
+    Truck,
+    Banknote,
+    RefreshCw,
+} from "lucide-react";
 
-import OrderStats from "./OrderStats";
 import OrderToolbar from "./OrderToolbar";
 import OrderRow from "./OrderRow";
+import OrderDetailsSheet from "./OrderDetailsSheet";
+
 import styles from "./styles.module.scss";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+/*
+|--------------------------------------------------------------------------
+| API
+|--------------------------------------------------------------------------
+*/
 
-const emptyFilters = {
-  search: "",
-  status: "",
-  paymentStatus: "",
-  deliveryType: "",
-  dateFrom: "",
-  dateTo: "",
+const API_BASE_URL = (
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:3002/api"
+).replace(/\/$/, "");
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard store
+|--------------------------------------------------------------------------
+|
+| Using useSyncExternalStore keeps the Orders page compatible with
+| strict React lint rules and avoids unnecessary setState-in-effect
+| warnings.
+|
+*/
+
+const dashboardStore = {
+    state: {
+        orders: [],
+        stats: {
+            total_orders: 0,
+            pending_orders: 0,
+            confirmed_orders: 0,
+            processing_orders: 0,
+            shipped_orders: 0,
+            delivered_orders: 0,
+            cancelled_orders: 0,
+            total_revenue: 0,
+        },
+        loading: true,
+        error: "",
+    },
+
+    listeners: new Set(),
+
+    getSnapshot: () => {
+        return dashboardStore.state;
+    },
+
+    subscribe: (listener) => {
+        dashboardStore.listeners.add(
+            listener
+        );
+
+        return () => {
+            dashboardStore.listeners.delete(
+                listener
+            );
+        };
+    },
+
+    setState: (partial) => {
+        dashboardStore.state = {
+            ...dashboardStore.state,
+            ...partial,
+        };
+
+        dashboardStore.listeners.forEach(
+            (listener) => listener()
+        );
+    },
 };
 
-const emptyStats = { total_orders: 0, pending: 0, to_ship: 0, revenue: 0 };
+let dashboardRequest = null;
 
-const buildQuery = (filters, extra = {}) => {
-  const params = new URLSearchParams();
+const loadDashboard = async () => {
+    if (dashboardRequest) {
+        return dashboardRequest;
+    }
 
-  if (filters.search) params.set("search", filters.search);
-  if (filters.status) params.set("status", filters.status);
-  if (filters.paymentStatus) params.set("payment_status", filters.paymentStatus);
-  if (filters.deliveryType) params.set("delivery_type", filters.deliveryType);
-  if (filters.dateFrom) params.set("date_from", filters.dateFrom);
-  if (filters.dateTo) params.set("date_to", filters.dateTo);
+    dashboardRequest =
+        (async () => {
+            dashboardStore.setState({
+                loading: true,
+                error: "",
+            });
 
-  Object.entries(extra).forEach(([key, value]) => params.set(key, value));
+            try {
+                const [
+                    ordersResponse,
+                    statsResponse,
+                ] = await Promise.all([
+                    fetch(
+                        `${API_BASE_URL}/dashboard/orders`
+                    ),
+                    fetch(
+                        `${API_BASE_URL}/dashboard/orders/stats`
+                    ),
+                ]);
 
-  return params.toString();
+                const ordersResult =
+                    await ordersResponse.json();
+
+                const statsResult =
+                    await statsResponse.json();
+
+                if (
+                    !ordersResponse.ok
+                ) {
+                    throw new Error(
+                        ordersResult?.message ||
+                            "Failed to load orders."
+                    );
+                }
+
+                if (
+                    !statsResponse.ok
+                ) {
+                    throw new Error(
+                        statsResult?.message ||
+                            "Failed to load order statistics."
+                    );
+                }
+
+                dashboardStore.setState(
+                    {
+                        orders:
+                            Array.isArray(
+                                ordersResult?.data
+                            )
+                                ? ordersResult.data
+                                : [],
+
+                        stats:
+                            statsResult?.data ||
+                            dashboardStore.state
+                                .stats,
+
+                        loading: false,
+                        error: "",
+                    }
+                );
+            } catch (error) {
+                console.error(
+                    "Orders dashboard error:",
+                    error
+                );
+
+                dashboardStore.setState({
+                    loading: false,
+                    error:
+                        error.message ||
+                        "Failed to load orders.",
+                });
+            } finally {
+                dashboardRequest =
+                    null;
+            }
+        })();
+
+    return dashboardRequest;
 };
 
-export default function Orders() {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, pageCount: 1 });
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
 
-  const [stats, setStats] = useState(emptyStats);
+const getOrderId = (order) =>
+    order?.id ??
+    order?.order_id;
 
-  const [filters, setFilters] = useState(emptyFilters);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [toast, setToast] = useState(null);
-  const [exporting, setExporting] = useState(false);
+const normalizeStatus = (status) =>
+    String(status || "")
+        .trim()
+        .toLowerCase();
 
-  // Debounce the search box so we're not refetching on every keystroke.
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setFilters((current) => ({ ...current, search }));
-      setPage(1);
-    }, 400);
+const normalizeDeliveryType = (
+    type
+) => {
+    const normalized = String(
+        type || ""
+    )
+        .trim()
+        .toLowerCase();
 
-    return () => clearTimeout(timer);
-  }, [search]);
-
-  const handleFilterChange = (field, value) => {
-    if (field === "search") {
-      setSearch(value);
-      return;
+    if (
+        normalized === "office" ||
+        normalized === "المكتب"
+    ) {
+        return "office";
     }
 
-    setFilters((current) => ({ ...current, [field]: value }));
-    setPage(1);
-  };
+    return "home";
+};
 
-  const fetchOrders = useCallback(async () => {
-    try {
-      setLoading(true);
+const calculateStats = (orders) => {
+    const stats = {
+        total_orders: orders.length,
+        pending_orders: 0,
+        confirmed_orders: 0,
+        processing_orders: 0,
+        shipped_orders: 0,
+        delivered_orders: 0,
+        cancelled_orders: 0,
+        total_revenue: 0,
+    };
 
-      const query = buildQuery(filters, { page, limit: pagination.limit });
-      const response = await fetch(`${API_BASE_URL}/dashboard/orders?${query}`);
-      const result = await response.json();
+    orders.forEach((order) => {
+        const status =
+            normalizeStatus(
+                order?.status
+            );
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Failed to fetch orders");
-      }
+        if (
+            status === "pending"
+        ) {
+            stats.pending_orders += 1;
+        }
 
-      setOrders(result.data);
-      setPagination(result.pagination);
-      setError("");
-    } catch (fetchError) {
-      console.error("Error fetching dashboard orders:", fetchError);
-      setError("Unable to load orders.");
-    } finally {
-      setLoading(false);
+        if (
+            status === "confirmed"
+        ) {
+            stats.confirmed_orders += 1;
+        }
+
+        if (
+            status === "processing"
+        ) {
+            stats.processing_orders += 1;
+        }
+
+        if (
+            status === "shipped"
+        ) {
+            stats.shipped_orders += 1;
+        }
+
+        if (
+            status === "delivered"
+        ) {
+            stats.delivered_orders += 1;
+        }
+
+        if (
+            status === "cancelled"
+        ) {
+            stats.cancelled_orders += 1;
+        }
+
+        if (
+            status !== "cancelled"
+        ) {
+            stats.total_revenue +=
+                Number(
+                    order?.total || 0
+                );
+        }
+    });
+
+    return stats;
+};
+
+const formatPrice = (value) => {
+    const number = Number(value || 0);
+
+    return `${number.toLocaleString(
+        "fr-DZ"
+    )} DA`;
+};
+
+const formatDate = (value) => {
+    if (!value) {
+        return "";
     }
-  }, [filters, page, pagination.limit]);
 
-  const fetchStats = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/orders/stats`);
-      const result = await response.json();
+    const date = new Date(value);
 
-      if (response.ok && result.success) {
-        setStats(result.data);
-      }
-    } catch (statsError) {
-      console.error("Error fetching order stats:", statsError);
-    }
-  }, []);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchOrders();
-  }, [fetchOrders]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchStats();
-  }, [fetchStats]);
-
-  const handleRefresh = () => {
-    fetchOrders();
-    fetchStats();
-  };
-
-  const handleResetFilters = () => {
-    setSearch("");
-    setFilters(emptyFilters);
-    setPage(1);
-  };
-
-  const handleFetchDetails = useCallback(async (id) => {
-    const response = await fetch(`${API_BASE_URL}/dashboard/orders/${id}`);
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.message || "Failed to load order");
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return "";
     }
 
-    return result.data;
-  }, []);
+    return date
+        .toISOString()
+        .slice(0, 10);
+};
 
-  const handleUpdateStatus = async (id, status) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/orders/${id}/status`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
-      });
+/*
+|--------------------------------------------------------------------------
+| Component
+|--------------------------------------------------------------------------
+*/
 
-      const result = await response.json();
+const Orders = () => {
+    const dashboard =
+        useSyncExternalStore(
+            dashboardStore.subscribe,
+            dashboardStore.getSnapshot,
+            dashboardStore.getSnapshot
+        );
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Failed to update order status");
-      }
+    const {
+        orders,
+        stats,
+        loading,
+        error,
+    } = dashboard;
 
-      setOrders((current) => current.map((order) => (order.id === id ? { ...order, status } : order)));
-      fetchStats();
+    /*
+    |--------------------------------------------------------------------------
+    | Filters
+    |--------------------------------------------------------------------------
+    */
 
-      setToast({ type: "success", message: `Order #${id} moved to ${status}.` });
-    } catch (updateError) {
-      console.error("Error updating order status:", updateError);
-      setToast({ type: "warning", message: updateError.message || "Unable to update order status." });
-    }
-  };
+    const [filters, setFilters] =
+        useState({
+            search: "",
+            status: "",
+            deliveryType: "",
+            dateFrom: "",
+            dateTo: "",
+        });
 
-  const handleCancel = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/orders/${id}/cancel`, {
-        method: "PATCH",
-      });
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    */
 
-      const result = await response.json();
+    const [currentPage, setCurrentPage] =
+        useState(1);
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Failed to cancel order");
-      }
+    const ITEMS_PER_PAGE = 20;
 
-      setOrders((current) =>
-        current.map((order) => (order.id === id ? { ...order, status: "cancelled" } : order))
-      );
-      fetchStats();
+    /*
+    |--------------------------------------------------------------------------
+    | Details
+    |--------------------------------------------------------------------------
+    */
 
-      setToast({ type: "info", message: `Order #${id} was cancelled.` });
-    } catch (cancelError) {
-      console.error("Error cancelling order:", cancelError);
-      setToast({ type: "warning", message: cancelError.message || "Unable to cancel order." });
-    }
-  };
+    const [
+        selectedOrderId,
+        setSelectedOrderId,
+    ] = useState(null);
 
-  const handleExport = async () => {
-    try {
-      setExporting(true);
+    const [
+        detailsReloadKey,
+        setDetailsReloadKey,
+    ] = useState(0);
 
-      const query = buildQuery(filters);
-      const response = await fetch(`${API_BASE_URL}/dashboard/orders/export?${query}`);
+    /*
+    |--------------------------------------------------------------------------
+    | Initial load
+    |--------------------------------------------------------------------------
+    */
 
-      if (!response.ok) {
-        throw new Error("Failed to export orders");
-      }
+    useEffect(() => {
+        loadDashboard();
+    }, []);
 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+    /*
+    |--------------------------------------------------------------------------
+    | Filter change
+    |--------------------------------------------------------------------------
+    */
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "orders.csv";
-      link.click();
+    const handleFiltersChange =
+        useCallback(
+            (nextFilters) => {
+                setFilters(
+                    (previous) => ({
+                        ...previous,
+                        ...nextFilters,
+                    })
+                );
 
-      URL.revokeObjectURL(url);
-    } catch (exportError) {
-      console.error("Error exporting orders:", exportError);
-      setToast({ type: "warning", message: "Unable to export orders." });
-    } finally {
-      setExporting(false);
-    }
-  };
+                setCurrentPage(1);
+            },
+            []
+        );
 
-  const toolbarFilters = useMemo(() => ({ ...filters, search }), [filters, search]);
+    /*
+    |--------------------------------------------------------------------------
+    | Filtered orders
+    |--------------------------------------------------------------------------
+    */
 
-  return (
-    <section className={styles.Orders}>
-      <div className={styles.Orders__Header}>
-        <div>
-          <p className={styles.Orders__Eyebrow}>Order management</p>
-          <h1>Orders</h1>
-          <p>Manage customer orders, payments and fulfillment.</p>
-        </div>
+    const filteredOrders =
+        useMemo(() => {
+            const search =
+                filters.search
+                    .trim()
+                    .toLowerCase();
 
-        <div className={styles.Orders__HeaderActions}>
-          <button className={styles.Orders__GhostButton} onClick={handleRefresh}>
-            <RefreshCw size={16} />
-            <span>Refresh</span>
-          </button>
+            const dateFrom =
+                filters.dateFrom;
 
-          <button className={styles.Orders__GhostButton} onClick={handleExport} disabled={exporting}>
-            <Download size={16} />
-            <span>{exporting ? "Exporting..." : "Export Orders"}</span>
-          </button>
-        </div>
-      </div>
+            const dateTo =
+                filters.dateTo;
 
-      <div className={styles.Orders__StatsWrap}>
-        <OrderStats stats={stats} />
-      </div>
+            return orders.filter(
+                (order) => {
+                    const status =
+                        normalizeStatus(
+                            order?.status
+                        );
 
-      <div className={styles.Orders__TableCard}>
-        <OrderToolbar
-          filters={toolbarFilters}
-          onChange={handleFilterChange}
-          onReset={handleResetFilters}
-        />
+                    const deliveryType =
+                        normalizeDeliveryType(
+                            order?.delivery_type
+                        );
 
-        <div className={styles.Orders__TableWrap}>
-          <Table className={styles.Orders__Table}>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Payment</TableHead>
-                <TableHead>Delivery</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead aria-label="Actions" />
-              </TableRow>
-            </TableHeader>
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Search
+                    |--------------------------------------------------------------------------
+                    */
 
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={8} className={styles.Orders__Loading}>
-                    Loading orders...
-                  </TableCell>
-                </TableRow>
-              ) : error ? (
-                <TableRow>
-                  <TableCell colSpan={8} className={styles.Orders__Empty}>
+                    if (search) {
+                        const searchable =
+                            [
+                                order?.id,
+                                order?.order_id,
+                                order?.customer_name,
+                                order?.customer_phone,
+                                order?.province,
+                                order?.municipality,
+                                order?.shipping_provider_name,
+                            ]
+                                .filter(
+                                    (
+                                        value
+                                    ) =>
+                                        value !==
+                                            null &&
+                                        value !==
+                                            undefined
+                                )
+                                .join(" ")
+                                .toLowerCase();
+
+                        if (
+                            !searchable.includes(
+                                search
+                            )
+                        ) {
+                            return false;
+                        }
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Status
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        filters.status &&
+                        status !==
+                            filters.status
+                    ) {
+                        return false;
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Delivery
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        filters.deliveryType &&
+                        deliveryType !==
+                            filters.deliveryType
+                    ) {
+                        return false;
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Date
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const orderDate =
+                        formatDate(
+                            order?.created_at
+                        );
+
+                    if (
+                        dateFrom &&
+                        orderDate &&
+                        orderDate <
+                            dateFrom
+                    ) {
+                        return false;
+                    }
+
+                    if (
+                        dateTo &&
+                        orderDate &&
+                        orderDate >
+                            dateTo
+                    ) {
+                        return false;
+                    }
+
+                    return true;
+                }
+            );
+        }, [
+            orders,
+            filters,
+        ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination calculations
+    |--------------------------------------------------------------------------
+    */
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(
+            filteredOrders.length /
+                ITEMS_PER_PAGE
+        )
+    );
+
+    const safeCurrentPage =
+        Math.min(
+            currentPage,
+            totalPages
+        );
+
+    const paginatedOrders =
+        useMemo(() => {
+            const start =
+                (safeCurrentPage - 1) *
+                ITEMS_PER_PAGE;
+
+            return filteredOrders.slice(
+                start,
+                start +
+                    ITEMS_PER_PAGE
+            );
+        }, [
+            filteredOrders,
+            safeCurrentPage,
+        ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Open order details
+    |--------------------------------------------------------------------------
+    */
+
+    const handleViewOrder =
+        useCallback(
+            (orderId) => {
+                if (!orderId) {
+                    return;
+                }
+
+                setSelectedOrderId(
+                    orderId
+                );
+            },
+            []
+        );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Close details
+    |--------------------------------------------------------------------------
+    */
+
+    const handleCloseDetails =
+        useCallback(() => {
+            setSelectedOrderId(null);
+        }, []);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update status
+    |--------------------------------------------------------------------------
+    */
+
+    const handleStatusChange =
+        useCallback(
+            async (
+                orderId,
+                status
+            ) => {
+                if (!orderId) {
+                    return;
+                }
+
+                const normalizedStatus =
+                    normalizeStatus(
+                        status
+                    );
+
+                if (
+                    ![
+                        "pending",
+                        "confirmed",
+                        "processing",
+                        "shipped",
+                        "delivered",
+                        "cancelled",
+                    ].includes(
+                        normalizedStatus
+                    )
+                ) {
+                    return;
+                }
+
+                const currentOrder =
+                    dashboardStore.state.orders.find(
+                        (order) =>
+                            Number(
+                                getOrderId(
+                                    order
+                                )
+                            ) ===
+                            Number(
+                                orderId
+                            )
+                    );
+
+                if (!currentOrder) {
+                    return;
+                }
+
+                const currentStatus =
+                    normalizeStatus(
+                        currentOrder.status
+                    );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Final statuses cannot be changed
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    currentStatus ===
+                        "delivered" ||
+                    currentStatus ===
+                        "cancelled"
+                ) {
+                    return;
+                }
+
+                if (
+                    currentStatus ===
+                    normalizedStatus
+                ) {
+                    return;
+                }
+
+                try {
+                    const response =
+                        await fetch(
+                            `${API_BASE_URL}/dashboard/orders/${orderId}/status`,
+                            {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+                                },
+                                body: JSON.stringify(
+                                    {
+                                        status: normalizedStatus,
+                                    }
+                                ),
+                            }
+                        );
+
+                    const result =
+                        await response.json();
+
+                    if (
+                        !response.ok
+                    ) {
+                        throw new Error(
+                            result?.message ||
+                                "Failed to update order status."
+                        );
+                    }
+
+                    const updatedOrders =
+                        dashboardStore.state.orders.map(
+                            (order) => {
+                                if (
+                                    Number(
+                                        getOrderId(
+                                            order
+                                        )
+                                    ) !==
+                                    Number(
+                                        orderId
+                                    )
+                                ) {
+                                    return order;
+                                }
+
+                                return {
+                                    ...order,
+                                    status: normalizedStatus,
+                                };
+                            }
+                        );
+
+                    dashboardStore.setState(
+                        {
+                            orders:
+                                updatedOrders,
+
+                            stats:
+                                calculateStats(
+                                    updatedOrders
+                                ),
+                        }
+                    );
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Refresh details sheet if it is open
+                    |--------------------------------------------------------------------------
+                    */
+
+                    setDetailsReloadKey(
+                        (value) =>
+                            value + 1
+                    );
+                } catch (updateError) {
+                    console.error(
+                        "Status update error:",
+                        updateError
+                    );
+
+                    window.alert(
+                        updateError.message ||
+                            "Failed to update order status."
+                    );
+                }
+            },
+            []
+        );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cancel order
+    |--------------------------------------------------------------------------
+    */
+
+    const handleCancelOrder =
+        useCallback(
+            async (order) => {
+                const orderId =
+                    getOrderId(order);
+
+                if (!orderId) {
+                    return;
+                }
+
+                const currentStatus =
+                    normalizeStatus(
+                        order?.status
+                    );
+
+                if (
+                    currentStatus ===
+                        "delivered" ||
+                    currentStatus ===
+                        "cancelled"
+                ) {
+                    return;
+                }
+
+                const confirmed =
+                    window.confirm(
+                        `Cancel order #${orderId}?`
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+                try {
+                    const response =
+                        await fetch(
+                            `${API_BASE_URL}/dashboard/orders/${orderId}/cancel`,
+                            {
+                                method: "PATCH",
+                            }
+                        );
+
+                    const result =
+                        await response.json();
+
+                    if (
+                        !response.ok
+                    ) {
+                        throw new Error(
+                            result?.message ||
+                                "Failed to cancel order."
+                        );
+                    }
+
+                    const updatedOrders =
+                        dashboardStore.state.orders.map(
+                            (currentOrder) => {
+                                if (
+                                    Number(
+                                        getOrderId(
+                                            currentOrder
+                                        )
+                                    ) !==
+                                    Number(
+                                        orderId
+                                    )
+                                ) {
+                                    return currentOrder;
+                                }
+
+                                return {
+                                    ...currentOrder,
+                                    status: "cancelled",
+                                };
+                            }
+                        );
+
+                    dashboardStore.setState(
+                        {
+                            orders:
+                                updatedOrders,
+
+                            stats:
+                                calculateStats(
+                                    updatedOrders
+                                ),
+                        }
+                    );
+
+                    setDetailsReloadKey(
+                        (value) =>
+                            value + 1
+                    );
+                } catch (cancelError) {
+                    console.error(
+                        "Cancel order error:",
+                        cancelError
+                    );
+
+                    window.alert(
+                        cancelError.message ||
+                            "Failed to cancel order."
+                    );
+                }
+            },
+            []
+        );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Print order
+    |--------------------------------------------------------------------------
+    */
+
+    const handlePrintOrder =
+        useCallback(
+            async (order) => {
+                const orderId =
+                    getOrderId(order);
+
+                if (!orderId) {
+                    return;
+                }
+
+                try {
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Dynamic import prevents the utility from
+                    | being loaded if it is not needed.
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const module =
+                        await import(
+                            "./utils/printOrder"
+                        );
+
+                    if (
+                        typeof module.printOrder !==
+                        "function"
+                    ) {
+                        throw new Error(
+                            "Print utility is unavailable."
+                        );
+                    }
+
+                    await module.printOrder(
+                        order,
+                        API_BASE_URL
+                    );
+                } catch (printError) {
+                    console.error(
+                        "Print order error:",
+                        printError
+                    );
+
+                    window.alert(
+                        printError.message ||
+                            "Failed to print order."
+                    );
+                }
+            },
+            []
+        );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Refresh
+    |--------------------------------------------------------------------------
+    */
+
+    const handleRefresh =
+        useCallback(() => {
+            dashboardRequest =
+                null;
+
+            loadDashboard();
+        }, []);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination controls
+    |--------------------------------------------------------------------------
+    */
+
+    const goToPreviousPage =
+        useCallback(() => {
+            setCurrentPage(
+                (page) =>
+                    Math.max(
+                        1,
+                        page - 1
+                    )
+            );
+        }, []);
+
+    const goToNextPage =
+        useCallback(() => {
+            setCurrentPage(
+                (page) =>
+                    Math.min(
+                        totalPages,
+                        page + 1
+                    )
+            );
+        }, [totalPages]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Render
+    |--------------------------------------------------------------------------
+    */
+
+    return (
+        <div
+            className={
+                styles.Orders
+            }
+        >
+            {/* HEADER */}
+            <div
+                className={
+                    styles.Orders__Header
+                }
+            >
+                <div>
+                    <h1
+                        className={
+                            styles.Orders__Title
+                        }
+                    >
+                        Orders
+                    </h1>
+
+                    <p
+                        className={
+                            styles.Orders__Subtitle
+                        }
+                    >
+                        Manage customer orders
+                        and delivery status
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    className={
+                        styles.Orders__Refresh
+                    }
+                    onClick={
+                        handleRefresh
+                    }
+                    title="Refresh orders"
+                >
+                    <RefreshCw
+                        size={15}
+                    />
+
+                    Refresh
+                </button>
+            </div>
+
+            {/* STATS */}
+            <div
+                className={
+                    styles.Orders__Stats
+                }
+            >
+                <div
+                    className={
+                        styles.Orders__StatCard
+                    }
+                >
+                    <div
+                        className={
+                            styles.Orders__StatIcon
+                        }
+                    >
+                        <PackageCheck
+                            size={19}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.Orders__StatContent
+                        }
+                    >
+                        <span>
+                            Total Orders
+                        </span>
+
+                        <strong>
+                            {Number(
+                                stats?.total_orders ||
+                                    0
+                            )}
+                        </strong>
+                    </div>
+                </div>
+
+                <div
+                    className={
+                        styles.Orders__StatCard
+                    }
+                >
+                    <div
+                        className={
+                            styles.Orders__StatIcon
+                        }
+                    >
+                        <Clock3
+                            size={19}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.Orders__StatContent
+                        }
+                    >
+                        <span>
+                            Pending
+                        </span>
+
+                        <strong>
+                            {Number(
+                                stats?.pending_orders ||
+                                    0
+                            )}
+                        </strong>
+                    </div>
+                </div>
+
+                <div
+                    className={
+                        styles.Orders__StatCard
+                    }
+                >
+                    <div
+                        className={
+                            styles.Orders__StatIcon
+                        }
+                    >
+                        <Truck
+                            size={19}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.Orders__StatContent
+                        }
+                    >
+                        <span>
+                            Shipped
+                        </span>
+
+                        <strong>
+                            {Number(
+                                stats?.shipped_orders ||
+                                    0
+                            )}
+                        </strong>
+                    </div>
+                </div>
+
+                <div
+                    className={
+                        styles.Orders__StatCard
+                    }
+                >
+                    <div
+                        className={
+                            styles.Orders__StatIcon
+                        }
+                    >
+                        <Banknote
+                            size={19}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.Orders__StatContent
+                        }
+                    >
+                        <span>
+                            Revenue
+                        </span>
+
+                        <strong>
+                            {formatPrice(
+                                stats?.total_revenue ||
+                                    0
+                            )}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            {/* TOOLBAR */}
+            <div
+                className={
+                    styles.Orders__Toolbar
+                }
+            >
+                <OrderToolbar
+                    filters={filters}
+                    onFiltersChange={
+                        handleFiltersChange
+                    }
+                />
+            </div>
+
+            {/* ERROR */}
+            {error && (
+                <div
+                    className={
+                        styles.Orders__Error
+                    }
+                >
                     {error}
-                  </TableCell>
-                </TableRow>
-              ) : orders.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={8} className={styles.Orders__Empty}>
-                    No orders match your filters.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                orders.map((order) => (
-                  <OrderRow
-                    key={order.id}
-                    order={order}
-                    onFetchDetails={handleFetchDetails}
-                    onUpdateStatus={handleUpdateStatus}
-                    onCancel={handleCancel}
-                  />
-                ))
-              )}
-            </TableBody>
-          </Table>
+                </div>
+            )}
+
+            {/* TABLE */}
+            <div
+                className={
+                    styles.Orders__TableCard
+                }
+            >
+                <div
+                    className={
+                        styles.Orders__TableWrapper
+                    }
+                >
+                    <table
+                        className={
+                            styles.Orders__Table
+                        }
+                    >
+                        <colgroup>
+                            <col
+                                className={
+                                    styles.Orders__ColOrder
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColCustomer
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColItems
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColTotal
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColDelivery
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColStatus
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColCreated
+                                }
+                            />
+
+                            <col
+                                className={
+                                    styles.Orders__ColActions
+                                }
+                            />
+                        </colgroup>
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    Order
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Items
+                                </th>
+
+                                <th>
+                                    Total
+                                </th>
+
+                                <th>
+                                    Delivery
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Created
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {loading ? (
+                                <tr>
+                                    <td
+                                        colSpan={
+                                            8
+                                        }
+                                        className={
+                                            styles.Orders__Loading
+                                        }
+                                    >
+                                        Loading
+                                        orders...
+                                    </td>
+                                </tr>
+                            ) : paginatedOrders.length ===
+                              0 ? (
+                                <tr>
+                                    <td
+                                        colSpan={
+                                            8
+                                        }
+                                        className={
+                                            styles.Orders__Empty
+                                        }
+                                    >
+                                        No orders
+                                        found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                paginatedOrders.map(
+                                    (
+                                        order
+                                    ) => (
+                                        <OrderRow
+                                            key={getOrderId(
+                                                order
+                                            )}
+                                            order={
+                                                order
+                                            }
+                                            onOpen={() =>
+                                                handleViewOrder(
+                                                    getOrderId(
+                                                        order
+                                                    )
+                                                )
+                                            }
+                                            onStatusChange={(
+                                                selectedOrder,
+                                                nextStatus
+                                            ) =>
+                                                handleStatusChange(
+                                                    getOrderId(
+                                                        selectedOrder
+                                                    ),
+                                                    nextStatus
+                                                )
+                                            }
+                                            onPrint={
+                                                handlePrintOrder
+                                            }
+                                        />
+                                    )
+                                )
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* PAGINATION */}
+                {!loading &&
+                    filteredOrders.length >
+                        0 && (
+                        <div
+                            className={
+                                styles.Orders__Pagination
+                            }
+                        >
+                            <span>
+                                Showing{" "}
+                                <strong>
+                                    {(safeCurrentPage -
+                                        1) *
+                                        ITEMS_PER_PAGE +
+                                        1}
+                                </strong>{" "}
+                                to{" "}
+                                <strong>
+                                    {Math.min(
+                                        safeCurrentPage *
+                                            ITEMS_PER_PAGE,
+                                        filteredOrders.length
+                                    )}
+                                </strong>{" "}
+                                of{" "}
+                                <strong>
+                                    {
+                                        filteredOrders.length
+                                    }
+                                </strong>{" "}
+                                orders
+                            </span>
+
+                            <div
+                                className={
+                                    styles.Orders__PaginationActions
+                                }
+                            >
+                                <button
+                                    type="button"
+                                    disabled={
+                                        safeCurrentPage <=
+                                        1
+                                    }
+                                    onClick={
+                                        goToPreviousPage
+                                    }
+                                >
+                                    Previous
+                                </button>
+
+                                <span>
+                                    Page{" "}
+                                    <strong>
+                                        {
+                                            safeCurrentPage
+                                        }
+                                    </strong>{" "}
+                                    of{" "}
+                                    <strong>
+                                        {
+                                            totalPages
+                                        }
+                                    </strong>
+                                </span>
+
+                                <button
+                                    type="button"
+                                    disabled={
+                                        safeCurrentPage >=
+                                        totalPages
+                                    }
+                                    onClick={
+                                        goToNextPage
+                                    }
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
+            </div>
+
+            {/* DETAILS SHEET */}
+            <OrderDetailsSheet
+                isOpen={
+                    Boolean(
+                        selectedOrderId
+                    )
+                }
+                orderId={
+                    selectedOrderId
+                }
+                apiBaseUrl={
+                    API_BASE_URL
+                }
+                reloadKey={
+                    detailsReloadKey
+                }
+                onClose={
+                    handleCloseDetails
+                }
+                onStatusChange={(
+                    order,
+                    status
+                ) =>
+                    handleStatusChange(
+                        getOrderId(
+                            order
+                        ),
+                        status
+                    )
+                }
+                onCancel={
+                    handleCancelOrder
+                }
+            />
         </div>
+    );
+};
 
-        <div className={styles.Orders__Footer}>
-          <span>Showing {orders.length} of {pagination.total} orders</span>
-
-          <Pagination page={pagination.page} pageCount={pagination.pageCount} onPageChange={setPage} />
-
-          <span>Page {pagination.page} of {pagination.pageCount}</span>
-        </div>
-      </div>
-
-      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
-    </section>
-  );
-}
+export default Orders;

@@ -1,0 +1,407 @@
+.OrderRow {
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+
+    td {
+        height: 54px;
+
+        padding: 8px 10px;
+
+        border-bottom: 1px solid #eceef1;
+
+        vertical-align: middle;
+
+        box-sizing: border-box;
+
+        overflow: hidden;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Order
+    |--------------------------------------------------------------------------
+    */
+
+    &__Order {
+        min-width: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 3px;
+    }
+
+    &__OrderId {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        color: #17181a;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__Date {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 10px;
+
+        color: #8a8f96;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Customer
+    |--------------------------------------------------------------------------
+    */
+
+    &__Customer {
+        min-width: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 3px;
+    }
+
+    &__Customer strong {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        color: #17181a;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__Customer span {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 10px;
+
+        color: #8a8f96;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Items
+    |--------------------------------------------------------------------------
+    */
+
+    &__Items {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 11px;
+
+        color: #555b63;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Total
+    |--------------------------------------------------------------------------
+    */
+
+    &__Total {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        color: #17181a;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delivery
+    |--------------------------------------------------------------------------
+    */
+
+    &__Delivery {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 4px 7px;
+
+        border-radius: 5px;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    &__Delivery--home {
+        background: #f1f5f9;
+
+        color: #475569;
+    }
+
+    &__Delivery--office {
+        background: #f3f0ff;
+
+        color: #6941c6;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status
+    |--------------------------------------------------------------------------
+    */
+
+    &__Status {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 4px 7px;
+
+        border-radius: 5px;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    &__Status--pending {
+        background: #fff7e6;
+
+        color: #b7791f;
+    }
+
+    &__Status--confirmed {
+        background: #eef4ff;
+
+        color: #315eb8;
+    }
+
+    &__Status--processing {
+        background: #f3f0ff;
+
+        color: #6941c6;
+    }
+
+    &__Status--shipped {
+        background: #edf8f3;
+
+        color: #247a52;
+    }
+
+    &__Status--delivered {
+        background: #eaf8ef;
+
+        color: #237a45;
+    }
+
+    &__Status--cancelled {
+        background: #fff0f0;
+
+        color: #c53030;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Created
+    |--------------------------------------------------------------------------
+    */
+
+    &__Created {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 10px;
+
+        color: #737980;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Actions
+    |--------------------------------------------------------------------------
+    */
+
+    &__ActionsCell {
+        overflow: visible !important;
+
+        text-align: right;
+
+        white-space: nowrap;
+    }
+
+    &__Actions {
+        width: 100%;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 5px;
+
+        white-space: nowrap;
+    }
+
+    &__Action {
+        flex: 0 0 29px;
+
+        width: 29px;
+        height: 29px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+
+        background: #fff;
+
+        color: #626871;
+
+        cursor: pointer;
+
+        transition:
+            background-color 0.15s ease,
+            color 0.15s ease,
+            border-color 0.15s ease;
+
+        &:hover {
+            background: #f5f6f8;
+
+            border-color: #cfd3d8;
+
+            color: #17181a;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status changer
+    |--------------------------------------------------------------------------
+    */
+
+    &__StatusChanger {
+        position: relative;
+
+        flex: 0 0 29px;
+
+        width: 29px;
+        height: 29px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+
+        background: #fff;
+
+        color: #626871;
+
+        cursor: pointer;
+
+        transition:
+            background-color 0.15s ease,
+            color 0.15s ease,
+            border-color 0.15s ease;
+
+        &:hover {
+            background: #f5f6f8;
+
+            border-color: #cfd3d8;
+
+            color: #17181a;
+        }
+
+        select {
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            opacity: 0;
+
+            border: 0;
+            outline: 0;
+
+            cursor: pointer;
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Final status
+    |--------------------------------------------------------------------------
+    */
+
+    &__StatusChangerDisabled {
+        background: #f7f7f8;
+
+        border-color: #e7e8eb;
+
+        color: #b4b7bc;
+
+        cursor: not-allowed;
+
+        &:hover {
+            background: #f7f7f8;
+
+            border-color: #e7e8eb;
+
+            color: #b4b7bc;
+        }
+    }
+}

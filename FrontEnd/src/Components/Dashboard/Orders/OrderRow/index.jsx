@@ -1,157 +1,418 @@
-import { useState } from "react";
-import { Eye, MoreVertical, Printer, RefreshCw, XCircle } from "lucide-react";
-
-import { TableCell, TableRow } from "@/Components/ui/table";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/Components/ui/alert-dialog";
+    Eye,
+    Printer,
+    RefreshCw,
+} from "lucide-react";
 
-import { STATUS_LABELS, PAYMENT_LABELS, isTerminalStatus } from "../statusMeta";
-import OrderDetailsSheet from "../OrderDetailsSheet";
-import UpdateStatusDialog from "../UpdateStatusDialog";
-import { printOrder } from "../printOrder";
-import styles from "../styles.module.scss";
+import styles from "./styles.module.scss";
 
-const formatPrice = (price) => `${Number(price || 0).toLocaleString("fr-DZ")} DA`;
+const STATUS_OPTIONS = [
+    {
+        value: "pending",
+        label: "Pending",
+    },
+    {
+        value: "confirmed",
+        label: "Confirmed",
+    },
+    {
+        value: "processing",
+        label: "Processing",
+    },
+    {
+        value: "shipped",
+        label: "Shipped",
+    },
+    {
+        value: "delivered",
+        label: "Delivered",
+    },
+    {
+        value: "cancelled",
+        label: "Cancelled",
+    },
+];
 
-const formatDate = (value) =>
-  new Date(value).toLocaleDateString("fr-DZ", { day: "2-digit", month: "short", year: "numeric" });
+const STATUS_LABELS = {
+    pending: "Pending",
+    confirmed: "Confirmed",
+    processing: "Processing",
+    shipped: "Shipped",
+    delivered: "Delivered",
+    cancelled: "Cancelled",
+};
 
-export default function OrderRow({ order, onFetchDetails, onUpdateStatus, onCancel }) {
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [statusOpen, setStatusOpen] = useState(false);
-  const [cancelOpen, setCancelOpen] = useState(false);
-  const [printing, setPrinting] = useState(false);
+const DELIVERY_LABELS = {
+    home: "Home",
+    office: "Office",
+};
 
-  const locked = isTerminalStatus(order.status);
+const normalizeStatus = (status) =>
+    String(status || "")
+        .trim()
+        .toLowerCase();
 
-  const handlePrint = async () => {
-    setPrinting(true);
+const normalizeDeliveryType = (
+    type
+) => {
+    const normalized = String(
+        type || ""
+    )
+        .trim()
+        .toLowerCase();
 
-    try {
-      const details = await onFetchDetails(order.id);
-      printOrder(details);
-    } finally {
-      setPrinting(false);
+    if (
+        normalized === "office" ||
+        normalized === "المكتب"
+    ) {
+        return "office";
     }
-  };
 
-  return (
-    <>
-      <TableRow>
-        <TableCell>
-          <div className={styles.Orders__Order}>
-            <strong>#{order.id}</strong>
-            <span>{order.item_count} {order.item_count === 1 ? "item" : "items"}</span>
-          </div>
-        </TableCell>
+    return "home";
+};
 
-        <TableCell>
-          <div className={styles.Orders__Customer}>
-            <strong>{order.customer_name}</strong>
-            <span>{order.customer_phone}</span>
-          </div>
-        </TableCell>
+const formatPrice = (value) => {
+    const number = Number(value || 0);
 
-        <TableCell className={styles.Orders__Cell}>{formatPrice(order.total)}</TableCell>
+    return `${number.toLocaleString(
+        "fr-DZ"
+    )} DA`;
+};
 
-        <TableCell>
-          <span className={`${styles.Status} ${styles[`Payment--${order.payment_status}`]}`}>
-            {PAYMENT_LABELS[order.payment_status] || order.payment_status}
-          </span>
-        </TableCell>
+const formatDate = (value) => {
+    if (!value) {
+        return "—";
+    }
 
-        <TableCell className={styles.Orders__Cell}>
-          {order.delivery_type === "office" ? "Office" : "Home"}
-          {order.shipping_provider_name && (
-            <div className={styles.Orders__Muted}>{order.shipping_provider_name}</div>
-          )}
-        </TableCell>
+    const date = new Date(value);
 
-        <TableCell>
-          <span className={`${styles.Status} ${styles[`Status--${order.status}`]}`}>
-            {STATUS_LABELS[order.status] || order.status}
-          </span>
-        </TableCell>
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return "—";
+    }
 
-        <TableCell className={styles.Orders__Cell}>{formatDate(order.created_at)}</TableCell>
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        }
+    );
+};
 
-        <TableCell>
-          <div className={styles.Orders__Actions}>
-            <DropdownMenu>
-              <DropdownMenuTrigger className={styles.Orders__ActionsTrigger} aria-label={`Actions for order #${order.id}`}>
-                <MoreVertical size={16} />
-              </DropdownMenuTrigger>
+const getOrderId = (order) =>
+    order?.id ??
+    order?.order_id;
 
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setSheetOpen(true)}>
-                  <Eye size={14} />
-                  View Order
-                </DropdownMenuItem>
+const getItemCount = (order) =>
+    order?.item_count ??
+    order?.items_count ??
+    order?.total_items ??
+    0;
 
-                <DropdownMenuItem disabled={locked} onClick={() => setStatusOpen(true)}>
-                  <RefreshCw size={14} />
-                  Update Status
-                </DropdownMenuItem>
+const OrderRow = ({
+    order,
+    onOpen,
+    onStatusChange,
+    onPrint,
+}) => {
+    const orderId =
+        getOrderId(order);
 
-                <DropdownMenuItem disabled={printing} onClick={handlePrint}>
-                  <Printer size={14} />
-                  Print Order
-                </DropdownMenuItem>
+    const status =
+        normalizeStatus(
+            order?.status
+        );
 
-                <DropdownMenuItem variant="destructive" disabled={locked} onClick={() => setCancelOpen(true)}>
-                  <XCircle size={14} />
-                  Cancel Order
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </TableCell>
-      </TableRow>
+    const deliveryType =
+        normalizeDeliveryType(
+            order?.delivery_type
+        );
 
-      <OrderDetailsSheet
-        orderId={order.id}
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-        onFetchDetails={onFetchDetails}
-      />
+    const isFinal =
+        status === "delivered" ||
+        status === "cancelled";
 
-      <UpdateStatusDialog
-        order={order}
-        open={statusOpen}
-        onOpenChange={setStatusOpen}
-        onConfirm={(status) => onUpdateStatus(order.id, status)}
-      />
+    const handleStatusChange = (
+        event
+    ) => {
+        event.stopPropagation();
 
-      <AlertDialog open={cancelOpen} onOpenChange={setCancelOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Cancel order #{order.id}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will mark the order as cancelled and cannot be undone. The customer will need to be
-              informed separately.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+        const nextStatus =
+            event.target.value;
 
-          <AlertDialogFooter>
-            <AlertDialogCancel>Keep order</AlertDialogCancel>
-            <AlertDialogAction onClick={() => onCancel(order.id)}>Cancel order</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
-  );
-}
+        if (
+            !nextStatus ||
+            isFinal
+        ) {
+            return;
+        }
+
+        onStatusChange?.(
+            order,
+            nextStatus
+        );
+
+        event.target.value = "";
+    };
+
+    const handleOpen = (event) => {
+        event.stopPropagation();
+
+        onOpen?.();
+    };
+
+    const handlePrint = (event) => {
+        event.stopPropagation();
+
+        onPrint?.(order);
+    };
+
+    return (
+        <tr
+            className={
+                styles.OrderRow
+            }
+            onClick={onOpen}
+        >
+            {/* ORDER */}
+            <td>
+                <div
+                    className={
+                        styles.OrderRow__Order
+                    }
+                >
+                    <strong
+                        className={
+                            styles.OrderRow__OrderId
+                        }
+                    >
+                        #{orderId}
+                    </strong>
+
+                    
+                </div>
+            </td>
+
+            {/* CUSTOMER */}
+            <td>
+                <div
+                    className={
+                        styles.OrderRow__Customer
+                    }
+                >
+                    <strong>
+                        {order?.customer_name ||
+                            "Unknown customer"}
+                    </strong>
+
+                    <span>
+                        {order?.customer_phone ||
+                            "—"}
+                    </span>
+                </div>
+            </td>
+
+            {/* ITEMS */}
+            <td>
+                <span
+                    className={
+                        styles.OrderRow__Items
+                    }
+                >
+                    {getItemCount(
+                        order
+                    )}{" "}
+                    {getItemCount(
+                        order
+                    ) === 1
+                        ? "item"
+                        : "items"}
+                </span>
+            </td>
+
+            {/* TOTAL */}
+            <td>
+                <strong
+                    className={
+                        styles.OrderRow__Total
+                    }
+                >
+                    {formatPrice(
+                        order?.total
+                    )}
+                </strong>
+            </td>
+
+            {/* DELIVERY */}
+            <td>
+                <span
+                    className={`${styles.OrderRow__Delivery} ${
+                        styles[
+                            `OrderRow__Delivery--${deliveryType}`
+                        ]
+                    }`}
+                >
+                    {
+                        DELIVERY_LABELS[
+                            deliveryType
+                        ]
+                    }
+                </span>
+            </td>
+
+            {/* STATUS */}
+            <td>
+                <span
+                    className={`${styles.OrderRow__Status} ${
+                        styles[
+                            `OrderRow__Status--${status}`
+                        ] || ""
+                    }`}
+                >
+                    {STATUS_LABELS[
+                        status
+                    ] || "Unknown"}
+                </span>
+            </td>
+
+            {/* CREATED */}
+            <td>
+                <span
+                    className={
+                        styles.OrderRow__Created
+                    }
+                >
+                    {formatDate(
+                        order?.created_at
+                    )}
+                </span>
+            </td>
+
+            {/* ACTIONS */}
+            <td
+                className={
+                    styles.OrderRow__ActionsCell
+                }
+                onClick={(event) =>
+                    event.stopPropagation()
+                }
+            >
+                <div
+                    className={
+                        styles.OrderRow__Actions
+                    }
+                >
+                    {/* VIEW */}
+                    <button
+                        type="button"
+                        className={
+                            styles.OrderRow__Action
+                        }
+                        title="View order"
+                        aria-label="View order"
+                        onClick={
+                            handleOpen
+                        }
+                    >
+                        <Eye
+                            size={15}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </button>
+
+                    {/* PRINT */}
+                    <button
+                        type="button"
+                        className={
+                            styles.OrderRow__Action
+                        }
+                        title="Print order"
+                        aria-label="Print order"
+                        onClick={
+                            handlePrint
+                        }
+                    >
+                        <Printer
+                            size={15}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+                    </button>
+
+                    {/* CHANGE STATUS */}
+                    <div
+                        className={`${styles.OrderRow__StatusChanger} ${
+                            isFinal
+                                ? styles.OrderRow__StatusChangerDisabled
+                                : ""
+                        }`}
+                        title={
+                            isFinal
+                                ? `Order is ${STATUS_LABELS[
+                                      status
+                                  ].toLowerCase()}`
+                                : "Change order status"
+                        }
+                    >
+                        <RefreshCw
+                            size={15}
+                            strokeWidth={
+                                1.8
+                            }
+                        />
+
+                        {!isFinal && (
+                            <select
+                                defaultValue=""
+                                aria-label="Change order status"
+                                onClick={(event) =>
+                                    event.stopPropagation()
+                                }
+                                onChange={
+                                    handleStatusChange
+                                }
+                            >
+                                <option
+                                    value=""
+                                    disabled
+                                >
+                                    Change
+                                    status
+                                </option>
+
+                                {STATUS_OPTIONS.map(
+                                    (
+                                        option
+                                    ) => (
+                                        <option
+                                            key={
+                                                option.value
+                                            }
+                                            value={
+                                                option.value
+                                            }
+                                        >
+                                            {
+                                                option.label
+                                            }
+                                        </option>
+                                    )
+                                )}
+                            </select>
+                        )}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    );
+};
+
+export default OrderRow;

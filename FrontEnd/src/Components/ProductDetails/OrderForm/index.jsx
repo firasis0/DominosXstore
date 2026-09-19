@@ -124,6 +124,12 @@ export default function OrderForm({
     const [submitted, setSubmitted] =
         useState(false);
 
+    const [submitting, setSubmitting] =
+        useState(false);
+
+    const [submitError, setSubmitError] =
+        useState("");
+
     /*
      * --------------------------------------------------
      * FETCH GEOGRAPHY
@@ -753,23 +759,27 @@ useEffect(() => {
      * --------------------------------------------------
      */
 
-    const handleSubmit = (
-        event
-    ) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (
             isOutOfStock ||
             submitted ||
+            submitting ||
             loadingShipping
         ) {
             return;
         }
 
+        setSubmitError("");
+
         if (
             !fullName.trim() ||
             !phone.trim()
         ) {
+            setSubmitError(
+                "يرجى إدخال الإسم الكامل ورقم الهاتف."
+            );
             return;
         }
 
@@ -777,6 +787,9 @@ useEffect(() => {
             !provinceId ||
             !municipalityId
         ) {
+            setSubmitError(
+                "يرجى اختيار الولاية والبلدية."
+            );
             return;
         }
 
@@ -784,7 +797,6 @@ useEffect(() => {
             setOfficeWarning(
                 "يرجى اختيار طريقة التوصيل."
             );
-
             return;
         }
 
@@ -792,87 +804,105 @@ useEffect(() => {
             setOfficeWarning(
                 "يرجى اختيار شركة التوصيل."
             );
-
             return;
         }
 
         if (
-            deliveryType ===
-                "office" &&
+            deliveryType === "office" &&
             !selectedOffice
         ) {
             setOfficeWarning(
                 "يرجى اختيار مكتب الاستلام."
             );
-
             return;
         }
 
         const orderData = {
-            product_id:
-                product.id,
-
-            quantity,
+            product_id: Number(product.id),
+            quantity: Number(quantity),
 
             customer: {
-                full_name:
-                    fullName.trim(),
-
-                phone:
-                    phone.trim(),
+                full_name: fullName.trim(),
+                phone: phone.trim(),
             },
 
-            province_id:
-                Number(
-                    provinceId
-                ),
+            province_id: Number(provinceId),
+            municipality_id: Number(municipalityId),
 
-            municipality_id:
-                Number(
-                    municipalityId
-                ),
+            delivery_type: deliveryType,
 
-            delivery_type:
-                deliveryType,
+            shipping_provider_id: Number(
+                selectedProvider.provider_id
+            ),
 
-            provider_id:
-                Number(
-                    selectedProvider.provider_id
-                ),
+            shipping_zone_id: Number(
+                selectedProvider.shipping_zone_id
+            ),
 
-            shipping_zone_id:
-                Number(
-                    selectedProvider.shipping_zone_id
-                ),
-
-            office_id:
-                deliveryType ===
-                "office"
-                    ? Number(
-                          selectedOffice.id
-                      )
+            delivery_office_id:
+                deliveryType === "office"
+                    ? Number(selectedOffice.id)
                     : null,
 
-            product_price:
-                productPrice,
-
-            delivery_price:
-                deliveryPrice,
-
-            total:
-                Number(total),
-
-            variants:
-                selectedVariants ??
-                {},
+            variants: selectedVariants ?? {},
         };
 
-        console.log(
-            "Order payload:",
-            orderData
-        );
+        try {
+            setSubmitting(true);
+            setSubmitError("");
+            setOfficeWarning("");
 
-        setSubmitted(true);
+            console.log(
+                "Creating order:",
+                orderData
+            );
+
+            const response = await fetch(
+                `${API_BASE_URL}/orders`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+                    },
+                    body: JSON.stringify(
+                        orderData
+                    ),
+                }
+            );
+
+            const result =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                        "Failed to create order."
+                );
+            }
+
+            console.log(
+                "Order created successfully:",
+                result
+            );
+
+            setSubmitted(true);
+        } catch (error) {
+            console.error(
+                "Error creating order:",
+                error
+            );
+
+            setSubmitError(
+                error.message ||
+                    "حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى."
+            );
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     /*
@@ -1520,6 +1550,17 @@ useEffect(() => {
 
                             
 
+                            {submitError && (
+                                <p
+                                    className={
+                                        styles.OrderForm__DeliveryMessage
+                                    }
+                                    role="alert"
+                                >
+                                    {submitError}
+                                </p>
+                            )}
+
                             <div
                                 className={
                                     styles.OrderForm__Summary
@@ -1667,6 +1708,7 @@ useEffect(() => {
                                 disabled={
                                     isOutOfStock ||
                                     loadingShipping ||
+                                    submitting ||
                                     shippingUnavailable ||
                                     !selectedProvider ||
                                     !deliveryType ||
@@ -1675,7 +1717,9 @@ useEffect(() => {
                                         !selectedOffice)
                                 }
                             >
-                                أطلب الآن
+                                {submitting
+                                    ? "جاري إرسال الطلب..."
+                                    : "أطلب الآن"}
                             </button>
                         </form>
                     )}

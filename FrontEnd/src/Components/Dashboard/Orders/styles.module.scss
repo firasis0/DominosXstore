@@ -1,387 +1,449 @@
 .Orders {
-  padding: 36px 30px;
-  min-height: 100%;
-  background: #f5f5f5;
+    width: 100%;
+    min-width: 0;
+    padding: 0 26px 28px;
+    box-sizing: border-box;
+}
 
-  &__Header {
+/*
+|--------------------------------------------------------------------------
+| Header
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Header {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 28px;
 
-    h1 {
-      margin: 0;
-      font-size: 30px;
-      font-weight: 700;
-      color: #111;
-      letter-spacing: -0.5px;
-    }
+    gap: 20px;
 
-    p {
-      margin: 7px 0 0;
-      font-size: 14px;
-      color: #888;
-    }
-  }
+    margin-bottom: 18px;
+}
 
-  &__HeaderActions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.Orders__Title {
+    margin: 0;
 
-  &__Eyebrow {
-    margin: 0 0 4px !important;
-    color: #999 !important;
-    font-size: 12px !important;
+    font-size: 25px;
+    line-height: 1.2;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
 
-  &__GhostButton {
-    height: 42px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 16px;
+    color: #17181a;
+}
 
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
+.Orders__Subtitle {
+    margin: 6px 0 0;
 
-    background: #fff;
-    color: #333;
-
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-
-    cursor: pointer;
-    transition: background 0.2s ease;
-
-    &:hover {
-      background: #f5f5f5;
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-
-  &__StatsWrap {
-    margin-bottom: 28px;
-  }
-
-  &__TableCard {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
-  }
-
-  &__TableWrap {
-    overflow-x: auto;
-  }
-
-  &__Table {
-    min-width: 920px;
-
-    th {
-      height: 48px;
-      padding: 0 14px;
-
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-
-      color: #888;
-      white-space: nowrap;
-    }
-  }
-
-  &__Loading,
-  &__Empty {
-    height: 180px;
-    color: #888;
-    font-size: 13px;
-    text-align: center;
-  }
-
-  &__Order {
-    strong {
-      display: block;
-      color: #111;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    span {
-      display: block;
-      margin-top: 2px;
-      color: #999;
-      font-size: 11px;
-    }
-  }
-
-  &__Customer {
-    strong {
-      display: block;
-      color: #111;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    span {
-      display: block;
-      margin-top: 2px;
-      color: #999;
-      font-size: 11px;
-    }
-  }
-
-  &__Cell {
-    color: #333;
-    font-size: 13px;
-  }
-
-  &__Muted {
-    color: #999;
     font-size: 12px;
-  }
 
-  &__Actions {
-    display: flex;
-    justify-content: flex-end;
-  }
+    color: #8a8f96;
+}
 
-  &__ActionsTrigger {
-    display: flex;
+.Orders__Refresh {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
+    gap: 7px;
 
-    border: 1px solid #e8e8e8;
+    height: 34px;
+
+    padding: 0 12px;
+
+    border: 1px solid #e1e4e8;
     border-radius: 7px;
 
     background: #fff;
-    color: #333;
+
+    color: #555b63;
+
+    font-size: 11px;
+    font-weight: 600;
 
     cursor: pointer;
-    transition: background 0.2s ease;
+
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
 
     &:hover {
-      background: #f5f5f5;
+        background: #f7f8f9;
+        border-color: #d3d6da;
+        color: #17181a;
     }
-  }
-
-  &__Footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 18px;
-
-    border-top: 1px solid #e8e8e8;
-
-    color: #999;
-    font-size: 12px;
-  }
 }
 
-/* Status / payment pills — same palette as Overview > RecentOrders */
-.Status {
-  display: inline-flex;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
+/*
+|--------------------------------------------------------------------------
+| Stats
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 24px;
 }
 
-.Status--pending { background: #fff4d6; color: #8a6500; }
-.Status--confirmed { background: #e7f1ff; color: #1456a0; }
-.Status--processing { background: #ffe8d9; color: #b35900; }
-.Status--shipped { background: #eee8ff; color: #5b3ca8; }
-.Status--delivered { background: #e5f7ed; color: #217346; }
-.Status--cancelled { background: #fdeaea; color: #c0392b; }
-
-.Payment--unpaid { background: #fff4d6; color: #8a6500; }
-.Payment--paid { background: #e5f7ed; color: #217346; }
-
-/* Order details (Sheet) */
-.OrderDetails {
-  padding: 0 20px 20px;
-  overflow-y: auto;
-
-  &__Loading,
-  &__Empty {
-    padding: 60px 0;
-    text-align: center;
-    color: #888;
-    font-size: 13px;
-  }
-
-  &__Section {
-    margin-bottom: 22px;
-
-    h3 {
-      margin: 0 0 10px;
-      color: #111;
-      font-size: 13px;
-      font-weight: 700;
-    }
-  }
-
-  &__Row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 6px 0;
-
-    font-size: 13px;
-    color: #333;
-
-    span:first-child {
-      color: #888;
-    }
-  }
-
-  &__Item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-
-  &__ItemImage {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-
-    background: #f5f5f5;
-    border: 1px solid #eee;
-    border-radius: 7px;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 3px;
-    }
-  }
-
-  &__ItemInfo {
-    flex: 1;
+.Orders__StatCard {
     min-width: 0;
 
-    strong {
-      display: block;
-      color: #111;
-      font-size: 12.5px;
-      font-weight: 600;
-    }
-
-    span {
-      display: block;
-      margin-top: 2px;
-      color: #999;
-      font-size: 11px;
-    }
-  }
-
-  &__ItemTotal {
-    color: #111;
-    font-size: 12.5px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  &__Timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  &__TimelineStep {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-
-    strong {
-      display: block;
-      color: #111;
-      font-size: 12.5px;
-      font-weight: 600;
-    }
-
-    span {
-      display: block;
-      color: #999;
-      font-size: 11px;
-    }
-  }
-
-  &__TimelineDot {
-    width: 8px;
-    height: 8px;
-    margin-top: 5px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background: #111;
-  }
-}
-
-/* Update-status dialog */
-.StatusDialog {
-  &__Current {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-    color: #666;
-    font-size: 13px;
-  }
 
-  &__Arrow {
-    color: #ccc;
-  }
+    gap: 13px;
+
+    min-height: 82px;
+
+    padding: 16px;
+
+    border: 1px solid #e5e7ea;
+    border-radius: 10px;
+
+    background: #fff;
+
+    box-shadow:
+        0 1px 2px
+            rgba(0, 0, 0, 0.03);
 }
 
-@media (max-width: 700px) {
-  .Orders {
-    padding: 24px 16px;
+.Orders__StatIcon {
+    flex: 0 0 42px;
 
-    &__Header {
-      flex-direction: column;
+    width: 42px;
+    height: 42px;
 
-      h1 {
-        font-size: 25px;
-      }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #f6f7f8;
+
+    color: #17181a;
+}
+
+.Orders__StatContent {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.Orders__StatContent span {
+    font-size: 11px;
+
+    color: #8a8f96;
+}
+
+.Orders__StatContent strong {
+    font-size: 20px;
+    line-height: 1;
+
+    font-weight: 700;
+
+    color: #17181a;
+
+    white-space: nowrap;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Toolbar
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Toolbar {
+    width: 100%;
+    min-width: 0;
+
+    margin-bottom: 10px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Error
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Error {
+    margin-bottom: 12px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #f3cccc;
+    border-radius: 7px;
+
+    background: #fff5f5;
+
+    color: #c53030;
+
+    font-size: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Table card
+|--------------------------------------------------------------------------
+*/
+
+.Orders__TableCard {
+    width: 100%;
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7ea;
+    border-radius: 9px;
+
+    background: #fff;
+
+    box-shadow:
+        0 1px 2px
+            rgba(0, 0, 0, 0.03);
+}
+
+.Orders__TableWrapper {
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: hidden;
+}
+
+.Orders__Table {
+    width: 100%;
+
+    table-layout: fixed;
+
+    border-collapse: collapse;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Columns
+|--------------------------------------------------------------------------
+*/
+
+.Orders__ColOrder {
+    width: 10%;
+}
+
+.Orders__ColCustomer {
+    width: 18%;
+}
+
+.Orders__ColItems {
+    width: 8%;
+}
+
+.Orders__ColTotal {
+    width: 12%;
+}
+
+.Orders__ColDelivery {
+    width: 10%;
+}
+
+.Orders__ColStatus {
+    width: 11%;
+}
+
+.Orders__ColCreated {
+    width: 13%;
+}
+
+.Orders__ColActions {
+    width: 18%;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Headers
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Table thead th {
+    height: 42px;
+
+    padding: 0 10px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #e5e7ea;
+
+    color: #8a8f96;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+}
+
+.Orders__Table thead th:last-child {
+    text-align: right;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Table loading / empty
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Loading,
+.Orders__Empty {
+    height: 130px;
+
+    padding: 20px !important;
+
+    text-align: center !important;
+
+    color: #8a8f96;
+
+    font-size: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Pagination
+|--------------------------------------------------------------------------
+*/
+
+.Orders__Pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    min-height: 54px;
+
+    padding: 0 13px;
+
+    border-top: 1px solid #e5e7ea;
+
+    color: #8a8f96;
+
+    font-size: 11px;
+}
+
+.Orders__Pagination strong {
+    color: #555b63;
+    font-weight: 600;
+}
+
+.Orders__PaginationActions {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+.Orders__PaginationActions button {
+    height: 29px;
+
+    padding: 0 10px;
+
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #555b63;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.Orders__PaginationActions button:hover:not(
+        :disabled
+    ) {
+    background: #f6f7f8;
+
+    border-color: #d2d5d9;
+
+    color: #17181a;
+}
+
+.Orders__PaginationActions button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+.Orders__PaginationActions span {
+    white-space: nowrap;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1100px) {
+    .Orders {
+        padding-left: 18px;
+        padding-right: 18px;
     }
 
-    &__HeaderActions {
-      width: 100%;
-
-      button {
-        flex: 1;
-        justify-content: center;
-      }
+    .Orders__Stats {
+        gap: 10px;
     }
-  }
+
+    .Orders__StatCard {
+        padding: 12px;
+    }
+
+    .Orders__StatIcon {
+        flex-basis: 36px;
+
+        width: 36px;
+        height: 36px;
+    }
+
+    .Orders__StatContent strong {
+        font-size: 17px;
+    }
+
+    .Orders__Table thead th {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+}
+
+@media (max-width: 800px) {
+    .Orders__Stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .Orders__Header {
+        align-items: flex-start;
+    }
+
+    .Orders__Table {
+        font-size: 10px;
+    }
+
+    .Orders__Pagination {
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 }

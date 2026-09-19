@@ -7,6 +7,7 @@ import {
     updateOrderStatus,
     cancelOrder,
     exportOrders,
+    createOrder
 } from '../Controllers/orders.controller.js';
 
 const router = express.Router();
@@ -21,4 +22,5 @@ router.get('/dashboard/orders/:id', getOrderDetails);
 router.patch('/dashboard/orders/:id/status', updateOrderStatus);
 router.patch('/dashboard/orders/:id/cancel', cancelOrder);
 
+router.post('/orders', createOrder);
 export default router;

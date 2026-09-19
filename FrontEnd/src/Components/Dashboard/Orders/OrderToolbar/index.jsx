@@ -1,92 +1,259 @@
-import { RotateCcw, Search } from "lucide-react";
+import {
+    Search,
+    ChevronDown,
+    RotateCcw,
+    CalendarDays,
+} from "lucide-react";
 
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/Components/ui/input-group";
-import { Select, SelectItem } from "@/Components/ui/select";
-
-import { STATUS_FLOW, STATUS_LABELS, PAYMENT_LABELS } from "../statusMeta";
 import styles from "./styles.module.scss";
 
-export default function OrderToolbar({ filters, onChange, onReset }) {
-  const update = (field, value) => onChange(field, value);
+const OrderToolbar = ({
+    filters,
+    onFiltersChange,
+}) => {
+    const handleChange = (
+        key,
+        value
+    ) => {
+        onFiltersChange({
+            [key]: value,
+        });
+    };
 
-  return (
-    <div className={styles.OrderToolbar}>
-      <InputGroup className={styles.OrderToolbar__Search}>
-        <InputGroupAddon>
-          <Search size={17} />
-        </InputGroupAddon>
+    const handleReset = () => {
+        onFiltersChange({
+            search: "",
+            status: "",
+            deliveryType: "",
+            dateFrom: "",
+            dateTo: "",
+        });
+    };
 
-        <InputGroupInput
-          value={filters.search}
-          onChange={(event) => update("search", event.target.value)}
-          placeholder="Search by order #, customer or phone..."
-          aria-label="Search orders"
-        />
-      </InputGroup>
+    const hasActiveFilters =
+        Boolean(
+            filters?.search
+        ) ||
+        Boolean(
+            filters?.status
+        ) ||
+        Boolean(
+            filters?.deliveryType
+        ) ||
+        Boolean(
+            filters?.dateFrom
+        ) ||
+        Boolean(
+            filters?.dateTo
+        );
 
-      <div className={styles.OrderToolbar__Filters}>
-        <Select
-          value={filters.status}
-          onValueChange={(value) => update("status", value)}
-          className={styles.OrderToolbar__Select}
-          aria-label="Filter by status"
+    return (
+        <div
+            className={
+                styles.OrderToolbar
+            }
         >
-          <SelectItem value="">All Status</SelectItem>
-          {STATUS_FLOW.concat("cancelled").map((status) => (
-            <SelectItem key={status} value={status}>
-              {STATUS_LABELS[status]}
-            </SelectItem>
-          ))}
-        </Select>
+            {/* SEARCH */}
+            <div
+                className={
+                    styles.OrderToolbar__Search
+                }
+            >
+                <Search size={15} />
 
-        <Select
-          value={filters.paymentStatus}
-          onValueChange={(value) => update("paymentStatus", value)}
-          className={styles.OrderToolbar__Select}
-          aria-label="Filter by payment status"
-        >
-          <SelectItem value="">All Payments</SelectItem>
-          {Object.entries(PAYMENT_LABELS).map(([value, label]) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
-          ))}
-        </Select>
+                <input
+                    type="search"
+                    value={
+                        filters?.search ||
+                        ""
+                    }
+                    onChange={(
+                        event
+                    ) =>
+                        handleChange(
+                            "search",
+                            event.target
+                                .value
+                        )
+                    }
+                    placeholder="Search orders, customers, phone..."
+                    aria-label="Search orders"
+                />
+            </div>
 
-        <Select
-          value={filters.deliveryType}
-          onValueChange={(value) => update("deliveryType", value)}
-          className={styles.OrderToolbar__Select}
-          aria-label="Filter by delivery type"
-        >
-          <SelectItem value="">All Delivery</SelectItem>
-          <SelectItem value="home">Home delivery</SelectItem>
-          <SelectItem value="office">Office delivery</SelectItem>
-        </Select>
+            {/* FILTERS */}
+            <div
+                className={
+                    styles.OrderToolbar__Filters
+                }
+            >
+                {/* STATUS */}
+                <div
+                    className={
+                        styles.OrderToolbar__Select
+                    }
+                >
+                    <select
+                        value={
+                            filters?.status ||
+                            ""
+                        }
+                        onChange={(
+                            event
+                        ) =>
+                            handleChange(
+                                "status",
+                                event.target
+                                    .value
+                            )
+                        }
+                        aria-label="Filter by order status"
+                    >
+                        <option value="">
+                            All statuses
+                        </option>
 
-        <div className={styles.OrderToolbar__DateRange}>
-          <input
-            type="date"
-            value={filters.dateFrom}
-            onChange={(event) => update("dateFrom", event.target.value)}
-            aria-label="From date"
-          />
+                        <option value="pending">
+                            Pending
+                        </option>
 
-          <span>—</span>
+                        <option value="confirmed">
+                            Confirmed
+                        </option>
 
-          <input
-            type="date"
-            value={filters.dateTo}
-            onChange={(event) => update("dateTo", event.target.value)}
-            aria-label="To date"
-          />
+                        <option value="processing">
+                            Processing
+                        </option>
+
+                        <option value="shipped">
+                            Shipped
+                        </option>
+
+                        <option value="delivered">
+                            Delivered
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelled
+                        </option>
+                    </select>
+
+                    <ChevronDown
+                        size={14}
+                    />
+                </div>
+
+                {/* DELIVERY TYPE */}
+                <div
+                    className={
+                        styles.OrderToolbar__Select
+                    }
+                >
+                    <select
+                        value={
+                            filters?.deliveryType ||
+                            ""
+                        }
+                        onChange={(
+                            event
+                        ) =>
+                            handleChange(
+                                "deliveryType",
+                                event.target
+                                    .value
+                            )
+                        }
+                        aria-label="Filter by delivery type"
+                    >
+                        <option value="">
+                            All delivery
+                        </option>
+
+                        <option value="home">
+                            Home
+                        </option>
+
+                        <option value="office">
+                            Office
+                        </option>
+                    </select>
+
+                    <ChevronDown
+                        size={14}
+                    />
+                </div>
+
+                {/* DATE RANGE */}
+                <div
+                    className={
+                        styles.OrderToolbar__DateRange
+                    }
+                >
+                    <CalendarDays
+                        size={14}
+                    />
+
+                    <input
+                        type="date"
+                        value={
+                            filters?.dateFrom ||
+                            ""
+                        }
+                        onChange={(
+                            event
+                        ) =>
+                            handleChange(
+                                "dateFrom",
+                                event.target
+                                    .value
+                            )
+                        }
+                        aria-label="Orders from date"
+                    />
+
+                    <span>—</span>
+
+                    <input
+                        type="date"
+                        value={
+                            filters?.dateTo ||
+                            ""
+                        }
+                        onChange={(
+                            event
+                        ) =>
+                            handleChange(
+                                "dateTo",
+                                event.target
+                                    .value
+                            )
+                        }
+                        aria-label="Orders to date"
+                    />
+                </div>
+
+                {/* RESET */}
+                <button
+                    type="button"
+                    className={
+                        styles.OrderToolbar__Reset
+                    }
+                    onClick={
+                        handleReset
+                    }
+                    disabled={
+                        !hasActiveFilters
+                    }
+                >
+                    <RotateCcw
+                        size={14}
+                    />
+
+                    Reset
+                </button>
+            </div>
         </div>
+    );
+};
 
-        <button type="button" className={styles.OrderToolbar__Reset} onClick={onReset}>
-          <RotateCcw size={14} />
-          <span>Reset</span>
-        </button>
-      </div>
-    </div>
-  );
-}
+export default OrderToolbar;
