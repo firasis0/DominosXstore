@@ -52,10 +52,17 @@ const navigation = [
   {
     name: "Customers",
     icon: Users,
+    href: "/dashboard/customers"
   },
   {
     name: "Content",
     icon: PanelsTopLeft,
+    href: "/dashboard/content"
+  },
+  {
+    name: "Settings",
+    icon: Settings,
+    href: "/dashboard/settings",
   },
 ];
 

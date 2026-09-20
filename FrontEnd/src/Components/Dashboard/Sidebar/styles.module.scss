@@ -1,169 +1,185 @@
 .Sidebar {
-  width: 250px;
-  min-height: 100vh;
-  background: #111;
-  color: #fff;
-
-  display: flex;
-  flex-direction: column;
-
-  padding: 28px 16px;
-}
-
-.Sidebar__Top {
-  padding: 0 12px 35px;
-}
-
-.Sidebar__Logo {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.Sidebar__Label {
-  display: block;
-  margin-top: 6px;
-
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: #777;
-}
-
-.Sidebar__Nav {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.Sidebar__Item {
-  width: 100%;
-  height: 46px;
-
-  display: flex;
-  align-items: center;
-  gap: 13px;
-
-  padding: 0 13px;
-
-  border: 0;
-  border-radius: 9px;
-
-  background: transparent;
-  color: #888;
-
-  font-family: inherit;
-  font-size: 14px;
-
-  cursor: pointer;
-
-  transition: 0.2s ease;
-}
-
-.Sidebar__Item:hover {
-  background: #1b1b1b;
-  color: #fff;
-}
-
-.Sidebar__ItemActive {
-  background: #fff;
-  color: #111;
-}
-
-.Sidebar__Bottom {
-  margin-top: auto;
-
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  padding-top: 20px;
-  border-top: 1px solid #242424;
-}
-
-.Sidebar__MobileButton,
-.Sidebar__Close {
-  display: none;
-}
-
-.Sidebar__Overlay {
-  display: none;
-}
-
-//Mobile handling : 
-@media (max-width: 768px) {
-  .Sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1000;
 
     width: 250px;
     height: 100vh;
     min-height: 100vh;
 
-    z-index: 1000;
+    box-sizing: border-box;
 
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
-
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
-  }
-
-  .Sidebar__Open {
-    transform: translateX(0);
-  }
-
-  .Sidebar__MobileButton {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-
-    z-index: 900;
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-
-    background: #fff;
-    color: #111;
-
-    cursor: pointer;
-  }
-
-  .Sidebar__Close {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 36px;
-    height: 36px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 0;
-    border-radius: 8px;
-
-    background: #1b1b1b;
+    background: #111;
     color: #fff;
 
-    cursor: pointer;
-  }
+    display: flex;
+    flex-direction: column;
 
-  .Sidebar__Overlay {
-    position: fixed;
-    inset: 0;
+    padding: 28px 16px;
+}
 
-    z-index: 999;
+.Sidebar__Top {
+    padding: 0 12px 35px;
+}
 
+.Sidebar__Logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.Sidebar__Label {
     display: block;
+    margin-top: 6px;
 
-    background: rgba(0, 0, 0, 0.35);
-  }
+    font-size: 10px;
+    letter-spacing: 1.5px;
+
+    color: #777;
+}
+
+.Sidebar__Nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Sidebar__Item {
+    width: 100%;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 0 13px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #888;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.Sidebar__Item:hover {
+    background: #1b1b1b;
+    color: #fff;
+}
+
+.Sidebar__ItemActive {
+    background: #fff;
+    color: #111;
+}
+
+.Sidebar__Bottom {
+    margin-top: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #242424;
+}
+
+.Sidebar__MobileButton,
+.Sidebar__Close {
+    display: none;
+}
+
+.Sidebar__Overlay {
+    display: none;
+}
+
+/* =========================
+   Mobile handling
+========================= */
+
+@media (max-width: 768px) {
+    .Sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 250px;
+        height: 100vh;
+        min-height: 100vh;
+
+        z-index: 1000;
+
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .Sidebar__Open {
+        transform: translateX(0);
+    }
+
+    .Sidebar__MobileButton {
+        position: fixed;
+
+        top: 18px;
+        left: 18px;
+
+        z-index: 900;
+
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+
+        background: #fff;
+        color: #111;
+
+        cursor: pointer;
+    }
+
+    .Sidebar__Close {
+        position: absolute;
+
+        top: 0;
+        right: 0;
+
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 0;
+        border-radius: 8px;
+
+        background: #1b1b1b;
+        color: #fff;
+
+        cursor: pointer;
+    }
+
+    .Sidebar__Overlay {
+        position: fixed;
+        inset: 0;
+
+        z-index: 999;
+
+        display: block;
+
+        background: rgba(0, 0, 0, 0.35);
+    }
 }

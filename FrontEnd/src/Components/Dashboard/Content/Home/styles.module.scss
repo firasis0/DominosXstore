@@ -1,0 +1,694 @@
+.Home {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.Home__Header {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 22px;
+}
+
+.Home__Eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #999;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.Home__Title {
+    margin: 0;
+    color: #111;
+    font-size: 26px;
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.Home__Description {
+    width: 100%;
+    max-width: 650px;
+    margin: 7px 0 0;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.Home__MessageError,
+.Home__MessageSuccess {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.Home__MessageError {
+    border: 1px solid #f0d5d5;
+    background: #fff8f8;
+    color: #a33;
+}
+
+.Home__MessageSuccess {
+    border: 1px solid #d9ead9;
+    background: #f8fcf8;
+    color: #39733e;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.Home__Sections {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+}
+
+.Home__Section {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.Home__SectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 18px 20px;
+    border-bottom: 1px solid #ededed;
+    box-sizing: border-box;
+}
+
+.Home__SectionEyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.Home__SectionTitle {
+    margin: 0;
+    color: #111;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.Home__SectionDescription {
+    width: 100%;
+    max-width: 620px;
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.Home__SectionBody {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.Home__PrimaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 0 12px;
+    border: 1px solid #111;
+    border-radius: 7px;
+    background: #111;
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        opacity 0.18s ease;
+}
+
+.Home__PrimaryButton:hover {
+    border-color: #292929;
+    background: #292929;
+}
+
+.Home__PrimaryButton input {
+    display: none;
+}
+
+.Home__PrimaryButton:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+/* =========================================================
+   IMAGE LIST
+========================================================= */
+
+.Home__ImageList {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+}
+
+.Home__ImageListItem {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) auto;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 68px;
+    padding: 7px;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    border-radius: 9px;
+    background: #fff;
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.Home__ImageListItem:hover {
+    border-color: #d5d5d5;
+    background: #fcfcfc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* =========================================================
+   THUMBNAIL
+========================================================= */
+
+.Home__ImageThumbnail {
+    position: relative;
+    width: 110px;
+    height: 58px;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f2f2f2;
+}
+
+.Home__ImageThumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Home__ImageNumber {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 19px;
+    box-sizing: border-box;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =========================================================
+   IMAGE INFO
+========================================================= */
+
+.Home__ImageInfo {
+    width: 100%;
+    min-width: 0;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.Home__ImageInfo strong {
+    display: block;
+    overflow: hidden;
+    color: #222;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.Home__ImageInfo span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.Home__ImageActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    min-width: 0;
+}
+
+.Home__ImageActions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    flex: 0 0 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.12s ease,
+        opacity 0.18s ease;
+}
+
+.Home__ImageActions button:hover:not(:disabled) {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}
+
+.Home__ImageActions button:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
+.Home__ImageActions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.Home__ImageActions .Home__DeleteButton {
+    color: #a33;
+}
+
+.Home__ImageActions .Home__DeleteButton:hover:not(:disabled) {
+    border-color: #a33;
+    background: #a33;
+    color: #fff;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.Home__Empty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+    min-height: 80px;
+    padding: 14px;
+    box-sizing: border-box;
+    border: 1px dashed #d9d9d9;
+    border-radius: 9px;
+    background: #fafafa;
+}
+
+.Home__EmptyIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    background: #fff;
+    color: #888;
+}
+
+.Home__EmptyText {
+    min-width: 0;
+    flex: 1;
+}
+
+.Home__EmptyText strong {
+    display: block;
+    color: #333;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.Home__EmptyText span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.Home__UploadButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 32px;
+    margin-left: auto;
+    padding: 0 11px;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    background: #fff;
+    color: #444;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.Home__UploadButton:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}
+
+.Home__UploadButton input {
+    display: none;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.Home__Loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: #888;
+    font-size: 13px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+    .Home__SectionHeader {
+        align-items: flex-start;
+    }
+
+    .Home__SectionDescription {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+    .Home__Header {
+        margin-bottom: 16px;
+    }
+
+    .Home__Title {
+        font-size: 24px;
+    }
+
+    .Home__Description {
+        font-size: 12px;
+    }
+
+    .Home__SectionHeader {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .Home__SectionTitle {
+        font-size: 16px;
+    }
+
+    .Home__SectionDescription {
+        font-size: 10px;
+    }
+
+    .Home__PrimaryButton {
+        width: 100%;
+    }
+
+    .Home__SectionBody {
+        padding: 10px;
+    }
+
+    /*
+     * Two-row mobile image layout:
+     *
+     * [ thumbnail ][ information ]
+     * [       actions/buttons     ]
+     */
+    .Home__ImageListItem {
+        display: grid;
+        grid-template-columns: 100px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 8px;
+        padding: 7px;
+    }
+
+    .Home__ImageThumbnail {
+        width: 100px;
+        height: 56px;
+    }
+
+    .Home__ImageInfo {
+        width: 100%;
+        padding: 0;
+    }
+
+    .Home__ImageActions {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .Home__ImageActions button {
+        width: 100%;
+        min-width: 0;
+        height: 34px;
+        flex: none;
+    }
+
+    .Home__Empty {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .Home__UploadButton {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 450px) {
+    .Home__SectionHeader {
+        padding: 13px;
+    }
+
+    .Home__SectionBody {
+        padding: 8px;
+    }
+
+    .Home__ImageListItem {
+        grid-template-columns: 82px minmax(0, 1fr);
+        column-gap: 9px;
+        padding: 6px;
+    }
+
+    .Home__ImageThumbnail {
+        width: 82px;
+        height: 50px;
+    }
+
+    .Home__ImageInfo strong {
+        font-size: 11px;
+    }
+
+    .Home__ImageInfo span {
+        font-size: 9px;
+    }
+
+    .Home__ImageActions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .Home__ImageActions button {
+        height: 32px;
+    }
+
+    .Home__Empty {
+        padding: 10px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+    .Home__Eyebrow {
+        font-size: 9px;
+    }
+
+    .Home__Title {
+        font-size: 22px;
+    }
+
+    .Home__Description {
+        font-size: 11px;
+    }
+
+    .Home__SectionHeader {
+        padding: 12px;
+    }
+
+    .Home__SectionTitle {
+        font-size: 15px;
+    }
+
+    .Home__SectionDescription {
+        font-size: 9px;
+    }
+
+    .Home__ImageListItem {
+        grid-template-columns: 72px minmax(0, 1fr);
+        column-gap: 8px;
+        padding: 6px;
+    }
+
+    .Home__ImageThumbnail {
+        width: 72px;
+        height: 46px;
+    }
+
+    .Home__ImageActions button {
+        height: 31px;
+    }
+
+    .Home__ImageActions button svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+/* =========================================================
+   EXTREMELY SMALL PHONES
+========================================================= */
+
+@media (max-width: 320px) {
+    .Home__Title {
+        font-size: 20px;
+    }
+
+    .Home__Description {
+        font-size: 10px;
+    }
+
+    .Home__SectionBody {
+        padding: 7px;
+    }
+
+    .Home__ImageListItem {
+        grid-template-columns: 64px minmax(0, 1fr);
+        column-gap: 7px;
+        padding: 5px;
+    }
+
+    .Home__ImageThumbnail {
+        width: 64px;
+        height: 42px;
+    }
+
+    .Home__ImageInfo strong {
+        font-size: 10px;
+    }
+
+    .Home__ImageInfo span {
+        font-size: 8px;
+    }
+
+    .Home__ImageActions {
+        gap: 4px;
+    }
+
+    .Home__ImageActions button {
+        height: 30px;
+    }
+
+    .Home__ImageActions button svg {
+        width: 14px;
+        height: 14px;
+    }
+}

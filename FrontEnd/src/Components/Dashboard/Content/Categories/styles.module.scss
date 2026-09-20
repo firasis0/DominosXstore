@@ -1,0 +1,430 @@
+.Categories {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.Categories__Header {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 26px;
+    box-sizing: border-box;
+}
+
+.Categories__Eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #777;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.Categories__Title {
+    margin: 0;
+    color: #111;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.Categories__Description {
+    width: 100%;
+    max-width: 620px;
+    margin: 8px 0 0;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.Categories__MessageError,
+.Categories__MessageSuccess {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 42px;
+    margin-bottom: 14px;
+    padding: 10px 13px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.Categories__MessageError {
+    border: 1px solid #e5c0c0;
+    background: #fff7f7;
+    color: #a33;
+}
+
+.Categories__MessageSuccess {
+    border: 1px solid #c8dfcf;
+    background: #f5fbf6;
+    color: #28733e;
+}
+
+.Categories__Sections {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: 20px;
+}
+
+.Categories__Section {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.Categories__SectionHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ededed;
+}
+
+.Categories__SectionEyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #888;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.Categories__SectionTitle {
+    margin: 0;
+    color: #111;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.Categories__SectionDescription {
+    max-width: 560px;
+    margin: 6px 0 0;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.Categories__PrimaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 7px;
+    min-width: 120px;
+    height: 38px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    border: 1px solid #111;
+    border-radius: 6px;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.Categories__PrimaryButton:hover {
+    background: #292929;
+    border-color: #292929;
+}
+
+.Categories__PrimaryButton input {
+    display: none;
+}
+
+.Categories__SectionBody {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   IMAGE LIST
+========================================================= */
+
+.Categories__ImageGrid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: 8px;
+}
+
+.Categories__ImageCard {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 68px;
+    padding: 7px;
+    box-sizing: border-box;
+    gap: 12px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.Categories__ImagePreview {
+    position: relative;
+    width: 110px;
+    height: 62px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f3f3f3;
+}
+
+.Categories__ImagePreview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Categories__ImageNumber {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background: rgba(17, 17, 17, 0.85);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.Categories__ImageCardFooter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+}
+
+.Categories__ImageCardInfo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+.Categories__ImageCardInfo strong {
+    overflow: hidden;
+    color: #222;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.Categories__ImageCardInfo span {
+    color: #888;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.Categories__ImageActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: 6px;
+}
+
+.Categories__ImageActions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #444;
+    cursor: pointer;
+}
+
+.Categories__ImageActions button:hover:not(:disabled) {
+    background: #f5f5f5;
+}
+
+.Categories__ImageActions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+}
+
+.Categories__ImageActions
+    .Categories__DeleteButton {
+    border-color: #e1c5c5;
+    color: #a33;
+}
+
+.Categories__ImageActions
+    .Categories__DeleteButton:hover:not(:disabled) {
+    background: #fff5f5;
+}
+
+.Categories__Empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 180px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.Categories__Empty strong {
+    color: #333;
+    font-size: 13px;
+}
+
+.Categories__Empty span {
+    margin-top: 5px;
+    color: #888;
+    font-size: 11px;
+}
+
+.Categories__Loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    color: #777;
+    font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+    .Categories__SectionHeader {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .Categories__PrimaryButton {
+        width: 100%;
+    }
+
+    .Categories__ImageCard {
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .Categories__ImagePreview {
+        width: 100px;
+        height: 58px;
+    }
+
+    .Categories__ImageCardFooter {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .Categories__ImageActions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(
+            3,
+            minmax(0, 1fr)
+        );
+    }
+
+    .Categories__ImageActions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .Categories__ImageCard {
+        grid-template-columns: 82px minmax(0, 1fr);
+    }
+
+    .Categories__ImagePreview {
+        width: 82px;
+        height: 50px;
+    }
+
+    .Categories__ImageCardInfo strong {
+        font-size: 11px;
+    }
+
+    .Categories__ImageCardInfo span {
+        font-size: 10px;
+    }
+
+    .Categories__Title {
+        font-size: 21px;
+    }
+
+    .Categories__Description {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .Categories__SectionBody {
+        padding: 10px;
+    }
+
+    .Categories__ImageCard {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .Categories__ImagePreview {
+        width: 72px;
+        height: 45px;
+    }
+
+    .Categories__ImageActions button {
+        height: 29px;
+    }
+}
+
+@media (max-width: 320px) {
+    .Categories__ImageCard {
+        grid-template-columns: 64px minmax(0, 1fr);
+    }
+
+    .Categories__ImagePreview {
+        width: 64px;
+        height: 40px;
+    }
+}

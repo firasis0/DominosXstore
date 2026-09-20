@@ -1,0 +1,90 @@
+.CustomerToolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.CustomerToolbar__Search {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+    min-width: 220px;
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid #e1e3e7;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #8b919a;
+}
+
+.CustomerToolbar__Search:focus-within {
+    border-color: #b9bdc4;
+}
+
+.CustomerToolbar__Search input {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 13px;
+    color: #25282d;
+}
+
+.CustomerToolbar__Search input::placeholder {
+    color: #9a9fa7;
+}
+
+.CustomerToolbar__Select {
+    width: 170px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #e1e3e7;
+    border-radius: 9px;
+    outline: none;
+    background: #ffffff;
+    color: #383c42;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.CustomerToolbar__Select:focus {
+    border-color: #b9bdc4;
+}
+
+.CustomerToolbar__Reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid #e1e3e7;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #555a62;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.CustomerToolbar__Reset:hover {
+    background: #f5f6f8;
+}
+
+@media (max-width: 800px) {
+    .CustomerToolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .CustomerToolbar__Select {
+        width: 100%;
+    }
+
+    .CustomerToolbar__Reset {
+        width: 100%;
+    }
+}

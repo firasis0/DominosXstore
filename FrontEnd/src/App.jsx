@@ -15,6 +15,9 @@ import DashboardOrders from './Pages/DashboardOrders';
 import DashboardCategories from './Pages/DashboardCategories'
 import DashboardBrands from './Pages/DashboardBrands'
 import DashboardShipping from "@/Pages/DashboardShipping";
+import DashboardCustomers from './Pages/DashboardCustomers';
+import DashboardContent from "./Pages/DashboardContent";
+import Settings from "./Components/Dashboard/Settings";
 import ProductDetailsPage from "./Pages/ProductDetails";
 import CategoriesDetailsPage from './Pages/CategoriesDetails';
 import BrandsDetailsPage from './Pages/BrandsDetails';
@@ -67,6 +70,9 @@ function App() {
       <Route path="/dashboard/categories" element={<DashboardCategories />} />
       <Route path="/dashboard/brands" element={<DashboardBrands />} />
       <Route path="/dashboard/Shipping" element={<DashboardShipping />} />
+      <Route path="/dashboard/customers" element={<DashboardCustomers />} />
+      <Route path="/dashboard/content" element={<DashboardContent />} />
+      <Route path="/dashboard/settings" element={<Settings />} />
       <Route path="/policies" element={<PoliciesPage />} />
     </Routes>
     </BrowserRouter>

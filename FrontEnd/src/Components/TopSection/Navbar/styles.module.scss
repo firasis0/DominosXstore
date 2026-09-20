@@ -285,13 +285,20 @@
   }
 }
 
+
+/* ========================================
+   SEARCH INPUT
+======================================== */
+
 .SearchPopup__InputWrapper {
   width: 100%;
   height: 58px;
 
-  display: flex;
+  box-sizing: border-box;
 
-  align-items: center;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
 
   gap: 12px;
 
@@ -308,34 +315,15 @@
     background 0.25s ease,
     box-shadow 0.25s ease;
 
+  overflow: hidden;
+
   svg {
     width: 21px;
     height: 21px;
 
-    flex-shrink: 0;
+    flex: 0 0 21px;
 
     color: #777;
-  }
-
-  input {
-    width: 100%;
-
-    border: none;
-    outline: none;
-
-    background: transparent;
-
-    color: #111;
-
-    font-size: 16px;
-
-    /* Important:
-       prevents iOS Safari from zooming */
-    font-size: max(16px, 1rem);
-
-    &::placeholder {
-      color: #999;
-    }
   }
 
   &:focus-within {
@@ -347,6 +335,78 @@
       0 0 0 4px rgba(0, 0, 0, 0.04);
   }
 }
+
+
+/* ========================================
+   ACTUAL INPUT
+   Removes inherited/shadcn input styling
+======================================== */
+
+.SearchPopup__InputWrapper input,
+.SearchPopup__Input {
+  width: 100% !important;
+  height: auto !important;
+
+  min-width: 0;
+
+  flex: 1 1 auto;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: none !important;
+  border-width: 0 !important;
+
+  border-radius: 0 !important;
+
+  outline: none !important;
+
+  background: transparent !important;
+
+  box-shadow: none !important;
+
+  color: #111;
+
+  font-family: inherit;
+
+  font-size: max(16px, 1rem);
+
+  font-weight: 400;
+
+  line-height: 1.4;
+
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  -webkit-box-shadow: none !important;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    border: none !important;
+    border-width: 0 !important;
+
+    outline: none !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    -webkit-box-shadow: none !important;
+  }
+
+  &::placeholder {
+    color: #999;
+
+    opacity: 1;
+  }
+}
+
+
+/* ========================================
+   SEARCH HINT
+======================================== */
 
 .SearchPopup__Hint {
   margin: 14px 2px 0;
@@ -618,7 +678,6 @@
 
   /* ==============================
      MENU
-    text-decoration: none;
   ============================== */
 
   .Navbar__Menu {
@@ -667,6 +726,218 @@
   }
 }
 
+/* ========================================
+   SEARCH RESULTS
+======================================== */
+
+.SearchPopup__Results {
+  width: 100%;
+
+  margin-top: 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  max-height: 360px;
+
+  overflow-y: auto;
+
+  border: 1px solid #eee;
+
+  border-radius: 12px;
+
+  background: #fff;
+}
+
+.SearchPopup__Result {
+  width: 100%;
+  min-height: 68px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 8px 12px;
+
+  border: none;
+  border-bottom: 1px solid #eee;
+
+  background: #fff;
+
+  color: #111;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #f7f7f7;
+  }
+
+  &:active {
+    background: #f1f1f1;
+  }
+}
+
+
+/* ========================================
+   PRODUCT THUMBNAIL
+======================================== */
+
+.SearchPopup__ResultImage {
+  width: 50px;
+  height: 50px;
+
+  flex: 0 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  background: #f5f5f5;
+
+  img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+
+    color: #999;
+  }
+}
+
+
+/* ========================================
+   PRODUCT INFORMATION
+======================================== */
+
+.SearchPopup__ResultInfo {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 2px;
+}
+
+.SearchPopup__ResultBrand {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #999;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.04em;
+}
+
+.SearchPopup__ResultName {
+  width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #111;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.3;
+}
+
+.SearchPopup__ResultPrice {
+  color: #111;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* ========================================
+   SEARCH RESULT STATE
+======================================== */
+
+.SearchPopup__State {
+  padding: 22px 16px;
+
+  color: #999;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   MOBILE SEARCH RESULTS
+======================================== */
+
+@media (max-width: 700px) {
+  .SearchPopup__Results {
+    max-height: 50vh;
+  }
+
+  .SearchPopup__Result {
+    min-height: 64px;
+
+    gap: 10px;
+
+    padding: 7px 10px;
+  }
+
+  .SearchPopup__ResultImage {
+    width: 46px;
+    height: 46px;
+
+    flex-basis: 46px;
+  }
+
+  .SearchPopup__ResultName {
+    font-size: 12px;
+  }
+
+  .SearchPopup__ResultPrice {
+    font-size: 11px;
+  }
+}
 
 /* ==============================
    SMALL PHONES

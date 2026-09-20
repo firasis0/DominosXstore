@@ -1,0 +1,125 @@
+.CustomerRow {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.CustomerRow:hover {
+    background: #fafbfc;
+}
+
+.CustomerRow__Customer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.CustomerRow__Avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 9px;
+    background: #eceef1;
+    color: #383c42;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.CustomerRow__CustomerInfo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.CustomerRow__CustomerInfo strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+    color: #24272c;
+}
+
+.CustomerRow__CustomerInfo span {
+    margin-top: 3px;
+    font-size: 10px;
+    color: #979ca4;
+}
+
+.CustomerRow__Phone {
+    font-size: 12px;
+    color: #4e535b;
+    white-space: nowrap;
+}
+
+.CustomerRow__Location {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.CustomerRow__Location span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #454a52;
+}
+
+.CustomerRow__Location small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 3px;
+    font-size: 10px;
+    color: #969ba3;
+}
+
+.CustomerRow__Orders {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 7px;
+    background: #f1f2f4;
+    color: #383c42;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.CustomerRow__Spent {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2b2e33;
+    white-space: nowrap;
+}
+
+.CustomerRow__Date {
+    font-size: 11px;
+    color: #6f747d;
+    white-space: nowrap;
+}
+
+.CustomerRow__View {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid #e2e4e8;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #565b63;
+    cursor: pointer;
+}
+
+.CustomerRow__View:hover {
+    background: #f3f4f6;
+    color: #202328;
+}

@@ -1,0 +1,953 @@
+.About {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.About__Header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 22px;
+    box-sizing: border-box;
+}
+
+.About__Eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #999;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.About__Title {
+    margin: 0;
+    color: #111;
+    font-size: 26px;
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.About__Description {
+    width: 100%;
+    max-width: 650px;
+    margin: 7px 0 0;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.About__MessageError,
+.About__MessageSuccess {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.About__MessageError {
+    border: 1px solid #f0d5d5;
+    background: #fff8f8;
+    color: #a33;
+}
+
+.About__MessageSuccess {
+    border: 1px solid #d9ead9;
+    background: #f8fcf8;
+    color: #39733e;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.About__Sections {
+    width: 100%;
+    min-width: 0;
+}
+
+.About__Section {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.About__Section:last-child {
+    margin-bottom: 0;
+}
+
+.About__SectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 18px 20px;
+    border-bottom: 1px solid #ededed;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.About__SectionEyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.About__SectionTitle {
+    margin: 0;
+    color: #111;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+}
+
+.About__SectionDescription {
+    width: 100%;
+    max-width: 620px;
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.About__SectionBody {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PRIMARY / SECONDARY / DANGER BUTTONS
+========================================================= */
+
+.About__PrimaryButton,
+.About__SecondaryButton,
+.About__DangerButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        opacity 0.18s ease;
+}
+
+.About__PrimaryButton {
+    flex-shrink: 0;
+    border: 1px solid #111;
+    background: #111;
+    color: #fff;
+}
+
+.About__PrimaryButton:hover {
+    border-color: #2b2b2b;
+    background: #2b2b2b;
+}
+
+.About__SecondaryButton {
+    border: 1px solid #dedede;
+    background: #fff;
+    color: #555;
+}
+
+.About__SecondaryButton:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}
+
+.About__DangerButton {
+    border: 1px solid #e0d4d4;
+    background: #fff;
+    color: #a33;
+}
+
+.About__DangerButton:hover:not(:disabled) {
+    border-color: #a33;
+    background: #a33;
+    color: #fff;
+}
+
+.About__PrimaryButton input,
+.About__SecondaryButton input {
+    display: none;
+}
+
+.About__PrimaryButton:has(input:disabled),
+.About__SecondaryButton:has(input:disabled),
+.About__DangerButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* =========================================================
+   CAROUSEL IMAGE LIST
+========================================================= */
+
+.About__ImageList {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+}
+
+.About__ImageListItem {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) auto;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 68px;
+    box-sizing: border-box;
+    padding: 7px;
+    border: 1px solid #e5e5e5;
+    border-radius: 9px;
+    background: #fff;
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.About__ImageListItem:hover {
+    border-color: #d5d5d5;
+    background: #fcfcfc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* =========================================================
+   THUMBNAIL
+========================================================= */
+
+.About__ImageThumbnail {
+    position: relative;
+    width: 110px;
+    height: 58px;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f2f2f2;
+}
+
+.About__ImageThumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.About__ImageNumber {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 19px;
+    box-sizing: border-box;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =========================================================
+   LIST INFORMATION
+========================================================= */
+
+.About__ImageListInfo {
+    min-width: 0;
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.About__ImageListInfo strong {
+    display: block;
+    overflow: hidden;
+    color: #222;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.About__ImageListInfo span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   CAROUSEL ACTION BUTTONS
+========================================================= */
+
+.About__ImageActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    min-width: 0;
+}
+
+.About__ImageActions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    flex: 0 0 30px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 6px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.12s ease,
+        opacity 0.18s ease;
+}
+
+.About__ImageActions button:hover:not(:disabled) {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}
+
+.About__ImageActions button:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
+.About__ImageActions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.About__ImageActions .About__ImageDelete {
+    color: #a33;
+}
+
+.About__ImageActions .About__ImageDelete:hover:not(:disabled) {
+    border-color: #a33;
+    background: #a33;
+    color: #fff;
+}
+
+/* =========================================================
+   EMPTY CAROUSEL
+========================================================= */
+
+.About__Empty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+    min-height: 80px;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 9px;
+    background: #fafafa;
+}
+
+.About__EmptyIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    background: #fff;
+    color: #888;
+}
+
+.About__Empty strong {
+    display: block;
+    color: #333;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.About__Empty span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.About__UploadButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 32px;
+    margin-left: auto;
+    padding: 0 11px;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    background: #fff;
+    color: #444;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.About__UploadButton:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+}
+
+.About__UploadButton input {
+    display: none;
+}
+
+/* =========================================================
+   OUR STORY IMAGE
+========================================================= */
+
+.About__SingleImage {
+    width: 100%;
+    min-width: 0;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.About__ImageCard {
+    width: 100%;
+    max-width: 620px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-radius: 9px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.About__ImagePreview {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #f3f3f3;
+}
+
+.About__ImagePreview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.About__ImageInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    min-width: 0;
+    padding: 11px 12px;
+    border-top: 1px solid #ededed;
+    box-sizing: border-box;
+}
+
+.About__ImageInfo > div:first-child {
+    min-width: 0;
+}
+
+.About__ImageInfo strong {
+    display: block;
+    color: #222;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.About__ImageInfo span {
+    display: block;
+    margin-top: 3px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+/* =========================================================
+   CONNECT FORM
+========================================================= */
+
+.About__Form {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 20px;
+    box-sizing: border-box;
+}
+
+.About__Field {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 17px;
+}
+
+.About__Field:last-of-type {
+    margin-bottom: 0;
+}
+
+.About__Field label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    color: #222;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.About__Field label svg {
+    color: #555;
+}
+
+.About__Field input {
+    width: 100%;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 0 11px;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    outline: 0;
+    background: #fff;
+    color: #111;
+    font-family: inherit;
+    font-size: 11px;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.About__Field input:focus {
+    border-color: #111;
+    box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+}
+
+.About__Field input::placeholder {
+    color: #b5b5b5;
+}
+
+.About__FormFooter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    min-width: 0;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ededed;
+    box-sizing: border-box;
+}
+
+.About__SaveButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 120px;
+    height: 36px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 7px;
+    background: #111;
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        opacity 0.18s ease;
+    box-sizing: border-box;
+}
+
+.About__SaveButton:hover:not(:disabled) {
+    background: #292929;
+}
+
+.About__SaveButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.About__Loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: #888;
+    font-size: 13px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+    .About__SectionHeader {
+        align-items: flex-start;
+    }
+
+    .About__ImageInfo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .About__ImageActions {
+        width: 100%;
+    }
+
+    .About__SecondaryButton,
+    .About__DangerButton {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .About__ImageCard {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+    .About__Header {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .About__Title {
+        font-size: 24px;
+    }
+
+    .About__Description {
+        font-size: 12px;
+    }
+
+    .About__SectionHeader {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .About__SectionTitle {
+        font-size: 16px;
+    }
+
+    .About__SectionDescription {
+        font-size: 10px;
+    }
+
+    .About__PrimaryButton {
+        width: 100%;
+    }
+
+    .About__SectionBody {
+        padding: 10px;
+    }
+
+    /*
+     * Image row becomes a compact two-row layout.
+     * Thumbnail + information stay together.
+     * Controls occupy their own full-width row.
+     */
+    .About__ImageListItem {
+        display: grid;
+        grid-template-columns: 100px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 8px;
+        padding: 7px;
+    }
+
+    .About__ImageThumbnail {
+        width: 100px;
+        height: 56px;
+    }
+
+    .About__ImageListInfo {
+        width: 100%;
+        padding: 0;
+    }
+
+    .About__ImageActions {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .About__ImageActions button {
+        width: 100%;
+        min-width: 0;
+        height: 34px;
+        flex: none;
+    }
+
+    .About__ImagePreview {
+        height: 180px;
+    }
+
+    .About__Empty {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .About__UploadButton {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .About__ImageInfo {
+        align-items: stretch;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 450px) {
+    .About__SectionHeader {
+        padding: 13px;
+    }
+
+    .About__SectionBody {
+        padding: 8px;
+    }
+
+    .About__Form {
+        padding: 14px;
+    }
+
+    .About__SingleImage {
+        padding: 8px;
+    }
+
+    .About__ImageListItem {
+        grid-template-columns: 82px minmax(0, 1fr);
+        column-gap: 9px;
+        padding: 6px;
+    }
+
+    .About__ImageThumbnail {
+        width: 82px;
+        height: 50px;
+    }
+
+    .About__ImageListInfo strong {
+        font-size: 11px;
+    }
+
+    .About__ImageListInfo span {
+        font-size: 9px;
+    }
+
+    .About__ImageActions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .About__ImageActions button {
+        height: 32px;
+    }
+
+    .About__ImagePreview {
+        height: 150px;
+    }
+
+    .About__SecondaryButton,
+    .About__DangerButton {
+        width: 100%;
+    }
+
+    .About__FormFooter {
+        align-items: stretch;
+    }
+
+    .About__SaveButton {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+    .About__Eyebrow {
+        font-size: 9px;
+    }
+
+    .About__Title {
+        font-size: 22px;
+    }
+
+    .About__Description {
+        font-size: 11px;
+    }
+
+    .About__SectionHeader {
+        padding: 12px;
+    }
+
+    .About__SectionTitle {
+        font-size: 15px;
+    }
+
+    .About__SectionDescription {
+        font-size: 9px;
+    }
+
+    .About__ImageListItem {
+        grid-template-columns: 72px minmax(0, 1fr);
+        column-gap: 8px;
+    }
+
+    .About__ImageThumbnail {
+        width: 72px;
+        height: 46px;
+    }
+
+    .About__ImageActions button {
+        height: 31px;
+    }
+
+    .About__ImageActions button svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .About__ImagePreview {
+        height: 135px;
+    }
+
+    .About__Form {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   EXTREMELY SMALL PHONES
+========================================================= */
+
+@media (max-width: 320px) {
+    .About__Title {
+        font-size: 20px;
+    }
+
+    .About__Description {
+        font-size: 10px;
+    }
+
+    .About__SectionBody {
+        padding: 7px;
+    }
+
+    .About__ImageListItem {
+        grid-template-columns: 64px minmax(0, 1fr);
+        column-gap: 7px;
+        padding: 5px;
+    }
+
+    .About__ImageThumbnail {
+        width: 64px;
+        height: 42px;
+    }
+
+    .About__ImageListInfo strong {
+        font-size: 10px;
+    }
+
+    .About__ImageListInfo span {
+        font-size: 8px;
+    }
+
+    .About__ImageActions {
+        gap: 4px;
+    }
+
+    .About__ImageActions button {
+        height: 30px;
+    }
+
+    .About__ImageActions button svg {
+        width: 14px;
+        height: 14px;
+    }
+}

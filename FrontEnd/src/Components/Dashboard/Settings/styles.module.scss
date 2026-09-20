@@ -1,0 +1,458 @@
+.SettingsPage {
+    min-height: 100vh;
+    background: #f5f5f5;
+    color: #111;
+}
+
+.SettingsPage__Main {
+    min-width: 0;
+    min-height: 100vh;
+    margin-left: 250px;
+}
+
+.Settings {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.Settings__Header {
+    margin-bottom: 28px;
+
+    h1 {
+        margin: 4px 0 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #111;
+    }
+
+    p {
+        margin: 7px 0 0;
+        color: #777;
+        font-size: 14px;
+    }
+}
+
+.Settings__Eyebrow {
+    color: #888;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.Settings__Layout {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.Settings__Navigation {
+    position: sticky;
+    top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #777;
+        font-size: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        transition:
+            background 0.2s ease,
+            color 0.2s ease;
+
+        &:hover {
+            background: #fff;
+            color: #111;
+        }
+
+        &:first-child {
+            background: #fff;
+            color: #111;
+            font-weight: 600;
+        }
+    }
+}
+
+.Settings__Content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.Settings__Card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.Settings__CardHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 24px;
+
+    h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 650;
+        color: #111;
+    }
+
+    p {
+        margin: 5px 0 0;
+        color: #888;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+}
+
+.Settings__CardIcon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f5f5f5;
+    color: #111;
+}
+
+.Settings__Form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.Settings__Field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    label {
+        color: #555;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        min-width: 0;
+        height: 42px;
+        box-sizing: border-box;
+        padding: 0 12px;
+        border: 1px solid #dedede;
+        border-radius: 8px;
+        outline: none;
+        background: #fff;
+        color: #111;
+        font-family: inherit;
+        font-size: 13px;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+
+        &::placeholder {
+            color: #aaa;
+        }
+
+        &:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+        }
+    }
+}
+
+.Settings__Password {
+    position: relative;
+
+    input {
+        padding-right: 44px;
+    }
+
+    button {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #888;
+        cursor: pointer;
+
+        &:hover {
+            background: #f5f5f5;
+            color: #111;
+        }
+    }
+}
+
+.Settings__Actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
+
+    button {
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 15px;
+        border: 0;
+        border-radius: 8px;
+        background: #111;
+        color: #fff;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+
+        &:hover {
+            opacity: 0.88;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+}
+
+.Settings__Options {
+    display: flex;
+    flex-direction: column;
+}
+
+.Settings__Option {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    div {
+        min-width: 0;
+    }
+
+    strong {
+        display: block;
+        color: #222;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    span {
+        display: block;
+        margin-top: 4px;
+        color: #888;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+}
+
+.Settings__Toggle,
+.Settings__ToggleActive {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    span {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease;
+    }
+}
+
+.Settings__Toggle {
+    background: #d9d9d9;
+}
+
+.Settings__ToggleActive {
+    background: #111;
+
+    span {
+        transform: translateX(18px);
+    }
+}
+
+.Settings__Danger {
+    border-color: #f0dddd;
+}
+
+.Settings__DangerIcon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #fff0f0;
+    color: #a52a2a;
+}
+
+.Settings__Logout {
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 15px;
+    border: 1px solid #e2caca;
+    border-radius: 8px;
+    background: #fff;
+    color: #a52a2a;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        background: #fff5f5;
+    }
+}
+
+@media (max-width: 1100px) {
+    .Settings {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 900px) {
+    .Settings__Layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .Settings__Navigation {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 4px;
+
+        a {
+            justify-content: center;
+            padding: 9px 6px;
+
+            span {
+                font-size: 11px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .SettingsPage__Main {
+        margin-left: 0;
+    }
+
+    .Settings {
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .Settings {
+        padding: 20px 14px;
+    }
+
+    .Settings__Header {
+        h1 {
+            font-size: 24px;
+        }
+    }
+
+    .Settings__Navigation {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        a {
+            justify-content: flex-start;
+        }
+    }
+
+    .Settings__Card {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .Settings__CardHeader {
+        margin-bottom: 20px;
+    }
+
+    .Settings__Option {
+        align-items: flex-start;
+    }
+
+    .Settings__Actions {
+        justify-content: stretch;
+
+        button {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .Settings__Navigation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .Settings__CardHeader {
+        gap: 10px;
+
+        h2 {
+            font-size: 15px;
+        }
+
+        p {
+            font-size: 11px;
+        }
+    }
+}
