@@ -6,10 +6,7 @@ import {
     Banknote,
 } from "lucide-react";
 import styles from "./styles.module.scss";
-
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
+import { authFetch } from "../../../../lib/authFetch.js";
 
 const EMPTY_STATS = {
     total_orders: 0,
@@ -40,20 +37,20 @@ export default function Stats() {
                     productsResponse,
                     customersResponse,
                 ] = await Promise.all([
-                    fetch(
-                        `${API_BASE_URL}/dashboard/orders/stats`,
+                    authFetch(
+                        "/dashboard/orders/stats",
                         {
                             signal: controller.signal,
                         }
                     ),
-                    fetch(
-                        `${API_BASE_URL}/dashboard/products`,
+                    authFetch(
+                        "/dashboard/products",
                         {
                             signal: controller.signal,
                         }
                     ),
-                    fetch(
-                        `${API_BASE_URL}/dashboard/customers/stats`,
+                    authFetch(
+                        "/dashboard/customers/stats",
                         {
                             signal: controller.signal,
                         }
@@ -123,7 +120,8 @@ export default function Stats() {
 
                     revenue:
                         Number(
-                            ordersResult.data?.total_revenue
+                            ordersResult.data
+                                ?.total_revenue
                         ) || 0,
                 });
             } catch (error) {

@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Plus } from "lucide-react";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/Components/ui/table";
 import { Pagination } from "@/Components/ui/pagination";
 import Toast from "@/Components/ui/toast";
 
@@ -12,494 +19,778 @@ import AddProductModal from "./AddProductModal";
 import SortableTableHead from "../SortableTableHead";
 import styles from "./styles.module.scss";
 
+import { authFetch } from "../../../lib/authFetch";
+
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
+    // Toolbar filter state
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+    const [brand, setBrand] = useState("");
+    const [status, setStatus] = useState("");
+    const [sortConfig, setSortConfig] = useState({
+        key: null,
+        direction: "asc",
+    });
+    const [page, setPage] = useState(1);
 
-  // Toolbar filter state
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
-  const [brand, setBrand] = useState("");
-  const [status, setStatus] = useState("");
-  const [sortConfig, setSortConfig] = useState({
-    key: null,
-    direction: "asc",
-  });
-  const [page, setPage] = useState(1);
+    const [addOpen, setAddOpen] = useState(false);
+    const [expandedId, setExpandedId] = useState(null);
+    const [toast, setToast] = useState(null);
 
-  const [addOpen, setAddOpen] = useState(false);
-  const [expandedId, setExpandedId] = useState(null);
-  const [toast, setToast] = useState(null);
-
-  const API_BASE_URL=import.meta.env.VITE_API_BASE_URL;
-  useEffect(() => {
-    
-
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        
-        const response = await fetch(`${API_BASE_URL}/dashboard/products`)
-
-        if (!response.ok) {
-          throw new Error(`Server returned status ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.success) {
-          setProducts(result.data);
-        }else{
-          throw new Error(result.message || "Failed to fetch products");
-        }
-
-       
-      } catch (fetchError) {
-        if (fetchError.name !== "AbortError") {
-          console.error("Error fetching dashboard products:", fetchError);
-          setError("Unable to load products.");
-        }
-      } finally {
-          setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-  //Fetching Categories :
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try{
-          const response = await fetch(`${API_BASE_URL}/dashboard/categories`)
-
-          if(!response.ok){
-            throw new Error(`Response returned Status ${response.status}`);
-          }
-
-          const result = await response.json();
-
-          if(result.success){
-            setCategories(result.data);
-            console.log(result.data)
-          }else{
-            throw new Error(result.message);
-          }
-
-      }catch(error){
-        console.error("Error fetching categoties !", error)
-      }
-    }
-    fetchCategories();
-  },[])
-
-  //Fetching Brands : 
+    // Fetch Products
     useEffect(() => {
-    const fetchBrands = async () => {
-      try{
-          const response = await fetch(`${API_BASE_URL}/dashboard/brands`)
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                setError("");
 
-          if(!response.ok){
-            throw new Error(`Response returned Status ${response.status}`);
-          }
+                const response = await authFetch(
+                    "/dashboard/products"
+                );
 
-          const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(
+                        `Server returned status ${response.status}`
+                    );
+                }
 
-          if(result.success){
-            setBrands(result.data);
-            console.log(result.data)
-          }else{
-            throw new Error(result.message);
-          }
+                const result = await response.json();
 
-      }catch(error){
-        console.error("Error fetching brands !", error)
-      }
-    }
-    fetchBrands();
-  },[])
+                if (result.success) {
+                    setProducts(result.data);
+                } else {
+                    throw new Error(
+                        result.message ||
+                            "Failed to fetch products"
+                    );
+                }
+            } catch (fetchError) {
+                if (fetchError.name !== "AbortError") {
+                    console.error(
+                        "Error fetching dashboard products:",
+                        fetchError
+                    );
 
-  const categoryOptions = categories.map((category) => ({
-    id : category.id,
-    name : category.name,
-    image_url : category.image_url,
-    is_active : category.is_active
-  }))
+                    setError(
+                        fetchError.message ||
+                            "Unable to load products."
+                    );
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  const brandOptions = brands.map((brand) => ({
-    id : brand.id,
-    name : brand.name,
-    image_url : brand.image_url,
-    is_active : brand.is_active
-  }))
+        fetchProducts();
+    }, []);
 
-  const handleSort = (key) => {
-    setSortConfig((current) => ({
-      key,
-      direction:
-        current.key === key && current.direction === "asc"
-          ? "desc"
-          : "asc",
+    // Fetch Categories
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await authFetch(
+                    "/dashboard/categories"
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Response returned Status ${response.status}`
+                    );
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    setCategories(result.data);
+                } else {
+                    throw new Error(
+                        result.message ||
+                            "Failed to fetch categories."
+                    );
+                }
+            } catch (error) {
+                console.error(
+                    "Error fetching categories:",
+                    error
+                );
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    // Fetch Brands
+    useEffect(() => {
+        const fetchBrands = async () => {
+            try {
+                const response = await authFetch(
+                    "/dashboard/brands"
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Response returned Status ${response.status}`
+                    );
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    setBrands(result.data);
+                } else {
+                    throw new Error(
+                        result.message ||
+                            "Failed to fetch brands."
+                    );
+                }
+            } catch (error) {
+                console.error(
+                    "Error fetching brands:",
+                    error
+                );
+            }
+        };
+
+        fetchBrands();
+    }, []);
+
+    const categoryOptions = categories.map(
+        (category) => ({
+            id: category.id,
+            name: category.name,
+            image_url: category.image_url,
+            is_active: category.is_active,
+        })
+    );
+
+    const brandOptions = brands.map((brand) => ({
+        id: brand.id,
+        name: brand.name,
+        image_url: brand.image_url,
+        is_active: brand.is_active,
     }));
-  };
 
-  const filteredProducts = useMemo(() => {
-    const filtered = products.filter((product) => {
-      const matchesSearch =
-        product.name.toLowerCase().includes(search.toLowerCase());
+    const handleSort = (key) => {
+        setSortConfig((current) => ({
+            key,
+            direction:
+                current.key === key &&
+                current.direction === "asc"
+                    ? "desc"
+                    : "asc",
+        }));
+    };
 
-      const matchesCategory =
-        category === "" ||
-        String(product.category_id) === category;
+    const filteredProducts = useMemo(() => {
+        const filtered = products.filter((product) => {
+            const matchesSearch =
+                product.name
+                    .toLowerCase()
+                    .includes(search.toLowerCase());
 
-      const matchesBrand =
-        brand === "" ||
-        String(product.brand_id) === brand;
+            const matchesCategory =
+                category === "" ||
+                String(product.category_id) === category;
 
-      const matchesStatus =
-        status === "" ||
-        (status === "active" && product.is_active) ||
-        (status === "inactive" && !product.is_active) ||
-        (status === "out-of-stock" && product.stock === 0);
+            const matchesBrand =
+                brand === "" ||
+                String(product.brand_id) === brand;
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesBrand &&
-        matchesStatus
-      );
-    });
+            const matchesStatus =
+                status === "" ||
+                (status === "active" &&
+                    product.is_active) ||
+                (status === "inactive" &&
+                    !product.is_active) ||
+                (status === "out-of-stock" &&
+                    product.stock === 0);
 
-    if (!sortConfig.key) return filtered;
+            return (
+                matchesSearch &&
+                matchesCategory &&
+                matchesBrand &&
+                matchesStatus
+            );
+        });
 
-    return [...filtered].sort((left, right) => {
-      const leftValue = left[sortConfig.key];
-      const rightValue = right[sortConfig.key];
-      const comparison = typeof leftValue === "string"
-        ? String(leftValue || "").localeCompare(String(rightValue || ""))
-        : Number(leftValue || 0) - Number(rightValue || 0);
-
-      return sortConfig.direction === "asc" ? comparison : -comparison;
-    });
-  }, [products, search, category, brand, status, sortConfig]);
-
-  //Handle the switch active/deactivate toggle
-  const handleToggleActive = async (id, checked) => {
-    try{
-      const response = await fetch(`${API_BASE_URL}/dashboard/products/${id}/active`,
-        {
-          method : "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body : JSON.stringify({
-            is_active: checked,
-          }),
+        if (!sortConfig.key) {
+            return filtered;
         }
-      )
-      const result = await response.json();
 
-      if(!response.ok || !result.success) {
-        throw new Error (
-          result.message || "Failed to update product status"
-        );
-      }
-      setProducts((current) => 
-        current.map((product) => 
-          product.id === id 
-      ? {
-        ...product,
-        is_active: result.data.product.is_active,
-      } : product
-    ));
-    }catch(error){
-      console.error("Error updating product status:", error);
-    setError("Unable to update product status.");
-    }
-  };
+        return [...filtered].sort(
+            (left, right) => {
+                const leftValue =
+                    left[sortConfig.key];
 
- //Handles the edit 
-  const handleSaveProduct = async (id, updatedFields) => {
-    try {
-        const response = await fetch(
-            `${API_BASE_URL}/dashboard/products/${id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedFields),
+                const rightValue =
+                    right[sortConfig.key];
+
+                const comparison =
+                    typeof leftValue === "string"
+                        ? String(
+                              leftValue || ""
+                          ).localeCompare(
+                              String(
+                                  rightValue || ""
+                              )
+                          )
+                        : Number(
+                              leftValue || 0
+                          ) -
+                          Number(
+                              rightValue || 0
+                          );
+
+                return sortConfig.direction === "asc"
+                    ? comparison
+                    : -comparison;
             }
         );
+    }, [
+        products,
+        search,
+        category,
+        brand,
+        status,
+        sortConfig,
+    ]);
 
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(
-                result.message || "Failed to update product"
+    // Handle active/deactivate toggle
+    const handleToggleActive = async (
+        id,
+        checked
+    ) => {
+        try {
+            const response = await authFetch(
+                `/dashboard/products/${id}/active`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        is_active: checked,
+                    }),
+                }
             );
-        }
 
-        setProducts((current) =>
-            current.map((product) =>
-                product.id === id
-                    ? result.data
-                    : product
-            )
-        );
+            const result =
+                await response.json();
 
-        setExpandedId(null);
-
-        setToast({
-            type: "success",
-            message: "Product updated successfully.",
-        });
-    } catch (error) {
-        console.error("Error updating product:", error);
-
-        setToast({
-            type: "warning",
-            message:
-                error.message ||
-                "Unable to update product.",
-        });
-    }
-};
-
-  //Handle the remove
-  const handleRemoveProduct = async (id) => {
-    try {
-        const response = await fetch(
-            `${API_BASE_URL}/dashboard/products/${id}`,
-            {
-                method: "DELETE",
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                        "Failed to update product status"
+                );
             }
-        );
 
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(
-                result.message || "Failed to delete product"
-            );
-        }
-
-        if (result.action === "deleted") {
-            setProducts((current) =>
-                current.filter((product) => product.id !== id)
-            );
-
-            setToast({
-                type: "success",
-                message: "Product deleted successfully.",
-            });
-        }
-
-        if (result.action === "deactivated") {
             setProducts((current) =>
                 current.map((product) =>
                     product.id === id
                         ? {
                               ...product,
-                              is_active: false,
+                              is_active:
+                                  result.data
+                                      .product
+                                      .is_active,
                           }
                         : product
                 )
             );
+        } catch (error) {
+            console.error(
+                "Error updating product status:",
+                error
+            );
 
-            setToast({
-                type: "info",
-                message:
-                    "This product has existing orders, so it was deactivated instead of deleted.",
-            });
-        }
-
-        if (expandedId === id) {
-            setExpandedId(null);
-        }
-    } catch (error) {
-        console.error("Error deleting product:", error);
-
-        setToast({
-            type: "warning",
-            message:
-                error.message || "Unable to remove product.",
-        });
-    }
-};
-
-  //handle the creation
-  const handleCreateProduct = async (newFields) => {
-    try {
-        const response = await fetch(
-            `${API_BASE_URL}/dashboard/products`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newFields),
-            }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(
-                result.message || "Failed to create product"
+            setError(
+                error.message ||
+                    "Unable to update product status."
             );
         }
+    };
 
-        setProducts((current) => [
-            result.data,
-            ...current,
-        ]);
+    // Handle edit
+    const handleSaveProduct = async (
+        id,
+        updatedFields
+    ) => {
+        try {
+            const response = await authFetch(
+                `/dashboard/products/${id}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify(
+                        updatedFields
+                    ),
+                }
+            );
 
-        setAddOpen(false);
+            const result =
+                await response.json();
 
-    } catch (error) {
-        console.error("Error creating product:", error);
-        setError("Unable to create product.");
-    }
-};
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                        "Failed to update product"
+                );
+            }
 
-//handling the toast alert :
-useEffect(() => {
-    if (!toast) {
-        return;
-    }
+            setProducts((current) =>
+                current.map((product) =>
+                    product.id === id
+                        ? result.data
+                        : product
+                )
+            );
 
-    const timer = setTimeout(() => {
-        setToast(null);
-    }, 4000);
+            setExpandedId(null);
 
-    return () => clearTimeout(timer);
-}, [toast]);
+            setToast({
+                type: "success",
+                message:
+                    "Product updated successfully.",
+            });
+        } catch (error) {
+            console.error(
+                "Error updating product:",
+                error
+            );
 
-  return (
-    <section className={styles.Products}>
-      <div className={styles.Products__Header}>
-        <div>
-          <p className={styles.Products__Eyebrow}>Catalog management</p>
-          <h1>Products</h1>
-          <p>Manage the products in your store.</p>
-        </div>
+            setToast({
+                type: "warning",
+                message:
+                    error.message ||
+                    "Unable to update product.",
+            });
+        }
+    };
 
-        <button className={styles.Products__AddButton} onClick={() => setAddOpen(true)}>
-          <Plus size={18} />
-          <span>Add Product</span>
-        </button>
-      </div>
+    // Handle remove
+    const handleRemoveProduct = async (id) => {
+        try {
+            const response = await authFetch(
+                `/dashboard/products/${id}`,
+                {
+                    method: "DELETE",
+                }
+            );
 
-      <div className={styles.Products__StatsWrap}>
-        <ProductStats products={products} />
-      </div>
+            const result =
+                await response.json();
 
-      <div className={styles.Products__TableCard}>
-        <ProductToolbar
-          search={search}
-          setSearch={setSearch}
-          category={category}
-          setCategory={setCategory}
-          brand={brand}
-          setBrand={setBrand}
-          status={status}
-          setStatus={setStatus}
-          categories={categoryOptions}
-          brands={brandOptions}
-        />
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                        "Failed to delete product"
+                );
+            }
 
-        <div className={styles.Products__TableWrap}>
-          <Table className={styles.Products__Table}>
-            <TableHeader>
-              <TableRow>
-                <SortableTableHead label="Product" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Category" sortKey="category_name" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Price" sortKey="price" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Stock" sortKey="stock" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Active" sortKey="is_active" sortConfig={sortConfig} onSort={handleSort} />
-                <TableHead aria-label="Actions" />
-              </TableRow>
-            </TableHeader>
+            if (result.action === "deleted") {
+                setProducts((current) =>
+                    current.filter(
+                        (product) =>
+                            product.id !== id
+                    )
+                );
 
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={6} className={styles.Products__Loading}>
-                    Loading products...
-                  </TableCell>
-                </TableRow>
-              ) : error ? (
-                <TableRow>
-                  <TableCell colSpan={6} className={styles.Products__Empty}>
-                    {error}
-                  </TableCell>
-                </TableRow>
-              ) : products.length === 0 ? (
-  <TableRow>
-    <TableCell
-      colSpan={6}
-      className={styles.Products__Empty}
-    >
-      No products yet.
-    </TableCell>
-  </TableRow>
-) : filteredProducts.length === 0 ? (
-  <TableRow>
-    <TableCell
-      colSpan={6}
-      className={styles.Products__Empty}
-    >
-      No products match your filters.
-    </TableCell>
-  </TableRow>
-) : (
-                filteredProducts.map((product) => (
-                  <ProductRow
-                    key={product.id}
-                    product={product}
-                    isExpanded={expandedId === product.id}
-                    onToggleExpand={() => setExpandedId(expandedId === product.id ? null : product.id)}
-                    onToggleActive={handleToggleActive}
-                    onSave={handleSaveProduct}
-                    onRemove={handleRemoveProduct}
-                    categoryOptions={categoryOptions}
-                    brandOptions={brandOptions}
-                  />
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
+                setToast({
+                    type: "success",
+                    message:
+                        "Product deleted successfully.",
+                });
+            }
 
-        <div className={styles.Products__Footer}>
-          <span>Showing {products.length} products</span>
+            if (
+                result.action ===
+                "deactivated"
+            ) {
+                setProducts((current) =>
+                    current.map((product) =>
+                        product.id === id
+                            ? {
+                                  ...product,
+                                  is_active:
+                                      false,
+                              }
+                            : product
+                    )
+                );
 
-          <Pagination page={page} pageCount={1} onPageChange={setPage} />
+                setToast({
+                    type: "info",
+                    message:
+                        "This product has existing orders, so it was deactivated instead of deleted.",
+                });
+            }
 
-          <span>Updated just now</span>
-        </div>
-      </div>
+            if (expandedId === id) {
+                setExpandedId(null);
+            }
+        } catch (error) {
+            console.error(
+                "Error deleting product:",
+                error
+            );
 
-      {addOpen && (
-        <AddProductModal
-          categoryOptions={categoryOptions}
-          brandOptions={brandOptions}
-          onClose={() => setAddOpen(false)}
-          onCreate={handleCreateProduct}
-        />
-      )}
-{toast && (
-    <Toast
-        type={toast.type}
-        message={toast.message}
-        onClose={() => setToast(null)}
-    />
-)}
+            setToast({
+                type: "warning",
+                message:
+                    error.message ||
+                    "Unable to remove product.",
+            });
+        }
+    };
 
-    </section>
-  );
+    // Handle creation
+    const handleCreateProduct = async (
+        newFields
+    ) => {
+        try {
+            const response = await authFetch(
+                "/dashboard/products",
+                {
+                    method: "POST",
+                    body: JSON.stringify(
+                        newFields
+                    ),
+                }
+            );
+
+            const result =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                        "Failed to create product"
+                );
+            }
+
+            setProducts((current) => [
+                result.data,
+                ...current,
+            ]);
+
+            setAddOpen(false);
+        } catch (error) {
+            console.error(
+                "Error creating product:",
+                error
+            );
+
+            setError(
+                error.message ||
+                    "Unable to create product."
+            );
+        }
+    };
+
+    // Handle toast
+    useEffect(() => {
+        if (!toast) {
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setToast(null);
+        }, 4000);
+
+        return () => clearTimeout(timer);
+    }, [toast]);
+
+    return (
+        <section className={styles.Products}>
+            <div
+                className={
+                    styles.Products__Header
+                }
+            >
+                <div>
+                    <p
+                        className={
+                            styles.Products__Eyebrow
+                        }
+                    >
+                        Catalog management
+                    </p>
+
+                    <h1>Products</h1>
+
+                    <p>
+                        Manage the products in your
+                        store.
+                    </p>
+                </div>
+
+                <button
+                    className={
+                        styles.Products__AddButton
+                    }
+                    onClick={() =>
+                        setAddOpen(true)
+                    }
+                >
+                    <Plus size={18} />
+                    <span>Add Product</span>
+                </button>
+            </div>
+
+            <div
+                className={
+                    styles.Products__StatsWrap
+                }
+            >
+                <ProductStats
+                    products={products}
+                />
+            </div>
+
+            <div
+                className={
+                    styles.Products__TableCard
+                }
+            >
+                <ProductToolbar
+                    search={search}
+                    setSearch={setSearch}
+                    category={category}
+                    setCategory={setCategory}
+                    brand={brand}
+                    setBrand={setBrand}
+                    status={status}
+                    setStatus={setStatus}
+                    categories={categoryOptions}
+                    brands={brandOptions}
+                />
+
+                <div
+                    className={
+                        styles.Products__TableWrap
+                    }
+                >
+                    <Table
+                        className={
+                            styles.Products__Table
+                        }
+                    >
+                        <TableHeader>
+                            <TableRow>
+                                <SortableTableHead
+                                    label="Product"
+                                    sortKey="name"
+                                    sortConfig={
+                                        sortConfig
+                                    }
+                                    onSort={
+                                        handleSort
+                                    }
+                                />
+
+                                <SortableTableHead
+                                    label="Category"
+                                    sortKey="category_name"
+                                    sortConfig={
+                                        sortConfig
+                                    }
+                                    onSort={
+                                        handleSort
+                                    }
+                                />
+
+                                <SortableTableHead
+                                    label="Price"
+                                    sortKey="price"
+                                    sortConfig={
+                                        sortConfig
+                                    }
+                                    onSort={
+                                        handleSort
+                                    }
+                                />
+
+                                <SortableTableHead
+                                    label="Stock"
+                                    sortKey="stock"
+                                    sortConfig={
+                                        sortConfig
+                                    }
+                                    onSort={
+                                        handleSort
+                                    }
+                                />
+
+                                <SortableTableHead
+                                    label="Active"
+                                    sortKey="is_active"
+                                    sortConfig={
+                                        sortConfig
+                                    }
+                                    onSort={
+                                        handleSort
+                                    }
+                                />
+
+                                <TableHead aria-label="Actions" />
+                            </TableRow>
+                        </TableHeader>
+
+                        <TableBody>
+                            {loading ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={6}
+                                        className={
+                                            styles.Products__Loading
+                                        }
+                                    >
+                                        Loading products...
+                                    </TableCell>
+                                </TableRow>
+                            ) : error ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={6}
+                                        className={
+                                            styles.Products__Empty
+                                        }
+                                    >
+                                        {error}
+                                    </TableCell>
+                                </TableRow>
+                            ) : products.length ===
+                              0 ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={6}
+                                        className={
+                                            styles.Products__Empty
+                                        }
+                                    >
+                                        No products yet.
+                                    </TableCell>
+                                </TableRow>
+                            ) : filteredProducts.length ===
+                              0 ? (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={6}
+                                        className={
+                                            styles.Products__Empty
+                                        }
+                                    >
+                                        No products match
+                                        your filters.
+                                    </TableCell>
+                                </TableRow>
+                            ) : (
+                                filteredProducts.map(
+                                    (product) => (
+                                        <ProductRow
+                                            key={
+                                                product.id
+                                            }
+                                            product={
+                                                product
+                                            }
+                                            isExpanded={
+                                                expandedId ===
+                                                product.id
+                                            }
+                                            onToggleExpand={() =>
+                                                setExpandedId(
+                                                    expandedId ===
+                                                        product.id
+                                                        ? null
+                                                        : product.id
+                                                )
+                                            }
+                                            onToggleActive={
+                                                handleToggleActive
+                                            }
+                                            onSave={
+                                                handleSaveProduct
+                                            }
+                                            onRemove={
+                                                handleRemoveProduct
+                                            }
+                                            categoryOptions={
+                                                categoryOptions
+                                            }
+                                            brandOptions={
+                                                brandOptions
+                                            }
+                                        />
+                                    )
+                                )
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+
+                <div
+                    className={
+                        styles.Products__Footer
+                    }
+                >
+                    <span>
+                        Showing {products.length}{" "}
+                        products
+                    </span>
+
+                    <Pagination
+                        page={page}
+                        pageCount={1}
+                        onPageChange={setPage}
+                    />
+
+                    <span>
+                        Updated just now
+                    </span>
+                </div>
+            </div>
+
+            {addOpen && (
+                <AddProductModal
+                    categoryOptions={
+                        categoryOptions
+                    }
+                    brandOptions={
+                        brandOptions
+                    }
+                    onClose={() =>
+                        setAddOpen(false)
+                    }
+                    onCreate={
+                        handleCreateProduct
+                    }
+                />
+            )}
+
+            {toast && (
+                <Toast
+                    type={toast.type}
+                    message={toast.message}
+                    onClose={() =>
+                        setToast(null)
+                    }
+                />
+            )}
+        </section>
+    );
 }

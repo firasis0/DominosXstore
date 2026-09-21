@@ -21,33 +21,32 @@ export const getPublicGeography = async (req, res) => {
         `);
 
         const provincesMap = new Map();
+        const municipalities = [];
 
         for (const row of result.rows) {
             if (!provincesMap.has(row.province_id)) {
                 provincesMap.set(row.province_id, {
                     id: row.province_id,
                     name: row.province_name,
-                    municipalities: [],
                 });
             }
 
             if (row.municipality_id) {
-                provincesMap
-                    .get(row.province_id)
-                    .municipalities.push({
-                        id: row.municipality_id,
-                        name: row.municipality_name,
-                    });
+                municipalities.push({
+                    id: row.municipality_id,
+                    name: row.municipality_name,
+                    province_id: row.province_id,
+                });
             }
         }
 
         return res.status(200).json({
             success: true,
-            message:
-                "Public geography data fetched successfully.",
-            data: Array.from(
-                provincesMap.values()
-            ),
+            message: "Public geography data fetched successfully.",
+            data: {
+                provinces: Array.from(provincesMap.values()),
+                municipalities,
+            },
         });
     } catch (error) {
         console.error(
@@ -57,8 +56,7 @@ export const getPublicGeography = async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message:
-                "Failed to load geography data.",
+            message: "Failed to load geography data.",
         });
     }
 };

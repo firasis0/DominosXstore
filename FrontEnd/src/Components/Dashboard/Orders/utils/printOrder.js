@@ -80,11 +80,22 @@ export const printOrder = async (
     }
 
     try {
+        const token =
+            localStorage.getItem("token");
+
         const response = await fetch(
-            `${apiBaseUrl}/dashboard/orders/${orderId}`
+            `${apiBaseUrl}/dashboard/orders/${orderId}`,
+            {
+                headers: token
+                    ? {
+                          Authorization: `Bearer ${token}`,
+                      }
+                    : {},
+            }
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         if (!response.ok || !result.success) {
             throw new Error(
@@ -104,7 +115,9 @@ export const printOrder = async (
             (sum, item) =>
                 sum +
                 Number(item.quantity || 0) *
-                    Number(item.unit_price || 0),
+                    Number(
+                        item.unit_price || 0
+                    ),
             0
         );
 
@@ -113,12 +126,15 @@ export const printOrder = async (
         );
 
         const total = Number(
-            data.total || subtotal + deliveryPrice
+            data.total ||
+                subtotal +
+                    deliveryPrice
         );
 
-        const deliveryType = getDeliveryLabel(
-            data.delivery_type
-        );
+        const deliveryType =
+            getDeliveryLabel(
+                data.delivery_type
+            );
 
         const officeName =
             data.delivery_office_name ||
@@ -157,8 +173,12 @@ export const printOrder = async (
         const itemsHtml = items
             .map((item, index) => {
                 const lineTotal =
-                    Number(item.quantity || 0) *
-                    Number(item.unit_price || 0);
+                    Number(
+                        item.quantity || 0
+                    ) *
+                    Number(
+                        item.unit_price || 0
+                    );
 
                 const variantText =
                     getVariantText(
@@ -215,16 +235,18 @@ export const printOrder = async (
             })
             .join("");
 
-        const printWindow = window.open(
-            "",
-            "_blank",
-            "width=1000,height=800"
-        );
+        const printWindow =
+            window.open(
+                "",
+                "_blank",
+                "width=1000,height=800"
+            );
 
         if (!printWindow) {
             alert(
                 "Please allow pop-ups to print the order."
             );
+
             return;
         }
 

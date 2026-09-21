@@ -143,7 +143,7 @@ useEffect(() => {
             setGeographyError("");
 
             const response = await fetch(
-                `${API_BASE_URL}/dashboard/shipping/geography`
+                `${API_BASE_URL}/shipping/geography`
             );
 
             if (!response.ok) {

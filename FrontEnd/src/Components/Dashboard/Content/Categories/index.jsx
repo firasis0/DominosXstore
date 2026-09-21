@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, Trash2, Upload } from "lucide-react";
+import {
+    ArrowDown,
+    ArrowUp,
+    Trash2,
+    Upload,
+} from "lucide-react";
 
 import styles from "./styles.module.scss";
 
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
+import {
+    authFetch,
+    API_BASE_URL,
+} from "../../../../lib/authFetch.js";
 
 const HOST_BASE_URL =
     import.meta.env.VITE_HOST_BASE_URL ||
@@ -23,26 +29,45 @@ const getImageUrl = (imageUrl) => {
         return imageUrl;
     }
 
-    return `${HOST_BASE_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+    return `${HOST_BASE_URL}${
+        imageUrl.startsWith("/")
+            ? ""
+            : "/"
+    }${imageUrl}`;
 };
 
 export default function Categories() {
     const [page, setPage] = useState(null);
-    const [topImages, setTopImages] = useState([]);
+    const [topImages, setTopImages] =
+        useState([]);
 
-    const [loading, setLoading] = useState(true);
-    const [uploadingTopImage, setUploadingTopImage] =
-        useState(false);
-    const [deletingImageId, setDeletingImageId] =
-        useState(null);
-    const [reorderingImageId, setReorderingImageId] =
-        useState(null);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [
+        uploadingTopImage,
+        setUploadingTopImage,
+    ] = useState(false);
+
+    const [
+        deletingImageId,
+        setDeletingImageId,
+    ] = useState(null);
+
+    const [
+        reorderingImageId,
+        setReorderingImageId,
+    ] = useState(null);
+
+    const [error, setError] =
+        useState("");
+
+    const [success, setSuccess] =
+        useState("");
 
     useEffect(() => {
-        const controller = new AbortController();
+        const controller =
+            new AbortController();
 
         const load = async () => {
             try {
@@ -50,12 +75,17 @@ export default function Categories() {
                 setError("");
                 setSuccess("");
 
-                const pagesResponse = await fetch(
-                    `${API_BASE_URL}/dashboard/content/pages`,
-                    {
-                        signal: controller.signal,
-                    }
-                );
+                /*
+                 * Load all content pages.
+                 */
+                const pagesResponse =
+                    await authFetch(
+                        "/dashboard/content/pages",
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    );
 
                 const pagesData =
                     await pagesResponse.json();
@@ -70,10 +100,22 @@ export default function Categories() {
                     );
                 }
 
+                /*
+                 * The backend returns:
+                 *
+                 * {
+                 *     success: true,
+                 *     data: {
+                 *         pages: [...]
+                 *     }
+                 * }
+                 */
                 const categoriesPage =
                     pagesData.data?.pages?.find(
                         (item) =>
-                            String(item.name)
+                            String(
+                                item.name
+                            )
                                 .trim()
                                 .toLowerCase() ===
                             "categories"
@@ -85,14 +127,22 @@ export default function Categories() {
                     );
                 }
 
-                setPage(categoriesPage);
-
-                const imagesResponse = await fetch(
-                    `${API_BASE_URL}/dashboard/content/pages/${categoriesPage.id}`,
-                    {
-                        signal: controller.signal,
-                    }
+                setPage(
+                    categoriesPage
                 );
+
+                /*
+                 * Load Categories page
+                 * images.
+                 */
+                const imagesResponse =
+                    await authFetch(
+                        `/dashboard/content/pages/${categoriesPage.id}`,
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    );
 
                 const imagesData =
                     await imagesResponse.json();
@@ -108,16 +158,26 @@ export default function Categories() {
                 }
 
                 const images =
-                    imagesData.data?.images?.top || [];
+                    imagesData.data
+                        ?.images?.top ||
+                    [];
 
                 setTopImages(
                     [...images].sort(
                         (a, b) =>
-                            Number(a.sort_order || 0) -
-                            Number(b.sort_order || 0)
+                            Number(
+                                a.sort_order ||
+                                    0
+                            ) -
+                            Number(
+                                b.sort_order ||
+                                    0
+                            )
                     )
                 );
-            } catch (requestError) {
+            } catch (
+                requestError
+            ) {
                 if (
                     requestError.name ===
                     "AbortError"
@@ -135,7 +195,10 @@ export default function Categories() {
                         "Failed to load Categories content."
                 );
             } finally {
-                if (!controller.signal.aborted) {
+                if (
+                    !controller.signal
+                        .aborted
+                ) {
                     setLoading(false);
                 }
             }
@@ -148,245 +211,295 @@ export default function Categories() {
         };
     }, []);
 
-    const handleTopImageUpload = async (event) => {
-        const file = event.target.files?.[0];
+    const handleTopImageUpload =
+        async (event) => {
+            const file =
+                event.target.files?.[0];
 
-        event.target.value = "";
+            event.target.value = "";
 
-        if (!file || !page) {
-            return;
-        }
+            if (!file || !page) {
+                return;
+            }
 
-        setUploadingTopImage(true);
-        setError("");
-        setSuccess("");
+            setUploadingTopImage(true);
+            setError("");
+            setSuccess("");
 
-        try {
-            const formData = new FormData();
+            try {
+                const formData =
+                    new FormData();
 
-            formData.append("image", file);
-            formData.append("section", "top");
+                formData.append(
+                    "image",
+                    file
+                );
 
-            const response = await fetch(
-                `${API_BASE_URL}/dashboard/content/pages/${page.id}/images`,
-                {
-                    method: "POST",
-                    body: formData,
+                formData.append(
+                    "section",
+                    "top"
+                );
+
+                const response =
+                    await authFetch(
+                        `/dashboard/content/pages/${page.id}/images`,
+                        {
+                            method: "POST",
+                            body: formData,
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to upload carousel image."
+                    );
                 }
-            );
 
-            const data = await response.json();
+                const uploadedImage =
+                    data.data?.image;
 
-            if (
-                !response.ok ||
-                !data.success
+                if (uploadedImage) {
+                    setTopImages(
+                        (current) => [
+                            ...current,
+                            uploadedImage,
+                        ]
+                    );
+                }
+
+                setSuccess(
+                    "Carousel image uploaded successfully."
+                );
+            } catch (
+                requestError
             ) {
-                throw new Error(
-                    data.message ||
+                console.error(
+                    "Upload Categories carousel image error:",
+                    requestError
+                );
+
+                setError(
+                    requestError.message ||
                         "Failed to upload carousel image."
                 );
+            } finally {
+                setUploadingTopImage(
+                    false
+                );
+            }
+        };
+
+    const handleDeleteImage =
+        async (imageId) => {
+            const confirmed =
+                window.confirm(
+                    "Delete this carousel image?"
+                );
+
+            if (!confirmed) {
+                return;
             }
 
-            const uploadedImage =
-                data.data?.image;
-
-            if (uploadedImage) {
-                setTopImages((current) => [
-                    ...current,
-                    uploadedImage,
-                ]);
-            }
-
-            setSuccess(
-                "Carousel image uploaded successfully."
-            );
-        } catch (requestError) {
-            console.error(
-                "Upload Categories carousel image error:",
-                requestError
+            setDeletingImageId(
+                imageId
             );
 
-            setError(
-                requestError.message ||
-                    "Failed to upload carousel image."
-            );
-        } finally {
-            setUploadingTopImage(false);
-        }
-    };
+            setError("");
+            setSuccess("");
 
-    const handleDeleteImage = async (imageId) => {
-        const confirmed = window.confirm(
-            "Delete this carousel image?"
-        );
+            try {
+                const response =
+                    await authFetch(
+                        `/dashboard/content/page-images/${imageId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
 
-        if (!confirmed) {
-            return;
-        }
+                const data =
+                    await response.json();
 
-        setDeletingImageId(imageId);
-        setError("");
-        setSuccess("");
-
-        try {
-            const response = await fetch(
-                `${API_BASE_URL}/dashboard/content/page-images/${imageId}`,
-                {
-                    method: "DELETE",
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to delete carousel image."
+                    );
                 }
-            );
 
-            const data = await response.json();
+                setTopImages(
+                    (current) =>
+                        current.filter(
+                            (image) =>
+                                image.id !==
+                                imageId
+                        )
+                );
 
-            if (
-                !response.ok ||
-                !data.success
+                setSuccess(
+                    "Carousel image deleted successfully."
+                );
+            } catch (
+                requestError
             ) {
-                throw new Error(
-                    data.message ||
+                console.error(
+                    "Delete Categories carousel image error:",
+                    requestError
+                );
+
+                setError(
+                    requestError.message ||
                         "Failed to delete carousel image."
                 );
+            } finally {
+                setDeletingImageId(
+                    null
+                );
+            }
+        };
+
+    const handleMoveTopImage =
+        async (
+            imageId,
+            direction
+        ) => {
+            const currentIndex =
+                topImages.findIndex(
+                    (image) =>
+                        image.id ===
+                        imageId
+                );
+
+            if (currentIndex === -1) {
+                return;
             }
 
-            setTopImages((current) =>
-                current.filter(
-                    (image) =>
-                        image.id !== imageId
-                )
-            );
-
-            setSuccess(
-                "Carousel image deleted successfully."
-            );
-        } catch (requestError) {
-            console.error(
-                "Delete Categories carousel image error:",
-                requestError
-            );
-
-            setError(
-                requestError.message ||
-                    "Failed to delete carousel image."
-            );
-        } finally {
-            setDeletingImageId(null);
-        }
-    };
-
-    const handleMoveTopImage = async (
-        imageId,
-        direction
-    ) => {
-        const currentIndex =
-            topImages.findIndex(
-                (image) =>
-                    image.id === imageId
-            );
-
-        if (currentIndex === -1) {
-            return;
-        }
-
-        const targetIndex =
-            direction === "up"
-                ? currentIndex - 1
-                : currentIndex + 1;
-
-        if (
-            targetIndex < 0 ||
-            targetIndex >= topImages.length
-        ) {
-            return;
-        }
-
-        setReorderingImageId(imageId);
-        setError("");
-        setSuccess("");
-
-        try {
-            const response = await fetch(
-                `${API_BASE_URL}/dashboard/content/page-images/${imageId}/order`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-                    },
-                    body: JSON.stringify({
-                        sort_order:
-                            targetIndex,
-                    }),
-                }
-            );
-
-            const data = await response.json();
+            const targetIndex =
+                direction === "up"
+                    ? currentIndex - 1
+                    : currentIndex + 1;
 
             if (
-                !response.ok ||
-                !data.success
+                targetIndex < 0 ||
+                targetIndex >=
+                    topImages.length
             ) {
-                throw new Error(
-                    data.message ||
-                        "Failed to reorder carousel image."
-                );
+                return;
             }
 
-            setTopImages((current) => {
-                const updated = [
-                    ...current,
-                ];
-
-                const [
-                    movedImage,
-                ] = updated.splice(
-                    currentIndex,
-                    1
-                );
-
-                updated.splice(
-                    targetIndex,
-                    0,
-                    movedImage
-                );
-
-                return updated.map(
-                    (image, index) => ({
-                        ...image,
-                        sort_order:
-                            index,
-                    })
-                );
-            });
-
-            setSuccess(
-                "Carousel order updated successfully."
+            setReorderingImageId(
+                imageId
             );
-        } catch (requestError) {
-            console.error(
-                "Reorder Categories carousel image error:",
+
+            setError("");
+            setSuccess("");
+
+            try {
+                const response =
+                    await authFetch(
+                        `/dashboard/content/page-images/${imageId}/order`,
+                        {
+                            method: "PATCH",
+                            body: JSON.stringify(
+                                {
+                                    sort_order:
+                                        targetIndex,
+                                }
+                            ),
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to reorder carousel image."
+                    );
+                }
+
+                setTopImages(
+                    (current) => {
+                        const updated = [
+                            ...current,
+                        ];
+
+                        const [
+                            movedImage,
+                        ] =
+                            updated.splice(
+                                currentIndex,
+                                1
+                            );
+
+                        updated.splice(
+                            targetIndex,
+                            0,
+                            movedImage
+                        );
+
+                        return updated.map(
+                            (
+                                image,
+                                index
+                            ) => ({
+                                ...image,
+                                sort_order:
+                                    index,
+                            })
+                        );
+                    }
+                );
+
+                setSuccess(
+                    "Carousel order updated successfully."
+                );
+            } catch (
                 requestError
-            );
+            ) {
+                console.error(
+                    "Reorder Categories carousel image error:",
+                    requestError
+                );
 
-            setError(
-                requestError.message ||
-                    "Failed to reorder carousel image."
-            );
-        } finally {
-            setReorderingImageId(null);
-        }
-    };
+                setError(
+                    requestError.message ||
+                        "Failed to reorder carousel image."
+                );
+            } finally {
+                setReorderingImageId(
+                    null
+                );
+            }
+        };
 
     if (loading) {
         return (
             <section
-                className={styles.Categories}
+                className={
+                    styles.Categories
+                }
             >
                 <div
                     className={
                         styles.Categories__Loading
                     }
                 >
-                    Loading Categories content...
+                    Loading Categories
+                    content...
                 </div>
             </section>
         );
@@ -394,7 +507,9 @@ export default function Categories() {
 
     return (
         <section
-            className={styles.Categories}
+            className={
+                styles.Categories
+            }
         >
             <div
                 className={
@@ -423,8 +538,9 @@ export default function Categories() {
                             styles.Categories__Description
                         }
                     >
-                        Manage the content displayed
-                        on the Categories page.
+                        Manage the content
+                        displayed on the
+                        Categories page.
                     </p>
                 </div>
             </div>
@@ -488,8 +604,8 @@ export default function Categories() {
                             >
                                 Manage the images
                                 displayed in the
-                                Categories page top
-                                carousel.
+                                Categories page
+                                top carousel.
                             </p>
                         </div>
 
@@ -525,7 +641,8 @@ export default function Categories() {
                             styles.Categories__SectionBody
                         }
                     >
-                        {topImages.length > 0 ? (
+                        {topImages.length >
+                        0 ? (
                             <div
                                 className={
                                     styles.Categories__ImageGrid
@@ -677,15 +794,16 @@ export default function Categories() {
                                 }
                             >
                                 <strong>
-                                    No carousel images
-                                    yet.
+                                    No carousel
+                                    images yet.
                                 </strong>
 
                                 <span>
-                                    Upload an image to
-                                    add the first
-                                    Categories page
-                                    banner.
+                                    Upload an
+                                    image to add
+                                    the first
+                                    Categories
+                                    page banner.
                                 </span>
                             </div>
                         )}

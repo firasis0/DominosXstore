@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     User,
     Lock,
@@ -11,94 +11,443 @@ import {
 import Sidebar from "../Sidebar";
 import styles from "./styles.module.scss";
 
+import { authFetch } from "../../../lib/authFetch.js";
+
 export default function Settings() {
-    const [showCurrentPassword, setShowCurrentPassword] =
-        useState(false);
+    const [
+        showCurrentPassword,
+        setShowCurrentPassword,
+    ] = useState(false);
 
-    const [showNewPassword, setShowNewPassword] =
-        useState(false);
+    const [
+        showNewPassword,
+        setShowNewPassword,
+    ] = useState(false);
 
-    const [showConfirmPassword, setShowConfirmPassword] =
-        useState(false);
+    const [
+        showConfirmPassword,
+        setShowConfirmPassword,
+    ] = useState(false);
 
-    const [email, setEmail] = useState("");
+    const [
+        currentEmail,
+        setCurrentEmail,
+    ] = useState("");
 
-    const [currentPassword, setCurrentPassword] =
-        useState("");
+    const [
+        newEmail,
+        setNewEmail,
+    ] = useState("");
 
-    const [newPassword, setNewPassword] =
-        useState("");
+    const [
+        currentPassword,
+        setCurrentPassword,
+    ] = useState("");
 
-    const [confirmPassword, setConfirmPassword] =
-        useState("");
+    const [
+        newPassword,
+        setNewPassword,
+    ] = useState("");
 
-    const handleAccountSubmit = (event) => {
+    const [
+        confirmPassword,
+        setConfirmPassword,
+    ] = useState("");
+
+    const [
+        loadingAccount,
+        setLoadingAccount,
+    ] = useState(true);
+
+    const [
+        savingAccount,
+        setSavingAccount,
+    ] = useState(false);
+
+    const [
+        changingPassword,
+        setChangingPassword,
+    ] = useState(false);
+
+    const [
+        accountMessage,
+        setAccountMessage,
+    ] = useState("");
+
+    const [
+        accountError,
+        setAccountError,
+    ] = useState("");
+
+    const [
+        passwordMessage,
+        setPasswordMessage,
+    ] = useState("");
+
+    const [
+        passwordError,
+        setPasswordError,
+    ] = useState("");
+
+    useEffect(() => {
+        const controller =
+            new AbortController();
+
+        const loadAccount = async () => {
+            try {
+                setLoadingAccount(true);
+                setAccountError("");
+
+                const response =
+                    await authFetch(
+                        "/dashboard/settings/account",
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to load account information."
+                    );
+                }
+
+                const account =
+                    data.data?.account;
+
+                if (account?.email) {
+                    setCurrentEmail(
+                        account.email
+                    );
+                }
+            } catch (error) {
+                if (
+                    error.name ===
+                    "AbortError"
+                ) {
+                    return;
+                }
+
+                console.error(
+                    "Load account settings error:",
+                    error
+                );
+
+                setAccountError(
+                    error.message ||
+                        "Failed to load account information."
+                );
+            } finally {
+                if (
+                    !controller.signal
+                        .aborted
+                ) {
+                    setLoadingAccount(
+                        false
+                    );
+                }
+            }
+        };
+
+        loadAccount();
+
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
+    const handleAccountSubmit = async (
+        event
+    ) => {
         event.preventDefault();
 
-        console.log("Account settings:", {
-            email,
-        });
-    };
+        setAccountMessage("");
+        setAccountError("");
 
-    const handlePasswordSubmit = (event) => {
-        event.preventDefault();
-
-        if (newPassword !== confirmPassword) {
+        if (
+            !currentEmail.trim()
+        ) {
+            setAccountError(
+                "Current email is required."
+            );
             return;
         }
 
-        console.log("Password change requested.");
+        if (!newEmail.trim()) {
+            setAccountError(
+                "New email is required."
+            );
+            return;
+        }
+
+        const current =
+            currentEmail
+                .trim()
+                .toLowerCase();
+
+        const next =
+            newEmail
+                .trim()
+                .toLowerCase();
+
+        if (current === next) {
+            setAccountError(
+                "The new email must be different from the current email."
+            );
+            return;
+        }
+
+        setSavingAccount(true);
+
+        try {
+            const response =
+                await authFetch(
+                    "/dashboard/settings/account",
+                    {
+                        method: "PUT",
+                        body: JSON.stringify(
+                            {
+                                currentEmail:
+                                    current,
+                                newEmail:
+                                    next,
+                            }
+                        ),
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+                throw new Error(
+                    data.message ||
+                        "Failed to update email address."
+                );
+            }
+
+            setCurrentEmail(
+                data.data?.account
+                    ?.email || next
+            );
+
+            setNewEmail("");
+
+            setAccountMessage(
+                "Email address updated successfully."
+            );
+        } catch (error) {
+            console.error(
+                "Update account settings error:",
+                error
+            );
+
+            setAccountError(
+                error.message ||
+                    "Failed to update email address."
+            );
+        } finally {
+            setSavingAccount(false);
+        }
     };
 
+    const handlePasswordSubmit =
+        async (event) => {
+            event.preventDefault();
+
+            setPasswordMessage("");
+            setPasswordError("");
+
+            if (!currentPassword) {
+                setPasswordError(
+                    "Current password is required."
+                );
+                return;
+            }
+
+            if (!newPassword) {
+                setPasswordError(
+                    "New password is required."
+                );
+                return;
+            }
+
+            if (
+                newPassword.length < 8
+            ) {
+                setPasswordError(
+                    "New password must be at least 8 characters long."
+                );
+                return;
+            }
+
+            if (
+                newPassword !==
+                confirmPassword
+            ) {
+                setPasswordError(
+                    "New password and confirmation do not match."
+                );
+                return;
+            }
+
+            setChangingPassword(
+                true
+            );
+
+            try {
+                const response =
+                    await authFetch(
+                        "/dashboard/settings/password",
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(
+                                {
+                                    currentPassword,
+                                    newPassword,
+                                }
+                            ),
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to update password."
+                    );
+                }
+
+                setCurrentPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+
+                setPasswordMessage(
+                    "Password updated successfully."
+                );
+            } catch (error) {
+                console.error(
+                    "Update password error:",
+                    error
+                );
+
+                setPasswordError(
+                    error.message ||
+                        "Failed to update password."
+                );
+            } finally {
+                setChangingPassword(
+                    false
+                );
+            }
+        };
+
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.href = "/admin/login";
+        localStorage.removeItem(
+            "token"
+        );
+
+        window.location.href = "/";
     };
 
     return (
-        <div className={styles.SettingsPage}>
+        <div
+            className={
+                styles.SettingsPage
+            }
+        >
             <Sidebar activeItem="Settings" />
 
-            <div className={styles.SettingsPage__Main}>
-                <main className={styles.Settings}>
-                    <div className={styles.Settings__Header}>
+            <div
+                className={
+                    styles.SettingsPage__Main
+                }
+            >
+                <main
+                    className={
+                        styles.Settings
+                    }
+                >
+                    <div
+                        className={
+                            styles.Settings__Header
+                        }
+                    >
                         <div>
                             <span
                                 className={
                                     styles.Settings__Eyebrow
                                 }
                             >
-                                Dashboard configuration
+                                Dashboard
+                                configuration
                             </span>
 
-                            <h1>Settings</h1>
+                            <h1>
+                                Settings
+                            </h1>
 
                             <p>
-                                Manage your account, password and
-                                dashboard session.
+                                Manage your
+                                account,
+                                password and
+                                dashboard
+                                session.
                             </p>
                         </div>
                     </div>
 
-                    <div className={styles.Settings__Layout}>
+                    <div
+                        className={
+                            styles.Settings__Layout
+                        }
+                    >
                         <aside
                             className={
                                 styles.Settings__Navigation
                             }
                         >
                             <a href="#account">
-                                <User size={17} />
-                                <span>Account</span>
+                                <User
+                                    size={17}
+                                />
+                                <span>
+                                    Account
+                                </span>
                             </a>
 
                             <a href="#password">
-                                <Lock size={17} />
-                                <span>Password</span>
+                                <Lock
+                                    size={17}
+                                />
+                                <span>
+                                    Password
+                                </span>
                             </a>
 
                             <a href="#session">
-                                <LogOut size={17} />
-                                <span>Session</span>
+                                <LogOut
+                                    size={17}
+                                />
+                                <span>
+                                    Session
+                                </span>
                             </a>
                         </aside>
 
@@ -123,15 +472,26 @@ export default function Settings() {
                                             styles.Settings__CardIcon
                                         }
                                     >
-                                        <User size={18} />
+                                        <User
+                                            size={18}
+                                        />
                                     </div>
 
                                     <div>
-                                        <h2>Account</h2>
+                                        <h2>
+                                            Account
+                                        </h2>
 
                                         <p>
-                                            Manage your administrator
-                                            account information.
+                                            Change
+                                            the
+                                            email
+                                            address
+                                            used
+                                            to
+                                            access
+                                            the
+                                            dashboard.
                                         </p>
                                     </div>
                                 </div>
@@ -149,31 +509,115 @@ export default function Settings() {
                                             styles.Settings__Field
                                         }
                                     >
-                                        <label htmlFor="admin-email">
-                                            Email address
+                                        <label htmlFor="current-email">
+                                            Current
+                                            email
+                                            address
                                         </label>
 
                                         <input
-                                            id="admin-email"
+                                            id="current-email"
                                             type="email"
-                                            value={email}
-                                            onChange={(event) =>
-                                                setEmail(
-                                                    event.target.value
+                                            value={
+                                                currentEmail
+                                            }
+                                            onChange={(
+                                                event
+                                            ) =>
+                                                setCurrentEmail(
+                                                    event
+                                                        .target
+                                                        .value
                                                 )
                                             }
-                                            placeholder="admin@example.com"
+                                            placeholder="Current email address"
+                                            disabled={
+                                                loadingAccount ||
+                                                savingAccount
+                                            }
+                                            autoComplete="email"
                                         />
                                     </div>
+
+                                    <div
+                                        className={
+                                            styles.Settings__Field
+                                        }
+                                    >
+                                        <label htmlFor="new-email">
+                                            New email
+                                            address
+                                        </label>
+
+                                        <input
+                                            id="new-email"
+                                            type="email"
+                                            value={
+                                                newEmail
+                                            }
+                                            onChange={(
+                                                event
+                                            ) =>
+                                                setNewEmail(
+                                                    event
+                                                        .target
+                                                        .value
+                                                )
+                                            }
+                                            placeholder="Enter new email address"
+                                            disabled={
+                                                loadingAccount ||
+                                                savingAccount
+                                            }
+                                            autoComplete="email"
+                                        />
+                                    </div>
+
+                                    {accountError && (
+                                        <div
+                                            className={
+                                                styles.Settings__Error
+                                            }
+                                        >
+                                            {
+                                                accountError
+                                            }
+                                        </div>
+                                    )}
+
+                                    {accountMessage && (
+                                        <div
+                                            className={
+                                                styles.Settings__Success
+                                            }
+                                        >
+                                            {
+                                                accountMessage
+                                            }
+                                        </div>
+                                    )}
 
                                     <div
                                         className={
                                             styles.Settings__Actions
                                         }
                                     >
-                                        <button type="submit">
-                                            <Save size={15} />
-                                            Save changes
+                                        <button
+                                            type="submit"
+                                            disabled={
+                                                loadingAccount ||
+                                                savingAccount
+                                            }
+                                        >
+                                            <Save
+                                                size={
+                                                    15
+                                                }
+                                            />
+
+                                            {savingAccount
+                                                ? "Saving..."
+                                                : "Save changes"}
                                         </button>
                                     </div>
                                 </form>
@@ -195,15 +639,25 @@ export default function Settings() {
                                             styles.Settings__CardIcon
                                         }
                                     >
-                                        <Lock size={18} />
+                                        <Lock
+                                            size={18}
+                                        />
                                     </div>
 
                                     <div>
-                                        <h2>Password</h2>
+                                        <h2>
+                                            Password
+                                        </h2>
 
                                         <p>
-                                            Change the password used to
-                                            access the dashboard.
+                                            Change
+                                            the
+                                            password
+                                            used
+                                            to
+                                            access
+                                            the
+                                            dashboard.
                                         </p>
                                     </div>
                                 </div>
@@ -222,7 +676,8 @@ export default function Settings() {
                                         }
                                     >
                                         <label htmlFor="current-password">
-                                            Current password
+                                            Current
+                                            password
                                         </label>
 
                                         <div
@@ -240,20 +695,26 @@ export default function Settings() {
                                                 value={
                                                     currentPassword
                                                 }
-                                                onChange={(event) =>
+                                                onChange={(
+                                                    event
+                                                ) =>
                                                     setCurrentPassword(
-                                                        event.target
+                                                        event
+                                                            .target
                                                             .value
                                                     )
                                                 }
                                                 placeholder="Enter current password"
+                                                autoComplete="current-password"
                                             />
 
                                             <button
                                                 type="button"
                                                 onClick={() =>
                                                     setShowCurrentPassword(
-                                                        (value) =>
+                                                        (
+                                                            value
+                                                        ) =>
                                                             !value
                                                     )
                                                 }
@@ -264,9 +725,17 @@ export default function Settings() {
                                                 }
                                             >
                                                 {showCurrentPassword ? (
-                                                    <EyeOff size={17} />
+                                                    <EyeOff
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 ) : (
-                                                    <Eye size={17} />
+                                                    <Eye
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 )}
                                             </button>
                                         </div>
@@ -278,7 +747,8 @@ export default function Settings() {
                                         }
                                     >
                                         <label htmlFor="new-password">
-                                            New password
+                                            New
+                                            password
                                         </label>
 
                                         <div
@@ -293,21 +763,29 @@ export default function Settings() {
                                                         ? "text"
                                                         : "password"
                                                 }
-                                                value={newPassword}
-                                                onChange={(event) =>
+                                                value={
+                                                    newPassword
+                                                }
+                                                onChange={(
+                                                    event
+                                                ) =>
                                                     setNewPassword(
-                                                        event.target
+                                                        event
+                                                            .target
                                                             .value
                                                     )
                                                 }
                                                 placeholder="Enter new password"
+                                                autoComplete="new-password"
                                             />
 
                                             <button
                                                 type="button"
                                                 onClick={() =>
                                                     setShowNewPassword(
-                                                        (value) =>
+                                                        (
+                                                            value
+                                                        ) =>
                                                             !value
                                                     )
                                                 }
@@ -318,9 +796,17 @@ export default function Settings() {
                                                 }
                                             >
                                                 {showNewPassword ? (
-                                                    <EyeOff size={17} />
+                                                    <EyeOff
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 ) : (
-                                                    <Eye size={17} />
+                                                    <Eye
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 )}
                                             </button>
                                         </div>
@@ -332,7 +818,9 @@ export default function Settings() {
                                         }
                                     >
                                         <label htmlFor="confirm-password">
-                                            Confirm new password
+                                            Confirm
+                                            new
+                                            password
                                         </label>
 
                                         <div
@@ -350,20 +838,26 @@ export default function Settings() {
                                                 value={
                                                     confirmPassword
                                                 }
-                                                onChange={(event) =>
+                                                onChange={(
+                                                    event
+                                                ) =>
                                                     setConfirmPassword(
-                                                        event.target
+                                                        event
+                                                            .target
                                                             .value
                                                     )
                                                 }
                                                 placeholder="Confirm new password"
+                                                autoComplete="new-password"
                                             />
 
                                             <button
                                                 type="button"
                                                 onClick={() =>
                                                     setShowConfirmPassword(
-                                                        (value) =>
+                                                        (
+                                                            value
+                                                        ) =>
                                                             !value
                                                     )
                                                 }
@@ -374,22 +868,66 @@ export default function Settings() {
                                                 }
                                             >
                                                 {showConfirmPassword ? (
-                                                    <EyeOff size={17} />
+                                                    <EyeOff
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 ) : (
-                                                    <Eye size={17} />
+                                                    <Eye
+                                                        size={
+                                                            17
+                                                        }
+                                                    />
                                                 )}
                                             </button>
                                         </div>
                                     </div>
+
+                                    {passwordError && (
+                                        <div
+                                            className={
+                                                styles.Settings__Error
+                                            }
+                                        >
+                                            {
+                                                passwordError
+                                            }
+                                        </div>
+                                    )}
+
+                                    {passwordMessage && (
+                                        <div
+                                            className={
+                                                styles.Settings__Success
+                                            }
+                                        >
+                                            {
+                                                passwordMessage
+                                            }
+                                        </div>
+                                    )}
 
                                     <div
                                         className={
                                             styles.Settings__Actions
                                         }
                                     >
-                                        <button type="submit">
-                                            <Save size={15} />
-                                            Update password
+                                        <button
+                                            type="submit"
+                                            disabled={
+                                                changingPassword
+                                            }
+                                        >
+                                            <Save
+                                                size={
+                                                    15
+                                                }
+                                            />
+
+                                            {changingPassword
+                                                ? "Updating..."
+                                                : "Update password"}
                                         </button>
                                     </div>
                                 </form>
@@ -409,15 +947,26 @@ export default function Settings() {
                                             styles.Settings__DangerIcon
                                         }
                                     >
-                                        <LogOut size={18} />
+                                        <LogOut
+                                            size={18}
+                                        />
                                     </div>
 
                                     <div>
-                                        <h2>Session</h2>
+                                        <h2>
+                                            Session
+                                        </h2>
 
                                         <p>
-                                            Sign out of the administrator
-                                            dashboard on this device.
+                                            Sign
+                                            out
+                                            of
+                                            the
+                                            administrator
+                                            dashboard
+                                            on
+                                            this
+                                            device.
                                         </p>
                                     </div>
                                 </div>
@@ -427,9 +976,13 @@ export default function Settings() {
                                     className={
                                         styles.Settings__Logout
                                     }
-                                    onClick={handleLogout}
+                                    onClick={
+                                        handleLogout
+                                    }
                                 >
-                                    <LogOut size={15} />
+                                    <LogOut
+                                        size={15}
+                                    />
                                     Sign out
                                 </button>
                             </section>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ImagePlus, X, LoaderCircle } from "lucide-react";
 
 import styles from "./styles.module.scss";
+import { authFetch } from "../../../../lib/authFetch";
 
 let nextId = 1;
 
@@ -14,7 +15,10 @@ const getServerBaseUrl = () => {
 const getImageUrl = (url) => {
     if (!url) return "";
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
+    if (
+        url.startsWith("http://") ||
+        url.startsWith("https://")
+    ) {
         return url;
     }
 
@@ -30,7 +34,9 @@ export default function ImageUploader({
     const [uploadError, setUploadError] = useState("");
 
     const handleFiles = async (event) => {
-        const files = Array.from(event.target.files ?? []);
+        const files = Array.from(
+            event.target.files ?? []
+        );
 
         if (files.length === 0) {
             return;
@@ -46,8 +52,8 @@ export default function ImageUploader({
                 formData.append("images", file);
             });
 
-            const response = await fetch(
-                `${API_BASE_URL}/dashboard/products/images`,
+            const response = await authFetch(
+                "/dashboard/products/images",
                 {
                     method: "POST",
                     body: formData,
@@ -58,24 +64,30 @@ export default function ImageUploader({
 
             if (!response.ok || !result.success) {
                 throw new Error(
-                    result.message || "Failed to upload images"
+                    result.message ||
+                        "Failed to upload images"
                 );
             }
 
-            const uploadedImages = result.data.map((image) => ({
-                id: `new-${nextId++}`,
-                url: image.url,
-            }));
+            const uploadedImages =
+                result.data.map((image) => ({
+                    id: `new-${nextId++}`,
+                    url: image.url,
+                }));
 
             onChange((current) => [
                 ...current,
                 ...uploadedImages,
             ]);
         } catch (error) {
-            console.error("Error uploading images:", error);
+            console.error(
+                "Error uploading images:",
+                error
+            );
 
             setUploadError(
-                error.message || "Unable to upload images."
+                error.message ||
+                    "Unable to upload images."
             );
         } finally {
             setUploading(false);
@@ -85,7 +97,9 @@ export default function ImageUploader({
 
     const removeImage = (id) => {
         onChange((current) =>
-            current.filter((image) => image.id !== id)
+            current.filter(
+                (image) => image.id !== id
+            )
         );
     };
 
@@ -93,7 +107,9 @@ export default function ImageUploader({
         <div className={styles.ImageUploader}>
             {images.map((image) => (
                 <div
-                    className={styles.ImageUploader__Thumb}
+                    className={
+                        styles.ImageUploader__Thumb
+                    }
                     key={image.id}
                 >
                     <img
@@ -103,7 +119,9 @@ export default function ImageUploader({
 
                     <button
                         type="button"
-                        onClick={() => removeImage(image.id)}
+                        onClick={() =>
+                            removeImage(image.id)
+                        }
                         aria-label="Remove image"
                     >
                         <X size={12} />
@@ -112,20 +130,26 @@ export default function ImageUploader({
             ))}
 
             <label
-                className={styles.ImageUploader__Add}
+                className={
+                    styles.ImageUploader__Add
+                }
                 htmlFor={inputId}
             >
                 {uploading ? (
                     <LoaderCircle
                         size={18}
-                        className={styles.ImageUploader__Spinner}
+                        className={
+                            styles.ImageUploader__Spinner
+                        }
                     />
                 ) : (
                     <ImagePlus size={18} />
                 )}
 
                 <span>
-                    {uploading ? "Uploading..." : "Add photo"}
+                    {uploading
+                        ? "Uploading..."
+                        : "Add photo"}
                 </span>
 
                 <input
@@ -139,7 +163,11 @@ export default function ImageUploader({
             </label>
 
             {uploadError && (
-                <p className={styles.ImageUploader__Error}>
+                <p
+                    className={
+                        styles.ImageUploader__Error
+                    }
+                >
                     {uploadError}
                 </p>
             )}

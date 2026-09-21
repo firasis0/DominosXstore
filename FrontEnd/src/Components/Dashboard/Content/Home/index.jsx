@@ -11,14 +11,16 @@ import {
     X,
 } from "lucide-react";
 
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
+import {
+    authFetch,
+    API_BASE_URL,
+} from "../../../../lib/authFetch.js";
 
-const API_SERVER_URL = API_BASE_URL.replace(
-    /\/api\/?$/,
-    ""
-);
+const API_SERVER_URL =
+    API_BASE_URL.replace(
+        /\/api\/?$/,
+        ""
+    );
 
 const getImageUrl = (imageUrl) => {
     if (!imageUrl) {
@@ -33,7 +35,9 @@ const getImageUrl = (imageUrl) => {
     }
 
     return `${API_SERVER_URL}${
-        imageUrl.startsWith("/") ? "" : "/"
+        imageUrl.startsWith("/")
+            ? ""
+            : "/"
     }${imageUrl}`;
 };
 
@@ -47,21 +51,29 @@ const sortImages = (images) =>
 export default function Home() {
     const [page, setPage] = useState(null);
 
-    const [topImages, setTopImages] = useState([]);
+    const [topImages, setTopImages] =
+        useState([]);
+
     const [middleImages, setMiddleImages] =
         useState([]);
 
     const [loading, setLoading] =
         useState(true);
 
-    const [uploadingSection, setUploadingSection] =
-        useState(null);
+    const [
+        uploadingSection,
+        setUploadingSection,
+    ] = useState(null);
 
-    const [deletingImageId, setDeletingImageId] =
-        useState(null);
+    const [
+        deletingImageId,
+        setDeletingImageId,
+    ] = useState(null);
 
-    const [reorderingImageId, setReorderingImageId] =
-        useState(null);
+    const [
+        reorderingImageId,
+        setReorderingImageId,
+    ] = useState(null);
 
     const [error, setError] =
         useState("");
@@ -77,10 +89,11 @@ export default function Home() {
             try {
                 setLoading(true);
                 setError("");
+                setSuccess("");
 
                 const pagesResponse =
-                    await fetch(
-                        `${API_BASE_URL}/dashboard/content/pages`,
+                    await authFetch(
+                        "/dashboard/content/pages",
                         {
                             signal:
                                 controller.signal,
@@ -101,7 +114,7 @@ export default function Home() {
                 }
 
                 const homePage =
-                    pagesData.data.pages.find(
+                    pagesData.data?.pages?.find(
                         (item) =>
                             String(item.name)
                                 .trim()
@@ -118,8 +131,8 @@ export default function Home() {
                 setPage(homePage);
 
                 const response =
-                    await fetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${homePage.id}`,
+                    await authFetch(
+                        `/dashboard/content/pages/${homePage.id}`,
                         {
                             signal:
                                 controller.signal,
@@ -141,18 +154,20 @@ export default function Home() {
 
                 setTopImages(
                     sortImages(
-                        data.data.images?.top ||
-                            []
+                        data.data?.images
+                            ?.top || []
                     )
                 );
 
                 setMiddleImages(
                     sortImages(
-                        data.data.images?.middle ||
-                            []
+                        data.data?.images
+                            ?.middle || []
                     )
                 );
-            } catch (requestError) {
+            } catch (
+                requestError
+            ) {
                 if (
                     requestError.name ===
                     "AbortError"
@@ -171,7 +186,8 @@ export default function Home() {
                 );
             } finally {
                 if (
-                    !controller.signal.aborted
+                    !controller.signal
+                        .aborted
                 ) {
                     setLoading(false);
                 }
@@ -198,7 +214,10 @@ export default function Home() {
             return;
         }
 
-        setUploadingSection(section);
+        setUploadingSection(
+            section
+        );
+
         setError("");
         setSuccess("");
 
@@ -217,8 +236,8 @@ export default function Home() {
             );
 
             const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/pages/${page.id}/images`,
+                await authFetch(
+                    `/dashboard/content/pages/${page.id}/images`,
                     {
                         method: "POST",
                         body: formData,
@@ -239,7 +258,13 @@ export default function Home() {
             }
 
             const uploadedImage =
-                data.data.image;
+                data.data?.image;
+
+            if (!uploadedImage) {
+                throw new Error(
+                    "The server did not return the uploaded image."
+                );
+            }
 
             if (section === "top") {
                 setTopImages(
@@ -264,7 +289,9 @@ export default function Home() {
                         : "Middle"
                 } banner image uploaded successfully.`
             );
-        } catch (requestError) {
+        } catch (
+            requestError
+        ) {
             console.error(
                 "Upload Home image error:",
                 requestError
@@ -275,7 +302,9 @@ export default function Home() {
                     "Failed to upload image."
             );
         } finally {
-            setUploadingSection(null);
+            setUploadingSection(
+                null
+            );
         }
     };
 
@@ -292,14 +321,17 @@ export default function Home() {
             return;
         }
 
-        setDeletingImageId(imageId);
+        setDeletingImageId(
+            imageId
+        );
+
         setError("");
         setSuccess("");
 
         try {
             const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/page-images/${imageId}`,
+                await authFetch(
+                    `/dashboard/content/page-images/${imageId}`,
                     {
                         method: "DELETE",
                     }
@@ -341,7 +373,9 @@ export default function Home() {
             setSuccess(
                 "Carousel image deleted successfully."
             );
-        } catch (requestError) {
+        } catch (
+            requestError
+        ) {
             console.error(
                 "Delete Home image error:",
                 requestError
@@ -352,7 +386,9 @@ export default function Home() {
                     "Failed to delete image."
             );
         } finally {
-            setDeletingImageId(null);
+            setDeletingImageId(
+                null
+            );
         }
     };
 
@@ -383,29 +419,31 @@ export default function Home() {
 
         if (
             targetIndex < 0 ||
-            targetIndex >= images.length
+            targetIndex >=
+                images.length
         ) {
             return;
         }
 
-        setReorderingImageId(imageId);
+        setReorderingImageId(
+            imageId
+        );
+
         setError("");
         setSuccess("");
 
         try {
             const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/page-images/${imageId}/order`,
+                await authFetch(
+                    `/dashboard/content/page-images/${imageId}/order`,
                     {
                         method: "PATCH",
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-                        },
-                        body: JSON.stringify({
-                            sort_order:
-                                targetIndex,
-                        }),
+                        body: JSON.stringify(
+                            {
+                                sort_order:
+                                    targetIndex,
+                            }
+                        ),
                     }
                 );
 
@@ -461,7 +499,13 @@ export default function Home() {
                     reorder
                 );
             }
-        } catch (requestError) {
+
+            setSuccess(
+                "Carousel order updated successfully."
+            );
+        } catch (
+            requestError
+        ) {
             console.error(
                 "Reorder Home image error:",
                 requestError
@@ -472,7 +516,9 @@ export default function Home() {
                     "Failed to reorder image."
             );
         } finally {
-            setReorderingImageId(null);
+            setReorderingImageId(
+                null
+            );
         }
     };
 
@@ -492,7 +538,9 @@ export default function Home() {
                             styles.Home__EmptyIcon
                         }
                     >
-                        <ImagePlus size={21} />
+                        <ImagePlus
+                            size={21}
+                        />
                     </div>
 
                     <div
@@ -525,7 +573,9 @@ export default function Home() {
                         <input
                             type="file"
                             accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                            onChange={(event) =>
+                            onChange={(
+                                event
+                            ) =>
                                 handleUpload(
                                     event,
                                     section
@@ -554,7 +604,9 @@ export default function Home() {
                         index
                     ) => (
                         <div
-                            key={image.id}
+                            key={
+                                image.id
+                            }
                             className={
                                 styles.Home__ImageListItem
                             }
@@ -574,7 +626,8 @@ export default function Home() {
                                             ? "Top"
                                             : "Middle"
                                     } banner ${
-                                        index + 1
+                                        index +
+                                        1
                                     }`}
                                 />
 
@@ -583,7 +636,8 @@ export default function Home() {
                                         styles.Home__ImageNumber
                                     }
                                 >
-                                    {index + 1}
+                                    {index +
+                                        1}
                                 </span>
                             </div>
 
@@ -594,12 +648,14 @@ export default function Home() {
                             >
                                 <strong>
                                     Slide{" "}
-                                    {index + 1}
+                                    {index +
+                                        1}
                                 </strong>
 
                                 <span>
                                     Position{" "}
-                                    {index + 1}{" "}
+                                    {index +
+                                        1}{" "}
                                     of{" "}
                                     {
                                         images.length
@@ -630,7 +686,9 @@ export default function Home() {
                                     title="Move up"
                                 >
                                     <ArrowUp
-                                        size={14}
+                                        size={
+                                            14
+                                        }
                                     />
                                 </button>
 
@@ -653,7 +711,9 @@ export default function Home() {
                                     title="Move down"
                                 >
                                     <ArrowDown
-                                        size={14}
+                                        size={
+                                            14
+                                        }
                                     />
                                 </button>
 
@@ -675,7 +735,9 @@ export default function Home() {
                                     title="Delete"
                                 >
                                     <Trash2
-                                        size={14}
+                                        size={
+                                            14
+                                        }
                                     />
                                 </button>
                             </div>
@@ -749,7 +811,9 @@ export default function Home() {
                     }
                 >
                     <X size={16} />
-                    <span>{error}</span>
+                    <span>
+                        {error}
+                    </span>
                 </div>
             )}
 
@@ -760,7 +824,9 @@ export default function Home() {
                     }
                 >
                     <Check size={16} />
-                    <span>{success}</span>
+                    <span>
+                        {success}
+                    </span>
                 </div>
             )}
 
@@ -827,7 +893,9 @@ export default function Home() {
                             <input
                                 type="file"
                                 accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                onChange={(event) =>
+                                onChange={(
+                                    event
+                                ) =>
                                     handleUpload(
                                         event,
                                         "top"
@@ -913,7 +981,9 @@ export default function Home() {
                             <input
                                 type="file"
                                 accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                onChange={(event) =>
+                                onChange={(
+                                    event
+                                ) =>
                                     handleUpload(
                                         event,
                                         "middle"

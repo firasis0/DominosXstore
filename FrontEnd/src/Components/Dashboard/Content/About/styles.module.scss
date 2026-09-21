@@ -77,14 +77,25 @@
     color: #39733e;
 }
 
+.About__MessageError button,
+.About__MessageSuccess button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
 /* =========================================================
    SECTIONS
 ========================================================= */
-
-.About__Sections {
-    width: 100%;
-    min-width: 0;
-}
 
 .About__Section {
     width: 100%;
@@ -142,28 +153,24 @@
     line-height: 1.5;
 }
 
-.About__SectionBody {
-    width: 100%;
-    min-width: 0;
-    padding: 14px;
-    box-sizing: border-box;
-}
-
 /* =========================================================
-   PRIMARY / SECONDARY / DANGER BUTTONS
+   UPLOAD BUTTON
 ========================================================= */
 
-.About__PrimaryButton,
-.About__SecondaryButton,
-.About__DangerButton {
+.About__UploadButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
+    flex-shrink: 0;
     min-height: 34px;
-    box-sizing: border-box;
+    margin-left: auto;
     padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
     border-radius: 7px;
+    background: #fff;
+    color: #444;
     font-family: inherit;
     font-size: 11px;
     font-weight: 650;
@@ -176,67 +183,70 @@
         opacity 0.18s ease;
 }
 
-.About__PrimaryButton {
-    flex-shrink: 0;
-    border: 1px solid #111;
-    background: #111;
-    color: #fff;
-}
-
-.About__PrimaryButton:hover {
-    border-color: #2b2b2b;
-    background: #2b2b2b;
-}
-
-.About__SecondaryButton {
-    border: 1px solid #dedede;
-    background: #fff;
-    color: #555;
-}
-
-.About__SecondaryButton:hover {
+.About__UploadButton:hover {
     border-color: #111;
     background: #111;
     color: #fff;
 }
 
-.About__DangerButton {
-    border: 1px solid #e0d4d4;
-    background: #fff;
-    color: #a33;
-}
-
-.About__DangerButton:hover:not(:disabled) {
-    border-color: #a33;
-    background: #a33;
-    color: #fff;
-}
-
-.About__PrimaryButton input,
-.About__SecondaryButton input {
+.About__UploadButton input {
     display: none;
 }
 
-.About__PrimaryButton:has(input:disabled),
-.About__SecondaryButton:has(input:disabled),
-.About__DangerButton:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.About__Empty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+    min-height: 80px;
+    box-sizing: border-box;
+    margin: 14px;
+    padding: 14px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 9px;
+    background: #fafafa;
+}
+
+.About__Empty svg {
+    flex: 0 0 auto;
+    color: #888;
+}
+
+.About__Empty strong {
+    display: block;
+    color: #333;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.About__Empty span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 10px;
+    line-height: 1.4;
 }
 
 /* =========================================================
-   CAROUSEL IMAGE LIST
+   CAROUSEL IMAGES
 ========================================================= */
 
-.About__ImageList {
+.About__Images {
     display: flex;
     flex-direction: column;
     gap: 7px;
     width: 100%;
     min-width: 0;
+    padding: 14px;
+    box-sizing: border-box;
 }
 
-.About__ImageListItem {
+.About__ImageCard {
     display: grid;
     grid-template-columns: 110px minmax(0, 1fr) auto;
     align-items: center;
@@ -254,17 +264,17 @@
         box-shadow 0.18s ease;
 }
 
-.About__ImageListItem:hover {
+.About__ImageCard:hover {
     border-color: #d5d5d5;
     background: #fcfcfc;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 /* =========================================================
-   THUMBNAIL
+   IMAGE PREVIEW
 ========================================================= */
 
-.About__ImageThumbnail {
+.About__ImagePreview {
     position: relative;
     width: 110px;
     height: 58px;
@@ -274,7 +284,7 @@
     background: #f2f2f2;
 }
 
-.About__ImageThumbnail img {
+.About__ImagePreview img {
     display: block;
     width: 100%;
     height: 100%;
@@ -301,37 +311,7 @@
 }
 
 /* =========================================================
-   LIST INFORMATION
-========================================================= */
-
-.About__ImageListInfo {
-    min-width: 0;
-    width: 100%;
-    padding: 0 12px;
-    box-sizing: border-box;
-}
-
-.About__ImageListInfo strong {
-    display: block;
-    overflow: hidden;
-    color: #222;
-    font-size: 12px;
-    font-weight: 650;
-    line-height: 1.3;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.About__ImageListInfo span {
-    display: block;
-    margin-top: 4px;
-    color: #999;
-    font-size: 10px;
-    line-height: 1.3;
-}
-
-/* =========================================================
-   CAROUSEL ACTION BUTTONS
+   IMAGE ACTIONS
 ========================================================= */
 
 .About__ImageActions {
@@ -340,6 +320,7 @@
     justify-content: flex-end;
     gap: 5px;
     min-width: 0;
+    margin-left: 10px;
 }
 
 .About__ImageActions button {
@@ -380,161 +361,77 @@
     opacity: 0.3;
 }
 
-.About__ImageActions .About__ImageDelete {
-    color: #a33;
+.About__DeleteButton {
+    color: #a33 !important;
 }
 
-.About__ImageActions .About__ImageDelete:hover:not(:disabled) {
-    border-color: #a33;
-    background: #a33;
-    color: #fff;
-}
-
-/* =========================================================
-   EMPTY CAROUSEL
-========================================================= */
-
-.About__Empty {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    min-width: 0;
-    min-height: 80px;
-    box-sizing: border-box;
-    padding: 14px;
-    border: 1px dashed #d9d9d9;
-    border-radius: 9px;
-    background: #fafafa;
-}
-
-.About__EmptyIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
-    border: 1px solid #e2e2e2;
-    border-radius: 8px;
-    background: #fff;
-    color: #888;
-}
-
-.About__Empty strong {
-    display: block;
-    color: #333;
-    font-size: 12px;
-    font-weight: 650;
-}
-
-.About__Empty span {
-    display: block;
-    margin-top: 4px;
-    color: #999;
-    font-size: 10px;
-    line-height: 1.4;
-}
-
-.About__UploadButton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 32px;
-    margin-left: auto;
-    padding: 0 11px;
-    border: 1px solid #dedede;
-    border-radius: 7px;
-    background: #fff;
-    color: #444;
-    font-size: 10px;
-    font-weight: 650;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-
-.About__UploadButton:hover {
-    border-color: #111;
-    background: #111;
-    color: #fff;
-}
-
-.About__UploadButton input {
-    display: none;
+.About__DeleteButton:hover:not(:disabled) {
+    border-color: #a33 !important;
+    background: #a33 !important;
+    color: #fff !important;
 }
 
 /* =========================================================
    OUR STORY IMAGE
 ========================================================= */
 
-.About__SingleImage {
+.About__StoryImage {
     width: 100%;
     min-width: 0;
     padding: 16px;
     box-sizing: border-box;
 }
 
-.About__ImageCard {
+.About__StoryImage img {
+    display: block;
     width: 100%;
     max-width: 620px;
-    overflow: hidden;
+    height: 220px;
+    object-fit: cover;
     border: 1px solid #e5e5e5;
     border-radius: 9px;
-    background: #fff;
-    box-sizing: border-box;
-}
-
-.About__ImagePreview {
-    position: relative;
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
     background: #f3f3f3;
 }
 
-.About__ImagePreview img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.About__ImageInfo {
-    display: flex;
+.About__StoryDelete {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    min-width: 0;
-    padding: 11px 12px;
-    border-top: 1px solid #ededed;
-    box-sizing: border-box;
-}
-
-.About__ImageInfo > div:first-child {
-    min-width: 0;
-}
-
-.About__ImageInfo strong {
-    display: block;
-    color: #222;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    margin-top: 10px;
+    padding: 0 12px;
+    border: 1px solid #e0d4d4;
+    border-radius: 7px;
+    background: #fff;
+    color: #a33;
+    font-family: inherit;
     font-size: 11px;
     font-weight: 650;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        opacity 0.18s ease;
 }
 
-.About__ImageInfo span {
-    display: block;
-    margin-top: 3px;
-    color: #999;
-    font-size: 10px;
-    line-height: 1.4;
+.About__StoryDelete:hover:not(:disabled) {
+    border-color: #a33;
+    background: #a33;
+    color: #fff;
+}
+
+.About__StoryDelete:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 /* =========================================================
    CONNECT FORM
 ========================================================= */
 
-.About__Form {
+.About__ConnectForm {
     width: 100%;
     min-width: 0;
     padding: 18px 20px;
@@ -584,14 +481,20 @@
 
 .About__Field input:focus {
     border-color: #111;
-    box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+    box-shadow:
+        0 0 0 3px
+        rgba(17, 17, 17, 0.06);
 }
 
 .About__Field input::placeholder {
     color: #b5b5b5;
 }
 
-.About__FormFooter {
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.About__FormActions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -656,22 +559,7 @@
         align-items: flex-start;
     }
 
-    .About__ImageInfo {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .About__ImageActions {
-        width: 100%;
-    }
-
-    .About__SecondaryButton,
-    .About__DangerButton {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .About__ImageCard {
+    .About__StoryImage img {
         max-width: 100%;
     }
 }
@@ -710,20 +598,16 @@
         font-size: 10px;
     }
 
-    .About__PrimaryButton {
+    .About__UploadButton {
         width: 100%;
+        margin-left: 0;
     }
 
-    .About__SectionBody {
+    .About__Images {
         padding: 10px;
     }
 
-    /*
-     * Image row becomes a compact two-row layout.
-     * Thumbnail + information stay together.
-     * Controls occupy their own full-width row.
-     */
-    .About__ImageListItem {
+    .About__ImageCard {
         display: grid;
         grid-template-columns: 100px minmax(0, 1fr);
         grid-template-rows: auto auto;
@@ -733,14 +617,9 @@
         padding: 7px;
     }
 
-    .About__ImageThumbnail {
+    .About__ImagePreview {
         width: 100px;
         height: 56px;
-    }
-
-    .About__ImageListInfo {
-        width: 100%;
-        padding: 0;
     }
 
     .About__ImageActions {
@@ -748,7 +627,10 @@
         width: 100%;
         margin: 0;
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(
+            3,
+            minmax(0, 1fr)
+        );
         gap: 6px;
     }
 
@@ -759,22 +641,30 @@
         flex: none;
     }
 
-    .About__ImagePreview {
-        height: 180px;
-    }
-
     .About__Empty {
         align-items: flex-start;
         flex-wrap: wrap;
+        margin: 10px;
     }
 
-    .About__UploadButton {
-        width: 100%;
-        margin-left: 0;
+    .About__StoryImage {
+        padding: 10px;
     }
 
-    .About__ImageInfo {
+    .About__StoryImage img {
+        height: 180px;
+    }
+
+    .About__ConnectForm {
+        padding: 15px;
+    }
+
+    .About__FormActions {
         align-items: stretch;
+    }
+
+    .About__SaveButton {
+        width: 100%;
     }
 }
 
@@ -787,39 +677,26 @@
         padding: 13px;
     }
 
-    .About__SectionBody {
+    .About__Images {
         padding: 8px;
     }
 
-    .About__Form {
-        padding: 14px;
-    }
-
-    .About__SingleImage {
-        padding: 8px;
-    }
-
-    .About__ImageListItem {
+    .About__ImageCard {
         grid-template-columns: 82px minmax(0, 1fr);
         column-gap: 9px;
         padding: 6px;
     }
 
-    .About__ImageThumbnail {
+    .About__ImagePreview {
         width: 82px;
         height: 50px;
     }
 
-    .About__ImageListInfo strong {
-        font-size: 11px;
-    }
-
-    .About__ImageListInfo span {
-        font-size: 9px;
-    }
-
     .About__ImageActions {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(
+            3,
+            minmax(0, 1fr)
+        );
         gap: 5px;
     }
 
@@ -827,21 +704,21 @@
         height: 32px;
     }
 
-    .About__ImagePreview {
+    .About__StoryImage {
+        padding: 8px;
+    }
+
+    .About__StoryImage img {
         height: 150px;
     }
 
-    .About__SecondaryButton,
-    .About__DangerButton {
-        width: 100%;
+    .About__ConnectForm {
+        padding: 14px;
     }
 
-    .About__FormFooter {
-        align-items: stretch;
-    }
-
-    .About__SaveButton {
-        width: 100%;
+    .About__MessageError,
+    .About__MessageSuccess {
+        font-size: 11px;
     }
 }
 
@@ -874,12 +751,16 @@
         font-size: 9px;
     }
 
-    .About__ImageListItem {
+    .About__Images {
+        padding: 7px;
+    }
+
+    .About__ImageCard {
         grid-template-columns: 72px minmax(0, 1fr);
         column-gap: 8px;
     }
 
-    .About__ImageThumbnail {
+    .About__ImagePreview {
         width: 72px;
         height: 46px;
     }
@@ -893,11 +774,11 @@
         height: 15px;
     }
 
-    .About__ImagePreview {
+    .About__StoryImage img {
         height: 135px;
     }
 
-    .About__Form {
+    .About__ConnectForm {
         padding: 12px;
     }
 }
@@ -915,27 +796,19 @@
         font-size: 10px;
     }
 
-    .About__SectionBody {
-        padding: 7px;
+    .About__Images {
+        padding: 6px;
     }
 
-    .About__ImageListItem {
+    .About__ImageCard {
         grid-template-columns: 64px minmax(0, 1fr);
         column-gap: 7px;
         padding: 5px;
     }
 
-    .About__ImageThumbnail {
+    .About__ImagePreview {
         width: 64px;
         height: 42px;
-    }
-
-    .About__ImageListInfo strong {
-        font-size: 10px;
-    }
-
-    .About__ImageListInfo span {
-        font-size: 8px;
     }
 
     .About__ImageActions {
@@ -949,5 +822,9 @@
     .About__ImageActions button svg {
         width: 14px;
         height: 14px;
+    }
+
+    .About__StoryImage img {
+        height: 120px;
     }
 }

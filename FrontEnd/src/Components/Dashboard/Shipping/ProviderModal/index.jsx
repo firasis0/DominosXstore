@@ -1,323 +1,323 @@
 import { useState } from "react";
-
 import {
-  ImagePlus,
-  Trash2,
-  Upload,
-  LoaderCircle,
+    ImagePlus,
+    Trash2,
+    Upload,
+    LoaderCircle,
 } from "lucide-react";
-
 import styles from "./styles.module.scss";
+import { authFetch } from "../../../../lib/authFetch.js";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const getServerBaseUrl = () => {
-  return API_BASE_URL.replace(/\/api\/?$/, "");
+    return API_BASE_URL.replace(/\/api\/?$/, "");
 };
 
 const getImageUrl = (url) => {
-  if (!url) return "";
+    if (!url) return "";
 
-  if (
-    url.startsWith("http://") ||
-    url.startsWith("https://")
-  ) {
-    return url;
-  }
+    if (
+        url.startsWith("http://") ||
+        url.startsWith("https://")
+    ) {
+        return url;
+    }
 
-  return `${getServerBaseUrl()}${url}`;
+    return `${getServerBaseUrl()}${url}`;
 };
 
 const ProviderModal = ({
-  provider,
-  onClose,
-  onSave,
+    provider,
+    onClose,
+    onSave,
 }) => {
-  const [name, setName] = useState(
-    provider?.name || ""
-  );
-
-  const [logo, setLogo] = useState(
-    provider?.logo_url || null
-  );
-
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState("");
-
-  /**
-   * Upload one provider logo to the backend.
-   * The backend returns the permanent /uploads/... URL.
-   */
-  const uploadImage = async (file) => {
-    const formData = new FormData();
-
-    formData.append("logo", file);
-
-    const response = await fetch(
-      `${API_BASE_URL}/dashboard/shipping/providers/logo`,
-      {
-        method: "POST",
-        body: formData,
-      }
+    const [name, setName] = useState(
+        provider?.name || ""
     );
 
-    const result = await response.json();
+    const [logo, setLogo] = useState(
+        provider?.logo_url || null
+    );
 
-    if (!response.ok || !result.success) {
-      throw new Error(
-        result.message ||
-          "Failed to upload provider logo."
-      );
-    }
+    const [uploading, setUploading] = useState(false);
+    const [uploadError, setUploadError] = useState("");
 
-    return result.data.url;
-  };
+    /**
+     * Upload one provider logo to the backend.
+     * The backend returns the permanent /uploads/... URL.
+     */
+    const uploadImage = async (file) => {
+        const formData = new FormData();
+        formData.append("logo", file);
 
-  const handleFile = async (e) => {
-    const file = e.target.files?.[0];
+        const response = await authFetch(
+            "/dashboard/shipping/providers/logo",
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
 
-    if (!file) return;
+        const result = await response.json();
 
-    setUploadError("");
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                    "Failed to upload provider logo."
+            );
+        }
 
-    if (!file.type.startsWith("image/")) {
-      setUploadError(
-        "Only image files are allowed."
-      );
+        return result.data.url;
+    };
 
-      e.target.value = "";
-      return;
-    }
+    const handleFile = async (e) => {
+        const file = e.target.files?.[0];
 
-    if (file.size > 5 * 1024 * 1024) {
-      setUploadError(
-        "Image size must not exceed 5 MB."
-      );
+        if (!file) return;
 
-      e.target.value = "";
-      return;
-    }
+        setUploadError("");
 
-    setUploading(true);
+        if (!file.type.startsWith("image/")) {
+            setUploadError(
+                "Only image files are allowed."
+            );
 
-    try {
-      const uploadedUrl = await uploadImage(file);
+            e.target.value = "";
+            return;
+        }
 
-      setLogo(uploadedUrl);
-    } catch (error) {
-      console.error(
-        "Error uploading provider logo:",
-        error
-      );
+        if (file.size > 5 * 1024 * 1024) {
+            setUploadError(
+                "Image size must not exceed 5 MB."
+            );
 
-      setUploadError(
-        error.message ||
-          "Unable to upload provider logo."
-      );
-    } finally {
-      setUploading(false);
+            e.target.value = "";
+            return;
+        }
 
-      e.target.value = "";
-    }
-  };
+        setUploading(true);
 
-  const removeLogo = () => {
-    setLogo(null);
-  };
+        try {
+            const uploadedUrl = await uploadImage(file);
 
-  const submit = (e) => {
-    e.preventDefault();
+            setLogo(uploadedUrl);
+        } catch (error) {
+            console.error(
+                "Error uploading provider logo:",
+                error
+            );
 
-    if (!name.trim()) return;
+            setUploadError(
+                error.message ||
+                    "Unable to upload provider logo."
+            );
+        } finally {
+            setUploading(false);
+            e.target.value = "";
+        }
+    };
 
-    onSave({
-      name: name.trim(),
-      logo_url: logo,
-      is_active:
-        provider?.is_active ?? true,
-    });
-  };
+    const removeLogo = () => {
+        setLogo(null);
+    };
 
-  return (
-    <div
-      className={styles.overlay}
-      onMouseDown={(e) =>
-        e.target === e.currentTarget &&
-        onClose()
-      }
-    >
-      <form
-        className={styles.modal}
-        onSubmit={submit}
-      >
-        <div className={styles.header}>
-          <div>
-            <span className={styles.kicker}>
-              Shipping providers
-            </span>
+    const submit = (e) => {
+        e.preventDefault();
 
-            <h2>
-              {provider
-                ? "Edit Provider"
-                : "Add Provider"}
-            </h2>
+        if (!name.trim()) return;
 
-            <p>
-              Configure the courier company and its
-              brand identity.
-            </p>
-          </div>
+        onSave({
+            name: name.trim(),
+            logo_url: logo,
+            is_active:
+                provider?.is_active ?? true,
+        });
+    };
 
-          <button
-            type="button"
-            className={styles.close}
-            onClick={onClose}
-          >
-            ×
-          </button>
-        </div>
+    return (
+        <div
+            className={styles.overlay}
+            onMouseDown={(e) =>
+                e.target === e.currentTarget &&
+                onClose()
+            }
+        >
+            <form
+                className={styles.modal}
+                onSubmit={submit}
+            >
+                <div className={styles.header}>
+                    <div>
+                        <span className={styles.kicker}>
+                            Shipping providers
+                        </span>
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>
-            Provider information
-          </div>
+                        <h2>
+                            {provider
+                                ? "Edit Provider"
+                                : "Add Provider"}
+                        </h2>
 
-          <label>
-            Provider name
+                        <p>
+                            Configure the courier company and its
+                            brand identity.
+                        </p>
+                    </div>
 
-            <input
-              value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
-              placeholder="Yalidine"
-              autoFocus
-            />
-          </label>
-        </div>
-
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>
-            Provider logo
-          </div>
-
-          <div className={styles.uploadBox}>
-            {logo ? (
-              <div className={styles.preview}>
-                <img
-                  src={getImageUrl(logo)}
-                  alt="Provider logo preview"
-                />
-
-                <div>
-                  <strong>
-                    Provider logo
-                  </strong>
-
-                  <span>
-                    {uploading
-                      ? "Uploading..."
-                      : "Uploaded image"}
-                  </span>
+                    <button
+                        type="button"
+                        className={styles.close}
+                        onClick={onClose}
+                    >
+                        ×
+                    </button>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={removeLogo}
-                  title="Remove logo"
-                  disabled={uploading}
-                >
-                  <Trash2 size={15} />
-                </button>
-              </div>
-            ) : (
-              <label className={styles.dropzone}>
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp,image/svg+xml"
-                  onChange={handleFile}
-                  disabled={uploading}
-                />
+                <div className={styles.section}>
+                    <div className={styles.sectionTitle}>
+                        Provider information
+                    </div>
 
-                {uploading ? (
-                  <LoaderCircle
-                    size={21}
-                    className={styles.spinner}
-                  />
-                ) : (
-                  <span
-                    className={styles.uploadIcon}
-                  >
-                    <ImagePlus size={21} />
-                  </span>
-                )}
+                    <label>
+                        Provider name
 
-                <strong>
-                  {uploading
-                    ? "Uploading..."
-                    : "Upload provider logo"}
-                </strong>
+                        <input
+                            value={name}
+                            onChange={(e) =>
+                                setName(e.target.value)
+                            }
+                            placeholder="Yalidine"
+                            autoFocus
+                        />
+                    </label>
+                </div>
 
-                <span>
-                  PNG, JPG, WEBP or SVG · max 5 MB
-                </span>
+                <div className={styles.section}>
+                    <div className={styles.sectionTitle}>
+                        Provider logo
+                    </div>
 
-                <em>
-                  <Upload size={13} />
+                    <div className={styles.uploadBox}>
+                        {logo ? (
+                            <div className={styles.preview}>
+                                <img
+                                    src={getImageUrl(logo)}
+                                    alt="Provider logo preview"
+                                />
 
-                  {uploading
-                    ? "Uploading"
-                    : "Choose image"}
-                </em>
-              </label>
-            )}
-          </div>
+                                <div>
+                                    <strong>
+                                        Provider logo
+                                    </strong>
 
-          {logo && !uploading && (
-            <label
-              className={styles.changeFile}
-            >
-              <input
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/svg+xml"
-                onChange={handleFile}
-                disabled={uploading}
-              />
+                                    <span>
+                                        {uploading
+                                            ? "Uploading..."
+                                            : "Uploaded image"}
+                                    </span>
+                                </div>
 
-              Change image
-            </label>
-          )}
+                                <button
+                                    type="button"
+                                    onClick={removeLogo}
+                                    title="Remove logo"
+                                    disabled={uploading}
+                                >
+                                    <Trash2 size={15} />
+                                </button>
+                            </div>
+                        ) : (
+                            <label
+                                className={styles.dropzone}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                                    onChange={handleFile}
+                                    disabled={uploading}
+                                />
 
-          {uploadError && (
-            <p className={styles.error}>
-              {uploadError}
-            </p>
-          )}
+                                {uploading ? (
+                                    <LoaderCircle
+                                        size={21}
+                                        className={styles.spinner}
+                                    />
+                                ) : (
+                                    <span
+                                        className={
+                                            styles.uploadIcon
+                                        }
+                                    >
+                                        <ImagePlus size={21} />
+                                    </span>
+                                )}
+
+                                <strong>
+                                    {uploading
+                                        ? "Uploading..."
+                                        : "Upload provider logo"}
+                                </strong>
+
+                                <span>
+                                    PNG, JPG, WEBP or SVG · max 5 MB
+                                </span>
+
+                                <em>
+                                    <Upload size={13} />
+
+                                    {uploading
+                                        ? "Uploading"
+                                        : "Choose image"}
+                                </em>
+                            </label>
+                        )}
+                    </div>
+
+                    {logo && !uploading && (
+                        <label
+                            className={styles.changeFile}
+                        >
+                            <input
+                                type="file"
+                                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                                onChange={handleFile}
+                                disabled={uploading}
+                            />
+
+                            Change image
+                        </label>
+                    )}
+
+                    {uploadError && (
+                        <p className={styles.error}>
+                            {uploadError}
+                        </p>
+                    )}
+                </div>
+
+                <div className={styles.actions}>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        disabled={uploading}
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        className={styles.save}
+                        type="submit"
+                        disabled={uploading}
+                    >
+                        {uploading
+                            ? "Uploading..."
+                            : "Save provider"}
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div className={styles.actions}>
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={uploading}
-          >
-            Cancel
-          </button>
-
-          <button
-            className={styles.save}
-            type="submit"
-            disabled={uploading}
-          >
-            {uploading
-              ? "Uploading..."
-              : "Save provider"}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default ProviderModal;
-

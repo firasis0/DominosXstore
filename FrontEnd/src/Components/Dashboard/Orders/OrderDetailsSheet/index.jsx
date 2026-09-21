@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import styles from "./styles.module.scss";
+import { authFetch } from "../../../../lib/authFetch.js";
 
 const STATUS_LABELS = {
     pending: "Pending",
@@ -31,9 +32,7 @@ const STATUS_LABELS = {
 const formatPrice = (value) => {
     const number = Number(value || 0);
 
-    return `${number.toLocaleString(
-        "fr-DZ"
-    )} DA`;
+    return `${number.toLocaleString("fr-DZ")} DA`;
 };
 
 const formatDateTime = (value) => {
@@ -43,24 +42,17 @@ const formatDateTime = (value) => {
 
     const date = new Date(value);
 
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
+    if (Number.isNaN(date.getTime())) {
         return "—";
     }
 
-    return date.toLocaleString(
-        "en-GB",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        }
-    );
+    return date.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 };
 
 const normalizeStatus = (status) =>
@@ -68,12 +60,8 @@ const normalizeStatus = (status) =>
         .trim()
         .toLowerCase();
 
-const normalizeDeliveryType = (
-    value
-) => {
-    const normalized = String(
-        value || ""
-    )
+const normalizeDeliveryType = (value) => {
+    const normalized = String(value || "")
         .trim()
         .toLowerCase();
 
@@ -87,12 +75,8 @@ const normalizeDeliveryType = (
     return "home";
 };
 
-const formatDeliveryType = (
-    value
-) => {
-    return normalizeDeliveryType(
-        value
-    ) === "office"
+const formatDeliveryType = (value) => {
+    return normalizeDeliveryType(value) === "office"
         ? "Office"
         : "Home";
 };
@@ -150,73 +134,72 @@ const OrderDetailsSheet = ({
         useState("");
 
     useEffect(() => {
-    if (!isOpen || !orderId) {
-        return undefined;
-    }
-
-    let cancelled = false;
-
-    const loadOrderDetails = async () => {
-        try {
-            setLoading(true);
-            setError("");
-
-            const response = await fetch(
-                `${apiBaseUrl}/dashboard/orders/${orderId}`
-            );
-
-            const result =
-                await response.json();
-
-            if (!response.ok) {
-                throw new Error(
-                    result?.message ||
-                        "Failed to load order details."
-                );
-            }
-
-            if (!cancelled) {
-                setOrderData(
-                    result?.data || null
-                );
-            }
-        } catch (fetchError) {
-            console.error(
-                "Order details error:",
-                fetchError
-            );
-
-            if (!cancelled) {
-                setError(
-                    fetchError.message ||
-                        "Failed to load order details."
-                );
-            }
-        } finally {
-            if (!cancelled) {
-                setLoading(false);
-            }
+        if (!isOpen || !orderId) {
+            return undefined;
         }
-    };
 
-    loadOrderDetails();
+        let cancelled = false;
 
-    return () => {
-        cancelled = true;
-    };
-}, [
-    isOpen,
-    orderId,
-    apiBaseUrl,
-    reloadKey,
-]);
+        const loadOrderDetails = async () => {
+            try {
+                setLoading(true);
+                setError("");
+
+                const response = await authFetch(
+                    `/dashboard/orders/${orderId}`
+                );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result?.message ||
+                            "Failed to load order details."
+                    );
+                }
+
+                if (!cancelled) {
+                    setOrderData(
+                        result?.data || null
+                    );
+                }
+            } catch (fetchError) {
+                console.error(
+                    "Order details error:",
+                    fetchError
+                );
+
+                if (!cancelled) {
+                    setError(
+                        fetchError.message ||
+                            "Failed to load order details."
+                    );
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadOrderDetails();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [
+        isOpen,
+        orderId,
+        apiBaseUrl,
+        reloadKey,
+    ]);
 
     if (!isOpen) {
         return null;
     }
 
-    const data =
-        orderData || {};
+    const data = orderData || {};
 
     const backendOrder =
         data.order || data;
@@ -230,12 +213,11 @@ const OrderDetailsSheet = ({
     const pricing =
         data.pricing || {};
 
-    const items =
-        Array.isArray(
-            data.items
-        )
-            ? data.items
-            : [];
+    const items = Array.isArray(
+        data.items
+    )
+        ? data.items
+        : [];
 
     const status =
         normalizeStatus(
@@ -279,65 +261,48 @@ const OrderDetailsSheet = ({
         backendOrder.delivery_type;
 
     const subtotal =
-        pricing.subtotal !==
-        undefined
+        pricing.subtotal !== undefined
             ? pricing.subtotal
             : items.reduce(
-                  (
-                      total,
-                      item
-                  ) => {
+                  (total, item) => {
                       const lineTotal =
                           Number(
-                              item.quantity ||
-                                  0
+                              item.quantity || 0
                           ) *
                           Number(
-                              item.unit_price ||
-                                  0
+                              item.unit_price || 0
                           );
 
-                      return (
-                          total +
-                          lineTotal
-                      );
+                      return total + lineTotal;
                   },
                   0
               );
 
     const deliveryPrice =
-        pricing.delivery !==
-        undefined
+        pricing.delivery !== undefined
             ? pricing.delivery
-            : backendOrder.delivery_price ||
-              0;
+            : backendOrder.delivery_price || 0;
 
     const total =
-        pricing.total !==
-        undefined
+        pricing.total !== undefined
             ? pricing.total
-            : backendOrder.total ||
-              0;
+            : backendOrder.total || 0;
 
-    const handleStatusChange =
-        (event) => {
-            const nextStatus =
-                event.target.value;
+    const handleStatusChange = (event) => {
+        const nextStatus =
+            event.target.value;
 
-            if (
-                !nextStatus ||
-                isFinal
-            ) {
-                return;
-            }
+        if (!nextStatus || isFinal) {
+            return;
+        }
 
-            onStatusChange?.(
-                backendOrder,
-                nextStatus
-            );
+        onStatusChange?.(
+            backendOrder,
+            nextStatus
+        );
 
-            event.target.value = "";
-        };
+        event.target.value = "";
+    };
 
     return (
         <div
@@ -394,9 +359,7 @@ const OrderDetailsSheet = ({
                         onClick={onClose}
                         aria-label="Close order details"
                     >
-                        <X
-                            size={18}
-                        />
+                        <X size={18} />
                     </button>
                 </div>
 
@@ -417,16 +380,15 @@ const OrderDetailsSheet = ({
                         </div>
                     )}
 
-                    {!loading &&
-                        error && (
-                            <div
-                                className={
-                                    styles.OrderDetailsSheet__Error
-                                }
-                            >
-                                {error}
-                            </div>
-                        )}
+                    {!loading && error && (
+                        <div
+                            className={
+                                styles.OrderDetailsSheet__Error
+                            }
+                        >
+                            {error}
+                        </div>
+                    )}
 
                     {!loading &&
                         !error &&
@@ -452,8 +414,7 @@ const OrderDetailsSheet = ({
                                             className={`${styles.OrderDetailsSheet__Status} ${
                                                 styles[
                                                     `OrderDetailsSheet__Status--${status}`
-                                                ] ||
-                                                ""
+                                                ] || ""
                                             }`}
                                         >
                                             {STATUS_LABELS[
@@ -476,9 +437,7 @@ const OrderDetailsSheet = ({
                                                 }
                                             >
                                                 <RefreshCw
-                                                    size={
-                                                        14
-                                                    }
+                                                    size={14}
                                                 />
 
                                                 <select
@@ -548,9 +507,7 @@ const OrderDetailsSheet = ({
                                                 }
                                             >
                                                 <XCircle
-                                                    size={
-                                                        14
-                                                    }
+                                                    size={14}
                                                 />
 
                                                 Cancel
@@ -582,9 +539,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <User
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Name"
@@ -596,9 +551,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <Phone
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Phone"
@@ -610,9 +563,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <MapPin
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Province"
@@ -624,9 +575,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <MapPin
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Municipality"
@@ -659,9 +608,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <Truck
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Delivery type"
@@ -673,9 +620,7 @@ const OrderDetailsSheet = ({
                                         <InfoItem
                                             icon={
                                                 <Building2
-                                                    size={
-                                                        15
-                                                    }
+                                                    size={15}
                                                 />
                                             }
                                             label="Provider"
@@ -743,9 +688,7 @@ const OrderDetailsSheet = ({
                                     >
                                         <div>
                                             <Hash
-                                                size={
-                                                    14
-                                                }
+                                                size={14}
                                             />
 
                                             <span>
@@ -758,9 +701,7 @@ const OrderDetailsSheet = ({
 
                                         <div>
                                             <CalendarDays
-                                                size={
-                                                    14
-                                                }
+                                                size={14}
                                             />
 
                                             <span>
@@ -791,8 +732,7 @@ const OrderDetailsSheet = ({
                                             styles.OrderDetailsSheet__Items
                                         }
                                     >
-                                        {items.length ===
-                                        0 ? (
+                                        {items.length === 0 ? (
                                             <div
                                                 className={
                                                     styles.OrderDetailsSheet__Empty
@@ -804,9 +744,7 @@ const OrderDetailsSheet = ({
                                             </div>
                                         ) : (
                                             items.map(
-                                                (
-                                                    item
-                                                ) => {
+                                                (item) => {
                                                     const lineTotal =
                                                         item.line_total ??
                                                         Number(
@@ -843,9 +781,7 @@ const OrderDetailsSheet = ({
                                                             >
                                                                 {item.image_url ? (
                                                                     <img
-                                                                        src={`
-                                                                            ${import.meta.env.VITE_HOST_BASE_URL}${item.image_url}
-                                                                        `}
+                                                                        src={`${import.meta.env.VITE_HOST_BASE_URL}${item.image_url}`}
                                                                         alt={
                                                                             item.product_name ||
                                                                             "Product"
@@ -888,7 +824,10 @@ const OrderDetailsSheet = ({
                                                                                         type
                                                                                     }
                                                                                 >
-                                                                                    {type}:{" "}
+                                                                                    {
+                                                                                        type
+                                                                                    }
+                                                                                    :{" "}
                                                                                     {typeof variant ===
                                                                                     "object"
                                                                                         ? variant.value
@@ -926,8 +865,7 @@ const OrderDetailsSheet = ({
                                                                     {formatPrice(
                                                                         item.unit_price
                                                                     )}{" "}
-                                                                    /
-                                                                    unit
+                                                                    / unit
                                                                 </span>
                                                             </div>
                                                         </div>

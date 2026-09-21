@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { authFetch } from "../../../../lib/authFetch.js";
+
 import styles from "./styles.module.scss";
 
 const ORDER_STATUSES = [
@@ -149,7 +151,9 @@ function CustomerDetailsSheet({
     apiBaseUrl,
     onClose,
 }) {
-    const [customerData, setCustomerData] = useState(null);
+    const [customerData, setCustomerData] =
+        useState(null);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -166,21 +170,8 @@ function CustomerDetailsSheet({
     const [orderLoading, setOrderLoading] =
         useState(false);
 
-    const [orderError, setOrderError] =
-        useState("");
+    const [orderError, setOrderError] = useState("");
 
-    /*
-     * Load customer details only when:
-     *
-     * 1. The sheet is actually open.
-     * 2. A valid customer ID exists.
-     *
-     * This prevents:
-     *
-     * /dashboard/customers/null
-     *
-     * from ever being requested.
-     */
     useEffect(() => {
         if (!isOpen || !customerId) {
             return undefined;
@@ -197,9 +188,7 @@ function CustomerDetailsSheet({
                 const params =
                     new URLSearchParams();
 
-                if (
-                    filters.order_search.trim()
-                ) {
+                if (filters.order_search.trim()) {
                     params.set(
                         "order_search",
                         filters.order_search.trim()
@@ -246,9 +235,13 @@ function CustomerDetailsSheet({
                     "100"
                 );
 
+                const query = params.toString();
+
                 const response =
-                    await fetch(
-                        `${apiBaseUrl}/dashboard/customers/${customerId}?${params.toString()}`,
+                    await authFetch(
+                        `/dashboard/customers/${customerId}${
+                            query ? `?${query}` : ""
+                        }`,
                         {
                             signal:
                                 controller.signal,
@@ -308,13 +301,6 @@ function CustomerDetailsSheet({
         filters,
     ]);
 
-    /*
-     * Reset the internal state when the sheet closes.
-     *
-     * This does not trigger while opening and does not
-     * perform any synchronous setState during render.
-     */
-    
     const customer =
         customerData?.customer || null;
 
@@ -377,8 +363,8 @@ function CustomerDetailsSheet({
             setOrderLoading(true);
 
             const response =
-                await fetch(
-                    `${apiBaseUrl}/dashboard/customers/${customerId}/orders/${orderId}`
+                await authFetch(
+                    `/dashboard/customers/${customerId}/orders/${orderId}`
                 );
 
             const result =
@@ -409,15 +395,6 @@ function CustomerDetailsSheet({
         }
     };
 
-    /*
-     * IMPORTANT:
-     *
-     * The component remains mounted by Customers/index.jsx,
-     * but the actual sheet must not exist in the DOM when
-     * isOpen is false.
-     *
-     * This fixes the sheet appearing immediately on page load.
-     */
     if (!isOpen) {
         return null;
     }
@@ -518,10 +495,6 @@ function CustomerDetailsSheet({
                         </div>
                     ) : (
                         <>
-                            {/* =========================
-                                CUSTOMER
-                            ========================= */}
-
                             <section
                                 className={
                                     styles.CustomerDetails__CustomerCard
@@ -626,10 +599,6 @@ function CustomerDetailsSheet({
                                 </div>
                             </section>
 
-                            {/* =========================
-                                CUSTOMER STATS
-                            ========================= */}
-
                             <section
                                 className={
                                     styles.CustomerDetails__Stats
@@ -672,10 +641,6 @@ function CustomerDetailsSheet({
                                 </div>
                             </section>
 
-                            {/* =========================
-                                ORDER HISTORY
-                            ========================= */}
-
                             <section
                                 className={
                                     styles.CustomerDetails__OrdersSection
@@ -700,8 +665,6 @@ function CustomerDetailsSheet({
                                     </div>
                                 </div>
 
-                                {/* FILTERS */}
-
                                 <div
                                     className={
                                         styles.CustomerDetails__Filters
@@ -714,7 +677,9 @@ function CustomerDetailsSheet({
                                     >
                                         <Search
                                             size={15}
-                                            strokeWidth={1.8}
+                                            strokeWidth={
+                                                1.8
+                                            }
                                         />
 
                                         <input
@@ -849,8 +814,6 @@ function CustomerDetailsSheet({
                                         Reset
                                     </button>
                                 </div>
-
-                                {/* ORDERS */}
 
                                 {orders.length ===
                                 0 ? (
@@ -1006,8 +969,6 @@ function CustomerDetailsSheet({
                                                                     </div>
                                                                 ) : expandedOrder ? (
                                                                     <>
-                                                                        {/* ORDER INFO */}
-
                                                                         <div
                                                                             className={
                                                                                 styles.CustomerDetails__OrderInfo
@@ -1055,8 +1016,6 @@ function CustomerDetailsSheet({
                                                                                 </strong>
                                                                             </div>
                                                                         </div>
-
-                                                                        {/* CUSTOMER + DELIVERY */}
 
                                                                         <div
                                                                             className={
@@ -1156,8 +1115,6 @@ function CustomerDetailsSheet({
                                                                             </section>
                                                                         </div>
 
-                                                                        {/* PRODUCTS */}
-
                                                                         <div
                                                                             className={
                                                                                 styles.CustomerDetails__Products
@@ -1170,7 +1127,9 @@ function CustomerDetailsSheet({
                                                                             {Array.isArray(
                                                                                 expandedOrder.items
                                                                             ) &&
-                                                                            expandedOrder.items.length >
+                                                                            expandedOrder
+                                                                                .items
+                                                                                .length >
                                                                                 0 ? (
                                                                                 expandedOrder.items.map(
                                                                                     (
@@ -1192,7 +1151,7 @@ function CustomerDetailsSheet({
                                                                                                 {item.image_url ? (
                                                                                                     <img
                                                                                                         src={
-                                                                                                            item.image_url
+                                                                                                            `${import.meta.env.VITE_HOST_BASE_URL}${item.image_url}`
                                                                                                         }
                                                                                                         alt={
                                                                                                             item.product_name ||
@@ -1293,8 +1252,6 @@ function CustomerDetailsSheet({
                                                                                 </div>
                                                                             )}
                                                                         </div>
-
-                                                                        {/* PRICING */}
 
                                                                         <div
                                                                             className={

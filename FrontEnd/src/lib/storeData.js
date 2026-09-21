@@ -23,10 +23,10 @@ const fetchStoreData = async (path) => {
 };
 
 export const fetchStoreCategories = () =>
-  fetchStoreData("/dashboard/categories");
+  fetchStoreData("/categories");
 
 export const fetchStoreBrands = () =>
-  fetchStoreData("/dashboard/brands");
+  fetchStoreData("/brands");
 
 export const fetchStoreProducts = () =>
   fetchStoreData("/shop");

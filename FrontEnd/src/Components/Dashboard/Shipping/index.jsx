@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { authFetch } from "../../../lib/authFetch";
 
 import Toast from "@/Components/ui/toast";
 import {
@@ -84,16 +85,7 @@ const Shipping = () => {
     endpoint,
     options = {}
   ) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
-      {
-        ...options,
-        headers: {
-          "Content-Type": "application/json",
-          ...(options.headers || {}),
-        },
-      }
-    );
+    const response = await authFetch(endpoint, options);
 
     const result = await response.json();
 

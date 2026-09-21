@@ -7,7 +7,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/Components/ui/table";
 
 import { Pagination } from "@/Components/ui/pagination";
@@ -20,6 +20,8 @@ import BrandModal from "./BrandModal";
 import BrandDeactivateDialog from "./BrandDeactivateDialog";
 import BrandDeleteDialog from "./BrandDeleteDialog";
 import SortableTableHead from "../SortableTableHead";
+
+import { authFetch } from "../../../lib/authFetch";
 
 import styles from "./styles.module.scss";
 
@@ -43,14 +45,11 @@ const Brands = () => {
 
   const [toast, setToast] = useState(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  // Fetch Brands
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/dashboard/brands`
+        const response = await authFetch(
+          "/dashboard/brands"
         );
 
         if (!response.ok) {
@@ -78,7 +77,8 @@ const Brands = () => {
     setSortConfig((current) => ({
       key,
       direction:
-        current.key === key && current.direction === "asc"
+        current.key === key &&
+        current.direction === "asc"
           ? "desc"
           : "asc",
     }));
@@ -103,11 +103,16 @@ const Brands = () => {
     return [...filtered].sort((left, right) => {
       const leftValue = left[sortConfig.key];
       const rightValue = right[sortConfig.key];
-      const comparison = typeof leftValue === "string"
-        ? leftValue.localeCompare(rightValue)
-        : Number(leftValue || 0) - Number(rightValue || 0);
 
-      return sortConfig.direction === "asc" ? comparison : -comparison;
+      const comparison =
+        typeof leftValue === "string"
+          ? leftValue.localeCompare(rightValue)
+          : Number(leftValue || 0) -
+            Number(rightValue || 0);
+
+      return sortConfig.direction === "asc"
+        ? comparison
+        : -comparison;
     });
   }, [brands, search, status, sortConfig]);
 
@@ -131,19 +136,26 @@ const Brands = () => {
       if (brandData.image_file) {
         const formData = new FormData();
 
-        formData.append("image", brandData.image_file);
+        formData.append(
+          "image",
+          brandData.image_file
+        );
 
-        const imageResponse = await fetch(
-          `${API_BASE_URL}/dashboard/brands/images`,
+        const imageResponse = await authFetch(
+          "/dashboard/brands/images",
           {
             method: "POST",
             body: formData,
           }
         );
 
-        const imageResult = await imageResponse.json();
+        const imageResult =
+          await imageResponse.json();
 
-        if (!imageResponse.ok || !imageResult.success) {
+        if (
+          !imageResponse.ok ||
+          !imageResult.success
+        ) {
           throw new Error(imageResult.message);
         }
 
@@ -152,16 +164,15 @@ const Brands = () => {
 
       // Add or edit brand
       const url = editingBrand
-        ? `${API_BASE_URL}/dashboard/brands/${editingBrand.id}`
-        : `${API_BASE_URL}/dashboard/brands`;
+        ? `/dashboard/brands/${editingBrand.id}`
+        : "/dashboard/brands";
 
-      const method = editingBrand ? "PATCH" : "POST";
+      const method = editingBrand
+        ? "PATCH"
+        : "POST";
 
-      const response = await fetch(url, {
+      const response = await authFetch(url, {
         method,
-        headers: {
-          "content-type": "application/json",
-        },
         body: JSON.stringify({
           name: brandData.name,
           image_url: imageUrl,
@@ -199,7 +210,6 @@ const Brands = () => {
 
       setModalOpen(false);
       setEditingBrand(null);
-
     } catch (error) {
       setToast({
         type: "error",
@@ -210,13 +220,10 @@ const Brands = () => {
 
   const handleActivate = async (brand) => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/brands/${brand.id}/toggle`,
+      const response = await authFetch(
+        `/dashboard/brands/${brand.id}/toggle`,
         {
           method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
           body: JSON.stringify({
             is_active: true,
           }),
@@ -270,13 +277,10 @@ const Brands = () => {
     if (!deactivateBrand) return;
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/brands/${deactivateBrand.id}/toggle`,
+      const response = await authFetch(
+        `/dashboard/brands/${deactivateBrand.id}/toggle`,
         {
           method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
           body: JSON.stringify({
             is_active: false,
           }),
@@ -313,7 +317,6 @@ const Brands = () => {
       } else {
         throw new Error(result.message);
       }
-
     } catch (error) {
       console.error(
         `Error deactivating the brand: ${error}`
@@ -332,8 +335,8 @@ const Brands = () => {
 
   const handleDelete = async (brand) => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/brands/${brand.id}`,
+      const response = await authFetch(
+        `/dashboard/brands/${brand.id}`,
         {
           method: "DELETE",
         }
@@ -357,7 +360,6 @@ const Brands = () => {
       });
 
       setDeleteBrand(null);
-
     } catch (error) {
       setToast({
         type: "error",
@@ -368,7 +370,6 @@ const Brands = () => {
 
   return (
     <section className={styles.Brands}>
-
       <div className={styles.Brands__Header}>
         <div>
           <p className={styles.Brands__Eyebrow}>
@@ -396,7 +397,6 @@ const Brands = () => {
       </div>
 
       <div className={styles.Brands__TableCard}>
-
         <BrandToolbar
           search={search}
           setSearch={setSearch}
@@ -406,12 +406,28 @@ const Brands = () => {
 
         <div className={styles.Brands__TableWrap}>
           <Table className={styles.Brands__Table}>
-
             <TableHeader>
               <TableRow>
-                <SortableTableHead label="Brand" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Products" sortKey="product_count" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Status" sortKey="is_active" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead
+                  label="Brand"
+                  sortKey="name"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
+
+                <SortableTableHead
+                  label="Products"
+                  sortKey="product_count"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
+
+                <SortableTableHead
+                  label="Status"
+                  sortKey="is_active"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
 
                 <TableHead
                   className={styles.Brands__ActionsHead}
@@ -429,7 +445,9 @@ const Brands = () => {
                     brand={brand}
                     onEdit={handleEdit}
                     onActivate={handleActivate}
-                    onDeactivate={handleDeactivateRequest}
+                    onDeactivate={
+                      handleDeactivateRequest
+                    }
                     onDelete={handleDeleteRequest}
                   />
                 ))
@@ -463,7 +481,6 @@ const Brands = () => {
 
           <span>Updated just now</span>
         </div>
-
       </div>
 
       {modalOpen && (
@@ -500,7 +517,6 @@ const Brands = () => {
           onClose={() => setToast(null)}
         />
       )}
-
     </section>
   );
 };

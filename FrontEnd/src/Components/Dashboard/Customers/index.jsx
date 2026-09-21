@@ -12,11 +12,9 @@ import CustomerToolbar from "./CustomerToolbar";
 import CustomerRow from "./CustomerRow";
 import CustomerDetailsSheet from "./CustomerDetailsSheet";
 
-import styles from "./styles.module.scss";
+import { authFetch, API_BASE_URL } from "../../../lib/authFetch.js";
 
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
+import styles from "./styles.module.scss";
 
 const PAGE_LIMIT = 20;
 
@@ -62,14 +60,6 @@ export default function Customers() {
     const [selectedCustomerId, setSelectedCustomerId] =
         useState(null);
 
-    /*
-     * Load customer statistics and provinces.
-     *
-     * This runs once when the Customers component mounts.
-     * The fetch logic is kept inside the effect so there are
-     * no unused fetch callbacks and no effect -> callback
-     * dependency chain.
-     */
     useEffect(() => {
         let cancelled = false;
 
@@ -79,11 +69,11 @@ export default function Customers() {
 
                 const [statsResponse, provincesResponse] =
                     await Promise.all([
-                        fetch(
-                            `${API_BASE_URL}/dashboard/customers/stats`
+                        authFetch(
+                            "/dashboard/customers/stats"
                         ),
-                        fetch(
-                            `${API_BASE_URL}/dashboard/customers/provinces`
+                        authFetch(
+                            "/dashboard/customers/provinces"
                         ),
                     ]);
 
@@ -139,12 +129,6 @@ export default function Customers() {
         };
     }, []);
 
-    /*
-     * Load customers.
-     *
-     * This effect intentionally depends only on the values
-     * that actually control the customer query.
-     */
     useEffect(() => {
         let cancelled = false;
 
@@ -176,8 +160,8 @@ export default function Customers() {
                     );
                 }
 
-                const response = await fetch(
-                    `${API_BASE_URL}/dashboard/customers?${params.toString()}`
+                const response = await authFetch(
+                    `/dashboard/customers?${params.toString()}`
                 );
 
                 const result = await response.json();
@@ -599,8 +583,7 @@ export default function Customers() {
                                             Loading customers...
                                         </td>
                                     </tr>
-                                ) : customers.length ===
-                                  0 ? (
+                                ) : customers.length === 0 ? (
                                     <tr>
                                         <td
                                             colSpan={7}
@@ -656,16 +639,13 @@ export default function Customers() {
                                     setPage(
                                         Math.max(
                                             1,
-                                            currentPage -
-                                                1
+                                            currentPage - 1
                                         )
                                     )
                                 }
                                 aria-label="Previous page"
                             >
-                                <ChevronLeft
-                                    size={17}
-                                />
+                                <ChevronLeft size={17} />
                             </button>
 
                             <span>
@@ -683,16 +663,13 @@ export default function Customers() {
                                     setPage(
                                         Math.min(
                                             totalPages,
-                                            currentPage +
-                                                1
+                                            currentPage + 1
                                         )
                                     )
                                 }
                                 aria-label="Next page"
                             >
-                                <ChevronRight
-                                    size={17}
-                                />
+                                <ChevronRight size={17} />
                             </button>
                         </div>
                     </div>
@@ -700,9 +677,7 @@ export default function Customers() {
             </div>
 
             <CustomerDetailsSheet
-                isOpen={Boolean(
-                    selectedCustomerId
-                )}
+                isOpen={Boolean(selectedCustomerId)}
                 customerId={selectedCustomerId}
                 apiBaseUrl={API_BASE_URL}
                 onClose={handleCloseDetails}

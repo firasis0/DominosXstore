@@ -7,7 +7,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/Components/ui/table";
 
 import { Pagination } from "@/Components/ui/pagination";
@@ -20,6 +20,8 @@ import CategoryModal from "./CategoryModal";
 import CategoryDeactivateDialog from "./CategoryDeactivateDialog";
 import CategoryDeleteDialog from "./CategoryDeleteDialog";
 import SortableTableHead from "../SortableTableHead";
+
+import { authFetch } from "../../../lib/authFetch";
 
 import styles from "./styles.module.scss";
 
@@ -43,14 +45,11 @@ const Categories = () => {
 
   const [toast, setToast] = useState(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  // Fetch Categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/dashboard/categories`
+        const response = await authFetch(
+          "/dashboard/categories"
         );
 
         if (!response.ok) {
@@ -67,7 +66,10 @@ const Categories = () => {
           throw new Error(result.message);
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error(
+          "Error fetching categories:",
+          error
+        );
       }
     };
 
@@ -78,7 +80,8 @@ const Categories = () => {
     setSortConfig((current) => ({
       key,
       direction:
-        current.key === key && current.direction === "asc"
+        current.key === key &&
+        current.direction === "asc"
           ? "desc"
           : "asc",
     }));
@@ -103,11 +106,16 @@ const Categories = () => {
     return [...filtered].sort((left, right) => {
       const leftValue = left[sortConfig.key];
       const rightValue = right[sortConfig.key];
-      const comparison = typeof leftValue === "string"
-        ? leftValue.localeCompare(rightValue)
-        : Number(leftValue || 0) - Number(rightValue || 0);
 
-      return sortConfig.direction === "asc" ? comparison : -comparison;
+      const comparison =
+        typeof leftValue === "string"
+          ? leftValue.localeCompare(rightValue)
+          : Number(leftValue || 0) -
+            Number(rightValue || 0);
+
+      return sortConfig.direction === "asc"
+        ? comparison
+        : -comparison;
     });
   }, [categories, search, status, sortConfig]);
 
@@ -127,41 +135,45 @@ const Categories = () => {
       : null;
 
     try {
-      // Upload a new image if one was selected
       if (categoryData.image_file) {
         const formData = new FormData();
 
-        formData.append("image", categoryData.image_file);
+        formData.append(
+          "image",
+          categoryData.image_file
+        );
 
-        const imageResponse = await fetch(
-          `${API_BASE_URL}/dashboard/categories/images`,
+        const imageResponse = await authFetch(
+          "/dashboard/categories/images",
           {
             method: "POST",
             body: formData,
           }
         );
 
-        const imageResult = await imageResponse.json();
+        const imageResult =
+          await imageResponse.json();
 
-        if (!imageResponse.ok || !imageResult.success) {
+        if (
+          !imageResponse.ok ||
+          !imageResult.success
+        ) {
           throw new Error(imageResult.message);
         }
 
         imageUrl = imageResult.data.url;
       }
 
-      // Add or edit category
       const url = editingCategory
-        ? `${API_BASE_URL}/dashboard/categories/${editingCategory.id}`
-        : `${API_BASE_URL}/dashboard/categories`;
+        ? `/dashboard/categories/${editingCategory.id}`
+        : "/dashboard/categories";
 
-      const method = editingCategory ? "PATCH" : "POST";
+      const method = editingCategory
+        ? "PATCH"
+        : "POST";
 
-      const response = await fetch(url, {
+      const response = await authFetch(url, {
         method,
-        headers: {
-          "content-type": "application/json",
-        },
         body: JSON.stringify({
           name: categoryData.name,
           image_url: imageUrl,
@@ -174,7 +186,6 @@ const Categories = () => {
         throw new Error(result.message);
       }
 
-      // Update local categories state
       if (editingCategory) {
         setCategories((current) =>
           current.map((category) =>
@@ -199,7 +210,6 @@ const Categories = () => {
 
       setModalOpen(false);
       setEditingCategory(null);
-
     } catch (error) {
       setToast({
         type: "error",
@@ -210,13 +220,10 @@ const Categories = () => {
 
   const handleActivate = async (category) => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${category.id}/toggle`,
+      const response = await authFetch(
+        `/dashboard/categories/${category.id}/toggle`,
         {
           method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
           body: JSON.stringify({
             is_active: true,
           }),
@@ -270,13 +277,10 @@ const Categories = () => {
     if (!deactivateCategory) return;
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${deactivateCategory.id}/toggle`,
+      const response = await authFetch(
+        `/dashboard/categories/${deactivateCategory.id}/toggle`,
         {
           method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
           body: JSON.stringify({
             is_active: false,
           }),
@@ -308,12 +312,12 @@ const Categories = () => {
 
         setToast({
           type: "success",
-          message: "Category deactivated successfully.",
+          message:
+            "Category deactivated successfully.",
         });
       } else {
         throw new Error(result.message);
       }
-
     } catch (error) {
       console.error(
         `Error deactivating the category: ${error}`
@@ -332,8 +336,8 @@ const Categories = () => {
 
   const handleDelete = async (category) => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/dashboard/categories/${category.id}`,
+      const response = await authFetch(
+        `/dashboard/categories/${category.id}`,
         {
           method: "DELETE",
         }
@@ -357,7 +361,6 @@ const Categories = () => {
       });
 
       setDeleteCategory(null);
-
     } catch (error) {
       setToast({
         type: "error",
@@ -368,7 +371,6 @@ const Categories = () => {
 
   return (
     <section className={styles.Categories}>
-
       <div className={styles.Categories__Header}>
         <div>
           <p className={styles.Categories__Eyebrow}>
@@ -378,7 +380,8 @@ const Categories = () => {
           <h1>Categories</h1>
 
           <p>
-            Organize and manage the categories in your store.
+            Organize and manage the categories in your
+            store.
           </p>
         </div>
 
@@ -396,7 +399,6 @@ const Categories = () => {
       </div>
 
       <div className={styles.Categories__TableCard}>
-
         <CategoryToolbar
           search={search}
           setSearch={setSearch}
@@ -406,15 +408,33 @@ const Categories = () => {
 
         <div className={styles.Categories__TableWrap}>
           <Table className={styles.Categories__Table}>
-
             <TableHeader>
               <TableRow>
-                <SortableTableHead label="Category" sortKey="name" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Products" sortKey="product_count" sortConfig={sortConfig} onSort={handleSort} />
-                <SortableTableHead label="Status" sortKey="is_active" sortConfig={sortConfig} onSort={handleSort} />
+                <SortableTableHead
+                  label="Category"
+                  sortKey="name"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
+
+                <SortableTableHead
+                  label="Products"
+                  sortKey="product_count"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
+
+                <SortableTableHead
+                  label="Status"
+                  sortKey="is_active"
+                  sortConfig={sortConfig}
+                  onSort={handleSort}
+                />
 
                 <TableHead
-                  className={styles.Categories__ActionsHead}
+                  className={
+                    styles.Categories__ActionsHead
+                  }
                 >
                   Actions
                 </TableHead>
@@ -429,7 +449,9 @@ const Categories = () => {
                     category={category}
                     onEdit={handleEdit}
                     onActivate={handleActivate}
-                    onDeactivate={handleDeactivateRequest}
+                    onDeactivate={
+                      handleDeactivateRequest
+                    }
                     onDelete={handleDeleteRequest}
                   />
                 ))
@@ -437,7 +459,9 @@ const Categories = () => {
                 <TableRow>
                   <TableCell
                     colSpan={4}
-                    className={styles.Categories__Empty}
+                    className={
+                      styles.Categories__Empty
+                    }
                   >
                     No categories found.
                   </TableCell>
@@ -463,7 +487,6 @@ const Categories = () => {
 
           <span>Updated just now</span>
         </div>
-
       </div>
 
       {modalOpen && (
@@ -489,7 +512,9 @@ const Categories = () => {
         <CategoryDeleteDialog
           category={deleteCategory}
           onCancel={() => setDeleteCategory(null)}
-          onConfirm={() => handleDelete(deleteCategory)}
+          onConfirm={() =>
+            handleDelete(deleteCategory)
+          }
         />
       )}
 
@@ -500,7 +525,6 @@ const Categories = () => {
           onClose={() => setToast(null)}
         />
       )}
-
     </section>
   );
 };

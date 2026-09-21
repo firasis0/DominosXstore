@@ -19,6 +19,7 @@ import OrderRow from "./OrderRow";
 import OrderDetailsSheet from "./OrderDetailsSheet";
 
 import styles from "./styles.module.scss";
+import { authFetch } from "../../../lib/authFetch";
 
 /*
 |--------------------------------------------------------------------------
@@ -66,14 +67,10 @@ const dashboardStore = {
     },
 
     subscribe: (listener) => {
-        dashboardStore.listeners.add(
-            listener
-        );
+        dashboardStore.listeners.add(listener);
 
         return () => {
-            dashboardStore.listeners.delete(
-                listener
-            );
+            dashboardStore.listeners.delete(listener);
         };
     },
 
@@ -96,85 +93,71 @@ const loadDashboard = async () => {
         return dashboardRequest;
     }
 
-    dashboardRequest =
-        (async () => {
+    dashboardRequest = (async () => {
+        dashboardStore.setState({
+            loading: true,
+            error: "",
+        });
+
+        try {
+            const [
+                ordersResponse,
+                statsResponse,
+            ] = await Promise.all([
+                authFetch("/dashboard/orders"),
+                authFetch("/dashboard/orders/stats"),
+            ]);
+
+            const ordersResult =
+                await ordersResponse.json();
+
+            const statsResult =
+                await statsResponse.json();
+
+            if (!ordersResponse.ok) {
+                throw new Error(
+                    ordersResult?.message ||
+                        "Failed to load orders."
+                );
+            }
+
+            if (!statsResponse.ok) {
+                throw new Error(
+                    statsResult?.message ||
+                        "Failed to load order statistics."
+                );
+            }
+
             dashboardStore.setState({
-                loading: true,
+                orders: Array.isArray(
+                    ordersResult?.data
+                )
+                    ? ordersResult.data
+                    : [],
+
+                stats:
+                    statsResult?.data ||
+                    dashboardStore.state.stats,
+
+                loading: false,
                 error: "",
             });
+        } catch (error) {
+            console.error(
+                "Orders dashboard error:",
+                error
+            );
 
-            try {
-                const [
-                    ordersResponse,
-                    statsResponse,
-                ] = await Promise.all([
-                    fetch(
-                        `${API_BASE_URL}/dashboard/orders`
-                    ),
-                    fetch(
-                        `${API_BASE_URL}/dashboard/orders/stats`
-                    ),
-                ]);
-
-                const ordersResult =
-                    await ordersResponse.json();
-
-                const statsResult =
-                    await statsResponse.json();
-
-                if (
-                    !ordersResponse.ok
-                ) {
-                    throw new Error(
-                        ordersResult?.message ||
-                            "Failed to load orders."
-                    );
-                }
-
-                if (
-                    !statsResponse.ok
-                ) {
-                    throw new Error(
-                        statsResult?.message ||
-                            "Failed to load order statistics."
-                    );
-                }
-
-                dashboardStore.setState(
-                    {
-                        orders:
-                            Array.isArray(
-                                ordersResult?.data
-                            )
-                                ? ordersResult.data
-                                : [],
-
-                        stats:
-                            statsResult?.data ||
-                            dashboardStore.state
-                                .stats,
-
-                        loading: false,
-                        error: "",
-                    }
-                );
-            } catch (error) {
-                console.error(
-                    "Orders dashboard error:",
-                    error
-                );
-
-                dashboardStore.setState({
-                    loading: false,
-                    error:
-                        error.message ||
-                        "Failed to load orders.",
-                });
-            } finally {
-                dashboardRequest =
-                    null;
-            }
-        })();
+            dashboardStore.setState({
+                loading: false,
+                error:
+                    error.message ||
+                    "Failed to load orders.",
+            });
+        } finally {
+            dashboardRequest = null;
+        }
+    })();
 
     return dashboardRequest;
 };
@@ -186,20 +169,15 @@ const loadDashboard = async () => {
 */
 
 const getOrderId = (order) =>
-    order?.id ??
-    order?.order_id;
+    order?.id ?? order?.order_id;
 
 const normalizeStatus = (status) =>
     String(status || "")
         .trim()
         .toLowerCase();
 
-const normalizeDeliveryType = (
-    type
-) => {
-    const normalized = String(
-        type || ""
-    )
+const normalizeDeliveryType = (type) => {
+    const normalized = String(type || "")
         .trim()
         .toLowerCase();
 
@@ -226,54 +204,38 @@ const calculateStats = (orders) => {
     };
 
     orders.forEach((order) => {
-        const status =
-            normalizeStatus(
-                order?.status
-            );
+        const status = normalizeStatus(
+            order?.status
+        );
 
-        if (
-            status === "pending"
-        ) {
+        if (status === "pending") {
             stats.pending_orders += 1;
         }
 
-        if (
-            status === "confirmed"
-        ) {
+        if (status === "confirmed") {
             stats.confirmed_orders += 1;
         }
 
-        if (
-            status === "processing"
-        ) {
+        if (status === "processing") {
             stats.processing_orders += 1;
         }
 
-        if (
-            status === "shipped"
-        ) {
+        if (status === "shipped") {
             stats.shipped_orders += 1;
         }
 
-        if (
-            status === "delivered"
-        ) {
+        if (status === "delivered") {
             stats.delivered_orders += 1;
         }
 
-        if (
-            status === "cancelled"
-        ) {
+        if (status === "cancelled") {
             stats.cancelled_orders += 1;
         }
 
-        if (
-            status !== "cancelled"
-        ) {
-            stats.total_revenue +=
-                Number(
-                    order?.total || 0
-                );
+        if (status !== "cancelled") {
+            stats.total_revenue += Number(
+                order?.total || 0
+            );
         }
     });
 
@@ -283,9 +245,7 @@ const calculateStats = (orders) => {
 const formatPrice = (value) => {
     const number = Number(value || 0);
 
-    return `${number.toLocaleString(
-        "fr-DZ"
-    )} DA`;
+    return `${number.toLocaleString("fr-DZ")} DA`;
 };
 
 const formatDate = (value) => {
@@ -295,17 +255,11 @@ const formatDate = (value) => {
 
     const date = new Date(value);
 
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
+    if (Number.isNaN(date.getTime())) {
         return "";
     }
 
-    return date
-        .toISOString()
-        .slice(0, 10);
+    return date.toISOString().slice(0, 10);
 };
 
 /*
@@ -315,12 +269,11 @@ const formatDate = (value) => {
 */
 
 const Orders = () => {
-    const dashboard =
-        useSyncExternalStore(
-            dashboardStore.subscribe,
-            dashboardStore.getSnapshot,
-            dashboardStore.getSnapshot
-        );
+    const dashboard = useSyncExternalStore(
+        dashboardStore.subscribe,
+        dashboardStore.getSnapshot,
+        dashboardStore.getSnapshot
+    );
 
     const {
         orders,
@@ -335,14 +288,13 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const [filters, setFilters] =
-        useState({
-            search: "",
-            status: "",
-            deliveryType: "",
-            dateFrom: "",
-            dateTo: "",
-        });
+    const [filters, setFilters] = useState({
+        search: "",
+        status: "",
+        deliveryType: "",
+        dateFrom: "",
+        dateTo: "",
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -350,8 +302,7 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const [currentPage, setCurrentPage] =
-        useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const ITEMS_PER_PAGE = 20;
 
@@ -387,20 +338,17 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleFiltersChange =
-        useCallback(
-            (nextFilters) => {
-                setFilters(
-                    (previous) => ({
-                        ...previous,
-                        ...nextFilters,
-                    })
-                );
+    const handleFiltersChange = useCallback(
+        (nextFilters) => {
+            setFilters((previous) => ({
+                ...previous,
+                ...nextFilters,
+            }));
 
-                setCurrentPage(1);
-            },
-            []
-        );
+            setCurrentPage(1);
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -408,133 +356,111 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const filteredOrders =
-        useMemo(() => {
-            const search =
-                filters.search
-                    .trim()
+    const filteredOrders = useMemo(() => {
+        const search = filters.search
+            .trim()
+            .toLowerCase();
+
+        const dateFrom = filters.dateFrom;
+        const dateTo = filters.dateTo;
+
+        return orders.filter((order) => {
+            const status = normalizeStatus(
+                order?.status
+            );
+
+            const deliveryType =
+                normalizeDeliveryType(
+                    order?.delivery_type
+                );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Search
+            |--------------------------------------------------------------------------
+            */
+
+            if (search) {
+                const searchable = [
+                    order?.id,
+                    order?.order_id,
+                    order?.customer_name,
+                    order?.customer_phone,
+                    order?.province,
+                    order?.municipality,
+                    order?.shipping_provider_name,
+                ]
+                    .filter(
+                        (value) =>
+                            value !== null &&
+                            value !== undefined
+                    )
+                    .join(" ")
                     .toLowerCase();
 
-            const dateFrom =
-                filters.dateFrom;
-
-            const dateTo =
-                filters.dateTo;
-
-            return orders.filter(
-                (order) => {
-                    const status =
-                        normalizeStatus(
-                            order?.status
-                        );
-
-                    const deliveryType =
-                        normalizeDeliveryType(
-                            order?.delivery_type
-                        );
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Search
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (search) {
-                        const searchable =
-                            [
-                                order?.id,
-                                order?.order_id,
-                                order?.customer_name,
-                                order?.customer_phone,
-                                order?.province,
-                                order?.municipality,
-                                order?.shipping_provider_name,
-                            ]
-                                .filter(
-                                    (
-                                        value
-                                    ) =>
-                                        value !==
-                                            null &&
-                                        value !==
-                                            undefined
-                                )
-                                .join(" ")
-                                .toLowerCase();
-
-                        if (
-                            !searchable.includes(
-                                search
-                            )
-                        ) {
-                            return false;
-                        }
-                    }
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Status
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (
-                        filters.status &&
-                        status !==
-                            filters.status
-                    ) {
-                        return false;
-                    }
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Delivery
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (
-                        filters.deliveryType &&
-                        deliveryType !==
-                            filters.deliveryType
-                    ) {
-                        return false;
-                    }
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Date
-                    |--------------------------------------------------------------------------
-                    */
-
-                    const orderDate =
-                        formatDate(
-                            order?.created_at
-                        );
-
-                    if (
-                        dateFrom &&
-                        orderDate &&
-                        orderDate <
-                            dateFrom
-                    ) {
-                        return false;
-                    }
-
-                    if (
-                        dateTo &&
-                        orderDate &&
-                        orderDate >
-                            dateTo
-                    ) {
-                        return false;
-                    }
-
-                    return true;
+                if (
+                    !searchable.includes(search)
+                ) {
+                    return false;
                 }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Status
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                filters.status &&
+                status !== filters.status
+            ) {
+                return false;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Delivery
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                filters.deliveryType &&
+                deliveryType !==
+                    filters.deliveryType
+            ) {
+                return false;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Date
+            |--------------------------------------------------------------------------
+            */
+
+            const orderDate = formatDate(
+                order?.created_at
             );
-        }, [
-            orders,
-            filters,
-        ]);
+
+            if (
+                dateFrom &&
+                orderDate &&
+                orderDate < dateFrom
+            ) {
+                return false;
+            }
+
+            if (
+                dateTo &&
+                orderDate &&
+                orderDate > dateTo
+            ) {
+                return false;
+            }
+
+            return true;
+        });
+    }, [orders, filters]);
 
     /*
     |--------------------------------------------------------------------------
@@ -550,27 +476,24 @@ const Orders = () => {
         )
     );
 
-    const safeCurrentPage =
-        Math.min(
-            currentPage,
-            totalPages
+    const safeCurrentPage = Math.min(
+        currentPage,
+        totalPages
+    );
+
+    const paginatedOrders = useMemo(() => {
+        const start =
+            (safeCurrentPage - 1) *
+            ITEMS_PER_PAGE;
+
+        return filteredOrders.slice(
+            start,
+            start + ITEMS_PER_PAGE
         );
-
-    const paginatedOrders =
-        useMemo(() => {
-            const start =
-                (safeCurrentPage - 1) *
-                ITEMS_PER_PAGE;
-
-            return filteredOrders.slice(
-                start,
-                start +
-                    ITEMS_PER_PAGE
-            );
-        }, [
-            filteredOrders,
-            safeCurrentPage,
-        ]);
+    }, [
+        filteredOrders,
+        safeCurrentPage,
+    ]);
 
     /*
     |--------------------------------------------------------------------------
@@ -578,19 +501,16 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleViewOrder =
-        useCallback(
-            (orderId) => {
-                if (!orderId) {
-                    return;
-                }
+    const handleViewOrder = useCallback(
+        (orderId) => {
+            if (!orderId) {
+                return;
+            }
 
-                setSelectedOrderId(
-                    orderId
-                );
-            },
-            []
-        );
+            setSelectedOrderId(orderId);
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -598,10 +518,12 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleCloseDetails =
-        useCallback(() => {
+    const handleCloseDetails = useCallback(
+        () => {
             setSelectedOrderId(null);
-        }, []);
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -609,169 +531,145 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleStatusChange =
-        useCallback(
-            async (
-                orderId,
-                status
-            ) => {
-                if (!orderId) {
-                    return;
-                }
+    const handleStatusChange = useCallback(
+        async (orderId, status) => {
+            if (!orderId) {
+                return;
+            }
 
-                const normalizedStatus =
-                    normalizeStatus(
-                        status
-                    );
+            const normalizedStatus =
+                normalizeStatus(status);
 
-                if (
-                    ![
-                        "pending",
-                        "confirmed",
-                        "processing",
-                        "shipped",
-                        "delivered",
-                        "cancelled",
-                    ].includes(
-                        normalizedStatus
-                    )
-                ) {
-                    return;
-                }
+            if (
+                ![
+                    "pending",
+                    "confirmed",
+                    "processing",
+                    "shipped",
+                    "delivered",
+                    "cancelled",
+                ].includes(normalizedStatus)
+            ) {
+                return;
+            }
 
-                const currentOrder =
-                    dashboardStore.state.orders.find(
-                        (order) =>
-                            Number(
-                                getOrderId(
-                                    order
-                                )
-                            ) ===
-                            Number(
-                                orderId
-                            )
-                    );
+            const currentOrder =
+                dashboardStore.state.orders.find(
+                    (order) =>
+                        Number(
+                            getOrderId(order)
+                        ) === Number(orderId)
+                );
 
-                if (!currentOrder) {
-                    return;
-                }
+            if (!currentOrder) {
+                return;
+            }
 
-                const currentStatus =
-                    normalizeStatus(
-                        currentOrder.status
-                    );
+            const currentStatus =
+                normalizeStatus(
+                    currentOrder.status
+                );
 
-                /*
-                |--------------------------------------------------------------------------
-                | Final statuses cannot be changed
-                |--------------------------------------------------------------------------
-                */
+            /*
+            |--------------------------------------------------------------------------
+            | Final statuses cannot be changed
+            |--------------------------------------------------------------------------
+            */
 
-                if (
-                    currentStatus ===
-                        "delivered" ||
-                    currentStatus ===
-                        "cancelled"
-                ) {
-                    return;
-                }
+            if (
+                currentStatus ===
+                    "delivered" ||
+                currentStatus === "cancelled"
+            ) {
+                return;
+            }
 
-                if (
-                    currentStatus ===
-                    normalizedStatus
-                ) {
-                    return;
-                }
+            if (
+                currentStatus ===
+                normalizedStatus
+            ) {
+                return;
+            }
 
-                try {
-                    const response =
-                        await fetch(
-                            `${API_BASE_URL}/dashboard/orders/${orderId}/status`,
-                            {
-                                method: "PATCH",
-                                headers: {
-                                    "Content-Type":
-                                        "application/json",
-                                },
-                                body: JSON.stringify(
-                                    {
-                                        status: normalizedStatus,
-                                    }
-                                ),
-                            }
-                        );
-
-                    const result =
-                        await response.json();
-
-                    if (
-                        !response.ok
-                    ) {
-                        throw new Error(
-                            result?.message ||
-                                "Failed to update order status."
-                        );
-                    }
-
-                    const updatedOrders =
-                        dashboardStore.state.orders.map(
-                            (order) => {
-                                if (
-                                    Number(
-                                        getOrderId(
-                                            order
-                                        )
-                                    ) !==
-                                    Number(
-                                        orderId
-                                    )
-                                ) {
-                                    return order;
-                                }
-
-                                return {
-                                    ...order,
-                                    status: normalizedStatus,
-                                };
-                            }
-                        );
-
-                    dashboardStore.setState(
+            try {
+                const response =
+                    await authFetch(
+                        `/dashboard/orders/${orderId}/status`,
                         {
-                            orders:
-                                updatedOrders,
-
-                            stats:
-                                calculateStats(
-                                    updatedOrders
-                                ),
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+                            },
+                            body: JSON.stringify({
+                                status:
+                                    normalizedStatus,
+                            }),
                         }
                     );
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Refresh details sheet if it is open
-                    |--------------------------------------------------------------------------
-                    */
+                const result =
+                    await response.json();
 
-                    setDetailsReloadKey(
-                        (value) =>
-                            value + 1
-                    );
-                } catch (updateError) {
-                    console.error(
-                        "Status update error:",
-                        updateError
-                    );
-
-                    window.alert(
-                        updateError.message ||
+                if (!response.ok) {
+                    throw new Error(
+                        result?.message ||
                             "Failed to update order status."
                     );
                 }
-            },
-            []
-        );
+
+                const updatedOrders =
+                    dashboardStore.state.orders.map(
+                        (order) => {
+                            if (
+                                Number(
+                                    getOrderId(
+                                        order
+                                    )
+                                ) !==
+                                Number(orderId)
+                            ) {
+                                return order;
+                            }
+
+                            return {
+                                ...order,
+                                status:
+                                    normalizedStatus,
+                            };
+                        }
+                    );
+
+                dashboardStore.setState({
+                    orders: updatedOrders,
+                    stats: calculateStats(
+                        updatedOrders
+                    ),
+                });
+
+                /*
+                |--------------------------------------------------------------------------
+                | Refresh details sheet if it is open
+                |--------------------------------------------------------------------------
+                */
+
+                setDetailsReloadKey(
+                    (value) => value + 1
+                );
+            } catch (updateError) {
+                console.error(
+                    "Status update error:",
+                    updateError
+                );
+
+                window.alert(
+                    updateError.message ||
+                        "Failed to update order status."
+                );
+            }
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -779,113 +677,99 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleCancelOrder =
-        useCallback(
-            async (order) => {
-                const orderId =
-                    getOrderId(order);
+    const handleCancelOrder = useCallback(
+        async (order) => {
+            const orderId = getOrderId(order);
 
-                if (!orderId) {
-                    return;
-                }
+            if (!orderId) {
+                return;
+            }
 
-                const currentStatus =
-                    normalizeStatus(
-                        order?.status
-                    );
+            const currentStatus =
+                normalizeStatus(
+                    order?.status
+                );
 
-                if (
-                    currentStatus ===
-                        "delivered" ||
-                    currentStatus ===
-                        "cancelled"
-                ) {
-                    return;
-                }
+            if (
+                currentStatus ===
+                    "delivered" ||
+                currentStatus === "cancelled"
+            ) {
+                return;
+            }
 
-                const confirmed =
-                    window.confirm(
-                        `Cancel order #${orderId}?`
-                    );
+            const confirmed = window.confirm(
+                `Cancel order #${orderId}?`
+            );
 
-                if (!confirmed) {
-                    return;
-                }
+            if (!confirmed) {
+                return;
+            }
 
-                try {
-                    const response =
-                        await fetch(
-                            `${API_BASE_URL}/dashboard/orders/${orderId}/cancel`,
-                            {
-                                method: "PATCH",
-                            }
-                        );
-
-                    const result =
-                        await response.json();
-
-                    if (
-                        !response.ok
-                    ) {
-                        throw new Error(
-                            result?.message ||
-                                "Failed to cancel order."
-                        );
-                    }
-
-                    const updatedOrders =
-                        dashboardStore.state.orders.map(
-                            (currentOrder) => {
-                                if (
-                                    Number(
-                                        getOrderId(
-                                            currentOrder
-                                        )
-                                    ) !==
-                                    Number(
-                                        orderId
-                                    )
-                                ) {
-                                    return currentOrder;
-                                }
-
-                                return {
-                                    ...currentOrder,
-                                    status: "cancelled",
-                                };
-                            }
-                        );
-
-                    dashboardStore.setState(
+            try {
+                const response =
+                    await authFetch(
+                        `/dashboard/orders/${orderId}/cancel`,
                         {
-                            orders:
-                                updatedOrders,
-
-                            stats:
-                                calculateStats(
-                                    updatedOrders
-                                ),
+                            method: "PATCH",
                         }
                     );
 
-                    setDetailsReloadKey(
-                        (value) =>
-                            value + 1
-                    );
-                } catch (cancelError) {
-                    console.error(
-                        "Cancel order error:",
-                        cancelError
-                    );
+                const result =
+                    await response.json();
 
-                    window.alert(
-                        cancelError.message ||
+                if (!response.ok) {
+                    throw new Error(
+                        result?.message ||
                             "Failed to cancel order."
                     );
                 }
-            },
-            []
-        );
+
+                const updatedOrders =
+                    dashboardStore.state.orders.map(
+                        (currentOrder) => {
+                            if (
+                                Number(
+                                    getOrderId(
+                                        currentOrder
+                                    )
+                                ) !==
+                                Number(orderId)
+                            ) {
+                                return currentOrder;
+                            }
+
+                            return {
+                                ...currentOrder,
+                                status: "cancelled",
+                            };
+                        }
+                    );
+
+                dashboardStore.setState({
+                    orders: updatedOrders,
+                    stats: calculateStats(
+                        updatedOrders
+                    ),
+                });
+
+                setDetailsReloadKey(
+                    (value) => value + 1
+                );
+            } catch (cancelError) {
+                console.error(
+                    "Cancel order error:",
+                    cancelError
+                );
+
+                window.alert(
+                    cancelError.message ||
+                        "Failed to cancel order."
+                );
+            }
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -893,56 +777,53 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handlePrintOrder =
-        useCallback(
-            async (order) => {
-                const orderId =
-                    getOrderId(order);
+    const handlePrintOrder = useCallback(
+        async (order) => {
+            const orderId = getOrderId(order);
 
-                if (!orderId) {
-                    return;
-                }
+            if (!orderId) {
+                return;
+            }
 
-                try {
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Dynamic import prevents the utility from
-                    | being loaded if it is not needed.
-                    |--------------------------------------------------------------------------
-                    */
+            try {
+                /*
+                |--------------------------------------------------------------------------
+                | Dynamic import prevents the utility from
+                | being loaded if it is not needed.
+                |--------------------------------------------------------------------------
+                */
 
-                    const module =
-                        await import(
-                            "./utils/printOrder"
-                        );
+                const module = await import(
+                    "./utils/printOrder"
+                );
 
-                    if (
-                        typeof module.printOrder !==
-                        "function"
-                    ) {
-                        throw new Error(
-                            "Print utility is unavailable."
-                        );
-                    }
-
-                    await module.printOrder(
-                        order,
-                        API_BASE_URL
-                    );
-                } catch (printError) {
-                    console.error(
-                        "Print order error:",
-                        printError
-                    );
-
-                    window.alert(
-                        printError.message ||
-                            "Failed to print order."
+                if (
+                    typeof module.printOrder !==
+                    "function"
+                ) {
+                    throw new Error(
+                        "Print utility is unavailable."
                     );
                 }
-            },
-            []
-        );
+
+                await module.printOrder(
+                    order,
+                    API_BASE_URL
+                );
+            } catch (printError) {
+                console.error(
+                    "Print order error:",
+                    printError
+                );
+
+                window.alert(
+                    printError.message ||
+                        "Failed to print order."
+                );
+            }
+        },
+        []
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -950,13 +831,10 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const handleRefresh =
-        useCallback(() => {
-            dashboardRequest =
-                null;
-
-            loadDashboard();
-        }, []);
+    const handleRefresh = useCallback(() => {
+        dashboardRequest = null;
+        loadDashboard();
+    }, []);
 
     /*
     |--------------------------------------------------------------------------
@@ -964,27 +842,26 @@ const Orders = () => {
     |--------------------------------------------------------------------------
     */
 
-    const goToPreviousPage =
-        useCallback(() => {
-            setCurrentPage(
-                (page) =>
-                    Math.max(
-                        1,
-                        page - 1
-                    )
+    const goToPreviousPage = useCallback(
+        () => {
+            setCurrentPage((page) =>
+                Math.max(1, page - 1)
             );
-        }, []);
+        },
+        []
+    );
 
-    const goToNextPage =
-        useCallback(() => {
-            setCurrentPage(
-                (page) =>
-                    Math.min(
-                        totalPages,
-                        page + 1
-                    )
+    const goToNextPage = useCallback(
+        () => {
+            setCurrentPage((page) =>
+                Math.min(
+                    totalPages,
+                    page + 1
+                )
             );
-        }, [totalPages]);
+        },
+        [totalPages]
+    );
 
     /*
     |--------------------------------------------------------------------------
@@ -993,11 +870,7 @@ const Orders = () => {
     */
 
     return (
-        <div
-            className={
-                styles.Orders
-            }
-        >
+        <div className={styles.Orders}>
             {/* HEADER */}
             <div
                 className={
@@ -1028,15 +901,10 @@ const Orders = () => {
                     className={
                         styles.Orders__Refresh
                     }
-                    onClick={
-                        handleRefresh
-                    }
+                    onClick={handleRefresh}
                     title="Refresh orders"
                 >
-                    <RefreshCw
-                        size={15}
-                    />
-
+                    <RefreshCw size={15} />
                     Refresh
                 </button>
             </div>
@@ -1059,9 +927,7 @@ const Orders = () => {
                     >
                         <PackageCheck
                             size={19}
-                            strokeWidth={
-                                1.8
-                            }
+                            strokeWidth={1.8}
                         />
                     </div>
 
@@ -1095,9 +961,7 @@ const Orders = () => {
                     >
                         <Clock3
                             size={19}
-                            strokeWidth={
-                                1.8
-                            }
+                            strokeWidth={1.8}
                         />
                     </div>
 
@@ -1106,9 +970,7 @@ const Orders = () => {
                             styles.Orders__StatContent
                         }
                     >
-                        <span>
-                            Pending
-                        </span>
+                        <span>Pending</span>
 
                         <strong>
                             {Number(
@@ -1131,9 +993,7 @@ const Orders = () => {
                     >
                         <Truck
                             size={19}
-                            strokeWidth={
-                                1.8
-                            }
+                            strokeWidth={1.8}
                         />
                     </div>
 
@@ -1142,9 +1002,7 @@ const Orders = () => {
                             styles.Orders__StatContent
                         }
                     >
-                        <span>
-                            Shipped
-                        </span>
+                        <span>Shipped</span>
 
                         <strong>
                             {Number(
@@ -1167,9 +1025,7 @@ const Orders = () => {
                     >
                         <Banknote
                             size={19}
-                            strokeWidth={
-                                1.8
-                            }
+                            strokeWidth={1.8}
                         />
                     </div>
 
@@ -1178,9 +1034,7 @@ const Orders = () => {
                             styles.Orders__StatContent
                         }
                     >
-                        <span>
-                            Revenue
-                        </span>
+                        <span>Revenue</span>
 
                         <strong>
                             {formatPrice(
@@ -1285,37 +1139,14 @@ const Orders = () => {
 
                         <thead>
                             <tr>
-                                <th>
-                                    Order
-                                </th>
-
-                                <th>
-                                    Customer
-                                </th>
-
-                                <th>
-                                    Items
-                                </th>
-
-                                <th>
-                                    Total
-                                </th>
-
-                                <th>
-                                    Delivery
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th>
-                                    Created
-                                </th>
-
-                                <th>
-                                    Actions
-                                </th>
+                                <th>Order</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Delivery</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
 
@@ -1323,44 +1154,34 @@ const Orders = () => {
                             {loading ? (
                                 <tr>
                                     <td
-                                        colSpan={
-                                            8
-                                        }
+                                        colSpan={8}
                                         className={
                                             styles.Orders__Loading
                                         }
                                     >
-                                        Loading
-                                        orders...
+                                        Loading orders...
                                     </td>
                                 </tr>
                             ) : paginatedOrders.length ===
                               0 ? (
                                 <tr>
                                     <td
-                                        colSpan={
-                                            8
-                                        }
+                                        colSpan={8}
                                         className={
                                             styles.Orders__Empty
                                         }
                                     >
-                                        No orders
-                                        found.
+                                        No orders found.
                                     </td>
                                 </tr>
                             ) : (
                                 paginatedOrders.map(
-                                    (
-                                        order
-                                    ) => (
+                                    (order) => (
                                         <OrderRow
                                             key={getOrderId(
                                                 order
                                             )}
-                                            order={
-                                                order
-                                            }
+                                            order={order}
                                             onOpen={() =>
                                                 handleViewOrder(
                                                     getOrderId(
@@ -1392,8 +1213,7 @@ const Orders = () => {
 
                 {/* PAGINATION */}
                 {!loading &&
-                    filteredOrders.length >
-                        0 && (
+                    filteredOrders.length > 0 && (
                         <div
                             className={
                                 styles.Orders__Pagination
@@ -1451,9 +1271,7 @@ const Orders = () => {
                                     </strong>{" "}
                                     of{" "}
                                     <strong>
-                                        {
-                                            totalPages
-                                        }
+                                        {totalPages}
                                     </strong>
                                 </span>
 
@@ -1476,20 +1294,12 @@ const Orders = () => {
 
             {/* DETAILS SHEET */}
             <OrderDetailsSheet
-                isOpen={
-                    Boolean(
-                        selectedOrderId
-                    )
-                }
-                orderId={
+                isOpen={Boolean(
                     selectedOrderId
-                }
-                apiBaseUrl={
-                    API_BASE_URL
-                }
-                reloadKey={
-                    detailsReloadKey
-                }
+                )}
+                orderId={selectedOrderId}
+                apiBaseUrl={API_BASE_URL}
+                reloadKey={detailsReloadKey}
                 onClose={
                     handleCloseDetails
                 }
@@ -1498,9 +1308,7 @@ const Orders = () => {
                     status
                 ) =>
                     handleStatusChange(
-                        getOrderId(
-                            order
-                        ),
+                        getOrderId(order),
                         status
                     )
                 }

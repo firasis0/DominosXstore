@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
+import {
+    authFetch,
+    API_BASE_URL,
+} from "../../../../lib/authFetch.js";
 
 import {
     ArrowDown,
@@ -18,10 +22,6 @@ import {
     FaTiktok,
 } from "react-icons/fa";
 
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
-
 const API_SERVER_URL = API_BASE_URL.replace(
     /\/api\/?$/,
     ""
@@ -39,241 +39,211 @@ const getImageUrl = (imageUrl) => {
         return imageUrl;
     }
 
-    return `${API_SERVER_URL}${
-        imageUrl.startsWith("/") ? "" : "/"
-    }${imageUrl}`;
-};
-
-const emptyConnect = {
-    tiktok_username: "",
-    instagram_username: "",
-    email: "",
+    return `${API_SERVER_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
 };
 
 export default function About() {
     const [page, setPage] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
     const [topImages, setTopImages] = useState([]);
     const [ourStoryImage, setOurStoryImage] =
         useState(null);
 
-    const [connect, setConnect] =
-        useState(emptyConnect);
-
-    const [loading, setLoading] =
-        useState(true);
-
     const [uploadingTopImage, setUploadingTopImage] =
         useState(false);
 
-    const [
-        uploadingStoryImage,
-        setUploadingStoryImage,
-    ] = useState(false);
+    const [deletingImageId, setDeletingImageId] =
+        useState(null);
 
-    const [
-        deletingImageId,
-        setDeletingImageId,
-    ] = useState(null);
+    const [uploadingStoryImage, setUploadingStoryImage] =
+        useState(false);
 
     const [
         deletingStoryImage,
         setDeletingStoryImage,
     ] = useState(false);
 
-    const [
-        reorderingImageId,
-        setReorderingImageId,
-    ] = useState(null);
+    const [connect, setConnect] = useState({
+        instagram: "",
+        tiktok: "",
+        email: "",
+    });
 
     const [
         savingConnect,
         setSavingConnect,
     ] = useState(false);
 
-    const [error, setError] =
-        useState("");
+useEffect(() => {
+    const controller =
+        new AbortController();
 
-    const [success, setSuccess] =
-        useState("");
+    const load = async () => {
+        try {
+            setLoading(true);
+            setError("");
 
-    useEffect(() => {
-        const controller =
-            new AbortController();
-
-        const load = async () => {
-            try {
-                setLoading(true);
-                setError("");
-
-                const pagesResponse =
-                    await fetch(
-                        `${API_BASE_URL}/dashboard/content/pages`,
-                        {
-                            signal:
-                                controller.signal,
-                        }
-                    );
-
-                const pagesData =
-                    await pagesResponse.json();
-
-                if (
-                    !pagesResponse.ok ||
-                    !pagesData.success
-                ) {
-                    throw new Error(
-                        pagesData.message ||
-                            "Failed to load content pages."
-                    );
-                }
-
-                const aboutPage =
-                    pagesData.data.pages.find(
-                        (item) =>
-                            String(item.name)
-                                .trim()
-                                .toLowerCase() ===
-                            "about"
-                    );
-
-                if (!aboutPage) {
-                    throw new Error(
-                        "About page was not found."
-                    );
-                }
-
-                setPage(aboutPage);
-
-                const [
-                    imagesResponse,
-                    connectResponse,
-                ] = await Promise.all([
-                    fetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${aboutPage.id}`,
-                        {
-                            signal:
-                                controller.signal,
-                        }
-                    ),
-                    fetch(
-                        `${API_BASE_URL}/dashboard/content/about/connect`,
-                        {
-                            signal:
-                                controller.signal,
-                        }
-                    ),
-                ]);
-
-                const imagesData =
-                    await imagesResponse.json();
-
-                const connectData =
-                    await connectResponse.json();
-
-                if (
-                    !imagesResponse.ok ||
-                    !imagesData.success
-                ) {
-                    throw new Error(
-                        imagesData.message ||
-                            "Failed to load About images."
-                    );
-                }
-
-                if (
-                    !connectResponse.ok ||
-                    !connectData.success
-                ) {
-                    throw new Error(
-                        connectData.message ||
-                            "Failed to load About Connect content."
-                    );
-                }
-
-                const images =
-                    imagesData.data.images?.top ||
-                    [];
-
-                setTopImages(
-                    [...images].sort(
-                        (a, b) =>
-                            Number(
-                                a.sort_order || 0
-                            ) -
-                            Number(
-                                b.sort_order || 0
-                            )
-                    )
+            const pagesResponse =
+                await authFetch(
+                    "/dashboard/content/pages",
+                    {
+                        signal:
+                            controller.signal,
+                    }
                 );
 
-                setOurStoryImage(
-                    imagesData.data
-                        .ourStoryImage ||
-                        null
-                );
+            const pagesData =
+                await pagesResponse.json();
 
-                setConnect({
-                    tiktok_username:
-                        connectData.data
-                            .content
-                            ?.tiktok_username ||
-                        "",
-                    instagram_username:
-                        connectData.data
-                            .content
-                            ?.instagram_username ||
-                        "",
-                    email:
-                        connectData.data
-                            .content?.email ||
-                        "",
-                });
-            } catch (requestError) {
-                if (
-                    requestError.name ===
-                    "AbortError"
-                ) {
-                    return;
-                }
-
-                console.error(
-                    "Load About content error:",
-                    requestError
+            if (
+                !pagesResponse.ok ||
+                !pagesData.success
+            ) {
+                throw new Error(
+                    pagesData.message ||
+                        "Failed to load content pages."
                 );
-
-                setError(
-                    requestError.message ||
-                        "Failed to load About content."
-                );
-            } finally {
-                if (
-                    !controller.signal.aborted
-                ) {
-                    setLoading(false);
-                }
             }
-        };
 
-        load();
+            const aboutPage =
+                pagesData.data?.pages?.find(
+                    (item) =>
+                        String(item.name)
+                            .trim()
+                            .toLowerCase() ===
+                        "about"
+                );
 
-        return () => {
-            controller.abort();
-        };
-    }, []);
+            if (!aboutPage) {
+                throw new Error(
+                    "About page was not found."
+                );
+            }
 
-    const handleConnectChange = (
-        event
-    ) => {
-        const {
-            name,
-            value,
-        } = event.target;
+            setPage(aboutPage);
 
-        setConnect((current) => ({
-            ...current,
-            [name]: value,
-        }));
+            const [
+                imagesResponse,
+                connectResponse,
+            ] = await Promise.all([
+                authFetch(
+                    `/dashboard/content/pages/${aboutPage.id}`,
+                    {
+                        signal:
+                            controller.signal,
+                    }
+                ),
+
+                authFetch(
+                    "/dashboard/content/about/connect",
+                    {
+                        signal:
+                            controller.signal,
+                    }
+                ),
+            ]);
+
+            const imagesData =
+                await imagesResponse.json();
+
+            const connectData =
+                await connectResponse.json();
+
+            if (
+                !imagesResponse.ok ||
+                !imagesData.success
+            ) {
+                throw new Error(
+                    imagesData.message ||
+                        "Failed to load About page content."
+                );
+            }
+
+            if (
+                !connectResponse.ok ||
+                !connectData.success
+            ) {
+                throw new Error(
+                    connectData.message ||
+                        "Failed to load social links."
+                );
+            }
+
+            setTopImages(
+                (
+                    imagesData.data
+                        ?.images?.top || []
+                ).sort(
+                    (a, b) =>
+                        Number(
+                            a.sort_order || 0
+                        ) -
+                        Number(
+                            b.sort_order || 0
+                        )
+                )
+            );
+
+            setOurStoryImage(
+                imagesData.data
+                    ?.ourStoryImage ||
+                    null
+            );
+
+            setConnect({
+                instagram:
+                    connectData.data
+                        ?.content
+                        ?.instagram_username ||
+                    "",
+
+                tiktok:
+                    connectData.data
+                        ?.content
+                        ?.tiktok_username ||
+                    "",
+
+                email:
+                    connectData.data
+                        ?.content?.email ||
+                    "",
+            });
+        } catch (err) {
+            if (
+                err.name ===
+                "AbortError"
+            ) {
+                return;
+            }
+
+            console.error(
+                "About content load error:",
+                err
+            );
+
+            setError(
+                err.message ||
+                    "Failed to load About content."
+            );
+        } finally {
+            if (
+                !controller.signal.aborted
+            ) {
+                setLoading(false);
+            }
+        }
     };
+
+    load();
+
+    return () => {
+        controller.abort();
+    };
+}, []);
 
     const handleSaveConnect = async (
         event
@@ -286,7 +256,7 @@ export default function About() {
 
         try {
             const response =
-                await fetch(
+                await authFetch(
                     `${API_BASE_URL}/dashboard/content/about/connect`,
                     {
                         method: "PUT",
@@ -303,193 +273,161 @@ export default function About() {
             const data =
                 await response.json();
 
-            if (
-                !response.ok ||
-                !data.success
-            ) {
+            if (!response.ok) {
                 throw new Error(
                     data.message ||
-                        "Failed to update About Connect content."
+                        "Failed to save social links."
                 );
             }
 
-            setConnect({
-                tiktok_username:
-                    data.data.content
-                        ?.tiktok_username ||
-                    "",
-                instagram_username:
-                    data.data.content
-                        ?.instagram_username ||
-                    "",
-                email:
-                    data.data.content?.email ||
-                    "",
-            });
-
             setSuccess(
-                "Connect content saved successfully."
+                "Social links saved successfully."
             );
-        } catch (requestError) {
+        } catch (err) {
             console.error(
-                "Save About Connect error:",
-                requestError
+                "Save connect error:",
+                err
             );
 
             setError(
-                requestError.message ||
-                    "Failed to save About Connect content."
+                err.message ||
+                    "Failed to save social links."
             );
         } finally {
             setSavingConnect(false);
         }
     };
 
-    const handleTopImageUpload = async (
-        event
-    ) => {
-        const file =
-            event.target.files?.[0];
+    const handleTopImageUpload =
+        async (event) => {
+            const file =
+                event.target.files?.[0];
 
-        event.target.value = "";
+            event.target.value = "";
 
-        if (!file || !page) {
-            return;
-        }
+            if (!file || !page) {
+                return;
+            }
 
-        setUploadingTopImage(true);
-        setError("");
-        setSuccess("");
+            setUploadingTopImage(true);
+            setError("");
+            setSuccess("");
 
-        try {
-            const formData =
-                new FormData();
+            try {
+                const formData =
+                    new FormData();
 
-            formData.append(
-                "image",
-                file
-            );
-
-            formData.append(
-                "section",
-                "top"
-            );
-
-            const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/pages/${page.id}/images`,
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
+                formData.append(
+                    "image",
+                    file
                 );
 
-            const data =
-                await response.json();
+                const response =
+                    await authFetch(
+                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/images`,
+                        {
+                            method: "POST",
+                            body: formData,
+                        }
+                    );
 
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-                throw new Error(
-                    data.message ||
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to upload image."
+                    );
+                }
+
+                const uploadedImage =
+                    data.image ||
+                    data.data ||
+                    data;
+
+                setTopImages((current) => [
+                    ...current,
+                    uploadedImage,
+                ]);
+
+                setSuccess(
+                    "Carousel image uploaded successfully."
+                );
+            } catch (err) {
+                console.error(
+                    "Top image upload error:",
+                    err
+                );
+
+                setError(
+                    err.message ||
                         "Failed to upload carousel image."
                 );
+            } finally {
+                setUploadingTopImage(false);
             }
+        };
 
-            setTopImages(
-                (current) => [
-                    ...current,
-                    data.data.image,
-                ]
-            );
-
-            setSuccess(
-                "Carousel image uploaded successfully."
-            );
-        } catch (requestError) {
-            console.error(
-                "Upload carousel image error:",
-                requestError
-            );
-
-            setError(
-                requestError.message ||
-                    "Failed to upload carousel image."
-            );
-        } finally {
-            setUploadingTopImage(
-                false
-            );
-        }
-    };
-
-    const handleDeleteTopImage = async (
-        imageId
-    ) => {
-        const confirmed =
-            window.confirm(
-                "Delete this carousel image?"
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-        setDeletingImageId(imageId);
-        setError("");
-        setSuccess("");
-
-        try {
-            const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/page-images/${imageId}`,
-                    {
-                        method: "DELETE",
-                    }
+    const handleDeleteTopImage =
+        async (imageId) => {
+            const confirmed =
+                window.confirm(
+                    "Delete this carousel image?"
                 );
 
-            const data =
-                await response.json();
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-                throw new Error(
-                    data.message ||
-                        "Failed to delete carousel image."
-                );
+            if (!confirmed) {
+                return;
             }
 
-            setTopImages(
-                (current) =>
+            setDeletingImageId(imageId);
+            setError("");
+            setSuccess("");
+
+            try {
+                const response =
+                    await authFetch(
+                        `${API_BASE_URL}/dashboard/content/pages/images/${imageId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message ||
+                            "Failed to delete image."
+                    );
+                }
+
+                setTopImages((current) =>
                     current.filter(
                         (image) =>
                             image.id !==
                             imageId
                     )
-            );
+                );
 
-            setSuccess(
-                "Carousel image deleted successfully."
-            );
-        } catch (requestError) {
-            console.error(
-                "Delete carousel image error:",
-                requestError
-            );
+                setSuccess(
+                    "Carousel image deleted successfully."
+                );
+            } catch (err) {
+                console.error(
+                    "Delete top image error:",
+                    err
+                );
 
-            setError(
-                requestError.message ||
-                    "Failed to delete carousel image."
-            );
-        } finally {
-            setDeletingImageId(
-                null
-            );
-        }
-    };
+                setError(
+                    err.message ||
+                        "Failed to delete carousel image."
+                );
+            } finally {
+                setDeletingImageId(null);
+            }
+        };
 
     const handleMoveTopImage = async (
         imageId,
@@ -512,23 +450,35 @@ export default function About() {
 
         if (
             targetIndex < 0 ||
-            targetIndex >=
-                topImages.length
+            targetIndex >= topImages.length
         ) {
             return;
         }
 
-        setReorderingImageId(
-            imageId
-        );
+        const currentImage =
+            topImages[currentIndex];
 
+        const targetImage =
+            topImages[targetIndex];
+
+        const newImages = [
+            ...topImages,
+        ];
+
+        newImages[currentIndex] =
+            targetImage;
+
+        newImages[targetIndex] =
+            currentImage;
+
+        setTopImages(newImages);
         setError("");
         setSuccess("");
 
         try {
             const response =
-                await fetch(
-                    `${API_BASE_URL}/dashboard/content/page-images/${imageId}/order`,
+                await authFetch(
+                    `${API_BASE_URL}/dashboard/content/pages/images/order`,
                     {
                         method: "PATCH",
                         headers: {
@@ -536,8 +486,9 @@ export default function About() {
                                 "application/json",
                         },
                         body: JSON.stringify({
-                            sort_order:
-                                targetIndex,
+                            imageId,
+                            targetImageId:
+                                targetImage.id,
                         }),
                     }
                 );
@@ -545,61 +496,23 @@ export default function About() {
             const data =
                 await response.json();
 
-            if (
-                !response.ok ||
-                !data.success
-            ) {
+            if (!response.ok) {
                 throw new Error(
                     data.message ||
-                        "Failed to reorder carousel image."
+                        "Failed to reorder images."
                 );
             }
-
-            setTopImages(
-                (current) => {
-                    const updated = [
-                        ...current,
-                    ];
-
-                    const [
-                        movedImage,
-                    ] =
-                        updated.splice(
-                            currentIndex,
-                            1
-                        );
-
-                    updated.splice(
-                        targetIndex,
-                        0,
-                        movedImage
-                    );
-
-                    return updated.map(
-                        (
-                            image,
-                            index
-                        ) => ({
-                            ...image,
-                            sort_order:
-                                index,
-                        })
-                    );
-                }
-            );
-        } catch (requestError) {
+        } catch (err) {
             console.error(
-                "Reorder carousel image error:",
-                requestError
+                "Reorder top image error:",
+                err
             );
+
+            setTopImages(topImages);
 
             setError(
-                requestError.message ||
-                    "Failed to reorder carousel image."
-            );
-        } finally {
-            setReorderingImageId(
-                null
+                err.message ||
+                    "Failed to reorder images."
             );
         }
     };
@@ -632,8 +545,8 @@ export default function About() {
                 );
 
                 const response =
-                    await fetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/our-story-image`,
+                    await authFetch(
+                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/story-image`,
                         {
                             method: "POST",
                             body: formData,
@@ -643,10 +556,7 @@ export default function About() {
                 const data =
                     await response.json();
 
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
+                if (!response.ok) {
                     throw new Error(
                         data.message ||
                             "Failed to upload Our Story image."
@@ -654,20 +564,22 @@ export default function About() {
                 }
 
                 setOurStoryImage(
-                    data.data.image
+                    data.image ||
+                        data.data ||
+                        data
                 );
 
                 setSuccess(
-                    "Our Story image updated successfully."
+                    "Our Story image uploaded successfully."
                 );
-            } catch (requestError) {
+            } catch (err) {
                 console.error(
-                    "Upload Our Story image error:",
-                    requestError
+                    "Story image upload error:",
+                    err
                 );
 
                 setError(
-                    requestError.message ||
+                    err.message ||
                         "Failed to upload Our Story image."
                 );
             } finally {
@@ -701,8 +613,8 @@ export default function About() {
 
             try {
                 const response =
-                    await fetch(
-                        `${API_BASE_URL}/dashboard/content/about/our-story-image`,
+                    await authFetch(
+                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/story-image`,
                         {
                             method: "DELETE",
                         }
@@ -711,31 +623,26 @@ export default function About() {
                 const data =
                     await response.json();
 
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
+                if (!response.ok) {
                     throw new Error(
                         data.message ||
                             "Failed to delete Our Story image."
                     );
                 }
 
-                setOurStoryImage(
-                    null
-                );
+                setOurStoryImage(null);
 
                 setSuccess(
                     "Our Story image deleted successfully."
                 );
-            } catch (requestError) {
+            } catch (err) {
                 console.error(
-                    "Delete Our Story image error:",
-                    requestError
+                    "Delete story image error:",
+                    err
                 );
 
                 setError(
-                    requestError.message ||
+                    err.message ||
                         "Failed to delete Our Story image."
                 );
             } finally {
@@ -747,16 +654,8 @@ export default function About() {
 
     if (loading) {
         return (
-            <section
-                className={
-                    styles.About
-                }
-            >
-                <div
-                    className={
-                        styles.About__Loading
-                    }
-                >
+            <section className={styles.About}>
+                <div className={styles.About__Loading}>
                     Loading About content...
                 </div>
             </section>
@@ -764,21 +663,15 @@ export default function About() {
     }
 
     return (
-        <section
-            className={styles.About}
-        >
-            <div
-                className={
-                    styles.About__Header
-                }
-            >
+        <section className={styles.About}>
+            <div className={styles.About__Header}>
                 <div>
                     <span
                         className={
                             styles.About__Eyebrow
                         }
                     >
-                        About page
+                        Website content
                     </span>
 
                     <h2
@@ -786,7 +679,7 @@ export default function About() {
                             styles.About__Title
                         }
                     >
-                        Manage About
+                        About
                     </h2>
 
                     <p
@@ -794,9 +687,11 @@ export default function About() {
                             styles.About__Description
                         }
                     >
-                        Manage the content
-                        displayed on the
-                        About page.
+                        Manage the content,
+                        carousel images,
+                        Our Story image and
+                        social links displayed
+                        on the About page.
                     </p>
                 </div>
             </div>
@@ -807,8 +702,17 @@ export default function About() {
                         styles.About__MessageError
                     }
                 >
-                    <X size={16} />
                     <span>{error}</span>
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setError("")
+                        }
+                        aria-label="Dismiss error"
+                    >
+                        <X size={16} />
+                    </button>
                 </div>
             )}
 
@@ -818,373 +722,147 @@ export default function About() {
                         styles.About__MessageSuccess
                     }
                 >
-                    <Check size={16} />
+                    <Check size={17} />
+
                     <span>{success}</span>
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setSuccess("")
+                        }
+                        aria-label="Dismiss success message"
+                    >
+                        <X size={16} />
+                    </button>
                 </div>
             )}
 
             <div
                 className={
-                    styles.About__Sections
+                    styles.About__Section
                 }
             >
-                {/* TOP BANNER */}
-
-                <section
+                <div
                     className={
-                        styles.About__Section
+                        styles.About__SectionHeader
                     }
                 >
-                    <div
-                        className={
-                            styles.About__SectionHeader
-                        }
-                    >
-                        <div>
-                            <span
-                                className={
-                                    styles.About__SectionEyebrow
-                                }
-                            >
-                                Top Banner
-                            </span>
-
-                            <h3
-                                className={
-                                    styles.About__SectionTitle
-                                }
-                            >
-                                Carousel images
-                            </h3>
-
-                            <p
-                                className={
-                                    styles.About__SectionDescription
-                                }
-                            >
-                                Manage the images
-                                displayed in the
-                                About page top
-                                carousel.
-                            </p>
-                        </div>
-
-                        <label
+                    <div>
+                        <span
                             className={
-                                styles.About__PrimaryButton
+                                styles.About__SectionEyebrow
                             }
                         >
-                            <Upload size={15} />
+                            Hero section
+                        </span>
 
-                            <span>
-                                {uploadingTopImage
-                                    ? "Uploading..."
-                                    : "Upload image"}
-                            </span>
+                        <h3
+                            className={
+                                styles.About__SectionTitle
+                            }
+                        >
+                            Top carousel
+                        </h3>
 
-                            <input
-                                type="file"
-                                accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                onChange={
-                                    handleTopImageUpload
-                                }
-                                disabled={
-                                    uploadingTopImage
-                                }
-                                hidden
-                            />
-                        </label>
+                        <p
+                            className={
+                                styles.About__SectionDescription
+                            }
+                        >
+                            Manage the images
+                            displayed in the
+                            About page carousel.
+                        </p>
                     </div>
 
-                    <div
+                    <label
                         className={
-                            styles.About__SectionBody
+                            styles.About__UploadButton
                         }
                     >
-                        {topImages.length > 0 ? (
-                            <div
-                                className={
-                                    styles.About__ImageList
-                                }
-                            >
-                                {topImages.map(
-                                    (
-                                        image,
-                                        index
-                                    ) => (
-                                        <div
-                                            key={
-                                                image.id
-                                            }
+                        <Upload size={17} />
+
+                        <span>
+                            {uploadingTopImage
+                                ? "Uploading..."
+                                : "Add image"}
+                        </span>
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={
+                                handleTopImageUpload
+                            }
+                            disabled={
+                                uploadingTopImage
+                            }
+                            hidden
+                        />
+                    </label>
+                </div>
+
+                {topImages.length === 0 ? (
+                    <div
+                        className={
+                            styles.About__Empty
+                        }
+                    >
+                        <ImagePlus
+                            size={30}
+                        />
+
+                        <strong>
+                            No carousel images
+                        </strong>
+
+                        <span>
+                            Add an image to
+                            display it in the
+                            About page carousel.
+                        </span>
+                    </div>
+                ) : (
+                    <div
+                        className={
+                            styles.About__Images
+                        }
+                    >
+                        {topImages.map(
+                            (
+                                image,
+                                index
+                            ) => (
+                                <div
+                                    className={
+                                        styles.About__ImageCard
+                                    }
+                                    key={
+                                        image.id
+                                    }
+                                >
+                                    <div
+                                        className={
+                                            styles.About__ImagePreview
+                                        }
+                                    >
+                                        <img
+                                            src={getImageUrl(
+                                                image.image_url ||
+                                                    image.url ||
+                                                    image.path
+                                            )}
+                                            alt={`Carousel ${index + 1}`}
+                                        />
+
+                                        <span
                                             className={
-                                                styles.About__ImageListItem
+                                                styles.About__ImageNumber
                                             }
                                         >
-                                            <div
-                                                className={
-                                                    styles.About__ImageThumbnail
-                                                }
-                                            >
-                                                <img
-                                                    src={getImageUrl(
-                                                        image.image_url
-                                                    )}
-                                                    alt={`Carousel ${index + 1}`}
-                                                />
-
-                                                <span
-                                                    className={
-                                                        styles.About__ImageNumber
-                                                    }
-                                                >
-                                                    {index +
-                                                        1}
-                                                </span>
-                                            </div>
-
-                                            <div
-                                                className={
-                                                    styles.About__ImageListInfo
-                                                }
-                                            >
-                                                <strong>
-                                                    Slide{" "}
-                                                    {index +
-                                                        1}
-                                                </strong>
-
-                                                <span>
-                                                    Position{" "}
-                                                    {index +
-                                                        1}{" "}
-                                                    of{" "}
-                                                    {
-                                                        topImages.length
-                                                    }
-                                                </span>
-                                            </div>
-
-                                            <div
-                                                className={
-                                                    styles.About__ImageActions
-                                                }
-                                            >
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleMoveTopImage(
-                                                            image.id,
-                                                            "up"
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        index ===
-                                                            0 ||
-                                                        reorderingImageId ===
-                                                            image.id
-                                                    }
-                                                    title="Move up"
-                                                >
-                                                    <ArrowUp
-                                                        size={
-                                                            15
-                                                        }
-                                                    />
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleMoveTopImage(
-                                                            image.id,
-                                                            "down"
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        index ===
-                                                            topImages.length -
-                                                                1 ||
-                                                        reorderingImageId ===
-                                                            image.id
-                                                    }
-                                                    title="Move down"
-                                                >
-                                                    <ArrowDown
-                                                        size={
-                                                            15
-                                                        }
-                                                    />
-                                                </button>
-
-                                                <button
-                                                    type="button"
-                                                    className={
-                                                        styles.About__ImageDelete
-                                                    }
-                                                    onClick={() =>
-                                                        handleDeleteTopImage(
-                                                            image.id
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        deletingImageId ===
-                                                        image.id
-                                                    }
-                                                    title="Delete"
-                                                >
-                                                    <Trash2
-                                                        size={
-                                                            14
-                                                        }
-                                                    />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        ) : (
-                            <div
-                                className={
-                                    styles.About__Empty
-                                }
-                            >
-                                <div
-                                    className={
-                                        styles.About__EmptyIcon
-                                    }
-                                >
-                                    <ImagePlus
-                                        size={22}
-                                    />
-                                </div>
-
-                                <strong>
-                                    No carousel
-                                    images
-                                </strong>
-
-                                <span>
-                                    Upload images
-                                    to create the
-                                    About page
-                                    carousel.
-                                </span>
-
-                                <label
-                                    className={
-                                        styles.About__UploadButton
-                                    }
-                                >
-                                    <Upload
-                                        size={15}
-                                    />
-
-                                    <span>
-                                        Upload first
-                                        image
-                                    </span>
-
-                                    <input
-                                        type="file"
-                                        accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                        onChange={
-                                            handleTopImageUpload
-                                        }
-                                        disabled={
-                                            uploadingTopImage
-                                        }
-                                        hidden
-                                    />
-                                </label>
-                            </div>
-                        )}
-                    </div>
-                </section>
-
-                {/* OUR STORY */}
-
-                <section
-                    className={
-                        styles.About__Section
-                    }
-                >
-                    <div
-                        className={
-                            styles.About__SectionHeader
-                        }
-                    >
-                        <div>
-                            <span
-                                className={
-                                    styles.About__SectionEyebrow
-                                }
-                            >
-                                Our Story
-                            </span>
-
-                            <h3
-                                className={
-                                    styles.About__SectionTitle
-                                }
-                            >
-                                Story image
-                            </h3>
-
-                            <p
-                                className={
-                                    styles.About__SectionDescription
-                                }
-                            >
-                                Change the image
-                                displayed beside
-                                the Our Story
-                                section.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        className={
-                            styles.About__SingleImage
-                        }
-                    >
-                        {ourStoryImage ? (
-                            <div
-                                className={
-                                    styles.About__ImageCard
-                                }
-                            >
-                                <div
-                                    className={
-                                        styles.About__ImagePreview
-                                    }
-                                >
-                                    <img
-                                        src={getImageUrl(
-                                            ourStoryImage.image_url ||
-                                                ourStoryImage.url
-                                        )}
-                                        alt="Our Story"
-                                    />
-                                </div>
-
-                                <div
-                                    className={
-                                        styles.About__ImageInfo
-                                    }
-                                >
-                                    <div>
-                                        <strong>
-                                            Our Story
-                                            image
-                                        </strong>
-
-                                        <span>
-                                            This image
-                                            is displayed
-                                            on the About
-                                            page.
+                                            {index +
+                                                1}
                                         </span>
                                     </div>
 
@@ -1193,274 +871,393 @@ export default function About() {
                                             styles.About__ImageActions
                                         }
                                     >
-                                        <label
-                                            className={
-                                                styles.About__SecondaryButton
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleMoveTopImage(
+                                                    image.id,
+                                                    "up"
+                                                )
                                             }
+                                            disabled={
+                                                index ===
+                                                0
+                                            }
+                                            aria-label="Move image up"
                                         >
-                                            <Upload
-                                                size={15}
-                                            />
-
-                                            <span>
-                                                {uploadingStoryImage
-                                                    ? "Uploading..."
-                                                    : "Replace"}
-                                            </span>
-
-                                            <input
-                                                type="file"
-                                                accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                                onChange={
-                                                    handleStoryImageUpload
+                                            <ArrowUp
+                                                size={
+                                                    16
                                                 }
-                                                disabled={
-                                                    uploadingStoryImage
-                                                }
-                                                hidden
                                             />
-                                        </label>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleMoveTopImage(
+                                                    image.id,
+                                                    "down"
+                                                )
+                                            }
+                                            disabled={
+                                                index ===
+                                                topImages.length -
+                                                    1
+                                            }
+                                            aria-label="Move image down"
+                                        >
+                                            <ArrowDown
+                                                size={
+                                                    16
+                                                }
+                                            />
+                                        </button>
 
                                         <button
                                             type="button"
                                             className={
-                                                styles.About__DangerButton
+                                                styles.About__DeleteButton
                                             }
-                                            onClick={
-                                                handleDeleteStoryImage
+                                            onClick={() =>
+                                                handleDeleteTopImage(
+                                                    image.id
+                                                )
                                             }
                                             disabled={
-                                                deletingStoryImage
+                                                deletingImageId ===
+                                                image.id
                                             }
+                                            aria-label="Delete image"
                                         >
                                             <Trash2
-                                                size={15}
+                                                size={
+                                                    16
+                                                }
                                             />
-
-                                            <span>
-                                                {deletingStoryImage
-                                                    ? "Deleting..."
-                                                    : "Delete"}
-                                            </span>
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <div
-                                className={
-                                    styles.About__EmptyImage
-                                }
-                            >
-                                <div
-                                    className={
-                                        styles.About__EmptyImageIcon
-                                    }
-                                >
-                                    <ImagePlus
-                                        size={22}
-                                    />
-                                </div>
-
-                                <div>
-                                    <strong>
-                                        No Our Story
-                                        image
-                                    </strong>
-
-                                    <span>
-                                        Upload the
-                                        image used
-                                        in the Our
-                                        Story
-                                        section.
-                                    </span>
-                                </div>
-
-                                <label
-                                    className={
-                                        styles.About__PrimaryButton
-                                    }
-                                >
-                                    <Upload
-                                        size={15}
-                                    />
-
-                                    <span>
-                                        {uploadingStoryImage
-                                            ? "Uploading..."
-                                            : "Upload image"}
-                                    </span>
-
-                                    <input
-                                        type="file"
-                                        accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                                        onChange={
-                                            handleStoryImageUpload
-                                        }
-                                        disabled={
-                                            uploadingStoryImage
-                                        }
-                                        hidden
-                                    />
-                                </label>
-                            </div>
+                            )
                         )}
                     </div>
-                </section>
+                )}
+            </div>
 
-                {/* CONNECT */}
-
-                <section
+            <div
+                className={
+                    styles.About__Section
+                }
+            >
+                <div
                     className={
-                        styles.About__Section
+                        styles.About__SectionHeader
+                    }
+                >
+                    <div>
+                        <span
+                            className={
+                                styles.About__SectionEyebrow
+                            }
+                        >
+                            Story section
+                        </span>
+
+                        <h3
+                            className={
+                                styles.About__SectionTitle
+                            }
+                        >
+                            Our Story
+                        </h3>
+
+                        <p
+                            className={
+                                styles.About__SectionDescription
+                            }
+                        >
+                            Manage the image used
+                            in the Our Story section.
+                        </p>
+                    </div>
+
+                    <label
+                        className={
+                            styles.About__UploadButton
+                        }
+                    >
+                        <Upload size={17} />
+
+                        <span>
+                            {uploadingStoryImage
+                                ? "Uploading..."
+                                : ourStoryImage
+                                  ? "Replace image"
+                                  : "Add image"}
+                        </span>
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={
+                                handleStoryImageUpload
+                            }
+                            disabled={
+                                uploadingStoryImage
+                            }
+                            hidden
+                        />
+                    </label>
+                </div>
+
+                {ourStoryImage ? (
+                    <div
+                        className={
+                            styles.About__StoryImage
+                        }
+                    >
+                        <img
+                            src={getImageUrl(
+                                ourStoryImage.image_url ||
+                                    ourStoryImage.url ||
+                                    ourStoryImage.path
+                            )}
+                            alt="Our Story"
+                        />
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleDeleteStoryImage
+                            }
+                            disabled={
+                                deletingStoryImage
+                            }
+                            className={
+                                styles.About__StoryDelete
+                            }
+                        >
+                            <Trash2 size={17} />
+
+                            <span>
+                                {deletingStoryImage
+                                    ? "Deleting..."
+                                    : "Delete image"}
+                            </span>
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        className={
+                            styles.About__Empty
+                        }
+                    >
+                        <ImagePlus
+                            size={30}
+                        />
+
+                        <strong>
+                            No Our Story image
+                        </strong>
+
+                        <span>
+                            Add an image to
+                            display in the Our
+                            Story section.
+                        </span>
+                    </div>
+                )}
+            </div>
+
+            <div
+                className={
+                    styles.About__Section
+                }
+            >
+                <div
+                    className={
+                        styles.About__SectionHeader
+                    }
+                >
+                    <div>
+                        <span
+                            className={
+                                styles.About__SectionEyebrow
+                            }
+                        >
+                            Contact
+                        </span>
+
+                        <h3
+                            className={
+                                styles.About__SectionTitle
+                            }
+                        >
+                            Connect
+                        </h3>
+
+                        <p
+                            className={
+                                styles.About__SectionDescription
+                            }
+                        >
+                            Manage the social media
+                            and email links shown
+                            on the About page.
+                        </p>
+                    </div>
+                </div>
+
+                <form
+                    className={
+                        styles.About__ConnectForm
+                    }
+                    onSubmit={
+                        handleSaveConnect
                     }
                 >
                     <div
                         className={
-                            styles.About__SectionHeader
+                            styles.About__Field
                         }
                     >
-                        <div>
-                            <span
-                                className={
-                                    styles.About__SectionEyebrow
-                                }
-                            >
-                                Connect
+                        <label
+                            htmlFor="about-instagram"
+                        >
+                            <FaInstagram
+                                size={17}
+                            />
+
+                            <span>
+                                Instagram
                             </span>
+                        </label>
 
-                            <h3
-                                className={
-                                    styles.About__SectionTitle
-                                }
-                            >
-                                Social links
-                            </h3>
-
-                            <p
-                                className={
-                                    styles.About__SectionDescription
-                                }
-                            >
-                                Manage the social
-                                accounts displayed
-                                in the Connect
-                                section.
-                            </p>
-                        </div>
+                        <input
+                            id="about-instagram"
+                            type="text"
+                            value={
+                                connect.instagram
+                            }
+                            onChange={(event) =>
+                                setConnect(
+                                    (
+                                        current
+                                    ) => ({
+                                        ...current,
+                                        instagram:
+                                            event
+                                                .target
+                                                .value,
+                                    })
+                                )
+                            }
+                            placeholder="Instagram URL"
+                        />
                     </div>
 
-                    <form
+                    <div
                         className={
-                            styles.About__Form
-                        }
-                        onSubmit={
-                            handleSaveConnect
+                            styles.About__Field
                         }
                     >
-                        <div
-                            className={
-                                styles.About__Field
-                            }
+                        <label
+                            htmlFor="about-tiktok"
                         >
-                            <label htmlFor="about-tiktok">
-                                <FaTiktok
-                                    size={15}
-                                />
-                                TikTok username
-                            </label>
-
-                            <input
-                                id="about-tiktok"
-                                name="tiktok_username"
-                                type="text"
-                                value={
-                                    connect.tiktok_username
-                                }
-                                onChange={
-                                    handleConnectChange
-                                }
-                                placeholder="@username"
+                            <FaTiktok
+                                size={17}
                             />
-                        </div>
 
-                        <div
+                            <span>
+                                TikTok
+                            </span>
+                        </label>
+
+                        <input
+                            id="about-tiktok"
+                            type="text"
+                            value={
+                                connect.tiktok
+                            }
+                            onChange={(event) =>
+                                setConnect(
+                                    (
+                                        current
+                                    ) => ({
+                                        ...current,
+                                        tiktok:
+                                            event
+                                                .target
+                                                .value,
+                                    })
+                                )
+                            }
+                            placeholder="TikTok URL"
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.About__Field
+                        }
+                    >
+                        <label
+                            htmlFor="about-email"
+                        >
+                            <Mail size={17} />
+
+                            <span>
+                                Email
+                            </span>
+                        </label>
+
+                        <input
+                            id="about-email"
+                            type="email"
+                            value={
+                                connect.email
+                            }
+                            onChange={(event) =>
+                                setConnect(
+                                    (
+                                        current
+                                    ) => ({
+                                        ...current,
+                                        email:
+                                            event
+                                                .target
+                                                .value,
+                                    })
+                                )
+                            }
+                            placeholder="Email address"
+                        />
+                    </div>
+
+                    <div
+                        className={
+                            styles.About__FormActions
+                        }
+                    >
+                        <button
+                            type="submit"
                             className={
-                                styles.About__Field
+                                styles.About__SaveButton
+                            }
+                            disabled={
+                                savingConnect
                             }
                         >
-                            <label htmlFor="about-instagram">
-                                <FaInstagram
-                                    size={15}
-                                />
-                                Instagram
-                                username
-                            </label>
+                            <Save size={17} />
 
-                            <input
-                                id="about-instagram"
-                                name="instagram_username"
-                                type="text"
-                                value={
-                                    connect.instagram_username
-                                }
-                                onChange={
-                                    handleConnectChange
-                                }
-                                placeholder="@username"
-                            />
-                        </div>
-
-                        <div
-                            className={
-                                styles.About__Field
-                            }
-                        >
-                            <label htmlFor="about-email">
-                                <Mail size={15} />
-                                Email address
-                            </label>
-
-                            <input
-                                id="about-email"
-                                name="email"
-                                type="email"
-                                value={
-                                    connect.email
-                                }
-                                onChange={
-                                    handleConnectChange
-                                }
-                                placeholder="contact@example.com"
-                            />
-                        </div>
-
-                        <div
-                            className={
-                                styles.About__FormFooter
-                            }
-                        >
-                            <button
-                                type="submit"
-                                className={
-                                    styles.About__SaveButton
-                                }
-                                disabled={
-                                    savingConnect
-                                }
-                            >
-                                <Save size={15} />
-
-                                <span>
-                                    {savingConnect
-                                        ? "Saving..."
-                                        : "Save changes"}
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-                </section>
+                            <span>
+                                {savingConnect
+                                    ? "Saving..."
+                                    : "Save changes"}
+                            </span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </section>
     );

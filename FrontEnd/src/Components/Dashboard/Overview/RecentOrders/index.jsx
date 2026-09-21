@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.scss";
-
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
+import { authFetch } from "../../../../lib/authFetch.js";
 
 const formatMoney = (value) => {
     return `${Number(value || 0).toLocaleString("fr-DZ")} DA`;
@@ -32,16 +29,22 @@ const getStatusLabel = (status) => {
     switch (status) {
         case "pending":
             return "Pending";
+
         case "confirmed":
             return "Confirmed";
+
         case "processing":
             return "Processing";
+
         case "shipped":
             return "Shipped";
+
         case "delivered":
             return "Delivered";
+
         case "cancelled":
             return "Cancelled";
+
         default:
             return status || "Unknown";
     }
@@ -83,8 +86,8 @@ export default function RecentOrders() {
                 setLoading(true);
                 setError("");
 
-                const response = await fetch(
-                    `${API_BASE_URL}/dashboard/orders`,
+                const response = await authFetch(
+                    "/dashboard/orders",
                     {
                         signal: controller.signal,
                     }
@@ -94,11 +97,14 @@ export default function RecentOrders() {
 
                 if (!response.ok || !result.success) {
                     throw new Error(
-                        result.message || "Failed to load recent orders."
+                        result.message ||
+                            "Failed to load recent orders."
                     );
                 }
 
-                const orderData = Array.isArray(result.data)
+                const orderData = Array.isArray(
+                    result.data
+                )
                     ? result.data
                     : [];
 
@@ -108,7 +114,10 @@ export default function RecentOrders() {
                     return;
                 }
 
-                console.error("Recent orders error:", fetchError);
+                console.error(
+                    "Recent orders error:",
+                    fetchError
+                );
 
                 setError(
                     fetchError.message ||
@@ -139,7 +148,11 @@ export default function RecentOrders() {
                 </Link>
             </div>
 
-            <div className={styles.RecentOrders__TableWrapper}>
+            <div
+                className={
+                    styles.RecentOrders__TableWrapper
+                }
+            >
                 <table>
                     <thead>
                         <tr>
@@ -169,20 +182,26 @@ export default function RecentOrders() {
                             </tr>
                         )}
 
-                        {!loading && !error && orders.length === 0 && (
-                            <tr>
-                                <td colSpan="6">
-                                    No orders yet.
-                                </td>
-                            </tr>
-                        )}
+                        {!loading &&
+                            !error &&
+                            orders.length === 0 && (
+                                <tr>
+                                    <td colSpan="6">
+                                        No orders yet.
+                                    </td>
+                                </tr>
+                            )}
 
                         {!loading &&
                             !error &&
                             orders.map((order) => (
                                 <tr key={order.id}>
                                     <td>
-                                        #{String(order.id).padStart(4, "0")}
+                                        #
+                                        {String(order.id).padStart(
+                                            4,
+                                            "0"
+                                        )}
                                     </td>
 
                                     <td>
@@ -190,18 +209,25 @@ export default function RecentOrders() {
                                             {order.customer_name ||
                                                 "Unknown customer"}
                                         </strong>
+
                                         <br />
+
                                         <span>
-                                            {order.customer_phone || "—"}
+                                            {order.customer_phone ||
+                                                "—"}
                                         </span>
                                     </td>
 
                                     <td>
-                                        {Number(order.item_count || 0)}
+                                        {Number(
+                                            order.item_count || 0
+                                        )}
                                     </td>
 
                                     <td>
-                                        {formatMoney(order.total)}
+                                        {formatMoney(
+                                            order.total
+                                        )}
                                     </td>
 
                                     <td>
@@ -210,12 +236,16 @@ export default function RecentOrders() {
                                                 order.status
                                             )}`}
                                         >
-                                            {getStatusLabel(order.status)}
+                                            {getStatusLabel(
+                                                order.status
+                                            )}
                                         </span>
                                     </td>
 
                                     <td>
-                                        {formatDate(order.created_at)}
+                                        {formatDate(
+                                            order.created_at
+                                        )}
                                     </td>
                                 </tr>
                             ))}
