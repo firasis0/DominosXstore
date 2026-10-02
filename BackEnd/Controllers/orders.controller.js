@@ -1,5 +1,5 @@
 import db from "../DB/db.js";
-
+import { sendNewOrderEmail } from "../Services/orderEmail.service.js";
 const ALLOWED_STATUSES = [
     "pending",
     "confirmed",
@@ -196,7 +196,17 @@ export const createOrder = async (req, res) => {
                         discount_price,
                         is_on_sale,
                         stock,
-                        is_active
+                        is_active,
+
+                        (
+                            SELECT
+                                pi.image_url
+                            FROM product_images pi
+                            WHERE pi.product_id = products.id
+                            ORDER BY pi.id ASC
+                            LIMIT 1
+                        ) AS image_url
+
                     FROM products
                     WHERE id = $1
                     FOR UPDATE;
@@ -361,6 +371,7 @@ export const createOrder = async (req, res) => {
         */
 
         let deliveryPrice;
+        let deliveryOffice = null;
 
         if (delivery_type === "home") {
             deliveryPrice = Number(
@@ -441,6 +452,8 @@ export const createOrder = async (req, res) => {
                 error.statusCode = 400;
                 throw error;
             }
+
+            deliveryOffice = officeResult.rows[0];
         }
 
         /*
@@ -887,6 +900,52 @@ export const createOrder = async (req, res) => {
             );
 
         await client.query("COMMIT");
+
+        try {
+            await sendNewOrderEmail({
+                order: {
+                    ...order,
+                    subtotal,
+                    total,
+                },
+                customer,
+                product: {
+                    id: product.id,
+                    name: product.name,
+                    image_url: product.image_url,
+                    unit_price: productPrice,
+                    quantity: orderQuantity,
+                    subtotal,
+                    remaining_stock: remainingStock,
+                },
+                item: orderItemResult.rows[0],
+                shipping: {
+                    provider_id:
+                        shipping.provider_id,
+                    provider_name:
+                        shipping.provider_name,
+                    provider_logo:
+                        shipping.provider_logo,
+                    shipping_zone_id:
+                        shipping.shipping_zone_id,
+                    delivery_type,
+                    delivery_price:
+                        deliveryPrice,
+                    delivery_office_id:
+                        delivery_type ===
+                        "office"
+                            ? officeId
+                            : null,
+                },
+                deliveryOffice,
+            });
+        } catch (emailError) {
+            console.error(
+                "Order created successfully, but notification email failed:",
+                emailError
+            );
+        }
+
 
         /*
         |--------------------------------------------------------------------------

@@ -39,7 +39,9 @@ const getImageUrl = (imageUrl) => {
         return imageUrl;
     }
 
-    return `${API_SERVER_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+    return `${API_SERVER_URL}${
+        imageUrl.startsWith("/") ? "" : "/"
+    }${imageUrl}`;
 };
 
 export default function About() {
@@ -78,172 +80,172 @@ export default function About() {
         setSavingConnect,
     ] = useState(false);
 
-useEffect(() => {
-    const controller =
-        new AbortController();
+    useEffect(() => {
+        const controller =
+            new AbortController();
 
-    const load = async () => {
-        try {
-            setLoading(true);
-            setError("");
+        const load = async () => {
+            try {
+                setLoading(true);
+                setError("");
 
-            const pagesResponse =
-                await authFetch(
-                    "/dashboard/content/pages",
-                    {
-                        signal:
-                            controller.signal,
-                    }
+                const pagesResponse =
+                    await authFetch(
+                        "/dashboard/content/pages",
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    );
+
+                const pagesData =
+                    await pagesResponse.json();
+
+                if (
+                    !pagesResponse.ok ||
+                    !pagesData.success
+                ) {
+                    throw new Error(
+                        pagesData.message ||
+                            "Failed to load content pages."
+                    );
+                }
+
+                const aboutPage =
+                    pagesData.data?.pages?.find(
+                        (item) =>
+                            String(item.name)
+                                .trim()
+                                .toLowerCase() ===
+                            "about"
+                    );
+
+                if (!aboutPage) {
+                    throw new Error(
+                        "About page was not found."
+                    );
+                }
+
+                setPage(aboutPage);
+
+                const [
+                    imagesResponse,
+                    connectResponse,
+                ] = await Promise.all([
+                    authFetch(
+                        `/dashboard/content/pages/${aboutPage.id}`,
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    ),
+
+                    authFetch(
+                        "/dashboard/content/about/connect",
+                        {
+                            signal:
+                                controller.signal,
+                        }
+                    ),
+                ]);
+
+                const imagesData =
+                    await imagesResponse.json();
+
+                const connectData =
+                    await connectResponse.json();
+
+                if (
+                    !imagesResponse.ok ||
+                    !imagesData.success
+                ) {
+                    throw new Error(
+                        imagesData.message ||
+                            "Failed to load About page content."
+                    );
+                }
+
+                if (
+                    !connectResponse.ok ||
+                    !connectData.success
+                ) {
+                    throw new Error(
+                        connectData.message ||
+                            "Failed to load social links."
+                    );
+                }
+
+                setTopImages(
+                    (
+                        imagesData.data
+                            ?.images?.top || []
+                    ).sort(
+                        (a, b) =>
+                            Number(
+                                a.sort_order || 0
+                            ) -
+                            Number(
+                                b.sort_order || 0
+                            )
+                    )
                 );
 
-            const pagesData =
-                await pagesResponse.json();
-
-            if (
-                !pagesResponse.ok ||
-                !pagesData.success
-            ) {
-                throw new Error(
-                    pagesData.message ||
-                        "Failed to load content pages."
-                );
-            }
-
-            const aboutPage =
-                pagesData.data?.pages?.find(
-                    (item) =>
-                        String(item.name)
-                            .trim()
-                            .toLowerCase() ===
-                        "about"
-                );
-
-            if (!aboutPage) {
-                throw new Error(
-                    "About page was not found."
-                );
-            }
-
-            setPage(aboutPage);
-
-            const [
-                imagesResponse,
-                connectResponse,
-            ] = await Promise.all([
-                authFetch(
-                    `/dashboard/content/pages/${aboutPage.id}`,
-                    {
-                        signal:
-                            controller.signal,
-                    }
-                ),
-
-                authFetch(
-                    "/dashboard/content/about/connect",
-                    {
-                        signal:
-                            controller.signal,
-                    }
-                ),
-            ]);
-
-            const imagesData =
-                await imagesResponse.json();
-
-            const connectData =
-                await connectResponse.json();
-
-            if (
-                !imagesResponse.ok ||
-                !imagesData.success
-            ) {
-                throw new Error(
-                    imagesData.message ||
-                        "Failed to load About page content."
-                );
-            }
-
-            if (
-                !connectResponse.ok ||
-                !connectData.success
-            ) {
-                throw new Error(
-                    connectData.message ||
-                        "Failed to load social links."
-                );
-            }
-
-            setTopImages(
-                (
+                setOurStoryImage(
                     imagesData.data
-                        ?.images?.top || []
-                ).sort(
-                    (a, b) =>
-                        Number(
-                            a.sort_order || 0
-                        ) -
-                        Number(
-                            b.sort_order || 0
-                        )
-                )
-            );
+                        ?.ourStoryImage ||
+                        null
+                );
 
-            setOurStoryImage(
-                imagesData.data
-                    ?.ourStoryImage ||
-                    null
-            );
+                setConnect({
+                    instagram:
+                        connectData.data
+                            ?.content
+                            ?.instagram_username ||
+                        "",
 
-            setConnect({
-                instagram:
-                    connectData.data
-                        ?.content
-                        ?.instagram_username ||
-                    "",
+                    tiktok:
+                        connectData.data
+                            ?.content
+                            ?.tiktok_username ||
+                        "",
 
-                tiktok:
-                    connectData.data
-                        ?.content
-                        ?.tiktok_username ||
-                    "",
+                    email:
+                        connectData.data
+                            ?.content?.email ||
+                        "",
+                });
+            } catch (err) {
+                if (
+                    err.name ===
+                    "AbortError"
+                ) {
+                    return;
+                }
 
-                email:
-                    connectData.data
-                        ?.content?.email ||
-                    "",
-            });
-        } catch (err) {
-            if (
-                err.name ===
-                "AbortError"
-            ) {
-                return;
+                console.error(
+                    "About content load error:",
+                    err
+                );
+
+                setError(
+                    err.message ||
+                        "Failed to load About content."
+                );
+            } finally {
+                if (
+                    !controller.signal.aborted
+                ) {
+                    setLoading(false);
+                }
             }
+        };
 
-            console.error(
-                "About content load error:",
-                err
-            );
+        load();
 
-            setError(
-                err.message ||
-                    "Failed to load About content."
-            );
-        } finally {
-            if (
-                !controller.signal.aborted
-            ) {
-                setLoading(false);
-            }
-        }
-    };
-
-    load();
-
-    return () => {
-        controller.abort();
-    };
-}, []);
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     const handleSaveConnect = async (
         event
@@ -257,16 +259,21 @@ useEffect(() => {
         try {
             const response =
                 await authFetch(
-                    `${API_BASE_URL}/dashboard/content/about/connect`,
+                    "/dashboard/content/about/connect",
                     {
                         method: "PUT",
                         headers: {
                             "Content-Type":
                                 "application/json",
                         },
-                        body: JSON.stringify(
-                            connect
-                        ),
+                        body: JSON.stringify({
+                            instagram_username:
+                                connect.instagram,
+                            tiktok_username:
+                                connect.tiktok,
+                            email:
+                                connect.email,
+                        }),
                     }
                 );
 
@@ -278,6 +285,22 @@ useEffect(() => {
                     data.message ||
                         "Failed to save social links."
                 );
+            }
+
+            if (data.data?.content) {
+                setConnect({
+                    instagram:
+                        data.data.content
+                            .instagram_username ||
+                        "",
+                    tiktok:
+                        data.data.content
+                            .tiktok_username ||
+                        "",
+                    email:
+                        data.data.content.email ||
+                        "",
+                });
             }
 
             setSuccess(
@@ -322,9 +345,14 @@ useEffect(() => {
                     file
                 );
 
+                formData.append(
+                    "section",
+                    "top"
+                );
+
                 const response =
                     await authFetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/images`,
+                        `/dashboard/content/pages/${page.id}/images`,
                         {
                             method: "POST",
                             body: formData,
@@ -342,6 +370,7 @@ useEffect(() => {
                 }
 
                 const uploadedImage =
+                    data.data?.image ||
                     data.image ||
                     data.data ||
                     data;
@@ -387,7 +416,7 @@ useEffect(() => {
             try {
                 const response =
                     await authFetch(
-                        `${API_BASE_URL}/dashboard/content/pages/images/${imageId}`,
+                        `/dashboard/content/page-images/${imageId}`,
                         {
                             method: "DELETE",
                         }
@@ -478,7 +507,7 @@ useEffect(() => {
         try {
             const response =
                 await authFetch(
-                    `${API_BASE_URL}/dashboard/content/pages/images/order`,
+                    `/dashboard/content/page-images/${imageId}/order`,
                     {
                         method: "PATCH",
                         headers: {
@@ -486,7 +515,6 @@ useEffect(() => {
                                 "application/json",
                         },
                         body: JSON.stringify({
-                            imageId,
                             targetImageId:
                                 targetImage.id,
                         }),
@@ -546,7 +574,7 @@ useEffect(() => {
 
                 const response =
                     await authFetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/story-image`,
+                        `/dashboard/content/pages/${page.id}/our-story-image`,
                         {
                             method: "POST",
                             body: formData,
@@ -564,7 +592,8 @@ useEffect(() => {
                 }
 
                 setOurStoryImage(
-                    data.image ||
+                    data.data?.image ||
+                        data.image ||
                         data.data ||
                         data
                 );
@@ -614,7 +643,7 @@ useEffect(() => {
             try {
                 const response =
                     await authFetch(
-                        `${API_BASE_URL}/dashboard/content/pages/${page.id}/story-image`,
+                        "/dashboard/content/about/our-story-image",
                         {
                             method: "DELETE",
                         }
@@ -655,7 +684,11 @@ useEffect(() => {
     if (loading) {
         return (
             <section className={styles.About}>
-                <div className={styles.About__Loading}>
+                <div
+                    className={
+                        styles.About__Loading
+                    }
+                >
                     Loading About content...
                 </div>
             </section>
@@ -664,7 +697,11 @@ useEffect(() => {
 
     return (
         <section className={styles.About}>
-            <div className={styles.About__Header}>
+            <div
+                className={
+                    styles.About__Header
+                }
+            >
                 <div>
                     <span
                         className={

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /Dashboard
+Disallow: /dashboard
+Disallow: /login
+
+Sitemap: https://dominosdz.store/sitemap.xml

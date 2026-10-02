@@ -6,7 +6,10 @@ import {
     addCategory,
     updateCategory,
     deleteCategory,
+    uploadCategoryImage,
 } from "../Controllers/categories.controller.js";
+
+import categoryUpload from "../Middlewares/categoryUpload.middleware.js";
 
 const router = express.Router();
 
@@ -34,6 +37,13 @@ router.post(
 router.delete(
     "/dashboard/categories/:id",
     deleteCategory
+);
+
+// CATEGORY IMAGE UPLOAD
+router.post(
+    "/dashboard/categories/images",
+    categoryUpload.single("image"),
+    uploadCategoryImage
 );
 
 export default router;
