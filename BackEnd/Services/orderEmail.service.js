@@ -384,8 +384,8 @@ export const sendNewOrderEmail = async ({
                                     ? `
                                         <img
                                             src="${escapeHtml(
-                                                product.image_url
-                                            )}"
+    `${process.env.PUBLIC_BASE_URL}${product.image_url}`
+)}"
                                             alt="${escapeHtml(
                                                 product.name
                                             )}"

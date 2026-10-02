@@ -1,5 +1,6 @@
 import db from "../DB/db.js";
 import { sendNewOrderEmail } from "../Services/orderEmail.service.js";
+
 const ALLOWED_STATUSES = [
     "pending",
     "confirmed",
@@ -31,8 +32,6 @@ export const createOrder = async (req, res) => {
             province_id,
             municipality_id,
             delivery_type,
-            shipping_provider_id,
-            shipping_zone_id,
             delivery_office_id,
             variants,
         } = req.body;
@@ -41,8 +40,6 @@ export const createOrder = async (req, res) => {
         const orderQuantity = Number(quantity);
         const provinceId = Number(province_id);
         const municipalityId = Number(municipality_id);
-        const providerId = Number(shipping_provider_id);
-        const zoneId = Number(shipping_zone_id);
 
         const fullName = String(
             customerInput?.full_name ?? ""
@@ -126,28 +123,6 @@ export const createOrder = async (req, res) => {
             });
         }
 
-        if (
-            !Number.isInteger(providerId) ||
-            providerId <= 0
-        ) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Invalid shipping provider.",
-            });
-        }
-
-        if (
-            !Number.isInteger(zoneId) ||
-            zoneId <= 0
-        ) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Invalid shipping zone.",
-            });
-        }
-
         const officeId =
             delivery_type === "office"
                 ? Number(delivery_office_id)
@@ -208,7 +183,9 @@ export const createOrder = async (req, res) => {
                         ) AS image_url
 
                     FROM products
+
                     WHERE id = $1
+
                     FOR UPDATE;
                 `,
                 [productId]
@@ -288,9 +265,12 @@ export const createOrder = async (req, res) => {
                         p.name AS province_name,
                         m.id AS municipality_id,
                         m.commune_name AS municipality_name
+
                     FROM province p
+
                     INNER JOIN municipality m
                         ON m.province_id = p.id
+
                     WHERE p.id = $1
                       AND m.id = $2;
                 `,
@@ -316,7 +296,19 @@ export const createOrder = async (req, res) => {
 
         /*
         |--------------------------------------------------------------------------
-        | Validate shipping provider + zone
+        | Automatically select the first available shipping provider + zone
+        |--------------------------------------------------------------------------
+        |
+        | The customer does NOT choose a shipping provider.
+        |
+        | Home delivery:
+        |     First active provider with an active zone for the province.
+        |
+        | Office delivery:
+        |     First active provider with an active zone for the province
+        |     and at least one active office in that province.
+        |
+        | Provider and zone are selected server-side.
         |--------------------------------------------------------------------------
         */
 
@@ -337,16 +329,40 @@ export const createOrder = async (req, res) => {
                     INNER JOIN shipping_zones sz
                         ON sz.provider_id = sp.id
 
-                    WHERE sp.id = $1
-                      AND sz.id = $2
-                      AND sz.province_id = $3
-                      AND sp.is_active = true
-                      AND sz.is_active = true;
+                    WHERE sp.is_active = true
+                      AND sz.is_active = true
+                      AND sz.province_id = $1
+                      AND (
+                          $2 = 'home'
+
+                          OR EXISTS (
+                              SELECT 1
+
+                              FROM delivery_offices dof
+
+                              INNER JOIN municipality dm
+                                  ON dm.id =
+                                      dof.municipality_id
+
+                              WHERE dof.shipping_zone_id =
+                                  sz.id
+
+                                AND dof.is_active = true
+
+                                AND dm.province_id =
+                                    $1
+                          )
+                      )
+
+                    ORDER BY
+                        sp.id ASC,
+                        sz.id ASC
+
+                    LIMIT 1;
                 `,
                 [
-                    providerId,
-                    zoneId,
                     provinceId,
+                    delivery_type,
                 ]
             );
 
@@ -354,7 +370,9 @@ export const createOrder = async (req, res) => {
             !shippingResult.rows.length
         ) {
             const error = new Error(
-                "The selected shipping provider is not available for this province."
+                delivery_type === "office"
+                    ? "Office delivery is not available for the selected province."
+                    : "Home delivery is not available for the selected province."
             );
 
             error.statusCode = 400;
@@ -363,6 +381,16 @@ export const createOrder = async (req, res) => {
 
         const shipping =
             shippingResult.rows[0];
+
+        const providerId =
+            Number(
+                shipping.provider_id
+            );
+
+        const zoneId =
+            Number(
+                shipping.shipping_zone_id
+            );
 
         /*
         |--------------------------------------------------------------------------
@@ -422,7 +450,8 @@ export const createOrder = async (req, res) => {
                             dof.name,
                             dof.address,
                             dof.municipality_id,
-                            m.commune_name AS municipality_name
+                            m.commune_name
+                                AS municipality_name
 
                         FROM delivery_offices dof
 
@@ -453,7 +482,8 @@ export const createOrder = async (req, res) => {
                 throw error;
             }
 
-            deliveryOffice = officeResult.rows[0];
+            deliveryOffice =
+                officeResult.rows[0];
         }
 
         /*
@@ -470,8 +500,11 @@ export const createOrder = async (req, res) => {
                         type,
                         value,
                         color_hex
+
                     FROM product_variants
+
                     WHERE product_id = $1
+
                     ORDER BY id ASC;
                 `,
                 [productId]
@@ -689,6 +722,7 @@ export const createOrder = async (req, res) => {
                         province_id,
                         municipality_id
                     )
+
                     VALUES (
                         $1,
                         $2,
@@ -701,6 +735,7 @@ export const createOrder = async (req, res) => {
                     ON CONFLICT (
                         phone_number
                     )
+
                     DO UPDATE SET
                         full_name =
                             EXCLUDED.full_name,
@@ -745,11 +780,14 @@ export const createOrder = async (req, res) => {
             await client.query(
                 `
                     UPDATE products
+
                     SET stock =
                         stock - $1
+
                     WHERE id = $2
                       AND is_active = true
                       AND stock >= $1
+
                     RETURNING stock;
                 `,
                 [
@@ -818,6 +856,7 @@ export const createOrder = async (req, res) => {
                         shipping_zone_id,
                         delivery_office_id
                     )
+
                     VALUES (
                         $1,
                         'pending',
@@ -828,6 +867,7 @@ export const createOrder = async (req, res) => {
                         $6,
                         $7
                     )
+
                     RETURNING
                         id,
                         customer_id,
@@ -873,6 +913,7 @@ export const createOrder = async (req, res) => {
                         unit_price,
                         selected_variants
                     )
+
                     VALUES (
                         $1,
                         $2,
@@ -880,6 +921,7 @@ export const createOrder = async (req, res) => {
                         $4,
                         $5::jsonb
                     )
+
                     RETURNING
                         id,
                         order_id,
@@ -899,7 +941,19 @@ export const createOrder = async (req, res) => {
                 ]
             );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Commit
+        |--------------------------------------------------------------------------
+        */
+
         await client.query("COMMIT");
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin order notification email
+        |--------------------------------------------------------------------------
+        */
 
         try {
             await sendNewOrderEmail({
@@ -908,35 +962,51 @@ export const createOrder = async (req, res) => {
                     subtotal,
                     total,
                 },
+
                 customer,
+
                 product: {
                     id: product.id,
                     name: product.name,
-                    image_url: product.image_url,
-                    unit_price: productPrice,
-                    quantity: orderQuantity,
+                    image_url:
+                        product.image_url,
+                    unit_price:
+                        productPrice,
+                    quantity:
+                        orderQuantity,
                     subtotal,
-                    remaining_stock: remainingStock,
+                    remaining_stock:
+                        remainingStock,
                 },
-                item: orderItemResult.rows[0],
+
+                item:
+                    orderItemResult.rows[0],
+
                 shipping: {
                     provider_id:
                         shipping.provider_id,
+
                     provider_name:
                         shipping.provider_name,
+
                     provider_logo:
                         shipping.provider_logo,
+
                     shipping_zone_id:
                         shipping.shipping_zone_id,
+
                     delivery_type,
+
                     delivery_price:
                         deliveryPrice,
+
                     delivery_office_id:
                         delivery_type ===
                         "office"
                             ? officeId
                             : null,
                 },
+
                 deliveryOffice,
             });
         } catch (emailError) {
@@ -946,7 +1016,6 @@ export const createOrder = async (req, res) => {
             );
         }
 
-
         /*
         |--------------------------------------------------------------------------
         | Response
@@ -955,6 +1024,7 @@ export const createOrder = async (req, res) => {
 
         return res.status(201).json({
             success: true,
+
             message:
                 "Order created successfully.",
 
@@ -1013,7 +1083,9 @@ export const createOrder = async (req, res) => {
             await client.query(
                 "ROLLBACK"
             );
-        } catch (rollbackError) {
+        } catch (
+            rollbackError
+        ) {
             console.error(
                 "Rollback error:",
                 rollbackError
@@ -1443,17 +1515,21 @@ export const getOrderDetails = async (
 
             data: {
                 /*
-                | Keep the original order
-                | object available for the
-                | existing OrderDetailsSheet.
+                |--------------------------------------------------------------------------
+                | Keep the original order object available for
+                | the existing OrderDetailsSheet.
+                |--------------------------------------------------------------------------
                 */
+
                 order,
 
                 /*
-                | Also expose the order fields
-                | at the top level for the
-                | print utility.
+                |--------------------------------------------------------------------------
+                | Also expose the order fields at the top level
+                | for the print utility.
+                |--------------------------------------------------------------------------
                 */
+
                 ...order,
 
                 customer: {

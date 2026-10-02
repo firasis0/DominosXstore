@@ -14,28 +14,6 @@ import styles from "./styles.module.scss";
 const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL;
 
-const getServerBaseUrl = () => {
-    return API_BASE_URL.replace(
-        /\/api\/?$/,
-        ""
-    );
-};
-
-const getImageUrl = (url) => {
-    if (!url) {
-        return "";
-    }
-
-    if (
-        url.startsWith("http://") ||
-        url.startsWith("https://")
-    ) {
-        return url;
-    }
-
-    return `${getServerBaseUrl()}${url}`;
-};
-
 export default function OrderForm({
     product,
     selectedVariants,
@@ -95,9 +73,6 @@ export default function OrderForm({
      */
 
     const [deliveryType, setDeliveryType] =
-        useState("");
-
-    const [selectedProviderId, setSelectedProviderId] =
         useState("");
 
     const [officeId, setOfficeId] =
@@ -377,10 +352,6 @@ useEffect(() => {
                         ""
                     );
 
-                    setSelectedProviderId(
-                        ""
-                    );
-
                     setOfficeId("");
 
                     setOfficeWarning("");
@@ -405,10 +376,6 @@ useEffect(() => {
                     setProviders([]);
 
                     setDeliveryType(
-                        ""
-                    );
-
-                    setSelectedProviderId(
                         ""
                     );
 
@@ -490,24 +457,22 @@ useEffect(() => {
 
     /*
      * --------------------------------------------------
-     * SELECTED PROVIDER
+     * AUTOMATIC SHIPPING PROVIDER
      * --------------------------------------------------
+     *
+     * The backend returns providers ordered by ID.
+     * The first available provider is used automatically.
      */
 
-    const selectedProvider = useMemo(() => {
-        return activeProviders.find(
+    const selectedProvider =
+        activeProviders.find(
             (provider) =>
-                String(
-                    provider.provider_id
-                ) ===
-                String(
-                    selectedProviderId
-                )
-        );
-    }, [
-        activeProviders,
-        selectedProviderId,
-    ]);
+                deliveryType === "office"
+                    ? provider.office_available
+                    : provider.home_available
+        ) ??
+        activeProviders[0] ??
+        null;
 
     /*
      * --------------------------------------------------
@@ -688,26 +653,6 @@ useEffect(() => {
 
         setDeliveryType(type);
 
-        setSelectedProviderId("");
-
-        setOfficeId("");
-
-        setOfficeWarning("");
-    };
-
-    /*
-     * --------------------------------------------------
-     * PROVIDER
-     * --------------------------------------------------
-     */
-
-    const handleProviderChange = (
-        providerId
-    ) => {
-        setSelectedProviderId(
-            String(providerId)
-        );
-
         setOfficeId("");
 
         setOfficeWarning("");
@@ -800,13 +745,6 @@ useEffect(() => {
             return;
         }
 
-        if (!selectedProvider) {
-            setOfficeWarning(
-                "يرجى اختيار شركة التوصيل."
-            );
-            return;
-        }
-
         if (
             deliveryType === "office" &&
             !selectedOffice
@@ -830,14 +768,6 @@ useEffect(() => {
             municipality_id: Number(municipalityId),
 
             delivery_type: deliveryType,
-
-            shipping_provider_id: Number(
-                selectedProvider.provider_id
-            ),
-
-            shipping_zone_id: Number(
-                selectedProvider.shipping_zone_id
-            ),
 
             delivery_office_id:
                 deliveryType === "office"
@@ -1361,122 +1291,6 @@ useEffect(() => {
                                     </>
                                 )}
 
-                            {deliveryType &&
-                                activeProviders.length >
-                                    0 && (
-                                    <div
-                                        className={
-                                            styles.OrderForm__Delivery
-                                        }
-                                    >
-                                        <span
-                                            className={
-                                                styles.OrderForm__Label
-                                            }
-                                        >
-                                            شركة التوصيل
-                                        </span>
-
-                                        <div
-                                            className={
-                                                styles.OrderForm__DeliveryOptions
-                                            }
-                                        >
-                                            {activeProviders
-                                                .filter(
-                                                    (
-                                                        provider
-                                                    ) =>
-                                                        deliveryType ===
-                                                            "home"
-                                                            ? provider.home_available
-                                                            : provider.office_available
-                                                )
-                                                .map(
-                                                    (
-                                                        provider
-                                                    ) => (
-                                                        <button
-                                                            type="button"
-                                                            key={
-                                                                provider.provider_id
-                                                            }
-                                                            className={`
-                                                                ${styles.OrderForm__DeliveryOption}
-                                                                ${
-                                                                    String(
-                                                                        selectedProviderId
-                                                                    ) ===
-                                                                    String(
-                                                                        provider.provider_id
-                                                                    )
-                                                                        ? styles.OrderForm__DeliveryOptionActive
-                                                                        : ""
-                                                                }
-                                                            `}
-                                                            onClick={() =>
-                                                                handleProviderChange(
-                                                                    provider.provider_id
-                                                                )
-                                                            }
-                                                        >
-                                                            {provider.provider_logo ? (
-                                                                <img
-                                                                    src={getImageUrl(
-                                                                        provider.provider_logo
-                                                                    )}
-                                                                    alt=""
-                                                                    className={
-                                                                        styles.OrderForm__ProviderLogo
-                                                                    }
-                                                                />
-                                                            ) : (
-                                                                <Building2
-                                                                    size={
-                                                                        20
-                                                                    }
-                                                                />
-                                                            )}
-
-                                                            <span>
-                                                                {
-                                                                    provider.provider_name
-                                                                }
-                                                            </span>
-
-                                                            <strong>
-                                                                {deliveryType ===
-                                                                "home"
-                                                                    ? Number(
-                                                                          provider.home_price
-                                                                      ).toLocaleString()
-                                                                    : Number(
-                                                                          provider.office_price
-                                                                      ).toLocaleString()}{" "}
-                                                                DA
-                                                            </strong>
-
-                                                            {String(
-                                                                selectedProviderId
-                                                            ) ===
-                                                                String(
-                                                                    provider.provider_id
-                                                                ) && (
-                                                                <span
-                                                                    className={
-                                                                        styles.OrderForm__Check
-                                                                    }
-                                                                >
-                                                                    ✓
-                                                                </span>
-                                                            )}
-                                                        </button>
-                                                    )
-                                                )}
-                                        </div>
-                                    </div>
-                                )}
-
                             {deliveryType ===
                                 "office" &&
                                 selectedProvider && (
@@ -1548,7 +1362,7 @@ useEffect(() => {
                                     </div>
                                 )}
 
-                            
+
 
                             {submitError && (
                                 <p
@@ -1613,7 +1427,7 @@ useEffect(() => {
                                     </div>
                                 )}
 
-                                {selectedProvider && (
+                                {deliveryType && (
                                     <div
                                         className={
                                             styles.OrderForm__SummaryRow
@@ -1710,7 +1524,6 @@ useEffect(() => {
                                     loadingShipping ||
                                     submitting ||
                                     shippingUnavailable ||
-                                    !selectedProvider ||
                                     !deliveryType ||
                                     (deliveryType ===
                                         "office" &&
