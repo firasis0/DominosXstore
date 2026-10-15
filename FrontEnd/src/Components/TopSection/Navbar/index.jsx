@@ -5,7 +5,6 @@ import styles from "./styles.module.scss";
 
 import {
     Search,
-    UserRound,
     Menu,
     X,
 } from "lucide-react";
@@ -213,19 +212,7 @@ export default function Navbar() {
                                 styles.Navbar__RightActions
                             }
                         >
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className={
-                                    styles.Navbar__Action
-                                }
-                                aria-label="Account"
-                                asChild
-                            >
-                                <Link to={accountLink.href}>
-                                    <UserRound />
-                                </Link>
-                            </Button>
+                            
 
                             <Sheet>
                                 <SheetTrigger asChild>
@@ -291,8 +278,11 @@ export default function Navbar() {
                                             styles.MobileMenu__Bottom
                                         }
                                     >
+                                        
+                                  
+                             
                                         <p>
-                                            © 2026 DOMINOS
+                                            © 2026 <Link to={accountLink.href}><span className={styles.Navbar__Mobilelogin}>DOMINOS</span></Link>
                                         </p>
                                     </div>
                                 </SheetContent>

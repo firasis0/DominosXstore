@@ -26,6 +26,11 @@ const companyLinks = [
   { name: "Terms & Conditions", href: "/policies#terms" },
 ];
 
+const accountLink = {
+    name: "Login",
+    href: "/login",
+};
+
 const date = new Date()
 const currentYear = date.getFullYear()
 
@@ -42,7 +47,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div className={styles.Footer__Brand}>
-            <Link to="/" className={styles.Footer__Logo}>
+            <Link to={accountLink.href} className={styles.Footer__Logo}>
               <img
                 src="/images/logo/dominos_logo.jpg"
                 alt="DOMINOS"
@@ -123,7 +128,7 @@ export default function Footer() {
         <div className={styles.Footer__Bottom}>
 
           <p>
-            © {currentYear} powerd by <a className={styles.feeqra} href="https://feeqra.com/">Feeqra</a> All rights reserved.
+            © {currentYear} powerd by <a className={styles.feeqra} href="https://kenfii.com/">KENFII</a> All rights reserved.
           </p>
 
           <div className={styles.Footer__BottomLinks}>
