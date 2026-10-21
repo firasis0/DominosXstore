@@ -1,4 +1,14 @@
+import path from "node:path";
+import { access } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+
 import { sendEmail } from "./email.service.js";
+import { getStoreBranding } from "./branding.service.js";
+
+const BACKEND_ROOT = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    ".."
+);
 
 const formatPrice = (value) =>
     `${Number(value || 0).toLocaleString("fr-FR")} DA`;
@@ -23,6 +33,71 @@ const formatDate = (value) => {
             timeStyle: "short",
         }
     );
+};
+
+const getPublicImageUrl = (imageUrl) => {
+    if (!imageUrl) {
+        return "";
+    }
+
+    if (/^https?:\/\//i.test(imageUrl)) {
+        return imageUrl;
+    }
+
+    const publicBaseUrl = String(
+        process.env.PUBLIC_BASE_URL || ""
+    ).replace(/\/+$/, "");
+
+    return publicBaseUrl
+        ? `${publicBaseUrl}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`
+        : "";
+};
+
+const getBrandingLogo = async (logoUrl) => {
+    if (!logoUrl) {
+        return { src: "", attachments: [] };
+    }
+
+    if (/^https?:\/\//i.test(logoUrl)) {
+        return { src: logoUrl, attachments: [] };
+    }
+
+    let logoPath;
+
+    if (logoUrl.startsWith("/uploads/content/")) {
+        logoPath = path.resolve(
+            BACKEND_ROOT,
+            "uploads",
+            "content",
+            path.basename(logoUrl)
+        );
+    } else {
+        return {
+            src: getPublicImageUrl(logoUrl),
+            attachments: [],
+        };
+    }
+
+    try {
+        await access(logoPath);
+    } catch (error) {
+        console.error("Store branding logo file is unavailable:", error);
+        return {
+            src: getPublicImageUrl(logoUrl),
+            attachments: [],
+        };
+    }
+
+    return {
+        src: "cid:store-branding-logo",
+        attachments: [
+            {
+                filename: path.basename(logoPath),
+                path: logoPath,
+                cid: "store-branding-logo",
+            },
+        ],
+    };
 };
 
 const formatVariants = (variants) => {
@@ -63,12 +138,92 @@ export const sendNewOrderEmail = async ({
     customer,
     product,
     item,
+    items,
     shipping,
     deliveryOffice,
 }) => {
-    const subtotal = Number(
-        product.subtotal || 0
+    const branding = await getStoreBranding();
+    const { src: logoUrl, attachments } = await getBrandingLogo(
+        branding.logoUrl
     );
+
+    const orderItems =
+        Array.isArray(items) && items.length
+            ? items
+            : [{ product, item }];
+
+    const subtotal = orderItems.reduce(
+        (sum, line) =>
+            sum + Number(line.product.subtotal || 0),
+        0
+    );
+
+    const itemsHtml =
+        orderItems.length > 1
+            ? `
+                <table
+                    width="100%"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="border-collapse: collapse;"
+                >
+                    ${orderItems
+                        .map(
+                            ({ product: lineProduct, item: lineItem }) => `
+                                <tr>
+                                    <td style="padding: 10px 8px; border-bottom: 1px solid #eeeeee;">
+                                        <table cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+                                            <tr>
+                                                <td style="width: 56px; padding-right: 10px; vertical-align: top;">
+                                                    ${
+                                                        getPublicImageUrl(lineProduct.image_url)
+                                                            ? `<img src="${escapeHtml(getPublicImageUrl(lineProduct.image_url))}" alt="${escapeHtml(lineProduct.name)}" width="48" height="48" style="display:block;width:48px;height:48px;object-fit:contain;border:1px solid #eeeeee;border-radius:6px;" />`
+                                                            : ""
+                                                    }
+                                                </td>
+                                                <td style="vertical-align: top;">
+                                                    ${escapeHtml(lineProduct.name)}
+                                                    <div style="margin-top: 5px; color: #666; font-size: 12px;">
+                                                        × ${escapeHtml(lineItem.quantity)}
+                                                        ${formatVariants(lineItem.selected_variants)}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="padding: 10px 0; border-bottom: 1px solid #eeeeee; text-align: right; white-space: nowrap;">
+                                        ${formatPrice(lineProduct.unit_price)} each
+                                        <br />
+                                        ${formatPrice(lineProduct.subtotal)}
+                                    </td>
+                                </tr>
+                            `
+                        )
+                        .join("")}
+                </table>
+            `
+            : "";
+
+    const itemsText = orderItems
+        .map(({ product: lineProduct, item: lineItem }) => {
+            const variants = Object.entries(
+                lineItem.selected_variants || {}
+            )
+                .map(
+                    ([type, variant]) =>
+                        `${type}: ${variant?.value ?? variant}`
+                )
+                .join(", ");
+
+            return [
+                `Product: ${lineProduct.name}`,
+                `Quantity: ${lineItem.quantity}`,
+                `Unit price: ${formatPrice(lineProduct.unit_price)}`,
+                `Subtotal: ${formatPrice(lineProduct.subtotal)}`,
+                `Variants: ${variants || "—"}`,
+            ].join("\n");
+        })
+        .join("\n\n");
 
     const deliveryPrice = Number(
         shipping.delivery_price || 0
@@ -156,7 +311,7 @@ export const sendNewOrderEmail = async ({
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     />
-    <title>New DOMINOS Order</title>
+    <title>New ${escapeHtml(branding.name)} Order</title>
 </head>
 
 <body style="
@@ -195,7 +350,11 @@ export const sendNewOrderEmail = async ({
                     font-weight: 800;
                     letter-spacing: 2px;
                 ">
-                    DOMINOS
+                    ${
+                        logoUrl
+                            ? `<img src="${escapeHtml(logoUrl)}" alt="${escapeHtml(branding.name)}" width="180" style="display:block;max-width:180px;max-height:56px;margin:0 auto;object-fit:contain;" />`
+                            : escapeHtml(branding.name)
+                    }
                 </div>
 
                 <div style="
@@ -370,6 +529,7 @@ export const sendNewOrderEmail = async ({
                     cellspacing="0"
                     style="
                         border-collapse: collapse;
+                        display: ${orderItems.length > 1 ? "none" : "table"};
                     "
                 >
                     <tr>
@@ -380,11 +540,11 @@ export const sendNewOrderEmail = async ({
                             vertical-align: middle;
                         ">
                             ${
-                                product.image_url
+                                getPublicImageUrl(product.image_url)
                                     ? `
                                         <img
                                             src="${escapeHtml(
-    `${process.env.PUBLIC_BASE_URL}${product.image_url}`
+                                                getPublicImageUrl(product.image_url)
 )}"
                                             alt="${escapeHtml(
                                                 product.name
@@ -479,6 +639,7 @@ export const sendNewOrderEmail = async ({
                         </td>
                     </tr>
                 </table>
+                ${itemsHtml}
             </div>
 
             <!-- Delivery -->
@@ -661,7 +822,7 @@ export const sendNewOrderEmail = async ({
                 font-size: 11px;
             ">
                 This is an automated notification from
-                DOMINOS STORE.
+                ${escapeHtml(branding.name)}.
             </div>
 
         </div>
@@ -673,7 +834,7 @@ export const sendNewOrderEmail = async ({
 `;
 
     const text = `
-DOMINOS STORE - NEW ORDER
+${branding.name} - NEW ORDER
 
 Order #${order.id}
 Date: ${formatDate(order.created_at)}
@@ -684,21 +845,8 @@ Phone: ${customer.phone_number}
 Province: ${customer.province}
 Municipality: ${customer.municipality}
 
-PRODUCT
-Product: ${product.name}
-Quantity: ${item.quantity}
-Unit price: ${formatPrice(product.unit_price)}
-Subtotal: ${formatPrice(subtotal)}
-
-VARIANTS
-${Object.entries(
-    item.selected_variants || {}
-)
-    .map(
-        ([type, variant]) =>
-            `${type}: ${variant?.value ?? variant}`
-    )
-    .join("\n") || "—"}
+PRODUCTS
+${itemsText}
 
 DELIVERY
 Type: ${deliveryType}
@@ -721,8 +869,10 @@ ${formatPrice(total)}
 
     return sendEmail({
         to: process.env.EMAIL_ADMIN,
-        subject: `New DOMINOS Order #${order.id} — ${formatPrice(total)}`,
+        subject: `New ${branding.name} Order #${order.id} — ${formatPrice(total)}`,
         text,
         html,
+        attachments,
+        fromName: branding.name,
     });
 };

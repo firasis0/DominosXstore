@@ -23,13 +23,19 @@ export const sendEmail = async ({
     subject,
     html,
     text,
+    attachments = [],
+    fromName = process.env.EMAIL_FROM_NAME,
 }) => {
     const info = await transporter.sendMail({
-        from: `"${process.env.EMAIL_FROM_NAME}" <${process.env.EMAIL_FROM}>`,
+        from: {
+            name: fromName,
+            address: process.env.EMAIL_FROM,
+        },
         to,
         subject,
         text,
         html,
+        attachments,
     });
 
     console.log(

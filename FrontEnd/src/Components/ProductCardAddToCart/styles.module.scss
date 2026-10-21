@@ -1,0 +1,187 @@
+.CartMessage {
+  position: absolute;
+  z-index: 4;
+  right: 12px;
+  bottom: 60px;
+  left: 12px;
+  margin: 0;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #333;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.VariantDialog {
+  width: min(440px, calc(100% - 2rem));
+  max-width: 440px;
+  max-height: min(85vh, 620px);
+  overflow-y: auto;
+  padding: 30px;
+  border-color: #e5e5e5;
+  border-radius: 16px;
+  background: #fff;
+  color: #222;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.VariantDialog__Header {
+  margin-bottom: 24px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #ededed;
+  text-align: right;
+}
+
+.VariantDialog__Title {
+  padding-left: 24px;
+  color: #171717;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.VariantDialog__Description {
+  margin-top: 3px;
+  color: #737373;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.VariantDialog__Groups {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.VariantGroup {
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 18px;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.VariantGroup__Label {
+  margin-bottom: 12px;
+  color: #292929;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.VariantGroup__Options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.VariantOption {
+  min-height: 44px;
+  padding: 9px 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  background: #fff;
+  color: #292929;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: #777;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #222;
+    outline-offset: 2px;
+  }
+}
+
+.VariantOption--selected {
+  border-color: #171717;
+  background: #171717;
+  color: #fff;
+}
+
+.VariantOption--color {
+  padding-inline: 9px;
+}
+
+.VariantOption__Swatch {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.VariantDialog__Footer {
+  margin-top: 25px;
+  padding-top: 2px;
+}
+
+.VariantDialog__Submit {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 9px;
+  background: #171717;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #383838;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 480px) {
+  .VariantDialog {
+    width: calc(100% - 1.5rem);
+    max-height: 88vh;
+    padding: 24px 20px 20px;
+    border-radius: 14px;
+  }
+
+  .VariantDialog__Header {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+  }
+
+  .VariantDialog__Title {
+    font-size: 19px;
+  }
+
+  .VariantDialog__Groups {
+    gap: 18px;
+  }
+
+  .VariantGroup {
+    padding-bottom: 15px;
+  }
+
+  .VariantDialog__Footer {
+    flex-direction: column;
+  }
+
+  .VariantDialog__Submit {
+    width: 100%;
+  }
+}

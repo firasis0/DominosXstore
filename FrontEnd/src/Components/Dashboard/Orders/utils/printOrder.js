@@ -106,6 +106,27 @@ export const printOrder = async (
 
         const data = result.data;
 
+        const brandingResponse = await fetch(
+            `${apiBaseUrl}/content/branding`
+        );
+        const brandingResult = await brandingResponse.json();
+
+        if (!brandingResponse.ok || !brandingResult.success) {
+            throw new Error(
+                brandingResult.message ||
+                    "Failed to load store branding."
+            );
+        }
+
+        const branding = brandingResult.data.branding;
+        const logoUrl = branding.logoUrl
+            ? /^https?:\/\//i.test(branding.logoUrl)
+                ? branding.logoUrl
+                : branding.logoUrl.startsWith("/uploads/")
+                ? `${apiBaseUrl.replace(/\/api\/?$/, "")}${branding.logoUrl}`
+                : new URL(branding.logoUrl, window.location.origin).href
+            : "";
+
         const customer =
             data.customer || data;
 
@@ -466,7 +487,11 @@ export const printOrder = async (
                         <header class="header">
                             <div>
                                 <div class="brand">
-                                    DOMINOS
+                                    ${
+                                        logoUrl
+                                            ? `<img src="${escapeHtml(logoUrl)}" alt="${escapeHtml(branding.name)}" style="max-width:180px;max-height:56px;object-fit:contain;" />`
+                                            : escapeHtml(branding.name)
+                                    }
                                 </div>
 
                                 <div class="document-title">
@@ -644,7 +669,7 @@ export const printOrder = async (
                             Order #${escapeHtml(
                                 orderId
                             )}
-                            • DOMINOS
+                            • ${escapeHtml(branding.name)}
                         </footer>
 
                     </main>

@@ -6,6 +6,7 @@ import {
     Navigate,
     useNavigate,
 } from "react-router-dom";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 
 const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL ||
@@ -57,6 +58,7 @@ function hasValidToken() {
 
 export default function Login() {
     const navigate = useNavigate();
+    const { name: storeName, logoUrl } = useStoreBranding();
 
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
@@ -124,10 +126,7 @@ export default function Login() {
                 to="/"
                 className={styles.Login__Logo}
             >
-                <img
-                    src="/images/logo/dominos_logo.jpg"
-                    alt="DOMINOS"
-                />
+                {logoUrl && <img src={logoUrl} alt={storeName} />}
             </Link>
 
             <div className={styles.Login__Card}>
@@ -145,7 +144,7 @@ export default function Login() {
                             styles.Login__Title
                         }
                     >
-                        Sign in to DOMINOS
+                        Sign in to {storeName}
                     </h1>
                 </div>
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 import styles from "./styles.module.scss";
 
 
@@ -20,7 +21,6 @@ const supportLinks = [
 ];
 
 const companyLinks = [
-  { name: "About DOMINOS", href: "/about" },
   { name: "Our Story", href: "/about#ourStory" },
   { name: "Privacy Policy", href: "/policies#privacy" },
   { name: "Terms & Conditions", href: "/policies#terms" },
@@ -35,6 +35,8 @@ const date = new Date()
 const currentYear = date.getFullYear()
 
 export default function Footer() {
+  const { name: storeName, logoUrl } = useStoreBranding();
+
   return (
     <footer className={styles.Footer}>
       <div className={styles.Footer__Container}>
@@ -48,10 +50,7 @@ export default function Footer() {
           {/* Brand */}
           <div className={styles.Footer__Brand}>
             <Link to={accountLink.href} className={styles.Footer__Logo}>
-              <img
-                src="/images/logo/dominos_logo.jpg"
-                alt="DOMINOS"
-              />
+              {logoUrl && <img src={logoUrl} alt={storeName} />}
             </Link>
 
             <p className={styles.Footer__Description}>
@@ -104,6 +103,8 @@ export default function Footer() {
             <h3>Company</h3>
 
             <nav>
+              <Link to="/about">About {storeName}</Link>
+
               {companyLinks.map((link) => (
                 <Link
                   key={link.name}

@@ -10,6 +10,8 @@ import {
   CarouselPrevious,
 } from "@/Components/ui/carousel";
 import { fetchStoreProducts, resolveStoreImageUrl } from "@/lib/storeData";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
+import ProductCardAddToCart from "@/Components/ProductCardAddToCart";
 
 import styles from "./styles.module.scss";
 
@@ -30,6 +32,7 @@ const getProductsForMode = (products, mode) => {
 };
 
 const InventoryCarousel = ({ eyebrow, title, mode }) => {
+  const { name: storeName } = useStoreBranding();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -75,29 +78,39 @@ const InventoryCarousel = ({ eyebrow, title, mode }) => {
                     const price = product.discount_price ?? product.price;
 
                     return (
-                      <Link
+                      <article
                         key={product.id}
-                        to={`/shop/${product.id}`}
                         className={styles.Product}
                       >
                         <div className={styles.Product__ImageWrapper}>
                           {product.is_on_sale && (
                             <span className={styles.Product__Badge}>Sale</span>
                           )}
-                          <img
-                            src={resolveStoreImageUrl(product.images?.[0])}
-                            alt={product.name}
-                            className={styles.Product__Image}
-                          />
+                          <Link to={`/shop/${product.id}`}>
+                            <img
+                              src={resolveStoreImageUrl(product.images?.[0])}
+                              alt={product.name}
+                              className={styles.Product__Image}
+                            />
+                          </Link>
                         </div>
-                        <span className={styles.Product__Brand}>
-                          {product.brand_name || "Dominos Store"}
-                        </span>
-                        <h3 className={styles.Product__Name}>{product.name}</h3>
-                        <span className={styles.Product__Price}>
-                          {Number(price).toLocaleString()} DA
-                        </span>
-                      </Link>
+                        <Link
+                          to={`/shop/${product.id}`}
+                          className={styles.Product__Details}
+                        >
+                          <span className={styles.Product__Brand}>
+                            {product.brand_name || storeName}
+                          </span>
+                          <h3 className={styles.Product__Name}>{product.name}</h3>
+                          <span className={styles.Product__Price}>
+                            {Number(price).toLocaleString("ar-DZ")} دج
+                          </span>
+                        </Link>
+                        <ProductCardAddToCart
+                          product={product}
+                          className={styles.Product__Cart}
+                        />
+                      </article>
                     );
                   })}
                 </div>

@@ -136,6 +136,22 @@
     transition:
       opacity 0.3s ease,
       transform 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: #333;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__CartMessage {
+    margin: 8px 3px 0;
+    color: #333;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   &__Content {
@@ -216,7 +232,16 @@
     }
 
     &__Cart {
-      display: none;
+      display: flex;
+      opacity: 1;
+      transform: none;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      height: 36px;
+      padding: 6px;
+      font-size: 10px;
+      gap: 5px;
     }
 
     &__Content {

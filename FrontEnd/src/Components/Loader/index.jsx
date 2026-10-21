@@ -1,16 +1,21 @@
 import styles from "./styles.module.scss";
+import { useStoreBranding } from "../../Context/StoreBrandingContext";
 
 export default function Loader() {
+  const { name, logoUrl } = useStoreBranding();
+
   return (
     <div className={styles.Loader}>
       <div className={styles.Loader__Content}>
 
         <div className={styles.Loader__LogoWrapper}>
-          <img
-            src="/images/logo/dominos_logo.jpg"
-            alt="DOMINOS"
-            className={styles.Loader__Logo}
-          />
+          {logoUrl && (
+            <img
+              src={logoUrl}
+              alt={name}
+              className={styles.Loader__Logo}
+            />
+          )}
         </div>
 
         <div className={styles.Loader__Loading}>

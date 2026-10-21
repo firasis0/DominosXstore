@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 
 const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL ||
@@ -33,6 +34,7 @@ const getImageUrl = (imageUrl) => {
 };
 
 export default function OurStory() {
+    const { name: storeName } = useStoreBranding();
     const [imageUrl, setImageUrl] =
         useState(FALLBACK_IMAGE);
 
@@ -140,7 +142,7 @@ export default function OurStory() {
                             styles.OurStory__Text
                         }
                     >
-                        DOMINOS was created for
+                        {storeName} was created for
                         gamers who want better gear
                         without unnecessary
                         complexity. We bring

@@ -1,11 +1,9 @@
-import styles from "./styles.module.scss";
 
 import { Link } from "react-router-dom";
-import { Handbag } from "lucide-react";
 
 import { resolveStoreImageUrl } from "@/lib/storeData";
-
-
+import ProductCardAddToCart from "@/Components/ProductCardAddToCart";
+import styles from "./styles.module.scss";
 
 export default function ProductCard({ product }) {
   const primaryImage = resolveStoreImageUrl(product.images?.[0]);
@@ -21,27 +19,32 @@ export default function ProductCard({ product }) {
       <div className={styles.ProductCard__ImageWrapper}>
         {product.is_on_sale && (
           <span className={styles.ProductCard__Badge}>
-            Sale
+            تخفيض
           </span>
         )}
 
-       
-
-        <Link to={productUrl} className={styles.ProductCard__ImageLink}>
+        <Link
+          to={productUrl}
+          className={styles.ProductCard__ImageLink}
+        >
           <img
             src={primaryImage}
             alt={product.name}
             className={styles.ProductCard__Image}
+            loading="lazy"
           />
         </Link>
 
-        <Link to={productUrl} className={styles.ProductCard__Cart}>
-          <Handbag />
-          أطلب الآن
-        </Link>
+        <ProductCardAddToCart
+          product={product}
+          className={styles.ProductCard__Cart}
+        />
       </div>
 
-      <Link to={productUrl} className={styles.ProductCard__Content}>
+      <Link
+        to={productUrl}
+        className={styles.ProductCard__Content}
+      >
         {product.brand_name && (
           <span className={styles.ProductCard__Brand}>
             {product.brand_name}
@@ -54,14 +57,15 @@ export default function ProductCard({ product }) {
 
         <div className={styles.ProductCard__Prices}>
           <span className={styles.ProductCard__Price}>
-            {currentPrice.toLocaleString()} DA
+            {Number(currentPrice || 0).toLocaleString("ar-DZ")} دج
           </span>
 
-          {product.is_on_sale && product.discount_price != null && (
-            <span className={styles.ProductCard__OldPrice}>
-              {product.price.toLocaleString()} DA
-            </span>
-          )}
+          {product.is_on_sale &&
+            product.discount_price != null && (
+              <span className={styles.ProductCard__OldPrice}>
+                {Number(product.price).toLocaleString("ar-DZ")} دج
+              </span>
+            )}
         </div>
       </Link>
     </article>

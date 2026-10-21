@@ -17,7 +17,11 @@ const API_BASE_URL =
 export default function OrderForm({
     product,
     selectedVariants,
+    cartItems,
+    onOrderSuccess,
 }) {
+    const isCartCheckout =
+        Array.isArray(cartItems);
     /*
      * --------------------------------------------------
      * CUSTOMER
@@ -553,8 +557,15 @@ useEffect(() => {
      * --------------------------------------------------
      */
 
-    const productsTotal =
-        productPrice * quantity;
+    const productsTotal = isCartCheckout
+        ? cartItems.reduce(
+              (sum, item) =>
+                  sum +
+                  Number(item.price || 0) *
+                      Number(item.quantity || 0),
+              0
+          )
+        : productPrice * quantity;
 
     const total =
         productsTotal +
@@ -566,9 +577,15 @@ useEffect(() => {
      * --------------------------------------------------
      */
 
-    const isOutOfStock =
-        !product ||
-        product.stock <= 0;
+    const isOutOfStock = isCartCheckout
+        ? cartItems.length === 0 ||
+          cartItems.some(
+              (item) =>
+                  Number(item.stock) <= 0 ||
+                  Number(item.quantity) <= 0 ||
+                  Number(item.quantity) > Number(item.stock)
+          )
+        : !product || product.stock <= 0;
 
     /*
      * --------------------------------------------------
@@ -588,7 +605,7 @@ useEffect(() => {
 
         setDeliveryType("");
 
-        setSelectedProviderId("");
+       
 
         setOfficeId("");
 
@@ -615,7 +632,7 @@ useEffect(() => {
 
         setDeliveryType("");
 
-        setSelectedProviderId("");
+      
 
         setOfficeId("");
 
@@ -756,9 +773,6 @@ useEffect(() => {
         }
 
         const orderData = {
-            product_id: Number(product.id),
-            quantity: Number(quantity),
-
             customer: {
                 full_name: fullName.trim(),
                 phone: phone.trim(),
@@ -774,8 +788,19 @@ useEffect(() => {
                     ? Number(selectedOffice.id)
                     : null,
 
-            variants: selectedVariants ?? {},
         };
+
+        if (isCartCheckout) {
+            orderData.items = cartItems.map((item) => ({
+                product_id: Number(item.productId),
+                quantity: Number(item.quantity),
+                variants: item.variants ?? {},
+            }));
+        } else {
+            orderData.product_id = Number(product.id);
+            orderData.quantity = Number(quantity);
+            orderData.variants = selectedVariants ?? {};
+        }
 
         try {
             setSubmitting(true);
@@ -820,6 +845,7 @@ useEffect(() => {
             );
 
             setSubmitted(true);
+            onOrderSuccess?.();
         } catch (error) {
             console.error(
                 "Error creating order:",
@@ -845,9 +871,11 @@ useEffect(() => {
         <>
             {!submitted && (
                 <section
-                    className={
-                        styles.OrderForm
-                    }
+                    className={`${styles.OrderForm} ${
+                        isCartCheckout
+                            ? styles.OrderForm_cartCheckout
+                            : ""
+                    }`}
                     id="order-form"
                     dir="rtl"
                 >
@@ -865,7 +893,7 @@ useEffect(() => {
                         </p>
                     </div>
 
-                    {!isOutOfStock && (
+                    {!isCartCheckout && !isOutOfStock && (
                         <div
                             className={
                                 styles.OrderForm__Quantity
@@ -1380,34 +1408,49 @@ useEffect(() => {
                                     styles.OrderForm__Summary
                                 }
                             >
-                                <div
-                                    className={
-                                        styles.OrderForm__SummaryRow
-                                    }
-                                >
-                                    <span>
-                                        سعر المنتج
-                                    </span>
+                                {isCartCheckout ? (
+                                    cartItems.map((item) => (
+                                        <div
+                                            key={item.key}
+                                            className={
+                                                styles.OrderForm__SummaryRow
+                                            }
+                                        >
+                                            <span>
+                                                {item.name} × {item.quantity}
+                                            </span>
+                                            <span>
+                                                {(
+                                                    Number(item.price || 0) *
+                                                    Number(item.quantity || 0)
+                                                ).toLocaleString()}{" "}
+                                                DA
+                                            </span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <>
+                                        <div
+                                            className={
+                                                styles.OrderForm__SummaryRow
+                                            }
+                                        >
+                                            <span>سعر المنتج</span>
+                                            <span>
+                                                {productPrice.toLocaleString()} DA
+                                            </span>
+                                        </div>
 
-                                    <span>
-                                        {productPrice.toLocaleString()}{" "}
-                                        DA
-                                    </span>
-                                </div>
-
-                                <div
-                                    className={
-                                        styles.OrderForm__SummaryRow
-                                    }
-                                >
-                                    <span>
-                                        الكمية
-                                    </span>
-
-                                    <span>
-                                        {quantity}
-                                    </span>
-                                </div>
+                                        <div
+                                            className={
+                                                styles.OrderForm__SummaryRow
+                                            }
+                                        >
+                                            <span>الكمية</span>
+                                            <span>{quantity}</span>
+                                        </div>
+                                    </>
+                                )}
 
                                 {selectedProvider && (
                                     <div

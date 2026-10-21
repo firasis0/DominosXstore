@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import { FaTiktok, FaInstagram } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { ArrowUpRight } from "lucide-react";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 
 const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL ||
@@ -17,6 +18,7 @@ const socialIcons = {
 };
 
 export default function Connect() {
+    const { name: storeName } = useStoreBranding();
     const [socialLinks, setSocialLinks] = useState([]);
 
     useEffect(() => {
@@ -86,7 +88,7 @@ export default function Connect() {
                             styles.Connect__Description
                         }
                     >
-                        Follow DOMINOS, discover new gear,
+                        Follow {storeName}, discover new gear,
                         and stay up to date with everything
                         happening in the gaming world.
                     </p>
