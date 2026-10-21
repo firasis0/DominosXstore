@@ -1,11 +1,9 @@
 import styles from "./styles.module.scss";
 
 import { Link } from "react-router-dom";
-import { Handbag } from "lucide-react";
 
 import { resolveStoreImageUrl } from "@/lib/storeData";
-
-
+import ProductCardAddToCart from "@/Components/ProductCardAddToCart";
 
 export default function ProductCard({ product }) {
   const primaryImage = resolveStoreImageUrl(product.images?.[0]);
@@ -25,8 +23,6 @@ export default function ProductCard({ product }) {
           </span>
         )}
 
-        
-
         <Link to={productUrl} className={styles.ProductCard__ImageLink}>
           <img
             src={primaryImage}
@@ -35,10 +31,10 @@ export default function ProductCard({ product }) {
           />
         </Link>
 
-        <Link to={productUrl} className={styles.ProductCard__Cart}>
-          <Handbag />
-          أطلب الآن
-        </Link>
+        <ProductCardAddToCart
+          product={product}
+          className={styles.ProductCard__Cart}
+        />
       </div>
 
       <Link to={productUrl} className={styles.ProductCard__Content}>

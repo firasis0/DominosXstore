@@ -34,10 +34,27 @@ export const createOrder = async (req, res) => {
             delivery_type,
             delivery_office_id,
             variants,
+            items,
         } = req.body;
 
-        const productId = Number(product_id);
-        const orderQuantity = Number(quantity);
+        const requestedOrderItems = (
+            Array.isArray(items)
+                ? items
+                : [{ product_id, quantity, variants }]
+        ).map((item) => ({
+            productId: Number(item?.product_id),
+            quantity: Number(item?.quantity),
+            variants:
+                item?.variants &&
+                typeof item.variants === "object" &&
+                !Array.isArray(item.variants)
+                    ? item.variants
+                    : {},
+        }));
+        const productId =
+            requestedOrderItems[0]?.productId;
+        const orderQuantity =
+            requestedOrderItems[0]?.quantity;
         const provinceId = Number(province_id);
         const municipalityId = Number(municipality_id);
 
@@ -56,8 +73,12 @@ export const createOrder = async (req, res) => {
         */
 
         if (
-            !Number.isInteger(productId) ||
-            productId <= 0
+            requestedOrderItems.length === 0 ||
+            requestedOrderItems.some(
+                (item) =>
+                    !Number.isInteger(item.productId) ||
+                    item.productId <= 0
+            )
         ) {
             return res.status(400).json({
                 success: false,
@@ -66,8 +87,11 @@ export const createOrder = async (req, res) => {
         }
 
         if (
-            !Number.isInteger(orderQuantity) ||
-            orderQuantity <= 0
+            requestedOrderItems.some(
+                (item) =>
+                    !Number.isInteger(item.quantity) ||
+                    item.quantity <= 0
+            )
         ) {
             return res.status(400).json({
                 success: false,
@@ -140,13 +164,6 @@ export const createOrder = async (req, res) => {
             });
         }
 
-        const requestedVariants =
-            variants &&
-            typeof variants === "object" &&
-            !Array.isArray(variants)
-                ? variants
-                : {};
-
         /*
         |--------------------------------------------------------------------------
         | Start transaction
@@ -160,6 +177,14 @@ export const createOrder = async (req, res) => {
         | Product
         |--------------------------------------------------------------------------
         */
+
+        const productIds = [
+            ...new Set(
+                requestedOrderItems.map(
+                    (item) => item.productId
+                )
+            ),
+        ].sort((a, b) => a - b);
 
         const productResult =
             await client.query(
@@ -184,14 +209,15 @@ export const createOrder = async (req, res) => {
 
                     FROM products
 
-                    WHERE id = $1
+                    WHERE id = ANY($1::int[])
 
+                    ORDER BY id
                     FOR UPDATE;
                 `,
-                [productId]
+                [productIds]
             );
 
-        if (!productResult.rows.length) {
+        if (productResult.rows.length !== productIds.length) {
             const error = new Error(
                 "Product not found."
             );
@@ -200,56 +226,46 @@ export const createOrder = async (req, res) => {
             throw error;
         }
 
+        const productsById = new Map(
+            productResult.rows.map((item) => [
+                Number(item.id),
+                item,
+            ])
+        );
+        const quantitiesByProductId = new Map();
+
+        for (const item of requestedOrderItems) {
+            quantitiesByProductId.set(
+                item.productId,
+                (quantitiesByProductId.get(item.productId) || 0) +
+                    item.quantity
+            );
+        }
+
+        for (const [id, requestedQuantity] of quantitiesByProductId) {
+            const item = productsById.get(id);
+
+            if (!item.is_active) {
+                const error = new Error(
+                    "This product is no longer available."
+                );
+
+                error.statusCode = 400;
+                throw error;
+            }
+
+            if (Number(item.stock) < requestedQuantity) {
+                const error = new Error(
+                    "Not enough stock available."
+                );
+
+                error.statusCode = 409;
+                throw error;
+            }
+        }
+
         const product =
-            productResult.rows[0];
-
-        if (!product.is_active) {
-            const error = new Error(
-                "This product is no longer available."
-            );
-
-            error.statusCode = 400;
-            throw error;
-        }
-
-        if (
-            Number(product.stock) <
-            orderQuantity
-        ) {
-            const error = new Error(
-                "Not enough stock available."
-            );
-
-            error.statusCode = 409;
-            throw error;
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Authoritative product price
-        |--------------------------------------------------------------------------
-        */
-
-        const productPrice =
-            product.is_on_sale &&
-            product.discount_price !== null
-                ? Number(
-                      product.discount_price
-                  )
-                : Number(product.price);
-
-        if (
-            !Number.isFinite(
-                productPrice
-            )
-        ) {
-            const error = new Error(
-                "Product price is invalid."
-            );
-
-            error.statusCode = 500;
-            throw error;
-        }
+            productsById.get(productId);
 
         /*
         |--------------------------------------------------------------------------
@@ -492,6 +508,12 @@ export const createOrder = async (req, res) => {
         |--------------------------------------------------------------------------
         */
 
+        const validatedItems = [];
+
+        for (const requestedOrderItem of requestedOrderItems) {
+        const { productId, quantity, variants: requestedVariants } =
+            requestedOrderItem;
+        const itemProduct = productsById.get(productId);
         const variantResult =
             await client.query(
                 `
@@ -705,6 +727,34 @@ export const createOrder = async (req, res) => {
                 };
         }
 
+        const itemPrice =
+            itemProduct.is_on_sale &&
+            itemProduct.discount_price !== null
+                ? Number(itemProduct.discount_price)
+                : Number(itemProduct.price);
+
+        if (!Number.isFinite(itemPrice)) {
+            const error = new Error(
+                "Product price is invalid."
+            );
+
+            error.statusCode = 500;
+            throw error;
+        }
+
+        validatedItems.push({
+            product: itemProduct,
+            productId,
+            quantity,
+            unitPrice: itemPrice,
+            selectedVariants,
+            subtotal: itemPrice * quantity,
+        });
+        }
+
+        const productPrice =
+            validatedItems[0].unitPrice;
+
         /*
         |--------------------------------------------------------------------------
         | Create / update customer
@@ -776,41 +826,42 @@ export const createOrder = async (req, res) => {
         |--------------------------------------------------------------------------
         */
 
-        const stockResult =
-            await client.query(
-                `
-                    UPDATE products
+        const remainingStockByProductId = new Map();
 
-                    SET stock =
-                        stock - $1
+        for (const [id, requestedQuantity] of quantitiesByProductId) {
+            const stockResult =
+                await client.query(
+                    `
+                        UPDATE products
 
-                    WHERE id = $2
-                      AND is_active = true
-                      AND stock >= $1
+                        SET stock = stock - $1
 
-                    RETURNING stock;
-                `,
-                [
-                    orderQuantity,
-                    productId,
-                ]
+                        WHERE id = $2
+                          AND is_active = true
+                          AND stock >= $1
+
+                        RETURNING stock;
+                    `,
+                    [requestedQuantity, id]
+                );
+
+            if (!stockResult.rows.length) {
+                const error = new Error(
+                    "Not enough stock available."
+                );
+
+                error.statusCode = 409;
+                throw error;
+            }
+
+            remainingStockByProductId.set(
+                id,
+                Number(stockResult.rows[0].stock)
             );
-
-        if (
-            !stockResult.rows.length
-        ) {
-            const error = new Error(
-                "Not enough stock available."
-            );
-
-            error.statusCode = 409;
-            throw error;
         }
 
         const remainingStock =
-            Number(
-                stockResult.rows[0].stock
-            );
+            remainingStockByProductId.get(productId);
 
         /*
         |--------------------------------------------------------------------------
@@ -818,9 +869,10 @@ export const createOrder = async (req, res) => {
         |--------------------------------------------------------------------------
         */
 
-        const subtotal =
-            productPrice *
-            orderQuantity;
+        const subtotal = validatedItems.reduce(
+            (sum, item) => sum + item.subtotal,
+            0
+        );
 
         const total =
             subtotal +
@@ -903,6 +955,9 @@ export const createOrder = async (req, res) => {
         |--------------------------------------------------------------------------
         */
 
+        const orderItemResults = [];
+
+        for (const lineItem of validatedItems) {
         const orderItemResult =
             await client.query(
                 `
@@ -932,14 +987,28 @@ export const createOrder = async (req, res) => {
                 `,
                 [
                     order.id,
-                    productId,
-                    orderQuantity,
-                    productPrice,
+                    lineItem.productId,
+                    lineItem.quantity,
+                    lineItem.unitPrice,
                     JSON.stringify(
-                        selectedVariants
+                        lineItem.selectedVariants
                     ),
                 ]
             );
+            orderItemResults.push({
+                ...orderItemResult.rows[0],
+                product: {
+                    id: lineItem.product.id,
+                    name: lineItem.product.name,
+                    image_url: lineItem.product.image_url,
+                },
+                subtotal: lineItem.subtotal,
+                remaining_stock:
+                    remainingStockByProductId.get(
+                        lineItem.productId
+                    ),
+            });
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -974,13 +1043,28 @@ export const createOrder = async (req, res) => {
                         productPrice,
                     quantity:
                         orderQuantity,
-                    subtotal,
+                    subtotal:
+                        validatedItems[0].subtotal,
                     remaining_stock:
                         remainingStock,
                 },
 
-                item:
-                    orderItemResult.rows[0],
+                item: orderItemResults[0],
+                items: validatedItems.map((lineItem, index) => ({
+                    product: {
+                        id: lineItem.product.id,
+                        name: lineItem.product.name,
+                        image_url: lineItem.product.image_url,
+                        unit_price: lineItem.unitPrice,
+                        quantity: lineItem.quantity,
+                        subtotal: lineItem.subtotal,
+                        remaining_stock:
+                            remainingStockByProductId.get(
+                                lineItem.productId
+                            ),
+                    },
+                    item: orderItemResults[index],
+                })),
 
                 shipping: {
                     provider_id:
@@ -1037,8 +1121,8 @@ export const createOrder = async (req, res) => {
 
                 customer,
 
-                item:
-                    orderItemResult.rows[0],
+                item: orderItemResults[0],
+                items: orderItemResults,
 
                 product: {
                     id: product.id,
@@ -1047,7 +1131,8 @@ export const createOrder = async (req, res) => {
                         productPrice,
                     quantity:
                         orderQuantity,
-                    subtotal,
+                    subtotal:
+                        validatedItems[0].subtotal,
                     remaining_stock:
                         remainingStock,
                 },

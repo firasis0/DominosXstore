@@ -14,6 +14,7 @@ import {
     Store,
 } from "lucide-react";
 import styles from "./styles.module.scss";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 
 const navigation = [
     {
@@ -62,6 +63,7 @@ export default function Sidebar({
     activeItem = "Dashboard",
 }) {
     const [open, setOpen] = useState(false);
+    const { name: storeName } = useStoreBranding();
 
     return (
         <>
@@ -87,7 +89,7 @@ export default function Sidebar({
             >
                 <div className={styles.Sidebar__Top}>
                     <div className={styles.Sidebar__Logo}>
-                        DOMINOS
+                        {storeName}
                     </div>
 
                     <span className={styles.Sidebar__Label}>

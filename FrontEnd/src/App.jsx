@@ -1,6 +1,8 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { CartProvider } from "./Context/CartContext";
+import CartDrawer from "./Components/CartDrawer";
 //components:
 import Loader from "./Components/Loader";
 //Pages:
@@ -22,6 +24,7 @@ import ProductDetailsPage from "./Pages/ProductDetails";
 import CategoriesDetailsPage from './Pages/CategoriesDetails';
 import BrandsDetailsPage from './Pages/BrandsDetails';
 import PoliciesPage from './Pages/Policies';
+import CartPage from './Pages/Cart';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -50,11 +53,13 @@ function App() {
 
   return (
     <>
+    <CartProvider>
     {/* the loader : */}
     <Loader />
     {/* ///////////// */}
     <BrowserRouter>
     <ScrollToTop />
+    <CartDrawer />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/shop/:id" element={<ProductDetailsPage />} />
@@ -74,8 +79,10 @@ function App() {
       <Route path="/dashboard/content" element={<DashboardContent />} />
       <Route path="/dashboard/settings" element={<Settings />} />
       <Route path="/policies" element={<PoliciesPage />} />
+      <Route path="/cart" element={<CartPage />} />
     </Routes>
     </BrowserRouter>
+    </CartProvider>
     </>
   )
 }

@@ -1,3 +1,4 @@
+
 .ProductDetails {
   min-height: 100vh;
   padding: 40px 0 80px;
@@ -30,6 +31,51 @@
   h1 {
     font-size: 28px;
   }
+}
+
+.ProductDetails__CartActions {
+  margin: 20px 0 24px;
+}
+
+.ProductDetails__AddToCart {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid #171717;
+  border-radius: 8px;
+  background: #171717;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #333;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.ProductDetails__CartMessage {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
 }
 
 @media (max-width: 900px) {

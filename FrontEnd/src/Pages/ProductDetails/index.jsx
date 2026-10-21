@@ -1,5 +1,11 @@
 import ProductDetails from "@/Components/ProductDetails";
+import Navbar from "@/Components/TopSection/Navbar";
 
 export default function ProductDetailsPage() {
-  return <ProductDetails />;
+  return (
+    <>
+      <Navbar />
+      <ProductDetails />
+    </>
+  );
 }

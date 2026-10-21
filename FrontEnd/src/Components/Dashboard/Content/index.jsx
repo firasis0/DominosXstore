@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import About from "./About";
 import Home from "./Home";
 import Categories from "./Categories";
+import Branding from "./Branding";
 
 export default function Content() {
     const [activePage, setActivePage] = useState("about");
@@ -79,6 +80,23 @@ export default function Content() {
                             <span>Categories page content</span>
                         </div>
                     </button>
+
+                    <button
+                        type="button"
+                        className={`${styles.Content__NavigationItem} ${
+                            activePage === "branding"
+                                ? styles.Content__NavigationItemActive
+                                : ""
+                        }`}
+                        onClick={() => setActivePage("branding")}
+                    >
+                        <span className={styles.Content__NavigationDot} />
+
+                        <div>
+                            <strong>Branding</strong>
+                            <span>Website name and logo</span>
+                        </div>
+                    </button>
                 </aside>
 
                 <div className={styles.Content__Page}>
@@ -87,6 +105,8 @@ export default function Content() {
                     {activePage === "about" && <About />}
 
                     {activePage === "categories" && <Categories />}
+
+                    {activePage === "branding" && <Branding />}
                 </div>
             </div>
         </section>

@@ -1,11 +1,14 @@
 import styles from "./styles.module.scss";
+import { useStoreBranding } from "@/Context/StoreBrandingContext";
 
 export default function Hero() {
+  const { name: storeName } = useStoreBranding();
+
   return (
     <section id="shop" className={styles.Hero}>
       <div className={styles.Hero__Container}>
         <span  className={styles.Hero__Eyebrow}>
-          DOMINOS Shop
+          {storeName} Shop
         </span>
 
         <h1 className={styles.Hero__Title}>

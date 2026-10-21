@@ -1,5 +1,9 @@
 import express from "express";
 import contentUpload from "../Middlewares/contentUpload.middleware.js";
+import {
+    getBranding,
+    updateBranding,
+} from "../Controllers/branding.controller.js";
 
 import {
     getAboutConnect,
@@ -27,6 +31,11 @@ router.get(
 );
 
 router.get(
+    "/content/branding",
+    getBranding
+);
+
+router.get(
     "/content/pages/:pageName/images",
     getPublicPageImages
 );
@@ -43,6 +52,12 @@ router.get(
 router.put(
     "/dashboard/content/about/connect",
     updateDashboardAboutConnect
+);
+
+router.put(
+    "/dashboard/content/branding",
+    contentUpload.single("logo"),
+    updateBranding
 );
 
 /* =========================================================
