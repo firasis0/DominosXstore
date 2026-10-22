@@ -2,8 +2,8 @@
 import bcrypt from 'bcrypt';
 import pool from '../DB/db.js';
 
-const email = 'frsmeftahi@gmail.com';
-const password = 'Kenfii@2003';
+const email = 'root@kenfii.com';
+const password = 'root';
 
 async function createAdmin () {
     try{

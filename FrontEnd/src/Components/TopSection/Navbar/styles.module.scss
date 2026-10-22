@@ -281,7 +281,7 @@
     box-shadow 0.25s ease;
   overflow: hidden;
 
-  > svg {
+   svg {
     width: 21px;
     height: 21px;
     flex: 0 0 21px;
@@ -663,7 +663,6 @@
     border-radius: 50%;
   }
 
-
   .Navbar__Mobilelogin {
     font-size: 13px;
     color: #777;
@@ -675,8 +674,6 @@
   /* ==============================
      SEARCH POPUP
   ============================== */
-
-
   .SearchOverlay {
     padding-top: 30px;
     align-items: flex-start;
