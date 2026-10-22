@@ -13,13 +13,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/Components/ui/carousel";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 export default function BestDeals({ title, categoryId }) {
   const [products, setProducts] = useState([]);
 
   const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL;
-  const HOST_BASE_URL =  import.meta.env.VITE_HOST_BASE_URL;
-
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch(`${API_BASE_URL}/shop`);
@@ -121,9 +120,11 @@ export default function BestDeals({ title, categoryId }) {
                             </span>
 
                             <img
-                              src={`${HOST_BASE_URL}${product.images?.[0]}`}
+                              src={resolveStoreImageUrl(product.images?.[0])}
                               alt={product.name}
                               className={styles.Product__Image}
+                              loading="lazy"
+                              decoding="async"
                             />
                           </div>
 

@@ -60,6 +60,17 @@ export default function Banner({ bannerData = [] }) {
                                 <img
                                     src={image.src}
                                     alt={image.alt}
+                                    loading={
+                                        index === 0
+                                            ? "eager"
+                                            : "lazy"
+                                    }
+                                    fetchPriority={
+                                        index === 0
+                                            ? "high"
+                                            : "auto"
+                                    }
+                                    decoding="async"
                                 />
                             </CarouselItem>
                         )

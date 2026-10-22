@@ -1,5 +1,6 @@
 import { TableCell, TableRow } from "@/Components/ui/table";
 import { Switch } from "@/Components/ui/switch";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 import styles from "./styles.module.scss";
 
@@ -19,7 +20,7 @@ const BrandRow = ({
     }
   };
 
-  const HOST_BASE_URL = import.meta.env.VITE_HOST_BASE_URL;
+  const imageUrl = resolveStoreImageUrl(brand.image_url);
 
   const canDelete = brand.product_count === 0;
 
@@ -30,9 +31,9 @@ const BrandRow = ({
         <div className={styles.Row__Brand}>
 
           <div className={styles.Row__Image}>
-            {brand.image_url ? (
+            {imageUrl ? (
               <img
-                src={`${HOST_BASE_URL}${brand.image_url}`}
+                src={imageUrl}
                 alt={brand.name}
               />
             ) : (

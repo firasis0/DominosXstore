@@ -7,25 +7,7 @@ import {
 } from "lucide-react";
 
 import styles from "./styles.module.scss";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-const getServerBaseUrl = () => {
-  return API_BASE_URL.replace(/\/api\/?$/, "");
-};
-
-const getImageUrl = (url) => {
-  if (!url) return "";
-
-  if (
-    url.startsWith("http://") ||
-    url.startsWith("https://")
-  ) {
-    return url;
-  }
-
-  return `${getServerBaseUrl()}${url}`;
-};
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 const ProviderCard = ({
   provider,
@@ -63,7 +45,7 @@ const ProviderCard = ({
         <div className={styles.logo}>
           {provider.logo_url ? (
             <img
-              src={getImageUrl(
+              src={resolveStoreImageUrl(
                 provider.logo_url
               )}
               alt={`${provider.name} logo`}
@@ -147,4 +129,3 @@ const ProviderCard = ({
 };
 
 export default ProviderCard;
-

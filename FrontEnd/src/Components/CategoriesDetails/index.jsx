@@ -12,7 +12,7 @@ export default function CategoriesDetails() {
   useEffect(() => {
     fetchStoreCategories()
       .then((data) => setCategory(data.find((item) => item.name === name)))
-      .catch((error) => console.error('Error fetching category:', error))
+      .catch(() => undefined)
   }, [name])
 
   useEffect(() => {

@@ -114,10 +114,7 @@ export default function RecentOrders() {
                     return;
                 }
 
-                console.error(
-                    "Recent orders error:",
-                    fetchError
-                );
+                
 
                 setError(
                     fetchError.message ||

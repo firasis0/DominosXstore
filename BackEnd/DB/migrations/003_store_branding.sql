@@ -6,12 +6,12 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS store_branding (
     id smallint PRIMARY KEY CHECK (id = 1),
     name varchar(120) NOT NULL,
-    logo_url text NOT NULL,
+    logo_url text,
     updated_at timestamp without time zone NOT NULL DEFAULT now()
 );
 
 INSERT INTO store_branding (id, name, logo_url)
-VALUES (1, 'DOMINOS STORE', '/images/logo/dominos_logo.jpg')
+VALUES (1, 'DOMINOS STORE', NULL)
 ON CONFLICT (id) DO NOTHING;
 
 COMMIT;

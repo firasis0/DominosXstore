@@ -11,35 +11,8 @@ import {
     X,
 } from "lucide-react";
 
-import {
-    authFetch,
-    API_BASE_URL,
-} from "../../../../lib/authFetch.js";
-
-const API_SERVER_URL =
-    API_BASE_URL.replace(
-        /\/api\/?$/,
-        ""
-    );
-
-const getImageUrl = (imageUrl) => {
-    if (!imageUrl) {
-        return "";
-    }
-
-    if (
-        imageUrl.startsWith("http://") ||
-        imageUrl.startsWith("https://")
-    ) {
-        return imageUrl;
-    }
-
-    return `${API_SERVER_URL}${
-        imageUrl.startsWith("/")
-            ? ""
-            : "/"
-    }${imageUrl}`;
-};
+import { authFetch } from "../../../../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 const sortImages = (images) =>
     [...images].sort(
@@ -175,10 +148,7 @@ export default function Home() {
                     return;
                 }
 
-                console.error(
-                    "Load Home content error:",
-                    requestError
-                );
+                
 
                 setError(
                     requestError.message ||
@@ -292,10 +262,7 @@ export default function Home() {
         } catch (
             requestError
         ) {
-            console.error(
-                "Upload Home image error:",
-                requestError
-            );
+            
 
             setError(
                 requestError.message ||
@@ -376,10 +343,7 @@ export default function Home() {
         } catch (
             requestError
         ) {
-            console.error(
-                "Delete Home image error:",
-                requestError
-            );
+            
 
             setError(
                 requestError.message ||
@@ -506,10 +470,7 @@ export default function Home() {
         } catch (
             requestError
         ) {
-            console.error(
-                "Reorder Home image error:",
-                requestError
-            );
+            
 
             setError(
                 requestError.message ||
@@ -617,7 +578,7 @@ export default function Home() {
                                 }
                             >
                                 <img
-                                    src={getImageUrl(
+                                    src={resolveStoreImageUrl(
                                         image.image_url
                                     )}
                                     alt={`${

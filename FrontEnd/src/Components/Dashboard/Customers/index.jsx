@@ -110,11 +110,11 @@ export default function Customers() {
                         ? provincesResult.data
                         : []
                 );
-            } catch (fetchError) {
-                console.error(
-                    "Customer stats/provinces error:",
-                    fetchError
-                );
+            } catch {
+                if (!cancelled) {
+                    setStats(EMPTY_STATS);
+                    setProvinces([]);
+                }
             } finally {
                 if (!cancelled) {
                     setStatsLoading(false);
@@ -192,10 +192,7 @@ export default function Customers() {
                     }
                 );
             } catch (fetchError) {
-                console.error(
-                    "Customers error:",
-                    fetchError
-                );
+                
 
                 if (!cancelled) {
                     setError(

@@ -119,10 +119,7 @@ const Shipping = () => {
         result.data?.municipalities || []
       );
     } catch (error) {
-      console.error(
-        "Error loading geography:",
-        error
-      );
+      
 
       setGeographyError(
         error.message ||
@@ -145,10 +142,7 @@ const Shipping = () => {
 
       setProviders(result.data || []);
     } catch (error) {
-      console.error(
-        "Error loading shipping providers:",
-        error
-      );
+      
 
       setProvidersError(
         error.message ||
@@ -170,10 +164,7 @@ const Shipping = () => {
 
       setZones(result.data || []);
     } catch (error) {
-      console.error(
-        "Error loading shipping zones:",
-        error
-      );
+      
 
       setZonesError(
         error.message ||
@@ -196,10 +187,7 @@ const Shipping = () => {
 
       setOffices(result.data || []);
     } catch (error) {
-      console.error(
-        "Error loading delivery offices:",
-        error
-      );
+      
 
       setOfficesError(
         error.message ||
@@ -445,10 +433,7 @@ const showError = (message) => {
 
       setProviderModal(null);
     } catch (error) {
-      console.error(
-        "Error saving shipping provider:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -499,10 +484,7 @@ const showError = (message) => {
             : "Provider deactivated successfully."
         );
       } catch (error) {
-        console.error(
-          "Error updating provider status:",
-          error
-        );
+        
 
         showError(
           error.message ||
@@ -565,10 +547,7 @@ const showError = (message) => {
             `${provider.name} was removed successfully.`
           );
         } catch (error) {
-          console.error(
-            "Error removing shipping provider:",
-            error
-          );
+          
 
           showError(
             error.message ||
@@ -622,10 +601,7 @@ const showError = (message) => {
           }.`
         );
       } catch (error) {
-        console.error(
-          "Error updating shipping zone status:",
-          error
-        );
+        
 
         showError(
           error.message ||
@@ -690,10 +666,7 @@ const showError = (message) => {
           }.`
         );
       } catch (error) {
-        console.error(
-          "Error updating delivery office status:",
-          error
-        );
+        
 
         showError(
           error.message ||
@@ -772,10 +745,7 @@ const showError = (message) => {
 
       setWilayaModal(null);
     } catch (error) {
-      console.error(
-        "Error saving Wilaya coverage:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -819,10 +789,7 @@ const showError = (message) => {
         "Shipping pricing updated successfully."
       );
     } catch (error) {
-      console.error(
-        "Error updating shipping pricing:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -865,10 +832,7 @@ const showError = (message) => {
         "Municipality updated successfully."
       );
     } catch (error) {
-      console.error(
-        "Error updating municipality:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -942,10 +906,7 @@ const showError = (message) => {
 
       setOfficeModal(null);
     } catch (error) {
-      console.error(
-        "Error saving delivery office:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -983,10 +944,7 @@ const showError = (message) => {
         "Wilaya added successfully."
       );
     } catch (error) {
-      console.error(
-        "Error adding Wilaya:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -1024,10 +982,7 @@ const showError = (message) => {
         "Wilaya updated successfully."
       );
     } catch (error) {
-      console.error(
-        "Error updating Wilaya:",
-        error
-      );
+      
 
       showError(
         error.message ||
@@ -1064,7 +1019,7 @@ const showError = (message) => {
           `${province.name} was removed successfully.`
         );
       } catch (error) {
-        console.error("Error removing Wilaya:", error);
+        
 
         showError(
           error.message || "Unable to remove Wilaya."
@@ -1126,10 +1081,7 @@ const showError = (message) => {
           null
         );
       } catch (error) {
-        console.error(
-          "Error saving municipality:",
-          error
-        );
+        
 
         showError(
           error.message ||
@@ -1159,7 +1111,7 @@ const showError = (message) => {
           await refreshGeography();
           showSuccess(`${municipality.commune_name} was removed from ${province.name}.`);
         } catch (error) {
-          console.error("Error removing municipality:", error);
+          
           showError(error.message || "Unable to remove municipality.");
         }
       },

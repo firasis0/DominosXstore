@@ -72,10 +72,7 @@ export default function Products() {
                 }
             } catch (fetchError) {
                 if (fetchError.name !== "AbortError") {
-                    console.error(
-                        "Error fetching dashboard products:",
-                        fetchError
-                    );
+                    
 
                     setError(
                         fetchError.message ||
@@ -114,11 +111,8 @@ export default function Products() {
                             "Failed to fetch categories."
                     );
                 }
-            } catch (error) {
-                console.error(
-                    "Error fetching categories:",
-                    error
-                );
+            } catch {
+                setCategories([]);
             }
         };
 
@@ -149,11 +143,8 @@ export default function Products() {
                             "Failed to fetch brands."
                     );
                 }
-            } catch (error) {
-                console.error(
-                    "Error fetching brands:",
-                    error
-                );
+            } catch {
+                setBrands([]);
             }
         };
 
@@ -304,10 +295,7 @@ export default function Products() {
                 )
             );
         } catch (error) {
-            console.error(
-                "Error updating product status:",
-                error
-            );
+            
 
             setError(
                 error.message ||
@@ -361,10 +349,7 @@ export default function Products() {
                     "Product updated successfully.",
             });
         } catch (error) {
-            console.error(
-                "Error updating product:",
-                error
-            );
+            
 
             setToast({
                 type: "warning",
@@ -440,10 +425,7 @@ export default function Products() {
                 setExpandedId(null);
             }
         } catch (error) {
-            console.error(
-                "Error deleting product:",
-                error
-            );
+            
 
             setToast({
                 type: "warning",
@@ -489,10 +471,7 @@ export default function Products() {
 
             setAddOpen(false);
         } catch (error) {
-            console.error(
-                "Error creating product:",
-                error
-            );
+            
 
             setError(
                 error.message ||

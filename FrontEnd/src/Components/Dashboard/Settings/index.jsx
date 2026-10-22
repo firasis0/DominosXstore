@@ -136,10 +136,7 @@ export default function Settings() {
                     return;
                 }
 
-                console.error(
-                    "Load account settings error:",
-                    error
-                );
+                
 
                 setAccountError(
                     error.message ||
@@ -248,10 +245,7 @@ export default function Settings() {
                 "Email address updated successfully."
             );
         } catch (error) {
-            console.error(
-                "Update account settings error:",
-                error
-            );
+            
 
             setAccountError(
                 error.message ||
@@ -342,10 +336,7 @@ export default function Settings() {
                     "Password updated successfully."
                 );
             } catch (error) {
-                console.error(
-                    "Update password error:",
-                    error
-                );
+                
 
                 setPasswordError(
                     error.message ||

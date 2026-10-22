@@ -693,10 +693,7 @@ export const printOrder = async (
 
         printWindow.document.close();
     } catch (error) {
-        console.error(
-            "Print order error:",
-            error
-        );
+        
 
         alert(
             error.message ||

@@ -66,9 +66,12 @@ export default function Navbar() {
             Array.isArray(productData) ? productData : []
           );
         }
-      } catch (error) {
+      } catch {
         if (!cancelled) {
-          console.error("Error fetching search products:", error);
+          setProducts([]);
+        }
+        if (!cancelled) {
+          
           setProducts([]);
         }
       } finally {

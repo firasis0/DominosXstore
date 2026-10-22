@@ -1,12 +1,14 @@
 import { useState } from "react";
 
 import styles from "./styles.module.scss";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 export default function Gallery({ product }) {
-  const HOST_BASE_URL = import.meta.env.VITE_HOST_BASE_URL;
   const [activeImage, setActiveImage] = useState(0);
 
-  const images = product.images ?? [];
+  const images = (product.images ?? [])
+    .map(resolveStoreImageUrl)
+    .filter(Boolean);
 
   if (!images.length) {
     return (
@@ -22,7 +24,7 @@ export default function Gallery({ product }) {
     <div className={styles.Gallery}>
       <div className={styles.Gallery__Main}>
         <img
-          src={`${HOST_BASE_URL}${images[activeImage]}`}
+          src={images[activeImage]}
           alt={product.name}
         />
       </div>
@@ -42,7 +44,7 @@ export default function Gallery({ product }) {
               aria-label={`View image ${index + 1}`}
             >
               <img
-                src={`${HOST_BASE_URL}${image}`}
+                src={image}
                 alt=""
               />
             </button>

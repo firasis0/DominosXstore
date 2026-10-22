@@ -10,7 +10,7 @@ export default function PopularBrands() {
   useEffect(() => {
     fetchStoreBrands()
       .then((data) => setBrands(data.filter((brand) => brand.is_active)))
-      .catch((error) => console.error("Error fetching store brands:", error));
+      .catch(() => undefined);
   }, []);
 
   return (
@@ -43,6 +43,8 @@ export default function PopularBrands() {
                   src={resolveStoreImageUrl(brand.image_url)}
                   alt={brand.name}
                   className={styles.BrandCard__Logo}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

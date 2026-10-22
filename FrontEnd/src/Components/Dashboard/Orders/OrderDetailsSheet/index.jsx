@@ -19,6 +19,7 @@ import {
 
 import styles from "./styles.module.scss";
 import { authFetch } from "../../../../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 const STATUS_LABELS = {
     pending: "Pending",
@@ -165,10 +166,7 @@ const OrderDetailsSheet = ({
                     );
                 }
             } catch (fetchError) {
-                console.error(
-                    "Order details error:",
-                    fetchError
-                );
+                
 
                 if (!cancelled) {
                     setError(
@@ -781,7 +779,7 @@ const OrderDetailsSheet = ({
                                                             >
                                                                 {item.image_url ? (
                                                                     <img
-                                                                        src={`${import.meta.env.VITE_HOST_BASE_URL}${item.image_url}`}
+                                                                        src={resolveStoreImageUrl(item.image_url)}
                                                                         alt={
                                                                             item.product_name ||
                                                                             "Product"

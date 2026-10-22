@@ -2,17 +2,16 @@ import { ImagePlus, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 import styles from "./styles.module.scss";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 const resolvePreviewUrl = (value) => {
   if (!value) return "";
 
-  if (/^(blob:|data:|https?:)/.test(value)) {
+  if (/^(blob:|data:)/.test(value)) {
     return value;
   }
 
-  const hostBaseUrl = import.meta.env.VITE_HOST_BASE_URL;
-
-  return `${hostBaseUrl}${value}`;
+  return resolveStoreImageUrl(value) || "";
 };
 
 const BrandImageUploader = ({

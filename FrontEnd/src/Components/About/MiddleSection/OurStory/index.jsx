@@ -1,42 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { useStoreBranding } from "@/Context/StoreBrandingContext";
-
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL ||
-    "http://localhost:3002/api";
-
-const API_SERVER_URL = API_BASE_URL.replace(
-    /\/api\/?$/,
-    ""
-);
-
-const FALLBACK_IMAGE =
-    "/images/AboutPage/dominos_insta.jpg";
-
-const getImageUrl = (imageUrl) => {
-    if (!imageUrl) {
-        return FALLBACK_IMAGE;
-    }
-
-    if (
-        imageUrl.startsWith("http://") ||
-        imageUrl.startsWith("https://")
-    ) {
-        return imageUrl;
-    }
-
-    return `${API_SERVER_URL}${
-        imageUrl.startsWith("/")
-            ? ""
-            : "/"
-    }${imageUrl}`;
-};
+import { API_BASE_URL } from "@/lib/authFetch.js";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 export default function OurStory() {
     const { name: storeName } = useStoreBranding();
-    const [imageUrl, setImageUrl] =
-        useState(FALLBACK_IMAGE);
+    const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
         const controller =
@@ -63,13 +33,13 @@ export default function OurStory() {
                     !data.success ||
                     !data.data?.ourStoryImage
                 ) {
+                    setImageUrl(null);
                     return;
                 }
 
                 setImageUrl(
-                    getImageUrl(
-                        data.data
-                            .ourStoryImage
+                    resolveStoreImageUrl(
+                        data.data.ourStoryImage
                     )
                 );
             } catch (error) {
@@ -77,10 +47,7 @@ export default function OurStory() {
                     error.name !==
                     "AbortError"
                 ) {
-                    console.error(
-                        "Load Our Story image error:",
-                        error
-                    );
+                    setImageUrl(null);
                 }
             }
         };
@@ -105,13 +72,17 @@ export default function OurStory() {
                         styles.OurStory__ImageWrapper
                     }
                 >
-                    <img
-                        src={imageUrl}
-                        alt="Gaming setup"
-                        className={
-                            styles.OurStory__Image
-                        }
-                    />
+                    {imageUrl && (
+                        <img
+                            src={imageUrl}
+                            alt="Gaming setup"
+                            className={
+                                styles.OurStory__Image
+                            }
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    )}
                 </div>
 
                 <div

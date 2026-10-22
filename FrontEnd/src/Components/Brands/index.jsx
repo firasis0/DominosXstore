@@ -12,7 +12,7 @@ export default function BrandsDetails() {
   useEffect(() => {
     fetchStoreBrands()
       .then((data) => setBrand(data.find((item) => item.name === name)))
-      .catch((error) => console.error('Error fetching brand:', error))
+      .catch(() => undefined)
   }, [name])
 
   useEffect(() => {

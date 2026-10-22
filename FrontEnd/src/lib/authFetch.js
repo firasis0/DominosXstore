@@ -42,10 +42,7 @@ export async function authFetch(
     const url =
         `${API_BASE_URL}${path}`;
 
-    console.log(
-        "AUTH FETCH:",
-        url
-    );
+    
 
     const response =
         await fetch(
@@ -56,11 +53,7 @@ export async function authFetch(
             }
         );
 
-    console.log(
-        "AUTH FETCH RESPONSE:",
-        response.status,
-        response.url
-    );
+    
 
     if (response.status === 401) {
         localStorage.removeItem("token");

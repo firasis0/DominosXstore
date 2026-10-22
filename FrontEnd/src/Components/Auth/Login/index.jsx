@@ -44,11 +44,7 @@ function hasValidToken() {
         }
 
         return true;
-    } catch (error) {
-        console.error(
-            "Session validation error:",
-            error
-        );
+    } catch {
 
         localStorage.removeItem("token");
 

@@ -1,15 +1,11 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStoreBranding } from "@/Context/StoreBrandingContext";
+import { fetchStoreCategories } from "@/lib/storeData";
 import styles from "./styles.module.scss";
-
-
 
 const shopLinks = [
   { name: "All Products", href: "/shop#shop" },
-  { name: "Gaming Mouse", href: "/categories/Gaming%20Mouse#category-detail-header" },
-  { name: "Keyboards", href: "/categories/Keyboards#category-detail-header" },
-  { name: "Headsets", href: "/categories/Headsets#category-detail-header" },
-  { name: "Controllers", href: "/categories/Controllers#category-detail-header" },
   { name: "Best Deals", href: "/shop?onSale=true#shop" },
 ];
 
@@ -36,6 +32,25 @@ const currentYear = date.getFullYear()
 
 export default function Footer() {
   const { name: storeName, logoUrl } = useStoreBranding();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+
+    fetchStoreCategories()
+      .then((data) => {
+        if (active) {
+          setCategories(
+            data.filter((category) => category.is_active).slice(0, 4)
+          );
+        }
+      })
+      .catch(() => setCategories([]));
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <footer className={styles.Footer}>
@@ -75,6 +90,14 @@ export default function Footer() {
                   to={link.href}
                 >
                   {link.name}
+                </Link>
+              ))}
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/categories/${encodeURIComponent(category.name)}#category-detail-header`}
+                >
+                  {category.name}
                 </Link>
               ))}
             </nav>
@@ -133,11 +156,11 @@ export default function Footer() {
           </p>
 
           <div className={styles.Footer__BottomLinks}>
-            <Link href="/policies#privacy">
+            <Link to="/policies#privacy">
               Privacy
             </Link>
 
-            <Link href="/policies#terms">
+            <Link to="/policies#terms">
               Terms
             </Link>
 

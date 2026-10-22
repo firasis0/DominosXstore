@@ -38,7 +38,7 @@ const InventoryCarousel = ({ eyebrow, title, mode }) => {
   useEffect(() => {
     fetchStoreProducts()
       .then(setProducts)
-      .catch((error) => console.error("Error fetching inventory carousel:", error));
+      .catch(() => undefined);
   }, []);
 
   const selectedProducts = useMemo(
@@ -91,6 +91,8 @@ const InventoryCarousel = ({ eyebrow, title, mode }) => {
                               src={resolveStoreImageUrl(product.images?.[0])}
                               alt={product.name}
                               className={styles.Product__Image}
+                              loading="lazy"
+                              decoding="async"
                             />
                           </Link>
                         </div>

@@ -32,7 +32,7 @@ export default function Shop() {
         setCategories(categoryData.filter((category) => category.is_active));
         setBrands(brandData.filter((brand) => brand.is_active));
       })
-      .catch((error) => console.error("Error fetching shop data:", error));
+      .catch(() => undefined);
   }, []);
 
   const filteredProducts = useMemo(() => {

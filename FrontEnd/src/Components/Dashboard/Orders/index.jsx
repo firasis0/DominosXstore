@@ -143,10 +143,7 @@ const loadDashboard = async () => {
                 error: "",
             });
         } catch (error) {
-            console.error(
-                "Orders dashboard error:",
-                error
-            );
+            
 
             dashboardStore.setState({
                 loading: false,
@@ -657,10 +654,7 @@ const Orders = () => {
                     (value) => value + 1
                 );
             } catch (updateError) {
-                console.error(
-                    "Status update error:",
-                    updateError
-                );
+                
 
                 window.alert(
                     updateError.message ||
@@ -757,10 +751,7 @@ const Orders = () => {
                     (value) => value + 1
                 );
             } catch (cancelError) {
-                console.error(
-                    "Cancel order error:",
-                    cancelError
-                );
+                
 
                 window.alert(
                     cancelError.message ||
@@ -811,10 +802,7 @@ const Orders = () => {
                     API_BASE_URL
                 );
             } catch (printError) {
-                console.error(
-                    "Print order error:",
-                    printError
-                );
+                
 
                 window.alert(
                     printError.message ||

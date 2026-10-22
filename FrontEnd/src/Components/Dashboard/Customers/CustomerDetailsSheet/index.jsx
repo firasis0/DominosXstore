@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { authFetch } from "../../../../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 import styles from "./styles.module.scss";
 
@@ -273,10 +274,7 @@ function CustomerDetailsSheet({
                     return;
                 }
 
-                console.error(
-                    "Customer details error:",
-                    fetchError
-                );
+                
 
                 setError(
                     fetchError.message ||
@@ -381,10 +379,7 @@ function CustomerDetailsSheet({
                 result?.data || null
             );
         } catch (fetchError) {
-            console.error(
-                "Customer order details error:",
-                fetchError
-            );
+            
 
             setOrderError(
                 fetchError.message ||
@@ -1151,7 +1146,7 @@ function CustomerDetailsSheet({
                                                                                                 {item.image_url ? (
                                                                                                     <img
                                                                                                         src={
-                                                                                                            `${import.meta.env.VITE_HOST_BASE_URL}${item.image_url}`
+                                                                                                            resolveStoreImageUrl(item.image_url)
                                                                                                         }
                                                                                                         alt={
                                                                                                             item.product_name ||

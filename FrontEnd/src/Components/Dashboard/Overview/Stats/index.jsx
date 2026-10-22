@@ -125,11 +125,11 @@ export default function Stats() {
                         ) || 0,
                 });
             } catch (error) {
-                if (error.name !== "AbortError") {
-                    console.error(
-                        "Dashboard stats error:",
-                        error
-                    );
+                if (
+                    error.name !== "AbortError" &&
+                    !controller.signal.aborted
+                ) {
+                    setStats(EMPTY_STATS);
                 }
             } finally {
                 if (!controller.signal.aborted) {

@@ -8,33 +8,8 @@ import {
 
 import styles from "./styles.module.scss";
 
-import {
-    authFetch,
-    API_BASE_URL,
-} from "../../../../lib/authFetch.js";
-
-const HOST_BASE_URL =
-    import.meta.env.VITE_HOST_BASE_URL ||
-    API_BASE_URL.replace(/\/api\/?$/, "");
-
-const getImageUrl = (imageUrl) => {
-    if (!imageUrl) {
-        return "";
-    }
-
-    if (
-        imageUrl.startsWith("http://") ||
-        imageUrl.startsWith("https://")
-    ) {
-        return imageUrl;
-    }
-
-    return `${HOST_BASE_URL}${
-        imageUrl.startsWith("/")
-            ? ""
-            : "/"
-    }${imageUrl}`;
-};
+import { authFetch } from "../../../../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 export default function Categories() {
     const [page, setPage] = useState(null);
@@ -185,10 +160,7 @@ export default function Categories() {
                     return;
                 }
 
-                console.error(
-                    "Load Categories content error:",
-                    requestError
-                );
+                
 
                 setError(
                     requestError.message ||
@@ -280,10 +252,7 @@ export default function Categories() {
             } catch (
                 requestError
             ) {
-                console.error(
-                    "Upload Categories carousel image error:",
-                    requestError
-                );
+                
 
                 setError(
                     requestError.message ||
@@ -351,10 +320,7 @@ export default function Categories() {
             } catch (
                 requestError
             ) {
-                console.error(
-                    "Delete Categories carousel image error:",
-                    requestError
-                );
+                
 
                 setError(
                     requestError.message ||
@@ -470,10 +436,7 @@ export default function Categories() {
             } catch (
                 requestError
             ) {
-                console.error(
-                    "Reorder Categories carousel image error:",
-                    requestError
-                );
+                
 
                 setError(
                     requestError.message ||
@@ -667,7 +630,7 @@ export default function Categories() {
                                                 }
                                             >
                                                 <img
-                                                    src={getImageUrl(
+                                                    src={resolveStoreImageUrl(
                                                         image.image_url
                                                     )}
                                                     alt={`Carousel ${

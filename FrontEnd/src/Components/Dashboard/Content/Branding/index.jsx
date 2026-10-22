@@ -72,7 +72,7 @@ export default function Branding() {
             setHasEditedName(false);
             setSuccess("Store name and logo updated successfully.");
         } catch (requestError) {
-            console.error("Save store branding error:", requestError);
+            
             setError(
                 requestError.message || "Failed to update store branding."
             );

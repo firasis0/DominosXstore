@@ -8,7 +8,7 @@ export default function ProductGrid(props) {
   useEffect(() => {
     fetchStoreProducts()
       .then((data) => setProducts(data.filter((product) => product.category_id === props.categoryId)))
-      .catch((error) => console.error("Error fetching category products:", error));
+      .catch(() => undefined);
   }, [props.categoryId]);
 
   return (

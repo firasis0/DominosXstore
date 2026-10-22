@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import {
-    authFetch,
-    API_BASE_URL,
-} from "../../../../lib/authFetch.js";
+import { authFetch } from "../../../../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 import {
     ArrowDown,
@@ -21,28 +19,6 @@ import {
     FaInstagram,
     FaTiktok,
 } from "react-icons/fa";
-
-const API_SERVER_URL = API_BASE_URL.replace(
-    /\/api\/?$/,
-    ""
-);
-
-const getImageUrl = (imageUrl) => {
-    if (!imageUrl) {
-        return "";
-    }
-
-    if (
-        imageUrl.startsWith("http://") ||
-        imageUrl.startsWith("https://")
-    ) {
-        return imageUrl;
-    }
-
-    return `${API_SERVER_URL}${
-        imageUrl.startsWith("/") ? "" : "/"
-    }${imageUrl}`;
-};
 
 export default function About() {
     const [page, setPage] = useState(null);
@@ -222,10 +198,7 @@ export default function About() {
                     return;
                 }
 
-                console.error(
-                    "About content load error:",
-                    err
-                );
+                
 
                 setError(
                     err.message ||
@@ -307,10 +280,7 @@ export default function About() {
                 "Social links saved successfully."
             );
         } catch (err) {
-            console.error(
-                "Save connect error:",
-                err
-            );
+            
 
             setError(
                 err.message ||
@@ -384,10 +354,7 @@ export default function About() {
                     "Carousel image uploaded successfully."
                 );
             } catch (err) {
-                console.error(
-                    "Top image upload error:",
-                    err
-                );
+                
 
                 setError(
                     err.message ||
@@ -444,10 +411,7 @@ export default function About() {
                     "Carousel image deleted successfully."
                 );
             } catch (err) {
-                console.error(
-                    "Delete top image error:",
-                    err
-                );
+                
 
                 setError(
                     err.message ||
@@ -531,10 +495,7 @@ export default function About() {
                 );
             }
         } catch (err) {
-            console.error(
-                "Reorder top image error:",
-                err
-            );
+            
 
             setTopImages(topImages);
 
@@ -602,10 +563,7 @@ export default function About() {
                     "Our Story image uploaded successfully."
                 );
             } catch (err) {
-                console.error(
-                    "Story image upload error:",
-                    err
-                );
+                
 
                 setError(
                     err.message ||
@@ -665,10 +623,7 @@ export default function About() {
                     "Our Story image deleted successfully."
                 );
             } catch (err) {
-                console.error(
-                    "Delete story image error:",
-                    err
-                );
+                
 
                 setError(
                     err.message ||
@@ -885,7 +840,7 @@ export default function About() {
                                         }
                                     >
                                         <img
-                                            src={getImageUrl(
+                                            src={resolveStoreImageUrl(
                                                 image.image_url ||
                                                     image.url ||
                                                     image.path
@@ -1054,7 +1009,7 @@ export default function About() {
                         }
                     >
                         <img
-                            src={getImageUrl(
+                            src={resolveStoreImageUrl(
                                 ourStoryImage.image_url ||
                                     ourStoryImage.url ||
                                     ourStoryImage.path

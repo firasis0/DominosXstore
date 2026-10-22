@@ -1,30 +1,28 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { CartProvider } from "./Context/CartContext";
 import CartDrawer from "./Components/CartDrawer";
-//components:
-import Loader from "./Components/Loader";
-//Pages:
-import Home from './Pages/Home'
-import About from './Pages/About';
-import CategoriesPage from "./Pages/Categories";
-import ShopPage from "./Pages/Shop";
-import LoginPage from "./Pages/Login";
-import DashboardPage from "./Pages/Dashboard";
-import DashboardProduts from './Pages/DashboardProducts';
-import DashboardOrders from './Pages/DashboardOrders';
-import DashboardCategories from './Pages/DashboardCategories'
-import DashboardBrands from './Pages/DashboardBrands'
-import DashboardShipping from "@/Pages/DashboardShipping";
-import DashboardCustomers from './Pages/DashboardCustomers';
-import DashboardContent from "./Pages/DashboardContent";
-import Settings from "./Components/Dashboard/Settings";
-import ProductDetailsPage from "./Pages/ProductDetails";
-import CategoriesDetailsPage from './Pages/CategoriesDetails';
-import BrandsDetailsPage from './Pages/BrandsDetails';
-import PoliciesPage from './Pages/Policies';
-import CartPage from './Pages/Cart';
+
+const Home = lazy(() => import("./Pages/Home"));
+const About = lazy(() => import("./Pages/About"));
+const CategoriesPage = lazy(() => import("./Pages/Categories"));
+const ShopPage = lazy(() => import("./Pages/Shop"));
+const LoginPage = lazy(() => import("./Pages/Login"));
+const DashboardPage = lazy(() => import("./Pages/Dashboard"));
+const DashboardProduts = lazy(() => import("./Pages/DashboardProducts"));
+const DashboardOrders = lazy(() => import("./Pages/DashboardOrders"));
+const DashboardCategories = lazy(() => import("./Pages/DashboardCategories"));
+const DashboardBrands = lazy(() => import("./Pages/DashboardBrands"));
+const DashboardShipping = lazy(() => import("@/Pages/DashboardShipping"));
+const DashboardCustomers = lazy(() => import("./Pages/DashboardCustomers"));
+const DashboardContent = lazy(() => import("./Pages/DashboardContent"));
+const Settings = lazy(() => import("./Components/Dashboard/Settings"));
+const ProductDetailsPage = lazy(() => import("./Pages/ProductDetails"));
+const CategoriesDetailsPage = lazy(() => import("./Pages/CategoriesDetails"));
+const BrandsDetailsPage = lazy(() => import("./Pages/BrandsDetails"));
+const PoliciesPage = lazy(() => import("./Pages/Policies"));
+const CartPage = lazy(() => import("./Pages/Cart"));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -54,12 +52,10 @@ function App() {
   return (
     <>
     <CartProvider>
-    {/* the loader : */}
-    <Loader />
-    {/* ///////////// */}
     <BrowserRouter>
     <ScrollToTop />
     <CartDrawer />
+    <Suspense fallback={null}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/shop/:id" element={<ProductDetailsPage />} />
@@ -81,6 +77,7 @@ function App() {
       <Route path="/policies" element={<PoliciesPage />} />
       <Route path="/cart" element={<CartPage />} />
     </Routes>
+    </Suspense>
     </BrowserRouter>
     </CartProvider>
     </>

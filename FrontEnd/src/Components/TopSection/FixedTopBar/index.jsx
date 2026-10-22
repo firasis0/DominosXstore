@@ -1,13 +1,13 @@
 import styles from './styles.module.scss'
 
-//Data :
-import HomeData from '../../../../Data/HomeData.json'
+const ANNOUNCEMENT =
+  "⚡ NOUVEAU — LIVRAISON 7J/7 | MÊME LE VENDREDI Vos équipements gaming livrés tous les jours"
 
 export default function FixedTopBar() {
   return (
     <div>
       <div className={styles.fixedTopBar}>
-        <h3>{HomeData.TopSection.fixedTopBar.text}</h3>
+        <h3>{ANNOUNCEMENT}</h3>
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ export default function Categories() {
   useEffect(() => {
     fetchStoreCategories()
       .then((data) => setCategories(data.filter((category) => category.is_active)))
-      .catch((error) => console.error("Error fetching store categories:", error));
+      .catch(() => undefined);
   }, []);
 
   return (
@@ -39,6 +39,8 @@ export default function Categories() {
                   src={resolveStoreImageUrl(category.image_url)}
                   alt={category.name}
                   className={styles.Category__Image}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

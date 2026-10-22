@@ -3,27 +3,9 @@ import { ImagePlus, X, LoaderCircle } from "lucide-react";
 
 import styles from "./styles.module.scss";
 import { authFetch } from "../../../../lib/authFetch";
+import { resolveStoreImageUrl } from "../../../../lib/storeData.js";
 
 let nextId = 1;
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-const getServerBaseUrl = () => {
-    return API_BASE_URL.replace(/\/api\/?$/, "");
-};
-
-const getImageUrl = (url) => {
-    if (!url) return "";
-
-    if (
-        url.startsWith("http://") ||
-        url.startsWith("https://")
-    ) {
-        return url;
-    }
-
-    return `${getServerBaseUrl()}${url}`;
-};
 
 export default function ImageUploader({
     images,
@@ -80,10 +62,7 @@ export default function ImageUploader({
                 ...uploadedImages,
             ]);
         } catch (error) {
-            console.error(
-                "Error uploading images:",
-                error
-            );
+            
 
             setUploadError(
                 error.message ||
@@ -113,7 +92,7 @@ export default function ImageUploader({
                     key={image.id}
                 >
                     <img
-                        src={getImageUrl(image.url)}
+                        src={resolveStoreImageUrl(image.url)}
                         alt=""
                     />
 

@@ -65,8 +65,11 @@ const Brands = () => {
         } else {
           throw new Error(result.message);
         }
-      } catch (error) {
-        console.error("Error fetching brands:", error);
+      } catch {
+        setToast({
+          type: "warning",
+          message: "Unable to load brands. Please try again.",
+        });
       }
     };
 
@@ -258,9 +261,7 @@ const Brands = () => {
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error(
-        `Error activating the brand: ${error}`
-      );
+      
 
       setToast({
         type: "error",
@@ -318,9 +319,7 @@ const Brands = () => {
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error(
-        `Error deactivating the brand: ${error}`
-      );
+      
 
       setToast({
         type: "error",

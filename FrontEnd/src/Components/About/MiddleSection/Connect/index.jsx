@@ -50,10 +50,7 @@ export default function Connect() {
                     return;
                 }
 
-                console.error(
-                    "Connect content error:",
-                    error
-                );
+                
 
                 setSocialLinks([]);
             }

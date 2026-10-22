@@ -30,8 +30,7 @@ function loadCart() {
     const parsedCart = JSON.parse(savedCart);
 
     return Array.isArray(parsedCart) ? parsedCart : [];
-  } catch (error) {
-    console.error("Failed to load cart:", error);
+  } catch {
     return [];
   }
 }
@@ -43,8 +42,8 @@ export function CartProvider({ children }) {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
-    } catch (error) {
-      console.error("Failed to save cart:", error);
+    } catch {
+      // Cart remains available for the current session if storage is unavailable.
     }
   }, [cartItems]);
 
@@ -56,7 +55,7 @@ export function CartProvider({ children }) {
   const addToCart = useCallback(
     (product, quantityOrVariants = 1, variantsOrQuantity = {}) => {
       if (!product?.id) {
-        console.error("Cannot add product: missing product ID.");
+        
         return false;
       }
 
@@ -90,17 +89,12 @@ export function CartProvider({ children }) {
       const amount = Math.floor(Number(quantity));
 
       if (!Number.isFinite(stock) || stock <= 0) {
-        console.error("Cannot add product: invalid or empty stock.", {
-          productId: product.id,
-          stock: product.stock,
-        });
+        
         return false;
       }
 
       if (!Number.isFinite(amount) || amount <= 0) {
-        console.error("Cannot add product: invalid quantity.", {
-          quantity,
-        });
+        
         return false;
       }
 
@@ -111,10 +105,7 @@ export function CartProvider({ children }) {
       );
 
       if (!Number.isFinite(unitPrice) || unitPrice < 0) {
-        console.error("Cannot add product: invalid price.", {
-          productId: product.id,
-          price: product.price,
-        });
+        
         return false;
       }
 

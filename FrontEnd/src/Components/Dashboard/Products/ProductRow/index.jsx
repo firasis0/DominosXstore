@@ -18,34 +18,12 @@ import {
 } from "@/Components/ui/alert-dialog";
 
 import ProductForm from "../ProductForm";
+import { resolveStoreImageUrl } from "@/lib/storeData";
 
 import styles from "../styles.module.scss";
 
 const formatPrice = (price) =>
     `${Number(price).toLocaleString("fr-DZ")} DA`;
-
-const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL;
-
-const getServerBaseUrl = () => {
-    return API_BASE_URL.replace(
-        /\/api\/?$/,
-        ""
-    );
-};
-
-const getImageUrl = (url) => {
-    if (!url) return "";
-
-    if (
-        url.startsWith("http://") ||
-        url.startsWith("https://")
-    ) {
-        return url;
-    }
-
-    return `${getServerBaseUrl()}${url}`;
-};
 
 const toFormValues = (product) => ({
     name: product.name,
@@ -214,7 +192,7 @@ export default function ProductRow({
                             }
                         >
                             <img
-                                src={getImageUrl(
+                                src={resolveStoreImageUrl(
                                     product.images?.[0]
                                 )}
                                 alt=""

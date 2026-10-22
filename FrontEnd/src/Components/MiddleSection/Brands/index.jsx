@@ -10,7 +10,7 @@ export default function Brands(props) {
   useEffect(() => {
     fetchStoreBrands()
       .then((data) => setBrands(data.filter((brand) => brand.is_active)))
-      .catch((error) => console.error("Error fetching store brands:", error));
+      .catch(() => undefined);
   }, []);
 
   return (
@@ -39,6 +39,8 @@ export default function Brands(props) {
                   src={resolveStoreImageUrl(brand.image_url)}
                   alt={brand.name}
                   className={styles.Category__Image}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

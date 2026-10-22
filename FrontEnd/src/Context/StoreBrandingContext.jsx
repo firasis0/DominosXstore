@@ -9,30 +9,13 @@ import {
 } from "react";
 
 import { API_BASE_URL } from "../lib/authFetch.js";
+import { resolveStoreImageUrl } from "../lib/storeData.js";
 
 const StoreBrandingContext = createContext(null);
 const DEFAULT_BRANDING = {
     name: "DOMINOS STORE",
     logoUrl: null,
 };
-
-const API_SERVER_URL = API_BASE_URL.replace(/\/api\/?$/, "");
-
-function resolveLogoUrl(logoUrl) {
-    if (!logoUrl) {
-        return null;
-    }
-
-    if (/^https?:\/\//i.test(logoUrl)) {
-        return logoUrl;
-    }
-
-    if (logoUrl.startsWith("/uploads/")) {
-        return `${API_SERVER_URL}${logoUrl}`;
-    }
-
-    return logoUrl;
-}
 
 export function StoreBrandingProvider({ children }) {
     const [branding, setBranding] = useState(DEFAULT_BRANDING);
@@ -59,7 +42,7 @@ export function StoreBrandingProvider({ children }) {
                 }
             } catch (error) {
                 if (error.name !== "AbortError") {
-                    console.error("Load store branding error:", error);
+                    setBranding(DEFAULT_BRANDING);
                 }
             }
         };
@@ -83,7 +66,7 @@ export function StoreBrandingProvider({ children }) {
             'link[rel="icon"][data-store-branding]'
         );
 
-        const resolvedLogoUrl = resolveLogoUrl(branding.logoUrl);
+        const resolvedLogoUrl = resolveStoreImageUrl(branding.logoUrl);
 
         if (resolvedLogoUrl) {
             if (!favicon) {
@@ -106,7 +89,7 @@ export function StoreBrandingProvider({ children }) {
     const value = useMemo(
         () => ({
             name: branding.name || DEFAULT_BRANDING.name,
-            logoUrl: resolveLogoUrl(branding.logoUrl),
+            logoUrl: resolveStoreImageUrl(branding.logoUrl),
             updateBranding,
         }),
         [branding, updateBranding]

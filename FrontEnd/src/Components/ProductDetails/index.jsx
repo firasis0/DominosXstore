@@ -62,12 +62,7 @@ export default function ProductDetails() {
                 setProduct(foundProduct ?? null);
                 setSelectedVariants({});
                 setCartMessage("");
-            } catch (error) {
-                console.error(
-                    "Error fetching store product:",
-                    error
-                );
-
+            } catch {
                 setProduct(null);
             } finally {
                 setLoading(false);

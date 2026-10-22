@@ -65,11 +65,11 @@ const Categories = () => {
         } else {
           throw new Error(result.message);
         }
-      } catch (error) {
-        console.error(
-          "Error fetching categories:",
-          error
-        );
+      } catch {
+        setToast({
+          type: "warning",
+          message: "Unable to load categories. Please try again.",
+        });
       }
     };
 
@@ -258,9 +258,7 @@ const Categories = () => {
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error(
-        `Error activating the category: ${error}`
-      );
+      
 
       setToast({
         type: "error",
@@ -319,9 +317,7 @@ const Categories = () => {
         throw new Error(result.message);
       }
     } catch (error) {
-      console.error(
-        `Error deactivating the category: ${error}`
-      );
+      
 
       setToast({
         type: "error",

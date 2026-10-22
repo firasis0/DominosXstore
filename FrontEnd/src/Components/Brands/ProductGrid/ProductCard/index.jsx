@@ -28,6 +28,8 @@ export default function ProductCard({ product }) {
             src={primaryImage}
             alt={product.name}
             className={styles.ProductCard__Image}
+            loading="lazy"
+            decoding="async"
           />
         </Link>
 

@@ -133,7 +133,7 @@ useEffect(() => {
 
             const result = await response.json();
 
-            console.log("GEOGRAPHY API RESULT:", result);
+            
 
             const provincesData =
                 Array.isArray(result?.data?.provinces)
@@ -195,17 +195,11 @@ useEffect(() => {
                 }
             );
 
-            console.log(
-                "NORMALIZED PROVINCES:",
-                normalizedProvinces
-            );
+            
 
             setProvinces(normalizedProvinces);
-        } catch (error) {
-            console.error(
-                "Error loading geography:",
-                error
-            );
+        } catch {
+            
 
             setGeographyError(
                 "Failed to load provinces and municipalities."
@@ -367,10 +361,7 @@ useEffect(() => {
                         return;
                     }
 
-                    console.error(
-                        "Error fetching shipping options:",
-                        error
-                    );
+                    
 
                     setShippingError(
                         error.message ||
@@ -807,10 +798,7 @@ useEffect(() => {
             setSubmitError("");
             setOfficeWarning("");
 
-            console.log(
-                "Creating order:",
-                orderData
-            );
+            
 
             const response = await fetch(
                 `${API_BASE_URL}/orders`,
@@ -839,18 +827,12 @@ useEffect(() => {
                 );
             }
 
-            console.log(
-                "Order created successfully:",
-                result
-            );
+            
 
             setSubmitted(true);
             onOrderSuccess?.();
         } catch (error) {
-            console.error(
-                "Error creating order:",
-                error
-            );
+            
 
             setSubmitError(
                 error.message ||

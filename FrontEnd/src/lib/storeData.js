@@ -1,14 +1,28 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const HOST_BASE_URL = import.meta.env.VITE_HOST_BASE_URL;
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:3002/api";
+const HOST_BASE_URL =
+  import.meta.env.VITE_HOST_BASE_URL ||
+  API_BASE_URL.replace(/\/api\/?$/, "");
 
 export const resolveStoreImageUrl = (url) => {
-  if (!url) return "";
-
-  if (/^(https?:|data:|blob:)/.test(url)) {
-    return url;
+  if (typeof url !== "string" || !url) {
+    return null;
   }
 
-  return `${HOST_BASE_URL}${url}`;
+  if (/^https?:\/\//i.test(url)) {
+    try {
+      return new URL(url).pathname.startsWith("/uploads/")
+        ? url
+        : null;
+    } catch {
+      return null;
+    }
+  }
+
+  return url.startsWith("/uploads/")
+    ? `${HOST_BASE_URL}${url}`
+    : null;
 };
 
 const fetchStoreData = async (path) => {
