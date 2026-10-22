@@ -653,16 +653,34 @@ export const createOrder = async (req, res) => {
                 typeof submittedVariant ===
                 "number"
             ) {
-                submittedId =
-                    Number(
+                if (
+                    Number.isFinite(
                         submittedVariant
-                    );
+                    )
+                ) {
+                    submittedValue =
+                        String(
+                            submittedVariant
+                        );
+
+                    if (
+                        Number.isInteger(
+                            submittedVariant
+                        )
+                    ) {
+                        submittedId =
+                            submittedVariant;
+                    }
+                }
             } else if (
                 typeof submittedVariant ===
                 "string"
             ) {
                 const trimmedValue =
                     submittedVariant.trim();
+
+                submittedValue =
+                    trimmedValue;
 
                 if (
                     /^\d+$/.test(
@@ -673,9 +691,6 @@ export const createOrder = async (req, res) => {
                         Number(
                             trimmedValue
                         );
-                } else {
-                    submittedValue =
-                        trimmedValue;
                 }
             }
 
