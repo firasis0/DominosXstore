@@ -1,5 +1,9 @@
 import db from "../DB/db.js";
 import { sendNewOrderEmail } from "../Services/orderEmail.service.js";
+import {
+    effectiveSkuPrice,
+    syncProductSummary,
+} from "../Services/productVariants.service.js";
 
 const ALLOWED_STATUSES = [
     "pending",
@@ -242,7 +246,7 @@ export const createOrder = async (req, res) => {
             );
         }
 
-        for (const [id, requestedQuantity] of quantitiesByProductId) {
+        for (const id of quantitiesByProductId.keys()) {
             const item = productsById.get(id);
 
             if (!item.is_active) {
@@ -251,15 +255,6 @@ export const createOrder = async (req, res) => {
                 );
 
                 error.statusCode = 400;
-                throw error;
-            }
-
-            if (Number(item.stock) < requestedQuantity) {
-                const error = new Error(
-                    "Not enough stock available."
-                );
-
-                error.statusCode = 409;
                 throw error;
             }
         }
@@ -742,11 +737,61 @@ export const createOrder = async (req, res) => {
                 };
         }
 
-        const itemPrice =
-            itemProduct.is_on_sale &&
-            itemProduct.discount_price !== null
-                ? Number(itemProduct.discount_price)
-                : Number(itemProduct.price);
+        /*
+        | The chosen options must match one sellable combination (SKU).
+        | Its price and stock are the ones that count.
+        */
+
+        const skuResult = await client.query(
+            `
+                SELECT
+                    ps.id,
+                    ps.price,
+                    ps.discount_price,
+                    ps.stock,
+                    COALESCE(
+                        array_agg(pso.variant_id ORDER BY pso.variant_id)
+                            FILTER (WHERE pso.variant_id IS NOT NULL),
+                        '{}'::int[]
+                    ) AS variant_ids
+
+                FROM product_skus ps
+
+                LEFT JOIN product_sku_options pso
+                    ON pso.sku_id = ps.id
+
+                WHERE ps.product_id = $1
+
+                GROUP BY ps.id
+
+                ORDER BY ps.id ASC;
+            `,
+            [productId]
+        );
+
+        const chosenVariantIds = Object.values(selectedVariants)
+            .map((variant) => Number(variant.id))
+            .sort((a, b) => a - b);
+
+        const itemSku = skuResult.rows.find(
+            (row) =>
+                row.variant_ids.length === chosenVariantIds.length &&
+                row.variant_ids.every(
+                    (variantId, index) =>
+                        Number(variantId) === chosenVariantIds[index]
+                )
+        );
+
+        if (!itemSku) {
+            const error = new Error(
+                "This option combination is not available."
+            );
+
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const itemPrice = effectiveSkuPrice(itemProduct, itemSku);
 
         if (!Number.isFinite(itemPrice)) {
             const error = new Error(
@@ -760,6 +805,7 @@ export const createOrder = async (req, res) => {
         validatedItems.push({
             product: itemProduct,
             productId,
+            skuId: Number(itemSku.id),
             quantity,
             unitPrice: itemPrice,
             selectedVariants,
@@ -842,36 +888,54 @@ export const createOrder = async (req, res) => {
         */
 
         const remainingStockByProductId = new Map();
+        const quantitiesBySkuId = new Map();
 
-        for (const [id, requestedQuantity] of quantitiesByProductId) {
+        for (const lineItem of validatedItems) {
+            quantitiesBySkuId.set(
+                lineItem.skuId,
+                (quantitiesBySkuId.get(lineItem.skuId) || 0) +
+                    lineItem.quantity
+            );
+        }
+
+        // Ascending order keeps concurrent orders from deadlocking
+        const skuIdsToReduce = [...quantitiesBySkuId.keys()].sort(
+            (a, b) => a - b
+        );
+
+        for (const skuId of skuIdsToReduce) {
             const stockResult =
                 await client.query(
                     `
-                        UPDATE products
+                        UPDATE product_skus
 
                         SET stock = stock - $1
 
                         WHERE id = $2
-                          AND is_active = true
                           AND stock >= $1
 
                         RETURNING stock;
                     `,
-                    [requestedQuantity, id]
+                    [quantitiesBySkuId.get(skuId), skuId]
                 );
 
             if (!stockResult.rows.length) {
                 const error = new Error(
-                    "Not enough stock available."
+                    "Not enough stock available for the selected option."
                 );
 
                 error.statusCode = 409;
                 throw error;
             }
+        }
+
+        // products.stock / price follow the variants
+        for (const id of quantitiesByProductId.keys()) {
+            const summary = await syncProductSummary(client, id);
 
             remainingStockByProductId.set(
                 id,
-                Number(stockResult.rows[0].stock)
+                Number(summary?.stock ?? 0)
             );
         }
 
@@ -981,7 +1045,8 @@ export const createOrder = async (req, res) => {
                         product_id,
                         quantity,
                         unit_price,
-                        selected_variants
+                        selected_variants,
+                        product_sku_id
                     )
 
                     VALUES (
@@ -989,7 +1054,8 @@ export const createOrder = async (req, res) => {
                         $2,
                         $3,
                         $4,
-                        $5::jsonb
+                        $5::jsonb,
+                        $6
                     )
 
                     RETURNING
@@ -998,7 +1064,8 @@ export const createOrder = async (req, res) => {
                         product_id,
                         quantity,
                         unit_price,
-                        selected_variants;
+                        selected_variants,
+                        product_sku_id;
                 `,
                 [
                     order.id,
@@ -1008,6 +1075,7 @@ export const createOrder = async (req, res) => {
                     JSON.stringify(
                         lineItem.selectedVariants
                     ),
+                    lineItem.skuId,
                 ]
             );
             orderItemResults.push({

@@ -2,6 +2,7 @@ import { Switch } from "@/Components/ui/switch";
 
 import ImageUploader from "../ImageUploader";
 import VariantsEditor from "../VariantsEditor";
+import { startingPrice, totalStock } from "../VariantsEditor/variantsForm";
 import styles from "./styles.module.scss";
 
 // Shared field set used by both the "Add product" modal and the row edit panel.
@@ -10,13 +11,34 @@ import styles from "./styles.module.scss";
 export default function ProductForm({ values, onChange, categoryOptions, brandOptions, idPrefix, readOnlyInfo }) {
   const update = (field, value) => onChange({ ...values, [field]: value });
 
+  // Stock and price are calculated from the variants, the admin cannot type them.
+  const stockTotal = totalStock(values.skus);
+  const fromPrice = startingPrice(values.skus, values.is_on_sale);
+
+  // Removing a photo also clears it from the option values that used it.
+  const updateImages = (updater) => {
+    const images = updater(values.images);
+    const urls = new Set(images.map((image) => image.url));
+
+    onChange({
+      ...values,
+      images,
+      options: values.options.map((option) => ({
+        ...option,
+        values: option.values.map((item) =>
+          item.image_url && !urls.has(item.image_url) ? { ...item, image_url: null } : item
+        ),
+      })),
+    });
+  };
+
   return (
     <div className={styles.ProductForm}>
       <div className={styles.ProductForm__Field}>
         <span>Photos</span>
         <ImageUploader
           images={values.images}
-          onChange={(updater) => update("images", updater(values.images))}
+          onChange={updateImages}
           inputId={`${idPrefix}-images`}
         />
       </div>
@@ -60,33 +82,24 @@ export default function ProductForm({ values, onChange, categoryOptions, brandOp
         </label>
 
         <label>
-          Stock
+          Total stock
           <input
-            type="number"
-            min="0"
-            value={values.stock}
-            onChange={(event) => update("stock", event.target.value)}
+            className={styles.ProductForm__Locked}
+            value={stockTotal}
+            readOnly
+            tabIndex={-1}
+            title="Calculated from the stock of each variant"
           />
         </label>
 
         <label>
-          Price (DA)
+          Starting price (DA)
           <input
-            type="number"
-            min="0"
-            value={values.price}
-            onChange={(event) => update("price", event.target.value)}
-          />
-        </label>
-
-        <label>
-          Discount price (DA)
-          <input
-            type="number"
-            min="0"
-            placeholder="No discount"
-            value={values.discount_price}
-            onChange={(event) => update("discount_price", event.target.value)}
+            className={styles.ProductForm__Locked}
+            value={fromPrice === null ? "—" : fromPrice}
+            readOnly
+            tabIndex={-1}
+            title="The cheapest variant that is in stock"
           />
         </label>
 
@@ -128,7 +141,13 @@ export default function ProductForm({ values, onChange, categoryOptions, brandOp
 
       <div className={styles.ProductForm__Field}>
         <span>Variants</span>
-        <VariantsEditor variants={values.variants} onChange={(variants) => update("variants", variants)} />
+        <VariantsEditor
+          options={values.options}
+          skus={values.skus}
+          images={values.images}
+          isOnSale={values.is_on_sale}
+          onChange={({ options, skus }) => onChange({ ...values, options, skus })}
+        />
       </div>
     </div>
   );

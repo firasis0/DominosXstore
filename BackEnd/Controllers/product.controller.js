@@ -1,42 +1,17 @@
 import db from '../DB/db.js';
+import {
+    getProductsWithVariants,
+    normalizeVariantPayload,
+    saveProductVariants,
+    syncProductSummary,
+} from '../Services/productVariants.service.js';
 
 //Dahboard Products Logic :
 
 //Fetching the products :
 export const getDashboardProducts = async (req,res) => {
     try{
-        const queryText = `
-        SELECT
-        p.id,
-        p.name,
-        p.category_id,
-        p.brand_id,
-        p.price,
-        p.discount_price,
-        p.stock,
-        p.is_active,
-        p.is_on_sale,
-        p.description,
-        p.created_at,
-        c.name AS category_name,
-        B.name AS brand_name,
-        COALESCE(
-          json_agg(DISTINCT pi.image_url) FILTER (WHERE pi.image_url IS NOT NULL), '[]'
-        ) AS images,
-        COALESCE(
-        json_agg(DISTINCT jsonb_build_object('id', pv.id, 'type', pv.type, 'value', pv.value, 'color_hex', pv.color_hex)) 
-          FILTER (WHERE pv.id IS NOT NULL), '[]'
-          ) AS variants
-        FROM products p 
-        LEFT JOIN categories c ON p.category_id = c.id
-        LEFT JOIN brands b ON p.brand_id = b.id
-        LEFT JOIN product_images pi ON p.id = pi.product_id
-        LEFT JOIN product_variants pv ON p.id = pv.product_id
-        GROUP BY p.id, c.name, b.name
-        ORDER BY p.created_at DESC;
-        `;
-
-        const { rows } = await db.query(queryText);
+        const rows = await getProductsWithVariants(db);
 
         res.status(200).json({
             success: true,
@@ -253,7 +228,10 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
+
 // Create a new product
+// Stock, price and discount_price are NOT taken from the body: they are
+// calculated from the variants (skus) by syncProductSummary().
 export const createProduct = async (req, res) => {
     const client = await db.connect();
 
@@ -261,185 +239,87 @@ export const createProduct = async (req, res) => {
         const {
             name,
             description,
-            price,
-            discount_price,
             category_id,
             brand_id,
-            stock,
             is_on_sale,
             is_active,
             images,
-            variants
+            variants,
+            skus
         } = req.body;
 
-        // Basic validation
-        if (
-            !name ||
-            price === undefined ||
-            category_id === undefined ||
-            brand_id === undefined
-        ) {
+        if (!name || category_id === undefined || brand_id === undefined) {
             return res.status(400).json({
                 success: false,
-                message: 'Name, price, category and brand are required'
+                message: 'Name, category and brand are required'
             });
         }
 
-        if (Number(price) < 0 || Number(stock) < 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'Price and stock cannot be negative'
-            });
-        }
+        const variantPayload = normalizeVariantPayload({
+            variants,
+            skus,
+            images,
+            isOnSale: Boolean(is_on_sale)
+        });
 
         await client.query('BEGIN');
 
-        // 1. Create product
-        const productQuery = `
-            INSERT INTO products (
-                name,
-                description,
-                price,
-                discount_price,
-                category_id,
-                brand_id,
-                stock,
-                is_on_sale,
-                is_active
-            )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            RETURNING *;
-        `;
-
-        const productValues = [
-            name,
-            description || null,
-            Number(price),
-            discount_price === null || discount_price === ''
-                ? null
-                : Number(discount_price),
-            Number(category_id),
-            Number(brand_id),
-            Number(stock) || 0,
-            Boolean(is_on_sale),
-            Boolean(is_active)
-        ];
-
+        // 1. Product (price / stock are filled in by syncProductSummary below)
         const { rows: productRows } = await client.query(
-            productQuery,
-            productValues
+            `
+            INSERT INTO products (
+                name, description, price, category_id, brand_id,
+                stock, is_on_sale, is_active
+            )
+            VALUES ($1, $2, 0, $3, $4, 0, false, $5)
+            RETURNING id;
+            `,
+            [
+                name,
+                description || null,
+                Number(category_id),
+                Number(brand_id),
+                Boolean(is_active)
+            ]
         );
 
-        const product = productRows[0];
+        const productId = productRows[0].id;
 
-        // 2. Create product images
-        if (Array.isArray(images) && images.length > 0) {
+        // 2. Images
+        if (Array.isArray(images)) {
             for (const imageUrl of images) {
                 if (!imageUrl) continue;
 
                 await client.query(
-                    `
-                    INSERT INTO product_images (
-                        product_id,
-                        image_url
-                    )
-                    VALUES ($1, $2);
-                    `,
-                    [product.id, imageUrl]
+                    `INSERT INTO product_images (product_id, image_url) VALUES ($1, $2);`,
+                    [productId, imageUrl]
                 );
             }
         }
 
-        // 3. Create product variants
-        if (Array.isArray(variants) && variants.length > 0) {
-            for (const variant of variants) {
-                if (!variant.type || variant.value === undefined) {
-                    continue;
-                }
-
-                await client.query(
-                    `
-                    INSERT INTO product_variants (
-                        product_id,
-                        type,
-                        value,
-                        color_hex
-                    )
-                    VALUES ($1, $2, $3, $4);
-                    `,
-                    [
-                        product.id,
-                        variant.type,
-                        variant.value,
-                        variant.type === "color"
-                        ? variant.color_hex || null
-                        : null
-                    ]
-                );
-            }
-        }
+        // 3. Options + combinations, then total stock / starting price
+        await saveProductVariants(client, productId, variantPayload);
+        await syncProductSummary(client, productId, Boolean(is_on_sale));
 
         await client.query('COMMIT');
 
-        // Return the created product
-        const createdProductQuery = `
-    SELECT
-        p.id,
-        p.name,
-        p.category_id,
-        p.brand_id,
-        p.price,
-        p.discount_price,
-        p.stock,
-        p.is_active,
-        p.is_on_sale,
-        p.description,
-        p.created_at,
-        c.name AS category_name,
-        b.name AS brand_name,
-        COALESCE(
-            json_agg(DISTINCT pi.image_url)
-            FILTER (WHERE pi.image_url IS NOT NULL),
-            '[]'
-        ) AS images,
-        COALESCE(
-            json_agg(
-                DISTINCT jsonb_build_object(
-                    'id', pv.id,
-                    'type', pv.type,
-                    'value', pv.value,
-                    'color_hex', pv.color_hex
-                )
-            )
-            FILTER (WHERE pv.id IS NOT NULL),
-            '[]'
-        ) AS variants
-    FROM products p
-    LEFT JOIN categories c
-        ON p.category_id = c.id
-    LEFT JOIN brands b
-        ON p.brand_id = b.id
-    LEFT JOIN product_images pi
-        ON p.id = pi.product_id
-    LEFT JOIN product_variants pv
-        ON p.id = pv.product_id
-    WHERE p.id = $1
-    GROUP BY p.id, c.name, b.name;
-`;
+        const [created] = await getProductsWithVariants(db, { productId });
 
-const { rows: createdProductRows } = await client.query(
-    createdProductQuery,
-    [product.id]
-);
-
-res.status(201).json({
-    success: true,
-    message: 'Product created successfully',
-    data: createdProductRows[0]
-});
+        res.status(201).json({
+            success: true,
+            message: 'Product created successfully',
+            data: created
+        });
 
     } catch (error) {
         await client.query('ROLLBACK');
+
+        if (error.statusCode) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message
+            });
+        }
 
         console.error('Error creating product:', error);
 
@@ -454,7 +334,6 @@ res.status(201).json({
 };
 
 //Edit product
-// Update product
 export const updateProduct = async (req, res) => {
     const client = await db.connect();
 
@@ -464,74 +343,52 @@ export const updateProduct = async (req, res) => {
         const {
             name,
             description,
-            price,
-            discount_price,
             category_id,
             brand_id,
-            stock,
             is_on_sale,
             is_active,
             images,
             variants,
+            skus
         } = req.body;
 
-        if (
-            !name ||
-            price === undefined ||
-            category_id === undefined ||
-            brand_id === undefined
-        ) {
+        if (!name || category_id === undefined || brand_id === undefined) {
             return res.status(400).json({
                 success: false,
-                message:
-                    "Name, price, category and brand are required",
+                message: "Name, category and brand are required",
             });
         }
 
-        if (Number(price) < 0 || Number(stock) < 0) {
-            return res.status(400).json({
-                success: false,
-                message: "Price and stock cannot be negative",
-            });
-        }
+        const variantPayload = normalizeVariantPayload({
+            variants,
+            skus,
+            images,
+            isOnSale: Boolean(is_on_sale)
+        });
 
         await client.query("BEGIN");
 
-        // 1. Update product
-        const productQuery = `
+        // 1. Product (this also locks the row, so orders wait for the save)
+        const { rows: productRows } = await client.query(
+            `
             UPDATE products
             SET
                 name = $1,
                 description = $2,
-                price = $3,
-                discount_price = $4,
-                category_id = $5,
-                brand_id = $6,
-                stock = $7,
-                is_on_sale = $8,
-                is_active = $9
-            WHERE id = $10
-            RETURNING *;
-        `;
-
-        const productValues = [
-            name,
-            description || null,
-            Number(price),
-            discount_price === null || discount_price === ""
-                ? null
-                : Number(discount_price),
-            Number(category_id),
-            Number(brand_id),
-            Number(stock) || 0,
-            Boolean(is_on_sale),
-            Boolean(is_active),
-            id,
-        ];
-
-        const { rows: productRows } = await client.query(
-            productQuery,
-            productValues
+                category_id = $3,
+                brand_id = $4,
+                is_active = $5
+            WHERE id = $6
+            RETURNING id;
+            `,
+            [
+                name,
+                description || null,
+                Number(category_id),
+                Number(brand_id),
+                Boolean(is_active),
+                id,
+            ]
         );
 
         if (productRows.length === 0) {
@@ -545,10 +402,7 @@ export const updateProduct = async (req, res) => {
 
         // 2. Replace images
         await client.query(
-            `
-            DELETE FROM product_images
-            WHERE product_id = $1;
-            `,
+            `DELETE FROM product_images WHERE product_id = $1;`,
             [id]
         );
 
@@ -557,128 +411,36 @@ export const updateProduct = async (req, res) => {
                 if (!imageUrl) continue;
 
                 await client.query(
-                    `
-                    INSERT INTO product_images (
-                        product_id,
-                        image_url
-                    )
-                    VALUES ($1, $2);
-                    `,
+                    `INSERT INTO product_images (product_id, image_url) VALUES ($1, $2);`,
                     [id, imageUrl]
                 );
             }
         }
 
-        // 3. Replace variants
-        await client.query(
-            `
-            DELETE FROM product_variants
-            WHERE product_id = $1;
-            `,
-            [id]
-        );
-
-        if (Array.isArray(variants)) {
-            for (const variant of variants) {
-                if (!variant.type || !variant.value) {
-                    continue;
-                }
-
-                await client.query(
-                    `
-                    INSERT INTO product_variants (
-                        product_id,
-                        type,
-                        value,
-                        color_hex
-                    )
-                    VALUES ($1, $2, $3, $4);
-                    `,
-                    [
-                        id,
-                        variant.type,
-                        variant.value,
-                        variant.type === "color"
-                            ? variant.color_hex || null
-                            : null,
-                    ]
-                );
-            }
-        }
+        // 3. Options + combinations, then total stock / starting price
+        await saveProductVariants(client, id, variantPayload);
+        await syncProductSummary(client, id, Boolean(is_on_sale));
 
         await client.query("COMMIT");
 
-        // 4. Return the complete updated product
-        const updatedProductQuery = `
-            SELECT
-                p.id,
-                p.name,
-                p.category_id,
-                p.brand_id,
-                p.price,
-                p.discount_price,
-                p.stock,
-                p.is_active,
-                p.is_on_sale,
-                p.description,
-                p.created_at,
-                c.name AS category_name,
-                b.name AS brand_name,
-
-                COALESCE(
-                    json_agg(DISTINCT pi.image_url)
-                    FILTER (
-                        WHERE pi.image_url IS NOT NULL
-                    ),
-                    '[]'
-                ) AS images,
-
-                COALESCE(
-                    json_agg(
-                        DISTINCT jsonb_build_object(
-                            'id', pv.id,
-                            'type', pv.type,
-                            'value', pv.value,
-                            'color_hex', pv.color_hex
-                        )
-                    )
-                    FILTER (
-                        WHERE pv.id IS NOT NULL
-                    ),
-                    '[]'
-                ) AS variants
-
-            FROM products p
-
-            LEFT JOIN categories c
-                ON p.category_id = c.id
-
-            LEFT JOIN brands b
-                ON p.brand_id = b.id
-
-            LEFT JOIN product_images pi
-                ON p.id = pi.product_id
-
-            LEFT JOIN product_variants pv
-                ON p.id = pv.product_id
-
-            WHERE p.id = $1
-
-            GROUP BY p.id, c.name, b.name;
-        `;
-
-        const { rows: updatedRows } = await client.query(
-            updatedProductQuery,
-            [id]
-        );
+        const [updated] = await getProductsWithVariants(db, {
+            productId: Number(id),
+        });
 
         return res.status(200).json({
             success: true,
             message: "Product updated successfully",
-            data: updatedRows[0],
+            data: updated,
         });
     } catch (error) {
         await client.query("ROLLBACK");
+
+        if (error.statusCode) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message,
+            });
+        }
 
         console.error("Error updating product:", error);
 
@@ -693,65 +455,10 @@ export const updateProduct = async (req, res) => {
 
 //StoreFront products Logic :
 
-//Fetching products : 
+//Fetching products :
 export const getStoreProducts = async (req,res) => {
     try{
-        const queryText = `
-        SELECT 
-            p.id,
-            p.name,
-            p.description,
-            p.price,
-            p.discount_price,
-            p.stock,
-            p.is_on_sale,
-            p.category_id,
-            c.name AS category_name,
-            p.brand_id,
-            b.name AS brand_name,
-            COALESCE(
-            JSON_AGG(
-                DISTINCT pi.image_url
-            ) FILTER (WHERE pi.id is not null),
-             '[]'
-            ) AS images,
-            COALESCE(
-                JSON_AGG(
-                DISTINCT jsonb_build_object(
-                'id', pv.id,
-                'type', pv.type,
-                'value', pv.value,
-                'color_hex', pv.color_hex
-                )
-            ) FILTER (WHERE pv.id IS NOT NULL),
-             '[]'
-            ) AS VARIANTS
-
-             FROM products p
-
-             LEFT JOIN categories c
-                ON c.id = p.category_id
-            
-             LEFT JOIN brands b
-                ON b.id = p.brand_id
-
-             LEFT JOIN product_images pi
-                ON pi.product_id = p.id
-            
-             LEFT JOIN product_variants pv
-                ON pv.product_id = p.id
-
-            WHERE p.is_active = true
-
-            GROUP BY 
-                p.id,
-                c.name,
-                b.name
-
-            ORDER BY p.created_at DESC;
-        `;
-
-        const {rows} = await db.query(queryText)
+        const rows = await getProductsWithVariants(db, { onlyActive: true });
 
         return res.status(200).json({
             success : true,
@@ -766,4 +473,3 @@ export const getStoreProducts = async (req,res) => {
         })
     }
 }
- 

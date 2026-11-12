@@ -3,6 +3,11 @@ import { useState } from "react";
 import { X } from "lucide-react";
 
 import ProductForm from "../ProductForm";
+import {
+    emptyVariantsState,
+    validateVariants,
+    variantsToPayload,
+} from "../VariantsEditor/variantsForm";
 
 import styles from "../styles.module.scss";
 
@@ -11,15 +16,9 @@ const emptyValues = () => ({
 
     description: "",
 
-    price: "",
-
-    discount_price: "",
-
     category_id: "",
 
     brand_id: "",
-
-    stock: "",
 
     is_on_sale: false,
 
@@ -27,7 +26,8 @@ const emptyValues = () => ({
 
     images: [],
 
-    variants: [],
+    // options + skus (stock and price live on each variant)
+    ...emptyVariantsState(),
 });
 
 export default function AddProductModal({
@@ -50,48 +50,35 @@ export default function AddProductModal({
         }
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         setValidationError("");
 
-        const invalidVariant =
-            values.variants.find(
-                (variant) =>
-                    !String(
-                        variant.value ?? ""
-                    ).trim()
-            );
-
-        if (invalidVariant) {
-            setValidationError(
-                "Please enter a name for every variant before saving."
-            );
-
-            return;
+        if (!values.name.trim()) {
+            return setValidationError("Enter the product name.");
         }
 
-        onCreate({
-            name: values.name,
+        if (!values.brand_id || !values.category_id) {
+            return setValidationError("Choose a brand and a category.");
+        }
+
+        const variantError = validateVariants(values, {
+            isOnSale: values.is_on_sale,
+        });
+
+        if (variantError) {
+            return setValidationError(variantError);
+        }
+
+        const message = await onCreate({
+            name: values.name.trim(),
 
             description: values.description,
-
-            price:
-                Number(values.price) || 0,
-
-            discount_price:
-                values.discount_price === ""
-                    ? null
-                    : Number(
-                          values.discount_price
-                      ),
 
             category_id:
                 Number(values.category_id),
 
             brand_id:
                 Number(values.brand_id),
-
-            stock:
-                Number(values.stock) || 0,
 
             is_on_sale:
                 values.is_on_sale,
@@ -104,19 +91,12 @@ export default function AddProductModal({
                     (image) => image.url
                 ),
 
-            variants:
-                values.variants.map(
-                    (variant) => ({
-                        ...variant,
-
-                        value:
-                            String(
-                                variant.value ??
-                                    ""
-                            ).trim(),
-                    })
-                ),
+            ...variantsToPayload(values),
         });
+
+        if (message) {
+            setValidationError(message);
+        }
     };
 
     return (

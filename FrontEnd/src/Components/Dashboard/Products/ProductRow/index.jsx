@@ -18,6 +18,11 @@ import {
 } from "@/Components/ui/alert-dialog";
 
 import ProductForm from "../ProductForm";
+import {
+    validateVariants,
+    variantsFromProduct,
+    variantsToPayload,
+} from "../VariantsEditor/variantsForm";
 import { resolveStoreImageUrl } from "@/lib/storeData";
 
 import styles from "../styles.module.scss";
@@ -29,18 +34,11 @@ const toFormValues = (product) => ({
     name: product.name,
     description: product.description ?? "",
 
-    price: product.price,
-
-    discount_price:
-        product.discount_price ?? "",
-
     category_id:
         String(product.category_id),
 
     brand_id:
         String(product.brand_id),
-
-    stock: product.stock,
 
     is_on_sale:
         product.is_on_sale,
@@ -55,20 +53,8 @@ const toFormValues = (product) => ({
         })
     ),
 
-    variants: (product.variants ?? []).map(
-        (variant) => ({
-            id:
-                variant.id ??
-                `variant-${Date.now()}-${Math.random()}`,
-
-            type: variant.type,
-
-            value: variant.value ?? "",
-
-            color_hex:
-                variant.color_hex ?? "#000000",
-        })
-    ),
+    // options + skus (stock and price live on each variant)
+    ...variantsFromProduct(product),
 });
 
 export default function ProductRow({
@@ -100,44 +86,28 @@ export default function ProductRow({
     const handleSave = () => {
         setValidationError("");
 
-        const invalidVariant =
-            draft.variants.find(
-                (variant) =>
-                    !String(
-                        variant.value ?? ""
-                    ).trim()
-            );
+        if (!draft.name.trim()) {
+            return setValidationError("Enter the product name.");
+        }
 
-        if (invalidVariant) {
-            setValidationError(
-                `Please enter a name for every variant before saving.`
-            );
+        const variantError = validateVariants(draft, {
+            isOnSale: draft.is_on_sale,
+        });
 
-            return;
+        if (variantError) {
+            return setValidationError(variantError);
         }
 
         onSave(product.id, {
-            name: draft.name,
+            name: draft.name.trim(),
 
             description: draft.description,
-
-            price: Number(draft.price),
-
-            discount_price:
-                draft.discount_price === ""
-                    ? null
-                    : Number(
-                          draft.discount_price
-                      ),
 
             category_id:
                 Number(draft.category_id),
 
             brand_id:
                 Number(draft.brand_id),
-
-            stock:
-                Number(draft.stock),
 
             is_on_sale:
                 draft.is_on_sale,
@@ -150,26 +120,14 @@ export default function ProductRow({
                     (image) => image.url
                 ),
 
-            variants:
-                draft.variants.map(
-                    (variant) => ({
-                        type: variant.type,
-
-                        value:
-                            String(
-                                variant.value ?? ""
-                            ).trim(),
-
-                        color_hex:
-                            variant.type ===
-                            "color"
-                                ? variant.color_hex ||
-                                  "#000000"
-                                : null,
-                    })
-                ),
+            ...variantsToPayload(draft),
         });
     };
+
+    const variantCount = product.skus?.length ?? 0;
+
+    const hasPriceRange =
+        new Set((product.skus ?? []).map((sku) => sku.price)).size > 1;
 
     return (
         <>
@@ -232,6 +190,7 @@ export default function ProductRow({
                         }
                     >
                         <strong>
+                            {hasPriceRange && "From "}
                             {formatPrice(
                                 product.discount_price ||
                                     product.price
@@ -272,6 +231,12 @@ export default function ProductRow({
                             ? "unit"
                             : "units"}
                     </span>
+
+                    {variantCount > 1 && (
+                        <small className={styles.Products__VariantCount}>
+                            {variantCount} variants
+                        </small>
+                    )}
                 </TableCell>
 
                 <TableCell>

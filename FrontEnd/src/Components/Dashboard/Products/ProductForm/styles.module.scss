@@ -9,7 +9,7 @@
     gap: 8px;
     margin-bottom: 18px;
 
-    span {
+    > span {
       color: #666;
       font-size: 12px;
       font-weight: 600;
@@ -57,6 +57,14 @@
     textarea {
       resize: vertical;
     }
+  }
+
+  &__Locked {
+    background: #f3f3f3 !important;
+    color: #555 !important;
+    font-weight: 600 !important;
+    cursor: not-allowed;
+    user-select: none;
   }
 
   &__Switch {

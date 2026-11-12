@@ -160,6 +160,14 @@
     }
   }
 
+  &__VariantCount {
+    display: block;
+    margin-top: 2px;
+
+    color: #999;
+    font-size: 11px;
+  }
+
   &__SaleTag {
     padding: 2px 7px;
     border-radius: 5px;

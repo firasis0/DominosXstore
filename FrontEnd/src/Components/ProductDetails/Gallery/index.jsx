@@ -3,12 +3,26 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 import { resolveStoreImageUrl } from "@/lib/storeData";
 
-export default function Gallery({ product }) {
-  const [activeImage, setActiveImage] = useState(0);
+export default function Gallery({ product, focusImage }) {
+  // `manual` remembers a thumbnail click; a new focusImage (variant photo) wins over an older click.
+  const [manual, setManual] = useState(null);
 
   const images = (product.images ?? [])
     .map(resolveStoreImageUrl)
     .filter(Boolean);
+
+  const focusIndex = focusImage
+    ? images.indexOf(resolveStoreImageUrl(focusImage))
+    : -1;
+
+  const activeImage =
+    manual && manual.focus === focusImage
+      ? manual.index
+      : focusIndex >= 0
+        ? focusIndex
+        : (manual?.index ?? 0);
+
+  const setActiveImage = (index) => setManual({ index, focus: focusImage });
 
   if (!images.length) {
     return (

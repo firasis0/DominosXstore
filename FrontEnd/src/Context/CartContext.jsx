@@ -8,6 +8,12 @@ import {
   useState,
 } from "react";
 
+import {
+  findSku,
+  getSkuPrices,
+  getVariantImage,
+} from "../lib/variants";
+
 const CartContext = createContext(null);
 const STORAGE_KEY = "dominos_cart_v1";
 
@@ -85,7 +91,16 @@ export function CartProvider({ children }) {
     : {};
       }
 
-      const stock = Number(product.stock);
+      // Stock and price come from the chosen variant (SKU) when the product has them.
+      const sku = (product.skus ?? []).length > 0
+        ? findSku(product, selectedVariants)
+        : null;
+
+      if ((product.skus ?? []).length > 0 && !sku) {
+        return false;
+      }
+
+      const stock = Number(sku ? sku.stock : product.stock);
       const amount = Math.floor(Number(quantity));
 
       if (!Number.isFinite(stock) || stock <= 0) {
@@ -98,11 +113,13 @@ export function CartProvider({ children }) {
         return false;
       }
 
-      const unitPrice = Number(
-        product.is_on_sale && product.discount_price != null
-          ? product.discount_price
-          : product.price
-      );
+      const unitPrice = sku
+        ? getSkuPrices(product, sku).price
+        : Number(
+            product.is_on_sale && product.discount_price != null
+              ? product.discount_price
+              : product.price
+          );
 
       if (!Number.isFinite(unitPrice) || unitPrice < 0) {
         
@@ -141,7 +158,11 @@ export function CartProvider({ children }) {
             productId: Number(product.id),
             name: product.name ?? "Product",
             brand: product.brand_name ?? "",
-            image: product.images?.[0] ?? null,
+            image:
+              getVariantImage(product, variants) ??
+              product.images?.[0] ??
+              null,
+            skuId: sku ? Number(sku.id) : null,
             price: unitPrice,
             stock,
             quantity: Math.min(amount, stock),

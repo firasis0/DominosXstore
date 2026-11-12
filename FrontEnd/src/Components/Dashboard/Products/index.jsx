@@ -470,12 +470,19 @@ export default function Products() {
             ]);
 
             setAddOpen(false);
-        } catch (error) {
-            
 
-            setError(
+            setToast({
+                type: "success",
+                message:
+                    "Product created successfully.",
+            });
+
+            return "";
+        } catch (error) {
+            // The modal shows this message under the form
+            return (
                 error.message ||
-                    "Unable to create product."
+                "Unable to create product."
             );
         }
     };

@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/Components/ui/dialog";
 import { useCart } from "@/Context/CartContext";
+import { getValueStatus, selectValue } from "@/lib/variants";
 import styles from "./styles.module.scss";
 
 const getVariantGroups = (variants) =>
@@ -140,6 +141,12 @@ export default function ProductCardAddToCart({
                   {options.map((variant) => {
                     const isSelected =
                       selectedVariants[type] === variant.value;
+                    const status = getValueStatus(
+                      product,
+                      selectedVariants,
+                      type,
+                      variant.value
+                    );
 
                     return (
                       <button
@@ -151,14 +158,22 @@ export default function ProductCardAddToCart({
                             ? styles["VariantOption--color"]
                             : "",
                           isSelected ? styles["VariantOption--selected"] : "",
+                          status.disabled ? styles["VariantOption--off"] : "",
                         ]
                           .filter(Boolean)
                           .join(" ")}
                         onClick={() =>
-                          setSelectedVariants((current) => ({
-                            ...current,
-                            [type]: variant.value,
-                          }))
+                          setSelectedVariants((current) =>
+                            selectValue(product, current, type, variant.value)
+                          )
+                        }
+                        disabled={status.disabled}
+                        title={
+                          status.disabled
+                            ? status.reason === "sold-out"
+                              ? "نفذ المخزون"
+                              : "غير متوفر مع اختيارك"
+                            : undefined
                         }
                         aria-pressed={isSelected}
                       >

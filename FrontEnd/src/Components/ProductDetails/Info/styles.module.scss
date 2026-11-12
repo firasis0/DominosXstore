@@ -276,3 +276,38 @@
     background: #111;
     color: #fff;
 }
+.Info__From {
+    color: #888;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Sold out, or not offered with the current selection: dimmed, crossed out, not clickable */
+.Info__Unavailable {
+    position: relative;
+    overflow: hidden;
+    opacity: 0.45;
+    cursor: not-allowed;
+
+    &:hover {
+        transform: none;
+        border-color: #e5e5e5;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 120%;
+        height: 2px;
+        background: #ef4444;
+        transform: rotate(-45deg);
+    }
+}
+
+.Info__Option.Info__Unavailable {
+    text-decoration: line-through;
+    background: #f5f5f5;
+    color: #999;
+}

@@ -1,40 +1,35 @@
+import {
+    getAvailableStock,
+    getOptionGroups,
+    getPriceInfo,
+    getValueStatus,
+    isFullySelected,
+} from "../../../lib/variants";
+
 import styles from "./styles.module.scss";
 
 export default function Info({
     product,
     selectedVariants,
-    onVariantChange,
+    onSelectVariant,
 }) {
-    const hasDiscount =
-        product.is_on_sale &&
-        product.discount_price != null;
+    const groups = getOptionGroups(product);
 
-    const currentPrice = hasDiscount
-        ? product.discount_price
-        : product.price;
-
-    const variants = product.variants ?? [];
-
-    // Group variants by type
-    const variantGroups = variants.reduce(
-        (groups, variant) => {
-            if (!groups[variant.type]) {
-                groups[variant.type] = [];
-            }
-
-            groups[variant.type].push(variant);
-
-            return groups;
-        },
-        {}
+    // Price follows the selection: "From ..." until every option is chosen
+    const { price, oldPrice, isFrom } = getPriceInfo(
+        product,
+        selectedVariants
     );
 
-    const handleVariantChange = (variant) => {
-        onVariantChange((current) => ({
-            ...current,
-            [variant.type]: variant.value,
-        }));
-    };
+    const availableStock = getAvailableStock(product, selectedVariants);
+    const fullySelected = isFullySelected(product, selectedVariants);
+
+    const stockLabel =
+        availableStock <= 0
+            ? "Out of stock"
+            : fullySelected && availableStock <= 5
+              ? `Only ${availableStock} left`
+              : "In stock";
 
     return (
         <section className={styles.Info}>
@@ -49,25 +44,20 @@ export default function Info({
             </h1>
 
             <div className={styles.Info__Pricing}>
-                <strong>
-                    {currentPrice.toLocaleString()} DA
-                </strong>
+                {isFrom && (
+                    <span className={styles.Info__From}>From</span>
+                )}
 
-                {hasDiscount && (
+                <strong>{price.toLocaleString()} DA</strong>
+
+                {oldPrice !== null && (
                     <>
                         <span className={styles.Info__OldPrice}>
-                            {product.price.toLocaleString()} DA
+                            {oldPrice.toLocaleString()} DA
                         </span>
 
                         <span className={styles.Info__Discount}>
-                            -
-                            {Math.round(
-                                ((product.price -
-                                    product.discount_price) /
-                                    product.price) *
-                                    100
-                            )}
-                            %
+                            -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
                         </span>
                     </>
                 )}
@@ -76,15 +66,13 @@ export default function Info({
             <div className={styles.Info__Stock}>
                 <span
                     className={
-                        product.stock > 0
+                        availableStock > 0
                             ? styles.Info__StockDot
                             : styles.Info__StockDotOut
                     }
                 />
 
-                {product.stock > 0
-                    ? `In stock`
-                    : "Out of stock"}
+                {stockLabel}
             </div>
 
             {product.description && (
@@ -93,114 +81,100 @@ export default function Info({
                 </p>
             )}
 
-            {Object.keys(variantGroups).length > 0 && (
+            {groups.length > 0 && (
                 <div className={styles.Info__Variants}>
                     <div className={styles.Info__VariantsHeader}>
                         <span>Available options</span>
                     </div>
 
-                    {Object.entries(variantGroups).map(
-                        ([type, typeVariants]) => (
+                    {groups.map((group) => (
+                        <div
+                            className={styles.Info__VariantGroup}
+                            key={group.type}
+                        >
+                            <span className={styles.Info__VariantLabel}>
+                                {group.type === "color" ? "Color" : group.type}
+                            </span>
+
                             <div
                                 className={
-                                    styles.Info__VariantGroup
+                                    group.type === "color"
+                                        ? styles.Info__ColorList
+                                        : styles.Info__OptionList
                                 }
-                                key={type}
                             >
-                                <span
-                                    className={
-                                        styles.Info__VariantLabel
-                                    }
-                                >
-                                    {type === "color"
-                                        ? "Color"
-                                        : type}
-                                </span>
+                                {group.values.map((variant) => {
+                                    const isSelected =
+                                        selectedVariants[variant.type] ===
+                                        variant.value;
 
-                                <div
-                                    className={
-                                        type === "color"
-                                            ? styles.Info__ColorList
-                                            : styles.Info__OptionList
-                                    }
-                                >
-                                    {typeVariants.map(
-                                        (variant) => {
-                                            const isSelected =
-                                                selectedVariants[
-                                                    variant.type
-                                                ] ===
-                                                variant.value;
+                                    const status = getValueStatus(
+                                        product,
+                                        selectedVariants,
+                                        variant.type,
+                                        variant.value
+                                    );
 
-                                            if (
-                                                variant.type ===
-                                                "color"
-                                            ) {
-                                                return (
-                                                    <button
-                                                        key={
-                                                            variant.id
-                                                        }
-                                                        type="button"
-                                                        title={
-                                                            variant.value
-                                                        }
-                                                        aria-label={
-                                                            variant.value
-                                                        }
-                                                        className={`
-                                                            ${styles.Info__Color}
-                                                            ${
-                                                                isSelected
-                                                                    ? styles.Info__ColorActive
-                                                                    : ""
-                                                            }
-                                                        `}
-                                                        style={{
-                                                            backgroundColor:
-                                                                variant.color_hex ||
-                                                                "#ffffff",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleVariantChange(
-                                                                variant
-                                                            )
-                                                        }
-                                                    />
-                                                );
+                                    const hint = status.disabled
+                                        ? status.reason === "sold-out"
+                                            ? `${variant.value} - sold out`
+                                            : `${variant.value} - not available with your selection`
+                                        : variant.value;
+
+
+                                    if (variant.type === "color") {
+                                        return (
+                                            <button
+                                                key={variant.id}
+                                                type="button"
+                                                title={hint}
+                                                aria-label={hint}
+                                                aria-pressed={isSelected}
+                                                disabled={status.disabled}
+                                                className={[
+                                                    styles.Info__Color,
+                                                    isSelected && styles.Info__ColorActive,
+                                                    status.disabled && styles.Info__Unavailable,
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" ")}
+                                                style={{
+                                                    backgroundColor:
+                                                        variant.color_hex ||
+                                                        "#ffffff",
+                                                }}
+                                                onClick={() =>
+                                                    onSelectVariant(variant)
+                                                }
+                                            />
+                                        );
+                                    }
+
+                                    return (
+                                        <button
+                                            key={variant.id}
+                                            type="button"
+                                            title={hint}
+                                            aria-pressed={isSelected}
+                                            disabled={status.disabled}
+                                            className={[
+                                                styles.Info__Option,
+                                                isSelected && styles.Info__OptionActive,
+                                                status.disabled && styles.Info__Unavailable,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                            onClick={() =>
+                                                onSelectVariant(variant)
                                             }
-
-                                            return (
-                                                <button
-                                                    key={
-                                                        variant.id
-                                                    }
-                                                    type="button"
-                                                    className={`
-                                                        ${styles.Info__Option}
-                                                        ${
-                                                            isSelected
-                                                                ? styles.Info__OptionActive
-                                                                : ""
-                                                        }
-                                                    `}
-                                                    onClick={() =>
-                                                        handleVariantChange(
-                                                            variant
-                                                        )
-                                                    }
-                                                >
-                                                    {
-                                                        variant.value
-                                                    }
-                                                </button>
-                                            );
-                                        }
-                                    )}
-                                </div>
+                                        >
+                                            {variant.value}
+                                        </button>
+                                    );
+                                })}
                             </div>
-                        )
-                    )}
+                        </div>
+                    ))}
                 </div>
             )}
         </section>

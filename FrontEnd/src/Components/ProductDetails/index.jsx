@@ -9,6 +9,12 @@ import Info from "./Info";
 import OrderForm from "./OrderForm";
 
 import { useCart } from "../../Context/CartContext";
+import {
+    getAvailableStock,
+    initialSelection,
+    isFullySelected,
+    selectValue,
+} from "../../lib/variants";
 import { useStoreBranding } from "../../Context/StoreBrandingContext";
 import styles from "./styles.module.scss";
 
@@ -22,6 +28,7 @@ export default function ProductDetails() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedVariants, setSelectedVariants] = useState({});
+    const [focusImage, setFocusImage] = useState(null);
     const [cartMessage, setCartMessage] = useState("");
 
     useEffect(() => {
@@ -60,7 +67,10 @@ export default function ProductDetails() {
                 );
 
                 setProduct(foundProduct ?? null);
-                setSelectedVariants({});
+                setSelectedVariants(
+                    foundProduct ? initialSelection(foundProduct) : {}
+                );
+                setFocusImage(null);
                 setCartMessage("");
             } catch {
                 setProduct(null);
@@ -235,22 +245,7 @@ export default function ProductDetails() {
     const handleAddToCart = () => {
         setCartMessage("");
 
-        const variantTypes = [
-            ...new Set(
-                (product.variants ?? []).map(
-                    (variant) => variant.type
-                )
-            ),
-        ];
-
-        const missingVariant = variantTypes.some(
-            (type) =>
-                selectedVariants[type] === undefined ||
-                selectedVariants[type] === null ||
-                selectedVariants[type] === ""
-        );
-
-        if (missingVariant) {
+        if (!isFullySelected(product, selectedVariants)) {
             setCartMessage(
                 "Please select all product options first."
             );
@@ -270,6 +265,19 @@ export default function ProductDetails() {
                 "Unable to add this product. Please check its stock."
             );
         }
+    };
+
+    // Click on an option value: keeps the choices consistent and switches the photo.
+    const handleSelectVariant = (variant) => {
+        setSelectedVariants((current) =>
+            selectValue(product, current, variant.type, variant.value)
+        );
+
+        if (variant.image_url) {
+            setFocusImage(variant.image_url);
+        }
+
+        setCartMessage("");
     };
 
     if (loading) {
@@ -298,13 +306,13 @@ export default function ProductDetails() {
                 <Breadcrumbs product={product} />
 
                 <div className={styles.ProductDetails__Top}>
-                    <Gallery product={product} />
+                    <Gallery product={product} focusImage={focusImage} />
 
                     <div className={styles.ProductDetails__Info}>
                         <Info
                             product={product}
                             selectedVariants={selectedVariants}
-                            onVariantChange={setSelectedVariants}
+                            onSelectVariant={handleSelectVariant}
                         />
 
                         <OrderForm
@@ -317,7 +325,9 @@ export default function ProductDetails() {
                                 type="button"
                                 className={styles.ProductDetails__AddToCart}
                                 onClick={handleAddToCart}
-                                disabled={Number(product.stock) <= 0}
+                                disabled={
+                                    getAvailableStock(product, selectedVariants) <= 0
+                                }
                             >
                                 <ShoppingCart size={18} />
                                 <span>أضف إلى السلة</span>

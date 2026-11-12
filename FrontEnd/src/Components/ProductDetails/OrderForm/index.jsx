@@ -9,6 +9,12 @@ import {
     LoaderCircle,
 } from "lucide-react";
 
+import {
+    getAvailableStock,
+    getPriceInfo,
+    isFullySelected,
+} from "../../../lib/variants";
+
 import styles from "./styles.module.scss";
 
 const API_BASE_URL =
@@ -97,7 +103,7 @@ export default function OrderForm({
      * --------------------------------------------------
      */
 
-    const [quantity, setQuantity] =
+    const [requestedQuantity, setQuantity] =
         useState(1);
 
     const [submitted, setSubmitted] =
@@ -529,18 +535,22 @@ useEffect(() => {
      * --------------------------------------------------
      */
 
-    const hasDiscount =
-        product?.is_on_sale &&
-        product?.discount_price !=
-            null;
+    // Price and stock follow the chosen variant
+    const priceInfo = product
+        ? getPriceInfo(product, selectedVariants ?? {})
+        : null;
 
-    const productPrice = hasDiscount
-        ? Number(
-              product.discount_price
-          )
-        : Number(
-              product?.price ?? 0
-          );
+    const productPrice = priceInfo ? priceInfo.price : 0;
+
+    const availableStock = product
+        ? getAvailableStock(product, selectedVariants ?? {})
+        : 0;
+
+    // Never more than the stock of the selected variant
+    const quantity = Math.max(
+        1,
+        Math.min(requestedQuantity, availableStock || 1)
+    );
 
     /*
      * --------------------------------------------------
@@ -576,7 +586,7 @@ useEffect(() => {
                   Number(item.quantity) <= 0 ||
                   Number(item.quantity) > Number(item.stock)
           )
-        : !product || product.stock <= 0;
+        : !product || availableStock <= 0;
 
     /*
      * --------------------------------------------------
@@ -692,7 +702,7 @@ useEffect(() => {
         setQuantity((current) =>
             Math.min(
                 current + 1,
-                product.stock
+                availableStock
             )
         );
     };
@@ -742,6 +752,19 @@ useEffect(() => {
         ) {
             setSubmitError(
                 "يرجى اختيار الولاية والبلدية."
+            );
+            return;
+        }
+
+        if (
+            !isCartCheckout &&
+            !isFullySelected(
+                product,
+                selectedVariants ?? {}
+            )
+        ) {
+            setSubmitError(
+                "يرجى اختيار جميع خيارات المنتج أولاً."
             );
             return;
         }
@@ -923,7 +946,7 @@ useEffect(() => {
                                     }
                                     disabled={
                                         quantity >=
-                                        product.stock
+                                        availableStock
                                     }
                                     aria-label="Increase quantity"
                                 >
